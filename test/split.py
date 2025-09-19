@@ -7,9 +7,12 @@ from tqdm import tqdm
 import llm_prompts.prompts as prompts
 
 load_dotenv()
-GPT_MODEL_KEY = "gpt-5-mini"
+GPT_MODEL_KEY = "gpt-5-chat-latest"
 
-client = OpenAI()
+client = OpenAI(
+    api_key="sk-wi5c6GQjiqZVC0vqDjSHZA5UIIHpmgiFgRgSyDS0PnOkJWWF",
+    base_url="https://yunwu.ai/v1"
+)
 system_prompt = prompts.SYSTEM_PROMPT
 recheck_prompt = prompts.RECHECK_PROMPT
 
@@ -38,7 +41,7 @@ def get_gpt_response(prompt, question, temperature=0.0):
 
 
 def run_pipeline(input_path, output_path):
-    df = pd.read_csv(input_path)
+    df = pd.read_csv(input_path, encoding="latin-1")
 
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
         question = row["Question"]
