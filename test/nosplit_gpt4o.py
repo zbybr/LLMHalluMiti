@@ -5,13 +5,20 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from tqdm import tqdm
 import llm_prompts.prompts as prompts
+import os
+import csv
 
-load_dotenv()
-GPT_MODEL_KEY = "gpt-5-chat-latest"
-
+load_dotenv(override=True)
+GPT_MODEL_KEY = "gpt-4o"
+# client = OpenAI(
+#     api_key="sk-wi5c6GQjiqZVC0vqDjSHZA5UIIHpmgiFgRgSyDS0PnOkJWWF",
+#     base_url="https://yunwu.ai/v1"
+# )
+# print("OPENAI_API_KEY:", os.getenv("OPENAI_API_KEY"))
+# print("OPENAI_BASE_URL:", os.getenv("OPENAI_BASE_URL"))
 client = OpenAI(
-    api_key="sk-wi5c6GQjiqZVC0vqDjSHZA5UIIHpmgiFgRgSyDS0PnOkJWWF",
-    base_url="https://yunwu.ai/v1"
+    api_key=os.getenv("OPENAI_API_KEY"),
+    base_url=os.getenv("OPENAI_BASE_URL")
 )
 system_prompt = prompts.SYSTEM_PROMPT
 recheck_prompt_nsp = prompts.RECHECK_PROMPT_NOSPLIT
@@ -29,7 +36,7 @@ def parse_rechecked_response(text: str):
 
 
 def run_pipeline(input_path, output_path):
-    df = pd.read_csv(input_path, encoding="latin-1")
+    df = pd.read_csv(input_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
 
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
         question = row["Question"]
@@ -80,6 +87,6 @@ if __name__ == "__main__":
 
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"gpt_outputs_{dataset_name}_hallucination_checked_nsp.csv"
+    output_path = f"gpt4o_outputs_{dataset_name}_hallucination_checked_nsp.csv"
 
     run_pipeline(dataset_path, output_path)
