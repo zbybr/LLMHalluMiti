@@ -5,11 +5,14 @@ or no at the beginning of the sentence."""
 RECHECK_PROMPT = """You are given a question and a response, this response contain hallucinations. Please 
 carefully re-check, re-answer and provide: 
 1. A corrected or verified response, please answer in 1 sentence including the question context. 
-2. A short statement whether the original was hallucinated or not. You should answer YES or NO first.
+2. A short statement whether the original was hallucinated or not. You should answer YES (Absolute hallucination) or NO 
+(No halluciantion) first. 
 Please notice just return the numbered list. Do not add anything else."""
 
 RECHECK_PROMPT_NOSPLIT = """The above response from you contain hallucinations. Please carefully re-check, re-answer 
 and provide: 
-1. A corrected or verified response, please answer in 1 sentence including the question context. 
-2. A short statement whether the original was hallucinated or not. You should answer YES or NO first. 
+1. A re-answered corrected and verified response base on the correct ground truth, please answer in 1 sentence including 
+the question context. 
+2. You should search and judge the origin response was hallucinated or not first, then only answer a short statement: 
+YES or NO. 
 Please notice just return the numbered list. Do not add anything else."""

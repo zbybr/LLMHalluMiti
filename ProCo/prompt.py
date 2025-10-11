@@ -231,7 +231,7 @@ def rectified_question(question, incorrect_answer_record):
     return refined_question
 
 
-def pipline(process_record, question, model, max_length, max_iteration):
+def pipline(process_record, question, model, max_iteration):
     """pipline"""
     if SHOW:
         print(f'\n[INFO]:\t\tQuestion: {question}')

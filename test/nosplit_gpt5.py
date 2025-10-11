@@ -9,7 +9,7 @@ import os
 import csv
 
 load_dotenv(override=True)
-GPT_MODEL_KEY = "gpt-5-2025-08-07"
+GPT_MODEL_KEY = "gpt-5-chat-latest"
 # client = OpenAI(
 #     api_key="sk-wi5c6GQjiqZVC0vqDjSHZA5UIIHpmgiFgRgSyDS0PnOkJWWF",
 #     base_url="https://yunwu.ai/v1"
