@@ -4,6 +4,7 @@ import g4f
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
+from g4f.client import Client
 
 encoding_name = "cl100k_base"
 encoding = tiktoken.get_encoding(encoding_name)
@@ -28,7 +29,8 @@ def check_string(s):
 
 def answer_by_bing_with_cost(prompt):
     start = time.perf_counter()
-    response = g4f.ChatCompletion.create(
+    g4fclient = Client()
+    response = g4fclient.chat.completions.create(
         provider=g4f.Provider.bing,
         model=g4f.models.default,
         messages=[{"role": "user", "content": prompt}],
