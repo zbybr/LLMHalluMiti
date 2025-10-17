@@ -1,10 +1,11 @@
 import time
 import tiktoken
-import g4f
+# import g4f
+# from g4f.client import Client
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
-from g4f.client import Client
+
 
 load_dotenv(override=True)
 client = OpenAI(
@@ -24,33 +25,33 @@ def check_string(s):
         raise ValueError("Empty or invalid string encountered.")
 
 
-def answer_by_bing_with_cost(prompt):
-    start = time.perf_counter()
-    g4fclient = Client()
-    response = g4fclient.chat.completions.create(
-        provider=g4f.Provider.bing,
-        model=g4f.models.default,
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.0,
-    )
-    end = time.perf_counter()
-    tokens = num_tokens_from_string(prompt) + num_tokens_from_string(response)
-    check_string(response)
-    return response, tokens, (end - start)
-
-
-def answer_by_mixtral_with_cost(prompt):
-    start = time.perf_counter()
-    response = g4f.ChatCompletion.create(
-        provider=g4f.Provider.PerplexityLabs,
-        model=g4f.models.default,
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.0
-    )
-    end = time.perf_counter()
-    tokens = num_tokens_from_string(prompt) + num_tokens_from_string(response)
-    check_string(response)
-    return response, tokens, (end - start)
+# def answer_by_bing_with_cost(prompt):
+#     start = time.perf_counter()
+#     g4fclient = Client()
+#     response = g4fclient.chat.completions.create(
+#         provider=g4f.Provider.bing,
+#         model=g4f.models.default,
+#         messages=[{"role": "user", "content": prompt}],
+#         temperature=0.0,
+#     )
+#     end = time.perf_counter()
+#     tokens = num_tokens_from_string(prompt) + num_tokens_from_string(response)
+#     check_string(response)
+#     return response, tokens, (end - start)
+#
+#
+# def answer_by_mixtral_with_cost(prompt):
+#     start = time.perf_counter()
+#     response = g4f.ChatCompletion.create(
+#         provider=g4f.Provider.PerplexityLabs,
+#         model=g4f.models.default,
+#         messages=[{"role": "user", "content": prompt}],
+#         temperature=0.0
+#     )
+#     end = time.perf_counter()
+#     tokens = num_tokens_from_string(prompt) + num_tokens_from_string(response)
+#     check_string(response)
+#     return response, tokens, (end - start)
 
 
 def answer_by_gpt_3_5_turbo_with_cost(prompt):

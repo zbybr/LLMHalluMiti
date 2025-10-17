@@ -3,45 +3,32 @@ import csv
 from tqdm import tqdm
 from pathlib import Path
 import prompt
+import pandas as pd
 
 
 def run_pipeline(input_path, output_path):
-    Questions = []
-    Answers = []
+    df = pd.read_csv(input_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
 
-    with open(input_path, 'r', encoding='latin-1') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            Questions.append(row['Question'])
-            Answers.append(row['Answer'])
+    print(f"Loaded dataset '{input_path}' with {len(df)} questions.")
 
-    print(f"Loaded dataset '{input_path}' with {len(Questions)} questions.")
+    for idx, row in tqdm(df.iterrows(), total=len(df), desc="Processing"):
+        question = row["Question"]
+        answer = row["Answer"]
+        # orig_final, orig_tokens, orig_time = prompt.run_original_proco_pipeline(question)
+        # bing_final, bing_tokens, bing_time, _ = prompt.run_proco_pipeline(question, search_engine="bing")
+        # mix_final, mix_tokens, mix_time, _ = prompt.run_proco_pipeline(question, search_engine="mixtral")
+        adv_final, adv_tokens, adv_time = prompt.run_advanced_proco_pipeline(question, args.model_key)
 
-    with open(output_path, 'w', encoding='latin-1', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow([
-            "question", "answer",
-            # "orig_final", "orig_token_cost", "orig_time_cost",
-            # "bing_final", "bing_token_cost", "bing_time_cost",
-            # "mixtral_final", "mixtral_token_cost", "mixtral_time_cost",
-            "advanced_final", "advanced_token_cost", "advanced_time_cost"
-        ])
+        # Logging
+        print("===================================")
+        print(f"Question: {question}")
+        print(f"Final Answer: {adv_final} (extra tokens={adv_tokens}, time={adv_time:.4f}s)")
+        df.loc[idx, "adv_proco_answer"] = adv_final
+        df.loc[idx, "adv_proco_token_cost"] = adv_tokens
+        df.loc[idx, "adv_proco_time_cost"] = adv_time
 
-        for idx, question in tqdm(list(enumerate(Questions)), total=len(Questions), desc="Processing"):
-            # orig_final, orig_tokens, orig_time = prompt.run_original_proco_pipeline(question)
-            # bing_final, bing_tokens, bing_time, _ = prompt.run_proco_pipeline(question, search_engine="bing")
-            # mix_final, mix_tokens, mix_time, _ = prompt.run_proco_pipeline(question, search_engine="mixtral")
-            adv_final, adv_tokens, adv_time = prompt.run_advanced_proco_pipeline(question, args.model_key)
-
-            writer.writerow([
-                question, Answers[idx],
-                # orig_final, orig_tokens, orig_time,
-                # bing_final, bing_tokens, bing_time,
-                # mix_final, mix_tokens, mix_time,
-                adv_final, adv_tokens, adv_time
-            ])
-
-    print(f"Results saved to {output_path}.")
+    df.to_csv(output_path, index=False)
+    print(f"Output saved at {output_path}")
 
 
 if __name__ == "__main__":
