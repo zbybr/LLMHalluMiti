@@ -1,5 +1,4 @@
 import argparse
-import os
 import csv
 from tqdm import tqdm
 from pathlib import Path
@@ -22,23 +21,23 @@ def run_pipeline(input_path, output_path):
         writer = csv.writer(f)
         writer.writerow([
             "question", "answer",
-            "orig_final", "orig_token_cost", "orig_time_cost",
-            "bing_final", "bing_token_cost", "bing_time_cost",
-            "mixtral_final", "mixtral_token_cost", "mixtral_time_cost",
+            # "orig_final", "orig_token_cost", "orig_time_cost",
+            # "bing_final", "bing_token_cost", "bing_time_cost",
+            # "mixtral_final", "mixtral_token_cost", "mixtral_time_cost",
             "advanced_final", "advanced_token_cost", "advanced_time_cost"
         ])
 
         for idx, question in tqdm(list(enumerate(Questions)), total=len(Questions), desc="Processing"):
-            orig_final, orig_tokens, orig_time = prompt.run_original_proco_pipeline(question)
-            bing_final, bing_tokens, bing_time, _ = prompt.run_proco_pipeline(question, search_engine="bing")
-            mix_final, mix_tokens, mix_time, _ = prompt.run_proco_pipeline(question, search_engine="mixtral")
+            # orig_final, orig_tokens, orig_time = prompt.run_original_proco_pipeline(question)
+            # bing_final, bing_tokens, bing_time, _ = prompt.run_proco_pipeline(question, search_engine="bing")
+            # mix_final, mix_tokens, mix_time, _ = prompt.run_proco_pipeline(question, search_engine="mixtral")
             adv_final, adv_tokens, adv_time = prompt.run_advanced_proco_pipeline(question, args.model_key)
 
             writer.writerow([
                 question, Answers[idx],
-                orig_final, orig_tokens, orig_time,
-                bing_final, bing_tokens, bing_time,
-                mix_final, mix_tokens, mix_time,
+                # orig_final, orig_tokens, orig_time,
+                # bing_final, bing_tokens, bing_time,
+                # mix_final, mix_tokens, mix_time,
                 adv_final, adv_tokens, adv_time
             ])
 
