@@ -55,7 +55,7 @@ def run_original_proco_pipeline(question):
 
 
 # ---------------- Engine-Separated ProCo: Bing / Mixtral ----------------
-def run_proco_pipeline(question, search_engine="bing"):
+def run_proco_pipeline(question, model_key, search_engine="bing"):
     """
     Engine-separated ProCo:
     - search_engine: 'bing' or 'mixtral'
@@ -82,14 +82,15 @@ def run_proco_pipeline(question, search_engine="bing"):
                     {doc}
                     Answer the question accurately: "{question}"
                     Provide only the final answer."""
-    ans, ans_tokens, ans_time = utils.answer_by_gpt_3_5_turbo_with_cost(refined_prompt)
+    ans, ans_tokens, ans_time = utils.answer_by_model_key_with_cost(refined_prompt, model_key)
     total_tokens += ans_tokens
     total_time += ans_time
     final_answer = ans
 
     # Step 3: Verification
-    verification_prompt = f"Verify if the answer '{final_answer}' is factually correct for the question '{question}'. Reply with 'correct' or 'incorrect'."
-    judgement, judge_tokens, judge_time = utils.answer_by_gpt_3_5_turbo_with_cost(verification_prompt)
+    verification_prompt = (f"Verify if the answer '{final_answer}' is factually correct for the question '{question}'. "
+                           f"Reply with 'correct' or 'incorrect'.")
+    judgement, judge_tokens, judge_time = utils.answer_by_model_key_with_cost(verification_prompt, model_key)
     total_tokens += judge_tokens
     total_time += judge_time
 

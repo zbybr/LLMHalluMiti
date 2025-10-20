@@ -54,20 +54,20 @@ def check_string(s):
 #     return response, tokens, (end - start)
 
 
-def answer_by_gpt_3_5_turbo_with_cost(prompt):
-    start = time.perf_counter()
-    completion = client.chat.completions.create(
-        model="gpt-3.5-turbo-1106",
-        messages=[
-            {"role": "user", "content": prompt}
-        ],
-        temperature=0.0
-    )
-    response = completion.choices[0].message.content
-    end = time.perf_counter()
-    tokens = num_tokens_from_string(prompt) + num_tokens_from_string(response)
-    check_string(response)
-    return response, tokens, (end - start)
+# def answer_by_gpt_3_5_turbo_with_cost(prompt):
+#     start = time.perf_counter()
+#     completion = client.chat.completions.create(
+#         model="gpt-3.5-turbo-1106",
+#         messages=[
+#             {"role": "user", "content": prompt}
+#         ],
+#         temperature=0.0
+#     )
+#     response = completion.choices[0].message.content
+#     end = time.perf_counter()
+#     tokens = num_tokens_from_string(prompt) + num_tokens_from_string(response)
+#     check_string(response)
+#     return response, tokens, (end - start)
 
 
 def answer_by_model_key_with_cost(prompt, model_key):
