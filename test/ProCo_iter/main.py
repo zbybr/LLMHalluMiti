@@ -20,15 +20,16 @@ def run_pipeline(input_path, output_path, model_key):
         question = row["Question"]
         answer = row["Answer"]
 
-        adv_final, adv_tokens, adv_time = prompt.run_advanced_proco_pipeline(question, model_key)
+        final_answer, record, tokens_used, time_used = prompt.pipeline(question, model_key, MAX_ITERATION)
 
         # Logging
         print("===================================")
         print(f"Question: {question}")
-        print(f"Final Answer: {adv_final} (extra tokens={adv_tokens}, time={adv_time:.4f}s)")
-        df.loc[idx, "adv_proco_answer"] = adv_final
-        df.loc[idx, "adv_proco_token_cost"] = adv_tokens
-        df.loc[idx, "adv_proco_time_cost"] = adv_time
+        print(f"Final Answer: {final_answer} (extra tokens={tokens_used}, time={time_used:.4f}s)")
+        df.loc[idx, "proco_answer"] = final_answer
+        df.loc[idx, "proco_record"] = record
+        df.loc[idx, "proco_token_cost"] = tokens_used
+        df.loc[idx, "proco_time_cost"] = time_used
 
     df.to_csv(output_path, index=False)
     print(f"Output saved at {output_path}")

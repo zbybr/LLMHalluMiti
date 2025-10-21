@@ -14,9 +14,6 @@ def run_pipeline(input_path, output_path):
     for idx, row in tqdm(df.iterrows(), total=len(df), desc="Processing"):
         question = row["Question"]
         answer = row["Answer"]
-        # orig_final, orig_tokens, orig_time = prompt.run_original_proco_pipeline(question)
-        # bing_final, bing_tokens, bing_time, _ = prompt.run_proco_pipeline(question, search_engine="bing")
-        # mix_final, mix_tokens, mix_time, _ = prompt.run_proco_pipeline(question, search_engine="mixtral")
         adv_final, adv_tokens, adv_time = prompt.run_advanced_proco_pipeline(question, args.model_key)
 
         # Logging

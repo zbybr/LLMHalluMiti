@@ -1,14 +1,10 @@
-import sys
 import time
-
-import g4f
-import openai
 import tiktoken
+# import g4f
 # from g4f.client import Client
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
-
 
 load_dotenv(override=True)
 client = OpenAI(

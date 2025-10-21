@@ -6,7 +6,6 @@ import spacy
 import Levenshtein
 from utils import answer_by_model_key_with_cost
 
-
 SHOW = True
 sleep_time = 0
 threshold = 0.8
@@ -78,7 +77,7 @@ def identify_important_entity(process_record, model_key, question):
 
         Answer: 
         """
-    response = answer_by_model_key_with_cost(
+    response, tokens = answer_by_model_key_with_cost(
         prompt=prompt,
         model_key=model_key
     )
@@ -98,10 +97,6 @@ def identify_important_entity(process_record, model_key, question):
             entity_category = [(ent.text, ent.label_) for ent in doc.ents]
             entity, category = entity_category[-1]
         except Exception as e:
-            # print(f'\n[INFO]:\t\tQuestion: {question}')
-            # print(f'\n[INFO]:\t\tEntity Identification Process: {response}')
-            # entity = input('Entity: ')
-            # category = input('Category: ')
             state = False
     elif entity.lower() not in question.lower():
         s = SequenceMatcher(None, entity.lower(), question.lower())
@@ -112,7 +107,8 @@ def identify_important_entity(process_record, model_key, question):
         process_record['entity_category']['reasoning_path'] = response
         process_record['entity_category']['entity'] = entity
         process_record['entity_category']['category'] = category
-    return entity.lower(), category.lower(), process_record, state
+        process_record['entity_category']['token_cost'] = tokens
+    return entity.lower(), category.lower(), process_record, state, tokens
 
 
 def construct_verification_question_pro(question, entity):
@@ -126,7 +122,7 @@ def construct_verification_question_pro(question, entity):
 def generate_document(process_record, model_key, question, num_iter, flag):
     """Generate Document"""
     prompt = f"""Generate a background document to answer the given question.\n\n{question}\n\n"""
-    document = answer_by_model_key_with_cost(
+    document, tokens = answer_by_model_key_with_cost(
         prompt=prompt,
         model_key=model_key,
     )
@@ -135,28 +131,30 @@ def generate_document(process_record, model_key, question, num_iter, flag):
     time.sleep(sleep_time)
     if flag == 'init':
         process_record[f'{num_iter}-iter'][f'{flag}-document'] = document
+        process_record[f'{num_iter}-iter'][f'{flag}-tokens'] = tokens
     else:
         process_record[f'{num_iter}-iter']['rectification'] = {}
         process_record[f'{num_iter}-iter']['rectification'][f'{flag}-document'] = document
-    return document
+        process_record[f'{num_iter}-iter']['rectification'][f'{flag}-tokens'] = tokens
+    return document, tokens
 
 
 def generate_answer(process_record, model_key, question, num_iter, document, flag):
     prompt = f"""Refer to the passage below and answer the following question with just one entity.\n\nPassage: {document}\n\nQuestion: {question}\n\nThe answer is"""
-    answer = answer_by_model_key_with_cost(
+    answer, tokens = answer_by_model_key_with_cost(
         prompt=prompt,
         model_key=model_key,
     )
     if SHOW:
         print(f'\n[INFO]:\t\tanswer: {answer}')
     time.sleep(sleep_time)
-    # answer = get_answer(reasoning_path)
-    # process_record[f'{num_iter}-iter'][f'{flag}-reasoning_path'] = reasoning_path
     if flag == 'init':
         process_record[f'{num_iter}-iter'][f'{flag}-answer'] = answer
+        process_record[f'{num_iter}-iter'][f'{flag}-tokens'] = tokens
     else:
         process_record[f'{num_iter}-iter']['rectification'][f'{flag}-answer'] = answer
-    return answer
+        process_record[f'{num_iter}-iter']['rectification'][f'{flag}-tokens'] = tokens
+    return answer, tokens
 
 
 def construct_verification_question(verification_question_pro, answer):
@@ -174,7 +172,7 @@ def solve_verification_question(process_record, model_key, num_iter, verificatio
 
         Answer: The category of X is {category}. Let's think step by step.
         """
-    reasoning_path = answer_by_model_key_with_cost(
+    reasoning_path, tokens = answer_by_model_key_with_cost(
         prompt=prompt,
         model_key=model_key
     )
@@ -188,7 +186,8 @@ def solve_verification_question(process_record, model_key, num_iter, verificatio
     process_record[f'{num_iter}-iter']['verification']['verification_question'] = verification_question
     process_record[f'{num_iter}-iter']['verification']['verification_question_reasoning_path'] = reasoning_path
     process_record[f'{num_iter}-iter']['verification']['verification_question_answer'] = answer
-    return answer
+    process_record[f'{num_iter}-iter']['verification']['verification_question_token_cost'] = tokens
+    return answer, tokens
 
 
 def verification_result(process_record, model_key, num_iter, verification_question, entity, entity_prediction):
@@ -198,7 +197,7 @@ def verification_result(process_record, model_key, num_iter, verification_questi
 
         A: Let's think step by step.
         """
-    judgement_process = answer_by_model_key_with_cost(
+    judgement_process, tokens = answer_by_model_key_with_cost(
         prompt=prompt,
         model_key=model_key,
     )
@@ -207,12 +206,13 @@ def verification_result(process_record, model_key, num_iter, verification_questi
     time.sleep(sleep_time)
     process_record[f'{num_iter}-iter']['judgement'] = {}
     process_record[f'{num_iter}-iter']['judgement']['judgement_process'] = judgement_process
+    process_record[f'{num_iter}-iter']['judgement']['token_cost'] = tokens
     if "incorrect" in judgement_process.lower():
         process_record[f'{num_iter}-iter']['judgement']['judgement_result'] = "incorrect"
-        return False
+        return False, tokens
     else:
         process_record[f'{num_iter}-iter']['judgement']['judgement_result'] = "correct"
-        return True
+        return True, tokens
 
 
 def rectified_question(question, incorrect_answer_record):
@@ -223,25 +223,33 @@ def rectified_question(question, incorrect_answer_record):
     return refined_question
 
 
-def pipline(process_record, question, model_key, max_iteration):
-    """pipline"""
+def pipeline(process_record, question, model_key, max_iteration):
+    """pipline with token used"""
+    total_tokens_used = 0
+    start_pipeline = time.time()
+
     if SHOW:
         print(f'\n[INFO]:\t\tQuestion: {question}')
+
     answer_record, incorrect_answer_record = [], []
     process_record[f'0-iter'] = {}
-    entity, category, process_record, state = identify_important_entity(process_record, model_key, question)
+    entity, category, process_record, state, tokens = identify_important_entity(process_record, model_key, question)
+    total_tokens_used += tokens
     verification_question_pro = construct_verification_question_pro(question, entity)
-    document = generate_document(process_record, model_key, question, 0, 'init')
-    answer = generate_answer(process_record, model_key, question, 0, document, 'init')
+    document, tokens = generate_document(process_record, model_key, question, 0, 'init')
+    total_tokens_used += tokens
+    answer, tokens = generate_answer(process_record, model_key, question, 0, document, 'init')
+    total_tokens_used += tokens
     answer_record.append(answer)
     if state:
         for num_iter in range(max_iteration):
             num_iter += 1
             process_record[f'{num_iter}-iter'] = {}
             verification_question = construct_verification_question(verification_question_pro, answer_record[-1])
-            entity_prediction = solve_verification_question(process_record, model_key, num_iter,
-                                                            verification_question, category)
-            judgement = verification_result(process_record, model_key, num_iter, verification_question, entity, entity_prediction)
+            entity_prediction, tokens = solve_verification_question(process_record, model_key, num_iter, verification_question, category)
+            total_tokens_used += tokens
+            judgement, tokens = verification_result(process_record, model_key, num_iter, verification_question, entity, entity_prediction)
+            total_tokens_used += tokens
             if judgement:
                 break
             elif Levenshtein.distance(entity_prediction.lower(), entity.lower()) <= 5 or entity_prediction.lower() in entity.lower() or entity.lower() in entity_prediction.lower():
@@ -249,12 +257,19 @@ def pipline(process_record, question, model_key, max_iteration):
             else:
                 incorrect_answer_record = deepcopy(answer_record)
                 refined_question = rectified_question(question, incorrect_answer_record)
-                refined_document = generate_document(process_record, model_key, refined_question, num_iter, 'refined')
-                refined_answer = generate_answer(process_record, model_key, refined_question, num_iter, refined_document, 'refined')
+                refined_document, tokens = generate_document(process_record, model_key, refined_question, num_iter, 'refined')
+                total_tokens_used += tokens
+                refined_answer, tokens = generate_answer(process_record, model_key, refined_question, num_iter, refined_document, 'refined')
+                total_tokens_used += tokens
                 answer_record.append(refined_answer)
             if len(answer_record) >= 2:
                 answer_record_history = [history.lower() for history in answer_record[:-1]]
                 if answer_record[-1].lower() in answer_record_history:
                     break
+
     final_answer = answer_record[-1]
-    return final_answer, process_record
+    total_pipeline_time = time.time() - start_pipeline
+    process_record['total_tokens_used'] = total_tokens_used
+    process_record['total_pipeline_time'] = total_pipeline_time
+
+    return final_answer, process_record, total_tokens_used, total_pipeline_time
