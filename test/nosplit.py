@@ -1,4 +1,5 @@
 import argparse
+import random
 from pathlib import Path
 import pandas as pd
 from dotenv import load_dotenv
@@ -35,23 +36,42 @@ def parse_rechecked_response(text: str):
     return final_answer, hallucination_check
 
 
-def safe_chat_call(messages, model_key):
-    """Wrapper for safe model call, returns response, token cost, and time cost"""
-    start = time.perf_counter()
-    response_obj = client.chat.completions.create(
-        model=model_key,
-        messages=messages,
-        temperature=0.0
-    )
-    end = time.perf_counter()
+def safe_chat_call(messages, model_key, max_retries=3, base_delay=2.0):
+    """
+    Safe wrapper for OpenAI chat completion with retries and detailed tracking.
+    Returns: (content, token_cost, time_cost)
+    """
+    for attempt in range(max_retries):
+        try:
+            start = time.perf_counter()
+            response_obj = client.chat.completions.create(
+                model=model_key,
+                messages=messages,
+                temperature=0.0,
+            )
+            end = time.perf_counter()
 
-    content = response_obj.choices[0].message.content.strip()
-    utils.check_string(content)
+            content = response_obj.choices[0].message.content
+            if not content or not content.strip():
+                raise ValueError("Empty or null response from model")
 
-    # Calculate tokens
-    tokens = utils.num_tokens_from_string(messages[0]["content"]) + utils.num_tokens_from_string(content)
-    time_cost = end - start
-    return content, tokens, time_cost
+            content = content.strip()
+            utils.check_string(content)
+
+            input_text = "\n".join(m["content"] for m in messages if "content" in m)
+            tokens = utils.num_tokens_from_string(input_text) + utils.num_tokens_from_string(content)
+
+            time_cost = end - start
+            return content, tokens, time_cost
+
+        except Exception as e:
+            wait = base_delay * (attempt + 1) + random.uniform(0, 1)
+            print(f"[Warning] Attempt {attempt+1}/{max_retries} failed: {e}")
+            print(f"Retrying after {wait:.1f}s ...")
+            time.sleep(wait)
+
+    print("[Error] Model failed after multiple retries.")
+    return "ERROR: Empty or invalid model output", 0, 0.0
 
 
 def run_pipeline(input_path, output_path):
@@ -59,7 +79,7 @@ def run_pipeline(input_path, output_path):
 
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
         question = row["Question"]
-
+        start = time.time()
         # Step 1: Base response with SYSTEM_PROMPT
         messages = [
             {"role": "system", "content": prompts.SYSTEM_PROMPT},
@@ -75,11 +95,12 @@ def run_pipeline(input_path, output_path):
         # Step 3: Parse hallucination mitigation output
         final_answer, hallucination_check = parse_rechecked_response(second_response)
 
+        end = time.time()
         # Logging
         print("===================================")
         print(f"Question: {question}")
         print(f"Base Response: {first_response} (tokens={first_tokens}, time={first_time:.4f}s)")
-        print(f"Final Answer: {final_answer} (extra tokens={second_tokens}, time={second_time:.4f}s)")
+        print(f"Final Answer: {final_answer} (tokens={second_tokens}, time={second_time:.4f}s)")
         print(f"Hallucination Check: {hallucination_check}")
 
         # Save results into dataframe
@@ -91,6 +112,8 @@ def run_pipeline(input_path, output_path):
         df.loc[index, "base_time_cost"] = first_time
         df.loc[index, "recheck_token_cost"] = second_tokens
         df.loc[index, "recheck_time_cost"] = second_time
+        df.loc[index, "token_cost"] = first_tokens + second_tokens
+        df.loc[index, "time_cost"] = end - start
 
     df.to_csv(output_path, index=False)
     print(f"Output saved at {output_path}")

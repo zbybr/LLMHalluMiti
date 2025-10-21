@@ -25,7 +25,7 @@ def run_pipeline(input_path, output_path, model_key):
         # Logging
         print("===================================")
         print(f"Question: {question}")
-        print(f"Base Response: {base_response}, Final Answer: {final_answer} (extra tokens={tokens_used}, time={time_used:.4f}s)")
+        print(f"Base Response: {base_response}, Final Answer: {final_answer} (tokens={tokens_used}, time={time_used:.4f}s)")
         df.loc[idx, "base_response"] = base_response
         df.loc[idx, "proco_answer"] = final_answer
         df.loc[idx, "proco_record"] = json.dumps(process_record, ensure_ascii=False)

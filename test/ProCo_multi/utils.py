@@ -1,3 +1,4 @@
+import random
 import time
 import tiktoken
 import os
@@ -23,15 +24,29 @@ def check_string(s):
         raise ValueError("Empty or invalid string encountered.")
 
 
-def answer_by_model_key_with_cost(prompt, model_key):
-    completion = client.chat.completions.create(
-        model=model_key,
-        messages=[
-            {"role": "user", "content": prompt}
-        ],
-        temperature=0.0
-    )
-    response = completion.choices[0].message.content
-    tokens = num_tokens_from_string(prompt) + num_tokens_from_string(response)
-    check_string(response)
-    return response, tokens
+def answer_by_model_key_with_cost(prompt, model_key, max_retries=3, base_delay=2.0):
+    for attempt in range(max_retries):
+        try:
+            completion = client.chat.completions.create(
+                model=model_key,
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.0,
+            )
+
+            response = completion.choices[0].message.content
+            if not response or not response.strip():
+                raise ValueError("Empty response from model")
+
+            tokens = num_tokens_from_string(prompt) + num_tokens_from_string(response)
+            check_string(response)
+
+            return response, tokens
+
+        except Exception as e:
+            wait = base_delay * (attempt + 1) + random.uniform(0, 1)
+            print(f"[Warning] Attempt {attempt + 1}/{max_retries} failed: {e}")
+            print(f"Retrying after {wait:.1f}s ...")
+            time.sleep(wait)
+
+    print("[Error] Model repeatedly returned empty or invalid response.")
+    return "ERROR: Empty or invalid model output", 0
