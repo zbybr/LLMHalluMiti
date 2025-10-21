@@ -9,7 +9,7 @@ from utils import answer_by_model_key_with_cost
 SHOW = True
 sleep_time = 0
 threshold = 0.8
-nlp = spacy.load("en_core_web_trf")
+nlp = spacy.load("en_core_web_sm")
 
 
 def get_entity(reasoning_path):
@@ -226,7 +226,7 @@ def rectified_question(question, incorrect_answer_record):
     return refined_question
 
 
-def pipeline(process_record, question, model_key, max_iteration):
+def pipeline(question, process_record, model_key, max_iteration):
     """pipline with token used"""
     total_tokens_used = 0
     start_pipeline = time.time()
