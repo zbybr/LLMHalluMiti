@@ -140,7 +140,10 @@ def generate_document(process_record, model_key, question, num_iter, flag):
 
 
 def generate_answer(process_record, model_key, question, num_iter, document, flag):
-    prompt = f"""Refer to the passage below and answer the following question with just one entity.\n\nPassage: {document}\n\nQuestion: {question}\n\nThe answer is"""
+    if flag == 'init':
+        prompt = f"""Answer the following question with just one entity.\n\nQuestion: {question}\n\nThe answer is"""
+    else:
+        prompt = f"""Refer to the passage below and answer the following question with just one entity.\n\nPassage: {document}\n\nQuestion: {question}\n\nThe answer is"""
     answer, tokens = answer_by_model_key_with_cost(
         prompt=prompt,
         model_key=model_key,
@@ -240,6 +243,7 @@ def pipeline(process_record, question, model_key, max_iteration):
     total_tokens_used += tokens
     answer, tokens = generate_answer(process_record, model_key, question, 0, document, 'init')
     total_tokens_used += tokens
+    base_response = answer
     answer_record.append(answer)
     if state:
         for num_iter in range(max_iteration):
@@ -272,4 +276,4 @@ def pipeline(process_record, question, model_key, max_iteration):
     process_record['total_tokens_used'] = total_tokens_used
     process_record['total_pipeline_time'] = total_pipeline_time
 
-    return final_answer, process_record, total_tokens_used, total_pipeline_time
+    return base_response, final_answer, process_record, total_tokens_used, total_pipeline_time

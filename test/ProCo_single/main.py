@@ -13,7 +13,6 @@ def run_pipeline(input_path, output_path):
 
     for idx, row in tqdm(df.iterrows(), total=len(df), desc="Processing"):
         question = row["Question"]
-        answer = row["Answer"]
         adv_final, adv_tokens, adv_time = prompt.run_advanced_proco_pipeline(question, args.model_key)
 
         # Logging
