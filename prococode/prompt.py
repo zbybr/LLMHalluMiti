@@ -1,30 +1,26 @@
-
 import time
 import re
 from difflib import SequenceMatcher
 from copy import deepcopy
-
 import spacy
-nlp = spacy.load("en_core_web_trf")
-from pprint import pprint
 import Levenshtein
-
-from utils import answer_by_gpt_3_5_turbo
+from utils import answer_by_model_key_with_cost
 
 
 SHOW = True
 sleep_time = 0
 threshold = 0.8
+nlp = spacy.load("en_core_web_trf")
 
 
 def get_entity(reasoning_path):
     """Identification of significant entity and its category"""
     pattern = r'The most relevant entity is:? (.*?)and its'
     result = re.findall(pattern, reasoning_path, re.IGNORECASE)
-    if len(result)!=0:
+    if len(result) != 0:
         entity = result[-1]
     else:
-        entity = 'None'          # No match found.
+        entity = 'None'  # No match found.
     entity = entity.replace("\"", "").replace("*", "").strip()
     return entity
 
@@ -33,10 +29,10 @@ def get_category(reasoning_path):
     """Identification of significant entity and its category"""
     pattern = r'and its category is:? (.*?)\.'
     result = re.findall(pattern, reasoning_path, re.IGNORECASE)
-    if len(result)!=0:
+    if len(result) != 0:
         category = result[-1]
     else:
-        category = 'None'          # No match found.
+        category = 'None'  # No match found.
     category = category.replace("\"", "").replace("*", "").strip()
     return category
 
@@ -45,10 +41,10 @@ def get_answer(reasoning_path):
     """Get Answer from the Reasoning Path"""
     pattern = r'The answer is:? (.*?)\.'
     result = re.findall(pattern, reasoning_path, re.IGNORECASE)
-    if len(result)!=0:
+    if len(result) != 0:
         answer = result[-1]
     else:
-        answer = 'None'          # No match found.
+        answer = 'None'  # No match found.
     answer = answer.replace("\"", "").replace("*", "").strip()
     return answer
 
@@ -58,17 +54,17 @@ def get_verification_question_answer(reasoning_path):
     # pattern = r'[?\"?X\"?]? refers to:? (.*?)\.'
     pattern = r'[?\"?X\"?]? refers to:? (.*?)$'
     result = re.findall(pattern, reasoning_path, re.IGNORECASE)
-    if len(result)!=0:
+    if len(result) != 0:
         answer = result[-1]
     else:
-        answer = 'None'          # No match found.
+        answer = 'None'  # No match found.
     answer = answer.replace("\"", "").replace("*", "").strip()
-    if answer[-1]=='.':
+    if answer[-1] == '.':
         answer = answer[:-1]
     return answer
 
 
-def identify_important_entity(process_record, model, max_length, question):
+def identify_important_entity(process_record, model_key, question):
     state = True
     prompt = f"""Define: Named-entity recognition seeks to locate and classify named entities mentioned in a question into pre-defined categories such as person names, 
         organizations, locations, medical codes, time expressions, quantities, monetary values, percentages, etc. If an entity does not fit the types above it is (other). 
@@ -82,10 +78,9 @@ def identify_important_entity(process_record, model, max_length, question):
 
         Answer: 
         """
-    response = answer_by_gpt_3_5_turbo(
+    response = answer_by_model_key_with_cost(
         prompt=prompt,
-        model=model,
-        max_length=max_length, 
+        model_key=model_key
     )
     time.sleep(sleep_time)
     if SHOW:
@@ -97,7 +92,7 @@ def identify_important_entity(process_record, model, max_length, question):
     similarity_ratio = SequenceMatcher(None, entity.lower(), question.lower()).ratio()
     if entity.lower() in question.lower():
         pass
-    elif entity=='None' or category=='None' or similarity_ratio < threshold:
+    elif entity == 'None' or category == 'None' or similarity_ratio < threshold:
         try:
             doc = nlp(question)
             entity_category = [(ent.text, ent.label_) for ent in doc.ents]
@@ -128,18 +123,17 @@ def construct_verification_question_pro(question, entity):
     return verification_question
 
 
-def generate_document(process_record, model, max_length, question, num_iter, flag):
+def generate_document(process_record, model_key, question, num_iter, flag):
     """Generate Document"""
     prompt = f"""Generate a background document to answer the given question.\n\n{question}\n\n"""
-    document = answer_by_gpt_3_5_turbo(
+    document = answer_by_model_key_with_cost(
         prompt=prompt,
-        model=model,
-        max_length=max_length, 
+        model_key=model_key,
     )
     if SHOW:
         print(f'\n[INFO]:\t\tDocument: {document}')
     time.sleep(sleep_time)
-    if flag=='init':
+    if flag == 'init':
         process_record[f'{num_iter}-iter'][f'{flag}-document'] = document
     else:
         process_record[f'{num_iter}-iter']['rectification'] = {}
@@ -147,19 +141,18 @@ def generate_document(process_record, model, max_length, question, num_iter, fla
     return document
 
 
-def generate_answer(process_record, model, max_length, question, num_iter, document, flag):
+def generate_answer(process_record, model_key, question, num_iter, document, flag):
     prompt = f"""Refer to the passage below and answer the following question with just one entity.\n\nPassage: {document}\n\nQuestion: {question}\n\nThe answer is"""
-    answer = answer_by_gpt_3_5_turbo(
+    answer = answer_by_model_key_with_cost(
         prompt=prompt,
-        model=model,
-        max_length=max_length, 
+        model_key=model_key,
     )
     if SHOW:
         print(f'\n[INFO]:\t\tanswer: {answer}')
     time.sleep(sleep_time)
     # answer = get_answer(reasoning_path)
     # process_record[f'{num_iter}-iter'][f'{flag}-reasoning_path'] = reasoning_path
-    if flag=='init':
+    if flag == 'init':
         process_record[f'{num_iter}-iter'][f'{flag}-answer'] = answer
     else:
         process_record[f'{num_iter}-iter']['rectification'][f'{flag}-answer'] = answer
@@ -174,17 +167,16 @@ def construct_verification_question(verification_question_pro, answer):
     return verification_question
 
 
-def solve_verification_question(process_record, model, max_length, num_iter, verification_question, category):
+def solve_verification_question(process_record, model_key, num_iter, verification_question, category):
     prompt = f"""Solve an open domain question. The reasoning path ends with \"The answer is (entity)\", e.g. \"The answer is Notre Dame\".
         
         Question: {verification_question}
 
         Answer: The category of X is {category}. Let's think step by step.
         """
-    reasoning_path = answer_by_gpt_3_5_turbo(
+    reasoning_path = answer_by_model_key_with_cost(
         prompt=prompt,
-        model=model,
-        max_length=max_length, 
+        model_key=model_key
     )
     if SHOW:
         print(f'\n[INFO]:\t\tVerification Question Reasoning Path: {reasoning_path}')
@@ -199,17 +191,16 @@ def solve_verification_question(process_record, model, max_length, num_iter, ver
     return answer
 
 
-def verification_result(process_record, model, max_length, num_iter, verification_question, entity, entity_prediction):
+def verification_result(process_record, model_key, num_iter, verification_question, entity, entity_prediction):
     prompt = f"""
         Instruction: Determine whether the proposition is correct or incorrect. The reasoning path ends with \"The result of the judgment is (the result of the judgment)\", e.g. \"The result of the judgment is correct\". 
         Proposition: If the answer to the question \"{verification_question}\" is \"{entity}\", then X could also be \"{entity_prediction}\"
 
         A: Let's think step by step.
         """
-    judgement_process = answer_by_gpt_3_5_turbo(
+    judgement_process = answer_by_model_key_with_cost(
         prompt=prompt,
-        model=model,
-        max_length=max_length, 
+        model_key=model_key,
     )
     if SHOW:
         print(f'\n[INFO]:\t\tJudgement Process: {judgement_process}')
@@ -232,37 +223,36 @@ def rectified_question(question, incorrect_answer_record):
     return refined_question
 
 
-def pipline(process_record, question, model, max_length, max_iteration):
+def pipline(process_record, question, model_key, max_iteration):
     """pipline"""
     if SHOW:
         print(f'\n[INFO]:\t\tQuestion: {question}')
     answer_record, incorrect_answer_record = [], []
     process_record[f'0-iter'] = {}
-    entity, category, process_record, state = identify_important_entity(process_record, model, max_length, question)
+    entity, category, process_record, state = identify_important_entity(process_record, model_key, question)
     verification_question_pro = construct_verification_question_pro(question, entity)
-    document = generate_document(process_record, model, max_length, question, 0, 'init')
-    answer = generate_answer(process_record, model, max_length, question, 0, document, 'init')
+    document = generate_document(process_record, model_key, question, 0, 'init')
+    answer = generate_answer(process_record, model_key, question, 0, document, 'init')
     answer_record.append(answer)
     if state:
         for num_iter in range(max_iteration):
             num_iter += 1
             process_record[f'{num_iter}-iter'] = {}
             verification_question = construct_verification_question(verification_question_pro, answer_record[-1])
-            entity_prediction = solve_verification_question(process_record, model, max_length, num_iter, verification_question, category)
-            judgement = verification_result(process_record, model, max_length, num_iter, verification_question, entity, entity_prediction)
+            entity_prediction = solve_verification_question(process_record, model_key, num_iter,
+                                                            verification_question, category)
+            judgement = verification_result(process_record, model_key, num_iter, verification_question, entity, entity_prediction)
             if judgement:
                 break
-            elif Levenshtein.distance(entity_prediction.lower(), entity.lower())<=5 or entity_prediction.lower() in entity.lower() or entity.lower() in entity_prediction.lower():
+            elif Levenshtein.distance(entity_prediction.lower(), entity.lower()) <= 5 or entity_prediction.lower() in entity.lower() or entity.lower() in entity_prediction.lower():
                 break
             else:
                 incorrect_answer_record = deepcopy(answer_record)
                 refined_question = rectified_question(question, incorrect_answer_record)
-                refined_document = generate_document(process_record, model, max_length, refined_question, num_iter, 'refined')
-                refined_answer = generate_answer(process_record, model, max_length, refined_question, num_iter, refined_document, 'refined')
+                refined_document = generate_document(process_record, model_key, refined_question, num_iter, 'refined')
+                refined_answer = generate_answer(process_record, model_key, refined_question, num_iter, refined_document, 'refined')
                 answer_record.append(refined_answer)
-            # if len(answer_record)>=2 and answer_record[-1].lower()==answer_record[-2].lower():
-            #     break
-            if len(answer_record)>=2:
+            if len(answer_record) >= 2:
                 answer_record_history = [history.lower() for history in answer_record[:-1]]
                 if answer_record[-1].lower() in answer_record_history:
                     break

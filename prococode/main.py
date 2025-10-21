@@ -1,60 +1,49 @@
-import warnings
-warnings.filterwarnings('ignore')
 import argparse
-import os
-import json
-from pprint import pprint
-
-import numpy as np
+import csv
+import warnings
+from pathlib import Path
+import pandas as pd
 from tqdm import tqdm
+import prompt
 
-import utils, prompt
-from utils import data_name_choices, data_save_path
-
-
+warnings.filterwarnings('ignore')
 prompt_strategy = 'Generate-Read-Refine'
-backbone_language_model = "GPT-3.5-Turbo"
-MAX_LENGTH = 1024
 encoding_name = "cl100k_base"
 MAX_ITERATION = 3
-num = 2000
 
 
-parser = argparse.ArgumentParser(description="index of datasets")
-parser.add_argument('--data_index', type=int, required=True, metavar='', default=0, help="0: 'Natural Questions', 1: 'TriviaQA', 2: 'WebQuestions'")
-args = parser.parse_args()
-data_name = data_name_choices[args.data_index]
-save_path = os.path.join('../result/', f'{data_name.capitalize()}-{prompt_strategy.capitalize()}-{backbone_language_model.capitalize()}.txt')
-with open(data_save_path.get(data_name), 'r') as f:
-    decoder = json.JSONDecoder()
-    data = f.readlines()
-    samples = [decoder.raw_decode(i)[0] for i in data][:num]
+def run_pipeline(input_path, output_path, model_key):
+    df = pd.read_csv(input_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
+    print(f"Loaded dataset '{input_path}' with {len(df)} questions.")
 
-Questions = [sample.get('question') for sample in samples]  # str
-Answers = [sample.get('answer') for sample in samples]      # list
-print(f'Name of dataset: {data_name}\nMean value of the question token: {np.mean([utils.num_tokens_from_string(question, encoding_name) for question in Questions])}\nNumber of questions: {len(Questions)}')
+    for idx, row in tqdm(df.iterrows(), total=len(df), desc="Processing"):
+        question = row["Question"]
+        answer = row["Answer"]
+
+        adv_final, adv_tokens, adv_time = prompt.run_advanced_proco_pipeline(question, model_key)
+
+        # Logging
+        print("===================================")
+        print(f"Question: {question}")
+        print(f"Final Answer: {adv_final} (extra tokens={adv_tokens}, time={adv_time:.4f}s)")
+        df.loc[idx, "adv_proco_answer"] = adv_final
+        df.loc[idx, "adv_proco_token_cost"] = adv_tokens
+        df.loc[idx, "adv_proco_time_cost"] = adv_time
+
+    df.to_csv(output_path, index=False)
+    print(f"Output saved at {output_path}")
 
 
-## generate answer
-if not os.path.exists(save_path):
-    add_idx = 0
-else:
-    add_idx = len(utils.load_txt_data(save_path))
-for question_idx in tqdm(range(len(samples)), desc=f'{data_name} {prompt_strategy} {backbone_language_model}'):
-    question_idx += add_idx
-    process_record = {}
-    question = Questions[question_idx]
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="ProCo pipeline compare all variants")
+    parser.add_argument('--dataset_path', type=str, required=True, help="Dataset path")
+    parser.add_argument('--model_key', type=str, required=True, help="Model key for ProCo")
+    args = parser.parse_args()
 
-    process_record['question'] = question
-    process_record['gold_answer'] = Answers[question_idx]
+    dataset_path = args.dataset_path
+    dataset_name = str(Path(dataset_path).stem).lower()
+    output_path = f"Proco_outputs_{dataset_name}.csv"
 
-    final_answer, process_record = prompt.pipline(
-        process_record, 
-        question.replace('?', ' ?') ,
-        backbone_language_model, 
-        MAX_LENGTH, 
-        MAX_ITERATION
-    )
-    process_record['final_answer'] = final_answer
-    with open(save_path, 'a', encoding='utf-8') as f:
-        f.write(json.dumps(process_record, ensure_ascii=False) + '\n')
+    run_pipeline(input_path=dataset_path,
+                 output_path=output_path,
+                 model_key=args.model_key)
