@@ -46,6 +46,4 @@ if __name__ == "__main__":
     dataset_name = str(Path(dataset_path).stem).lower()
     output_path = f"Proco_multi_outputs_{dataset_name}.csv"
 
-    run_pipeline(input_path=dataset_path,
-                 output_path=output_path,
-                 model_key=args.model_key)
+    run_pipeline(dataset_path, output_path, args.model_key)

@@ -12,7 +12,6 @@ import time
 import utils
 
 load_dotenv(override=True)
-GPT_MODEL_KEY = "gpt-5-2025-08-07"
 # client = OpenAI(
 #     api_key="sk-wi5c6GQjiqZVC0vqDjSHZA5UIIHpmgiFgRgSyDS0PnOkJWWF",
 #     base_url="https://yunwu.ai/v1"
@@ -74,7 +73,7 @@ def safe_chat_call(messages, model_key, max_retries=3, base_delay=2.0):
     return "ERROR: Empty or invalid model output", 0, 0.0
 
 
-def run_pipeline(input_path, output_path):
+def run_pipeline(input_path, output_path, model_key):
     df = pd.read_csv(input_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
 
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
@@ -85,12 +84,12 @@ def run_pipeline(input_path, output_path):
             {"role": "system", "content": prompts.SYSTEM_PROMPT},
             {"role": "user", "content": question},
         ]
-        first_response, first_tokens, first_time = safe_chat_call(messages, GPT_MODEL_KEY)
+        first_response, first_tokens, first_time = safe_chat_call(messages, model_key)
 
         # Step 2: Re-check with RECHECK_PROMPT_NOSPLIT
         messages.append({"role": "assistant", "content": first_response})
         messages.append({"role": "user", "content": prompts.RECHECK_PROMPT_NOSPLIT})
-        second_response, second_tokens, second_time = safe_chat_call(messages, GPT_MODEL_KEY)
+        second_response, second_tokens, second_time = safe_chat_call(messages, model_key)
 
         # Step 3: Parse hallucination mitigation output
         final_answer, hallucination_check = parse_rechecked_response(second_response)
@@ -121,11 +120,12 @@ def run_pipeline(input_path, output_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="GPT Hallucination Mitigation pipeline with cost tracking")
-    parser.add_argument("--dataset_path", type=str, help="Dataset path")
+    parser.add_argument("--dataset_path", type=str, required=True, help="Dataset path")
+    parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
 
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"{GPT_MODEL_KEY}_outputs_{dataset_name}_hallucination_checked_nsp.csv"
+    output_path = f"{args.model_key}_outputs_{dataset_name}_hallucination_checked_nsp.csv"
 
-    run_pipeline(dataset_path, output_path)
+    run_pipeline(dataset_path, output_path, args.model_key)
