@@ -38,15 +38,13 @@ def safe_chat_call(messages, model_key, max_retries=3, base_delay=2.0):
     """
     for attempt in range(max_retries):
         try:
-            start = time.perf_counter()
-            response_obj = client.chat.completions.create(
+            response = client.chat.completions.create(
                 model=model_key,
                 messages=messages,
                 temperature=0.0,
             )
-            end = time.perf_counter()
 
-            content = response_obj.choices[0].message.content
+            content = response.choices[0].message.content
             if not content or not content.strip():
                 raise ValueError("Empty or null response from model")
 
@@ -56,8 +54,7 @@ def safe_chat_call(messages, model_key, max_retries=3, base_delay=2.0):
             input_text = "\n".join(m["content"] for m in messages if "content" in m)
             tokens = utils.num_tokens_from_string(input_text) + utils.num_tokens_from_string(content)
 
-            time_cost = end - start
-            return content, tokens, time_cost
+            return content, tokens
 
         except Exception as e:
             wait = base_delay * (attempt + 1) + random.uniform(0, 1)
@@ -74,40 +71,27 @@ def run_pipeline(input_path, output_path, model_key):
 
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
         question = row["Question"]
+        base_response = row['base_response']
         start = time.time()
-        # Step 1: Base response with SYSTEM_PROMPT
-        messages = [
-            {"role": "system", "content": prompts.SYSTEM_PROMPT},
-            {"role": "user", "content": question},
-        ]
-        first_response, first_tokens, first_time = safe_chat_call(messages, model_key)
+        messages = [{"role": "assistant", "content": base_response},
+                    {"role": "user", "content": prompts.RECHECK_PROMPT_NOSPLIT}]
+        record, tokens = safe_chat_call(messages, model_key)
 
-        # Step 2: Re-check with RECHECK_PROMPT_NOSPLIT
-        messages.append({"role": "assistant", "content": first_response})
-        messages.append({"role": "user", "content": prompts.RECHECK_PROMPT_NOSPLIT})
-        second_response, second_tokens, second_time = safe_chat_call(messages, model_key)
-
-        # Step 3: Parse hallucination mitigation output
-        final_answer, hallucination_check = parse_rechecked_response(second_response)
+        final_answer, hallucination_check = parse_rechecked_response(record)
 
         end = time.time()
         # Logging
         print("===================================")
         print(f"Question: {question}")
-        print(f"Base Response: {first_response} (tokens={first_tokens}, time={first_time:.4f}s)")
-        print(f"Final Answer: {final_answer} (tokens={second_tokens}, time={second_time:.4f}s)")
+        print(f"Base Response: {base_response}")
+        print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
         print(f"Hallucination Check: {hallucination_check}")
 
         # Save results into dataframe
-        df.loc[index, "base_response"] = first_response
-        df.loc[index, "final_answer"] = final_answer
+        df.loc[index, "final_answer"] = base_response
         df.loc[index, "hallucination_check"] = hallucination_check
-        df.loc[index, "raw_rechecked_response"] = second_response
-        df.loc[index, "base_token_cost"] = first_tokens
-        df.loc[index, "base_time_cost"] = first_time
-        df.loc[index, "recheck_token_cost"] = second_tokens
-        df.loc[index, "recheck_time_cost"] = second_time
-        df.loc[index, "token_cost"] = first_tokens + second_tokens
+        df.loc[index, "raw_rechecked_response"] = record
+        df.loc[index, "token_cost"] = tokens
         df.loc[index, "time_cost"] = end - start
 
     df.to_csv(output_path, index=False)
