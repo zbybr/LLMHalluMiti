@@ -27,10 +27,10 @@ def run_pipeline(input_path, output_path, model_key):
         print(f"Question: {question}")
         print(f"Base Response: {base_response}, Final Answer: {final_answer} (tokens={tokens_used}, time={time_used:.4f}s)")
         df.loc[idx, "base_response"] = base_response
-        df.loc[idx, "proco_single_answer"] = final_answer
-        df.loc[idx, "proco_single_record"] = json.dumps(process_record, ensure_ascii=False)
-        df.loc[idx, "proco_single_token_cost"] = tokens_used
-        df.loc[idx, "proco_single_time_cost"] = time_used
+        df.loc[idx, "proco_answer"] = final_answer
+        df.loc[idx, "proco_record"] = json.dumps(process_record, ensure_ascii=False)
+        df.loc[idx, "proco_token_cost"] = tokens_used
+        df.loc[idx, "proco_time_cost"] = time_used
 
     df.to_csv(output_path, index=False)
     print(f"Output saved at {output_path}")
