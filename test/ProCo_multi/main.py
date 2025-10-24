@@ -20,7 +20,8 @@ def run_pipeline(input_path, output_path, model_key):
 
     for idx, row in tqdm(df.iterrows(), total=len(df), desc="Processing"):
         question = row["Question"]
-        base_response, final_answer, process_record, tokens_used, time_used = prompt.pipeline(question, {}, model_key, MAX_ITERATION)
+        base_response = row['base_response']
+        final_answer, process_record, tokens_used, time_used = prompt.pipeline(question, base_response, {}, model_key, MAX_ITERATION)
 
         # Logging
         print("===================================")
@@ -37,13 +38,13 @@ def run_pipeline(input_path, output_path, model_key):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="ProCo multi-iteration pipeline compare all variants")
+    parser = argparse.ArgumentParser(description="ProCo single-iteration pipeline compare all variants")
     parser.add_argument('--dataset_path', type=str, required=True, help="Dataset path")
     parser.add_argument('--model_key', type=str, required=True, help="Model key for ProCo")
     args = parser.parse_args()
 
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"{args.model_key}_proco_multi_outputs_{dataset_name}.csv"
+    output_path = f"{args.model_key}_proco_single_outputs_{dataset_name}.csv"
 
     run_pipeline(dataset_path, output_path, args.model_key)

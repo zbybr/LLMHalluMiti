@@ -139,9 +139,20 @@ def generate_document(process_record, model_key, question, num_iter, flag):
     return document, tokens
 
 
-def generate_answer(process_record, model_key, question, num_iter, document, flag):
+def generate_answer(base_response, process_record, model_key, question, num_iter, document, flag):
     if flag == 'init':
-        prompt = f"""Answer the following question with just one entity.\n\nQuestion: {question}\n\nThe answer is"""
+        prompt = f"""
+        You are given an answer sentence to a question. 
+        Your task is to extract or transform the answer into a single concise entity (e.g., a person, place, organization, object, or concept). 
+        If the answer does not provide factual content or expresses uncertainty (e.g., "I have no idea", "Not sure", "Unknown"), 
+        output the entity as "Unknown".
+
+        Question: {question}
+
+        Answer: {base_response}
+
+        The single entity is:
+        """
     else:
         prompt = f"""Refer to the passage below and answer the following question with just one entity.\n\nPassage: {document}\n\nQuestion: {question}\n\nThe answer is"""
     answer, tokens = answer_by_model_key_with_cost(
@@ -170,7 +181,7 @@ def construct_verification_question(verification_question_pro, answer):
 
 def solve_verification_question(process_record, model_key, num_iter, verification_question, category):
     prompt = f"""Solve an open domain question. The reasoning path ends with \"The answer is (entity)\", e.g. \"The answer is Notre Dame\".
-        
+
         Question: {verification_question}
 
         Answer: The category of X is {category}. Let's think step by step.
@@ -226,7 +237,7 @@ def rectified_question(question, incorrect_answer_record):
     return refined_question
 
 
-def pipeline(question, process_record, model_key, max_iteration):
+def pipeline(question, base_response, process_record, model_key, max_iteration):
     """pipline with token used"""
     total_tokens_used = 0
     start_pipeline = time.time()
@@ -241,29 +252,34 @@ def pipeline(question, process_record, model_key, max_iteration):
     verification_question_pro = construct_verification_question_pro(question, entity)
     document, tokens = generate_document(process_record, model_key, question, 0, 'init')
     total_tokens_used += tokens
-    answer, tokens = generate_answer(process_record, model_key, question, 0, document, 'init')
+    answer, tokens = generate_answer(base_response, process_record, model_key, question, 0, document, 'init')
     total_tokens_used += tokens
-    base_response = answer
+    # base_response = answer
     answer_record.append(answer)
     if state:
         for num_iter in range(max_iteration):
             num_iter += 1
             process_record[f'{num_iter}-iter'] = {}
             verification_question = construct_verification_question(verification_question_pro, answer_record[-1])
-            entity_prediction, tokens = solve_verification_question(process_record, model_key, num_iter, verification_question, category)
+            entity_prediction, tokens = solve_verification_question(process_record, model_key, num_iter,
+                                                                    verification_question, category)
             total_tokens_used += tokens
-            judgement, tokens = verification_result(process_record, model_key, num_iter, verification_question, entity, entity_prediction)
+            judgement, tokens = verification_result(process_record, model_key, num_iter, verification_question, entity,
+                                                    entity_prediction)
             total_tokens_used += tokens
             if judgement:
                 break
-            elif Levenshtein.distance(entity_prediction.lower(), entity.lower()) <= 5 or entity_prediction.lower() in entity.lower() or entity.lower() in entity_prediction.lower():
+            elif Levenshtein.distance(entity_prediction.lower(),
+                                      entity.lower()) <= 5 or entity_prediction.lower() in entity.lower() or entity.lower() in entity_prediction.lower():
                 break
             else:
                 incorrect_answer_record = deepcopy(answer_record)
                 refined_question = rectified_question(question, incorrect_answer_record)
-                refined_document, tokens = generate_document(process_record, model_key, refined_question, num_iter, 'refined')
+                refined_document, tokens = generate_document(process_record, model_key, refined_question, num_iter,
+                                                             'refined')
                 total_tokens_used += tokens
-                refined_answer, tokens = generate_answer(process_record, model_key, refined_question, num_iter, refined_document, 'refined')
+                refined_answer, tokens = generate_answer("", process_record, model_key, refined_question, num_iter,
+                                                         refined_document, 'refined')
                 total_tokens_used += tokens
                 answer_record.append(refined_answer)
             if len(answer_record) >= 2:
@@ -276,4 +292,4 @@ def pipeline(question, process_record, model_key, max_iteration):
     process_record['total_tokens_used'] = total_tokens_used
     process_record['total_pipeline_time'] = total_pipeline_time
 
-    return base_response, final_answer, process_record, total_tokens_used, total_pipeline_time
+    return final_answer, process_record, total_tokens_used, total_pipeline_time

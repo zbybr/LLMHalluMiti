@@ -145,7 +145,7 @@ def generate_answer(base_response, process_record, model_key, question, num_iter
         You are given an answer sentence to a question. 
         Your task is to extract or transform the answer into a single concise entity (e.g., a person, place, organization, object, or concept). 
         If the answer does not provide factual content or expresses uncertainty (e.g., "I have no idea", "Not sure", "Unknown"), 
-        output the entity as "Uncertain".
+        output the entity as "Unknown".
 
         Question: {question}
 
