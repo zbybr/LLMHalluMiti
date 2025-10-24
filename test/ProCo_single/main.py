@@ -20,7 +20,8 @@ def run_pipeline(input_path, output_path, model_key):
 
     for idx, row in tqdm(df.iterrows(), total=len(df), desc="Processing"):
         question = row["Question"]
-        base_response, final_answer, process_record, tokens_used, time_used = prompt.pipeline(question, {}, model_key, MAX_ITERATION)
+        base_response = row['base_response']
+        final_answer, process_record, tokens_used, time_used = prompt.pipeline(question, base_response, {}, model_key, MAX_ITERATION)
 
         # Logging
         print("===================================")
