@@ -63,7 +63,7 @@ def safe_chat_call(messages, model_key, max_retries=3, base_delay=2.0):
             time.sleep(wait)
 
     print("[Error] Model failed after multiple retries.")
-    return "ERROR: Empty or invalid model output", 0, 0.0
+    return "ERROR: Empty or invalid model output", 0
 
 
 def run_pipeline(input_path, output_path, model_key):
@@ -88,7 +88,7 @@ def run_pipeline(input_path, output_path, model_key):
         print(f"Hallucination Check: {hallucination_check}")
 
         # Save results into dataframe
-        df.loc[index, "final_answer"] = base_response
+        df.loc[index, "final_answer"] = final_answer
         df.loc[index, "hallucination_check"] = hallucination_check
         df.loc[index, "raw_rechecked_response"] = record
         df.loc[index, "token_cost"] = tokens
