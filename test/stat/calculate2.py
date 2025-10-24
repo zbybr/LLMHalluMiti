@@ -21,7 +21,7 @@ def normalize(value):
 # df['hallucination_check'] = df['hallucination_check'].apply(normalize)
 
 # hallucination_rate: origin_hallucination == YES
-hallucination = df[(df['origin_hallucination'] == 'YES')]
+hallucination = df[(df['is_hallucination'] == 'YES')]
 hallucination_ratio = len(hallucination) / total_samples
 print(f"Hallucination rate: {len(hallucination)} ({hallucination_ratio:.2%})")
 
@@ -45,13 +45,13 @@ print(f"Recheck Hallu rate: {len(recheck_hallu)} ({recheck_hallu_ratio:.2%})")
 # print(f"Detect_ratio: {len(successful_detect)} / {len(hallucination)} ({detect_ratio:.2%})")
 
 # successful_repair: origin_hallucination == YES and recheck_hallucination == NO
-successful_repair = df[(df['origin_hallucination'] == 'YES') & (df['recheck_hallucination'] == 'NO')]
+successful_repair = df[(df['is_hallucination'] == 'YES') & (df['recheck_hallucination'] == 'NO')]
 successful_repair_ratio = len(successful_repair) / len(hallucination)
 print(f"Successful repair: {len(successful_repair)} ({successful_repair_ratio:.2%})")
 
 # unsuccessful_repair: origin_hallucination == YES and base_response != proco_answer and recheck_hallucination == YES
 unsuccessful_repair = df[
-    (df['origin_hallucination'] == 'YES') &
+    (df['is_hallucination'] == 'YES') &
     (df['base_response'] != df['proco_answer']) &
     (df['recheck_hallucination'] == 'YES')
 ]
@@ -60,7 +60,7 @@ print(f"Unsuccessful repair: {len(unsuccessful_repair)} / {len(hallucination)} (
 
 # unable_repair: origin_hallucination == YES and base_response == proco_answer
 unable_repair = df[
-    (df['origin_hallucination'] == 'YES') &
+    (df['is_hallucination'] == 'YES') &
     (df['base_response'] == df['proco_answer'])
 ]
 unable_repair_ratio = len(unable_repair) / len(hallucination)
@@ -72,7 +72,7 @@ repair_ratio = len(successful_repair) / len(hallucination)
 print(f"Repair_ratio: {len(successful_repair)} / {len(hallucination)} ({repair_ratio:.2%})")
 
 # unnecessary_repair: hallucination_check == YES and origin_hallucination == NO and recheck_hallucination == YES
-unnecessary_repair = df[(df['origin_hallucination'] == 'NO') & (df['recheck_hallucination'] == 'YES')]
+unnecessary_repair = df[(df['is_hallucination'] == 'NO') & (df['recheck_hallucination'] == 'YES')]
 unnecessary_repair_ratio = len(unnecessary_repair) / total_samples
 print(f"Unnecessary repair: {len(unnecessary_repair)} ({unnecessary_repair_ratio:.2%})")
 
