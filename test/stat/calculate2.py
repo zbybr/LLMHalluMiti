@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv("../ProCo_single/gpt-4o_proco_single_outputs_dataset20250926.csv", encoding="latin-1")
+df = pd.read_csv("../ProCo_multi/gpt-4o_proco_multi_outputs_dataset20250926_hallucination.csv", encoding="latin-1")
 # df = pd.read_csv("../ProCo_multi/gpt-4o_proco_multi_outputs_dataset20250926.csv", encoding="latin-1")
 total_samples = len(df)
 print(f"Total samples: {total_samples}")
@@ -58,13 +58,13 @@ unsuccessful_repair = df[
 unsuccessful_repair_ratio = len(unsuccessful_repair) / len(hallucination)
 print(f"Unsuccessful repair: {len(unsuccessful_repair)} / {len(hallucination)} ({unsuccessful_repair_ratio:.2%})")
 
-# unable_repair: origin_hallucination == YES and base_response == proco_answer
-unable_repair = df[
-    (df['is_hallucination'] == 'YES') &
-    (df['base_response'] == df['proco_answer'])
-]
-unable_repair_ratio = len(unable_repair) / len(hallucination)
-print(f"Unable repair: {len(unable_repair)} / {len(hallucination)} ({unable_repair_ratio:.2%})")
+# # unable_repair: origin_hallucination == YES and base_response == proco_answer
+# unable_repair = df[
+#     (df['is_hallucination'] == 'YES') &
+#     (df['base_response'] == df['proco_answer'])
+# ]
+# unable_repair_ratio = len(unable_repair) / len(hallucination)
+# print(f"Unable repair: {len(unable_repair)} / {len(hallucination)} ({unable_repair_ratio:.2%})")
 
 
 # repair_ratio
