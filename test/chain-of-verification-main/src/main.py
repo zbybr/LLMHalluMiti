@@ -6,14 +6,14 @@ from route_chain import RouteCOVEChain
 import pandas as pd
 import time
 from tqdm import tqdm
+from pathlib import Path
 
 load_dotenv(".env")
 
 
-def process_question(question, model_name, temperature, max_tokens, show_steps):
-    """处理单个问题"""
+def process_question(question, base_response, model_name, temperature, max_tokens, show_steps):
     chain_llm = ChatOpenAI(model_name=model_name, temperature=temperature, max_tokens=max_tokens)
-    route_llm = ChatOpenAI(model_name="gpt-3.5-turbo-0613", temperature=0.1, max_tokens=500)
+    route_llm = ChatOpenAI(model_name=model_name, temperature=0.1, max_tokens=1024)
 
     router_cove_chain_instance = RouteCOVEChain(question, route_llm, chain_llm, show_steps)
     router_cove_chain = router_cove_chain_instance()
@@ -28,18 +28,11 @@ def process_question(question, model_name, temperature, max_tokens, show_steps):
     return result["final_answer"]
 
 
-def read_dataset(dataset_path):
-    df = pd.read_csv(dataset_path)
-    if "question" not in df.columns:
-        raise ValueError("Dataset must have a 'question' column.")
-    return df
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Chain of Verification (CoVE) parser.')
     parser.add_argument('--question', type=str, required=False, help='Single question to ask')
-    parser.add_argument('--dataset_path', type=str, required=False, help='Path to dataset file')
-    parser.add_argument('--model_key', type=str, required=False, default="gpt-4o", help='LLM model name')
+    parser.add_argument('--dataset_path', type=str, required=False, help='Dataset path')
+    parser.add_argument('--model_key', type=str, required=False, default="gpt-4o", help='Model key')
     parser.add_argument('--temperature', type=float, required=False, default=0.1, help='LLM temperature')
     parser.add_argument('--max_tokens', type=int, required=False, default=500, help='Maximum tokens')
     parser.add_argument('--show_intermediate_steps', type=bool, required=False, default=True,
@@ -47,16 +40,16 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if args.dataset:
-        df = read_dataset(args.dataset)
-        answers = []
+    if args.dataset_path:
+        dataset_path = args.dataset_path
+        df = pd.read_csv(dataset_path)
         print(f"Processing {len(df)} questions from dataset: {args.dataset}")
         for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
             start = time.time()
             question = row["Question"]
             base_response = row['base_response']
-            final_answer = process_question(question, args.model_name, args.temperature, args.max_tokens, args.show_intermediate_steps)
-            answers.append(ans)
+            final_answer = process_question(question, base_response, args.model_key, args.temperature, args.max_tokens, args.show_intermediate_steps)
+            end = time.time()
             print("===================================")
             print(f"Question: {question}")
             print(f"Base Response: {base_response}")
@@ -67,17 +60,13 @@ if __name__ == "__main__":
             df.loc[index, "token_cost"] = tokens
             df.loc[index, "time_cost"] = end - start
 
+        dataset_name = str(Path(dataset_path).stem).lower()
+        output_path = f"{args.model_key}_outputs_{dataset_path}.csv"
         df.to_csv(output_path, index=False)
         print(f"Output saved at {output_path}")
 
-        df["final_answer"] = final_answer
-
-        output_file = "results.csv"
-        df.to_csv(output_file, index=False)
-        print(f"\n All results saved to {output_file}")
-
     elif args.question:
-        process_question(args.question, args.model_name, args.temperature, args.max_tokens,
+        process_question(args.question, args.model_key, args.temperature, args.max_tokens,
                          args.show_intermediate_steps)
     else:
         print("Please provide either --question or --dataset")
