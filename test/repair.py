@@ -72,14 +72,16 @@ def run_pipeline(input_path, output_path, model_key):
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
         question = row["Question"]
         base_response = row['base_response']
+        qapair = f"Question: {question}\n\nBase_response: {base_response}"
         start = time.time()
-        messages = [{"role": "assistant", "content": base_response},
+        messages = [{"role": "assistant", "content": qapair},
                     {"role": "user", "content": prompts.RECHECK_PROMPT_NOSPLIT}]
         record, tokens = safe_chat_call(messages, model_key)
 
         final_answer, hallucination_check = parse_rechecked_response(record)
 
         end = time.time()
+        time.sleep(5)
         # Logging
         print("===================================")
         print(f"Question: {question}")

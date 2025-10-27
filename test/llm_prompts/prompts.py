@@ -28,8 +28,8 @@ Follow these steps exactly in order:
 1. Using your factual knowledge or trusted sources, determine whether the original response is factually correct for 
 the given question. 
 2. If any hallucination or factual error is found, produce a fully corrected factual answer to the question, in 
-**exactly one sentence**, preserving key facts from the question context. Only for subjective questions, respond with 
-"I have no idea." 
+**exactly one sentence**, preserving key facts from the question context. For subjective/unverifiable questions or 
+questions you cannot provide answers, respond with "I have no idea." 
 3. If no hallucination is found, repeat the original answer **unaltered in factual content and meaning**, also in 
 **exactly one sentence**. 
 4. After re-answering, output 'YES' if hallucinations were present, or 'NO' if none were found.
