@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv("../ProCo_multi/gpt-4o_proco_multi_outputs_dataset20250926_hallucination.csv", encoding="latin-1")
+df = pd.read_csv("../ProCo_single/gpt-4o_proco_single_outputs_dataset20250926_hallucination.csv", encoding="latin-1")
 # df = pd.read_csv("../ProCo_multi/gpt-4o_proco_multi_outputs_dataset20250926.csv", encoding="latin-1")
 total_samples = len(df)
 print(f"Total samples: {total_samples}")
@@ -47,7 +47,7 @@ print(f"Recheck Hallu rate: {len(recheck_hallu)} ({recheck_hallu_ratio:.2%})")
 # successful_repair: origin_hallucination == YES and recheck_hallucination == NO
 successful_repair = df[(df['is_hallucination'] == 'YES') & (df['recheck_hallucination'] == 'NO')]
 successful_repair_ratio = len(successful_repair) / len(hallucination)
-print(f"Successful repair: {len(successful_repair)} ({successful_repair_ratio:.2%})")
+print(f"Successful repair: {len(successful_repair)} / {len(hallucination)} ({successful_repair_ratio:.2%})")
 
 # unsuccessful_repair: origin_hallucination == YES and base_response != proco_answer and recheck_hallucination == YES
 unsuccessful_repair = df[
@@ -73,8 +73,8 @@ print(f"Repair_ratio: {len(successful_repair)} / {len(hallucination)} ({repair_r
 
 # unnecessary_repair: hallucination_check == YES and origin_hallucination == NO and recheck_hallucination == YES
 unnecessary_repair = df[(df['is_hallucination'] == 'NO') & (df['recheck_hallucination'] == 'YES')]
-unnecessary_repair_ratio = len(unnecessary_repair) / total_samples
-print(f"Unnecessary repair: {len(unnecessary_repair)} ({unnecessary_repair_ratio:.2%})")
+unnecessary_repair_ratio = len(unnecessary_repair) / (total_samples - len(hallucination))
+print(f"Unnecessary repair: {len(unnecessary_repair)} / {total_samples - len(hallucination)} ({unnecessary_repair_ratio:.2%})")
 
 # average token_cost and time_cost
 avg_token_cost = df["proco_token_cost"].mean()

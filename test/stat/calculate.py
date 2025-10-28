@@ -58,8 +58,8 @@ print(f"Repair_ratio: {len(successful_repair)} / {len(hallucination)} ({repair_r
 unnecessary_repair = df[(df['hallucination_check'] == 'YES') &
                         (df['is_hallucination'] == 'NO') &
                         (df['recheck_hallucination'] == 'YES')]
-unnecessary_repair_ratio = len(unnecessary_repair) / total_samples
-print(f"Unnecessary repair: {len(unnecessary_repair)} ({unnecessary_repair_ratio:.2%})")
+unnecessary_repair_ratio = len(unnecessary_repair) / (total_samples - len(hallucination))
+print(f"Unnecessary repair: {len(unnecessary_repair)} / {(total_samples - len(hallucination))} ({unnecessary_repair_ratio:.2%})")
 
 # average token_cost and time_cost
 avg_token_cost = df["token_cost"].mean()
