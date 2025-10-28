@@ -7,8 +7,14 @@ import pandas as pd
 import time
 from tqdm import tqdm
 from pathlib import Path
-
-load_dotenv(".env")
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ENV_PATH = os.path.join(BASE_DIR, '..', '.env')
+load_dotenv(dotenv_path=ENV_PATH, override=True)
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY"),
+    base_url=os.getenv("OPENAI_BASE_URL")
+)
 
 
 def process_question(question, base_response, model_name, temperature, max_tokens, show_steps):
@@ -34,7 +40,7 @@ if __name__ == "__main__":
     parser.add_argument('--dataset_path', type=str, required=False, help='Dataset path')
     parser.add_argument('--model_key', type=str, required=False, default="gpt-4o", help='Model key')
     parser.add_argument('--temperature', type=float, required=False, default=0.1, help='LLM temperature')
-    parser.add_argument('--max_tokens', type=int, required=False, default=500, help='Maximum tokens')
+    parser.add_argument('--max_tokens', type=int, required=False, default=2048, help='Maximum tokens')
     parser.add_argument('--show_intermediate_steps', type=bool, required=False, default=True,
                         help='Show intermediate steps')
 
