@@ -9,7 +9,7 @@ from utils import answer_by_model_key_with_cost
 SHOW = True
 sleep_time = 0
 threshold = 0.8
-nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("en_core_web_trf")
 
 
 def get_entity(reasoning_path):

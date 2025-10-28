@@ -81,7 +81,6 @@ def run_pipeline(input_path, output_path, model_key):
         final_answer, hallucination_check = parse_rechecked_response(record)
 
         end = time.time()
-        time.sleep(5)
         # Logging
         print("===================================")
         print(f"Question: {question}")

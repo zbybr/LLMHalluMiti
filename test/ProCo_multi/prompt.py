@@ -9,7 +9,7 @@ from utils import answer_by_model_key_with_cost
 SHOW = True
 sleep_time = 0
 threshold = 0.8
-nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("en_core_web_trf")
 
 
 def get_entity(reasoning_path):
@@ -155,10 +155,10 @@ def generate_answer(base_response, process_record, model_key, question, num_iter
         """
     else:
         prompt = f"""Refer to the passage below and answer the following question with just one entity.\n\nPassage: {document}\n\nQuestion: {question}\n\nThe answer is"""
-    answer, tokens = answer_by_model_key_with_cost(
-        prompt=prompt,
-        model_key=model_key,
-    )
+        answer, tokens = answer_by_model_key_with_cost(
+            prompt=prompt,
+            model_key=model_key,
+        )
     if SHOW:
         print(f'\n[INFO]:\t\tanswer: {answer}')
     time.sleep(sleep_time)

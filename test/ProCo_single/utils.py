@@ -4,9 +4,9 @@ import tiktoken
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
-
-
-load_dotenv(override=True)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ENV_PATH = os.path.join(BASE_DIR, '..', '.env')
+load_dotenv(dotenv_path=ENV_PATH, override=True)
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
     base_url=os.getenv("OPENAI_BASE_URL")

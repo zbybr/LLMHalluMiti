@@ -21,13 +21,13 @@ def run_pipeline(input_path, output_path, model_key):
     for idx, row in tqdm(df.iterrows(), total=len(df), desc="Processing"):
         question = row["Question"]
         base_response = row['base_response']
-        final_answer, process_record, tokens_used, time_used = prompt.pipeline(question, base_response, {}, model_key, MAX_ITERATION)
+        entity = row['entity']
+        final_answer, process_record, tokens_used, time_used = prompt.pipeline(question, entity, {}, model_key, MAX_ITERATION)
 
         # Logging
         print("===================================")
         print(f"Question: {question}")
         print(f"Base Response: {base_response}, Final Answer: {final_answer} (tokens={tokens_used}, time={time_used:.4f}s)")
-        df.loc[idx, "base_response"] = base_response
         df.loc[idx, "proco_answer"] = final_answer
         df.loc[idx, "proco_record"] = json.dumps(process_record, ensure_ascii=False)
         df.loc[idx, "proco_token_cost"] = tokens_used
