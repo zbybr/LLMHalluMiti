@@ -2,6 +2,7 @@ import argparse
 from dotenv import load_dotenv
 from pprint import pprint
 from langchain.chat_models import ChatOpenAI
+from openai import OpenAI
 from route_chain import RouteCOVEChain
 import pandas as pd
 import time
@@ -23,7 +24,10 @@ def process_question(question, base_response, model_name, temperature, max_token
 
     router_cove_chain_instance = RouteCOVEChain(question, route_llm, chain_llm, show_steps)
     router_cove_chain = router_cove_chain_instance()
-    result = router_cove_chain({"original_question": question})
+    result = router_cove_chain({
+        "original_question": question,
+        "baseline_response": base_response
+    })
 
     if show_steps:
         print("\n" + 80 * "#" + "\n")
@@ -37,6 +41,7 @@ def process_question(question, base_response, model_name, temperature, max_token
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Chain of Verification (CoVE) parser.')
     parser.add_argument('--question', type=str, required=False, help='Single question to ask')
+    parser.add_argument('--base_response', type=str, required=False, help='Base response to verify')
     parser.add_argument('--dataset_path', type=str, required=False, help='Dataset path')
     parser.add_argument('--model_key', type=str, required=False, default="gpt-4o", help='Model key')
     parser.add_argument('--temperature', type=float, required=False, default=0.1, help='LLM temperature')
@@ -72,7 +77,7 @@ if __name__ == "__main__":
         print(f"Output saved at {output_path}")
 
     elif args.question:
-        process_question(args.question, args.model_key, args.temperature, args.max_tokens,
+        process_question(args.question, args.base_response, args.model_key, args.temperature, args.max_tokens,
                          args.show_intermediate_steps)
     else:
         print("Please provide either --question or --dataset")
