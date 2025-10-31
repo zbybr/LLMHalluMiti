@@ -1,5 +1,4 @@
 import json
-
 from langchain.chains.router import MultiPromptChain
 from langchain.chains.llm import LLMChain
 from langchain.chains import ConversationChain
@@ -11,7 +10,6 @@ from langchain.schema import (
     HumanMessage,
     SystemMessage
 )
-
 from cove_chains import (
     WikiDataCategoryListCOVEChain,
     MultiSpanCOVEChain,

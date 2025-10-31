@@ -40,7 +40,6 @@ from langchain.chains import SequentialChain
 import prompts
 
 
-
 class ExecuteVerificationChain(Chain):
     """
     Implements the logic to execute the verification question for factual acuracy

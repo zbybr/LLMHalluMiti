@@ -2,25 +2,26 @@ import argparse
 from dotenv import load_dotenv
 from pprint import pprint
 from langchain.chat_models import ChatOpenAI
-from openai import OpenAI
 from route_chain import RouteCOVEChain
 import pandas as pd
 import time
 from tqdm import tqdm
 from pathlib import Path
 import os
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ENV_PATH = os.path.join(BASE_DIR, '..', '.env')
 load_dotenv(dotenv_path=ENV_PATH, override=True)
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY"),
-    base_url=os.getenv("OPENAI_BASE_URL")
-)
+CUSTOM_API_KEY = os.getenv("OPENAI_API_KEY")
+CUSTOM_BASE_URL = os.getenv("OPENAI_BASE_URL")
 
 
 def process_question(question, base_response, model_name, temperature, max_tokens, show_steps):
-    chain_llm = ChatOpenAI(model_name=model_name, temperature=temperature, max_tokens=max_tokens)
-    route_llm = ChatOpenAI(model_name=model_name, temperature=0.1, max_tokens=1024)
+    chain_llm = ChatOpenAI(model_name=model_name, temperature=temperature, max_tokens=max_tokens,
+                           api_key=CUSTOM_API_KEY,
+                           base_url=CUSTOM_BASE_URL)
+    route_llm = ChatOpenAI(model_name=model_name, temperature=0.1, max_tokens=2048, api_key=CUSTOM_API_KEY,
+                           base_url=CUSTOM_BASE_URL)
 
     router_cove_chain_instance = RouteCOVEChain(question, route_llm, chain_llm, show_steps)
     router_cove_chain = router_cove_chain_instance()
@@ -59,16 +60,18 @@ if __name__ == "__main__":
             start = time.time()
             question = row["Question"]
             base_response = row['base_response']
-            final_answer = process_question(question, base_response, args.model_key, args.temperature, args.max_tokens, args.show_intermediate_steps)
+            final_answer = process_question(question, base_response, args.model_key, args.temperature, args.max_tokens,
+                                            args.show_intermediate_steps)
             end = time.time()
             print("===================================")
             print(f"Question: {question}")
             print(f"Base Response: {base_response}")
-            print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
+            # print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
+            print(f"Final Answer: {final_answer} (time={end - start:.4f}s)")
 
             # Save results into dataframe
             df.loc[index, "final_answer"] = final_answer
-            df.loc[index, "token_cost"] = tokens
+            # df.loc[index, "token_cost"] = tokens
             df.loc[index, "time_cost"] = end - start
 
         dataset_name = str(Path(dataset_path).stem).lower()
