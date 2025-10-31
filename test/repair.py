@@ -16,7 +16,6 @@ client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
     base_url=os.getenv("OPENAI_BASE_URL")
 )
-system_prompt = prompts.SYSTEM_PROMPT
 recheck_prompt_nsp = prompts.RECHECK_PROMPT_NOSPLIT
 
 

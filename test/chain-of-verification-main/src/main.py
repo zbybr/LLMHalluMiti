@@ -1,7 +1,7 @@
 import argparse
 from dotenv import load_dotenv
 from pprint import pprint
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from route_chain import RouteCOVEChain
 import pandas as pd
 import time
@@ -17,11 +17,14 @@ CUSTOM_BASE_URL = os.getenv("OPENAI_BASE_URL")
 
 
 def process_question(question, base_response, model_name, temperature, max_tokens, show_steps):
-    chain_llm = ChatOpenAI(model_name=model_name, temperature=temperature, max_tokens=max_tokens,
-                           api_key=CUSTOM_API_KEY,
-                           base_url=CUSTOM_BASE_URL)
-    route_llm = ChatOpenAI(model_name=model_name, temperature=0.1, max_tokens=2048, api_key=CUSTOM_API_KEY,
-                           base_url=CUSTOM_BASE_URL)
+    chain_llm = ChatOpenAI(model_name=model_name, temperature=temperature, max_tokens=max_tokens, model_kwargs={
+        "api_key": CUSTOM_API_KEY,
+        "base_url": CUSTOM_BASE_URL
+    })
+    route_llm = ChatOpenAI(model_name=model_name, temperature=0.1, max_tokens=2048, model_kwargs={
+        "api_key": CUSTOM_API_KEY,
+        "base_url": CUSTOM_BASE_URL
+    })
 
     router_cove_chain_instance = RouteCOVEChain(question, route_llm, chain_llm, show_steps)
     router_cove_chain = router_cove_chain_instance()

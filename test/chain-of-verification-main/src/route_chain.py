@@ -23,7 +23,6 @@ class RouteCOVEChain(object):
         self.llm = llm
         self.question = question
         self.show_intermediate_steps = show_intermediate_steps
-        
         wiki_data_category_list_cove_chain_instance = WikiDataCategoryListCOVEChain(chain_llm)
         wiki_data_category_list_cove_chain = wiki_data_category_list_cove_chain_instance()
         
