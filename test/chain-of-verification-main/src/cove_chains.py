@@ -1,7 +1,5 @@
-from langchain.chains.llm import LLMChain
-from langchain.prompts import PromptTemplate
-from langchain.chains import SequentialChain
-
+from langchain_classic.chains import LLMChain, SequentialChain
+from langchain_core.prompts import PromptTemplate
 import prompts
 from execute_verification_chain import ExecuteVerificationChain
 
