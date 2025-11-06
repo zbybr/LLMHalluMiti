@@ -139,20 +139,10 @@ def generate_document(process_record, model_key, question, num_iter, flag):
     return document, tokens
 
 
-def generate_answer(base_response, process_record, model_key, question, num_iter, document, flag):
+def generate_answer(entity, process_record, model_key, question, num_iter, document, flag):
     if flag == 'init':
-        prompt = f"""
-        You are given an answer sentence to a question. 
-        Your task is to extract or transform the answer into a single concise entity (e.g., a person, place, organization, object, or concept). 
-        If the answer does not provide factual content or expresses uncertainty (e.g., "I have no idea", "Not sure", "Unknown"), 
-        output the entity as "Unknown".
-
-        Question: {question}
-
-        Answer: {base_response}
-
-        The single entity is:
-        """
+        answer = entity
+        tokens = 0
     else:
         prompt = f"""Refer to the passage below and answer the following question with just one entity.\n\nPassage: {document}\n\nQuestion: {question}\n\nThe answer is"""
         answer, tokens = answer_by_model_key_with_cost(

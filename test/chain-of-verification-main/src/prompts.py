@@ -1,5 +1,5 @@
 ######################################################################## BASELINE PROMPTS ########################################################################
-BASELINE_PROMPT_WIKI = """Answer the below question which is asking for a list of entities (names, places, locations etc). Output should be a numbered list and only contains the relevant & concise enitites as answer. NO ADDITIONAL DETAILS.
+BASELINE_PROMPT_WIKI = """Answer the below question which is asking for a list of entities (names, places, locations etc). Output should be a numbered list and only contains the relevant & concise entities as answer. NO ADDITIONAL DETAILS.
 
 Question: {original_question}
 
@@ -28,7 +28,7 @@ Actual Question: {original_question}
 
 Final Verification Question:"""
 
-VERIFICATION_QUESTION_PROMPT_WIKI = """Your task is to create a series of verification questions based on the below question, the verfication question template and baseline response.
+VERIFICATION_QUESTION_PROMPT_WIKI = """Your task is to create a series of verification questions based on the below question, the verification question template and baseline response.
 Example Question: Who are some movie actors who were born in Boston?
 Example Verification Question Template: Was [movie actor] born in Boston?
 Example Baseline Response: 1. Matt Damon - Famous for his roles in films like "Good Will Hunting," "The Bourne Identity" series, and "The Martian," Damon is an Academy Award-winning actor, screenwriter, and producer.
@@ -48,20 +48,20 @@ Verification Question Template: {verification_question_template}
 
 Final Verification Questions:"""
 
-VERIFICATION_QUESTION_PROMPT_MULTI = """Your task is to create verification questions based on the below original question and the baseline response. The verification questions are meant for verifying the factual acuracy in the baseline response.
+VERIFICATION_QUESTION_PROMPT_MULTI = """Your task is to create verification questions based on the below original question and the baseline response. The verification questions are meant for verifying the factual accuracy in the baseline response.
 Example Question: Who invented the first printing press and in what year?
 Example Baseline Response: Johannes Gutenberg, 1450.
 Example Verification Questions: 1. Did Johannes Gutenberg invent first printing press?
 2. Did Johannes Gutenberg invent first printing press in the year 1450?
 
-Explanation: The verification questions are highly aligned with both the qctual question and baseline response. The actual question is comprises of multiple independent questions which in turn has multiple independent answers in the baseline response. Hence, the verification questions should also be independent for factual verification.
+Explanation: The verification questions are highly aligned with both the actual question and baseline response. The actual question is comprises of multiple independent questions which in turn has multiple independent answers in the baseline response. Hence, the verification questions should also be independent for factual verification.
 
 Actual Question: {original_question}
 Baseline Response: {baseline_response}
 
 Final Verification Questions:"""
 
-VERIFICATION_QUESTION_PROMPT_LONG = """Your task is to create verification questions based on the below original question and the baseline response. The verification questions are meant for verifying the factual acuracy in the baseline response. Output should be numbered list of verification questions.
+VERIFICATION_QUESTION_PROMPT_LONG = """Your task is to create verification questions based on the below original question and the baseline response. The verification questions are meant for verifying the factual accuracy in the baseline response. Output should be numbered list of verification questions.
 
 Actual Question: {original_question}
 Baseline Response: {baseline_response}
@@ -87,7 +87,7 @@ Answer:"""
 EXECUTE_PLAN_PROMPT = "{verification_questions}"
 
 ################################################################## FINAL REFINED PROMPTS ##################################################################
-FINAL_REFINED_PROMPT = """Given the below `Original Query` and `Baseline Answer`, analyze the `Verification Questions & Answers` to finally filter the refined answer.
+FINAL_REFINED_PROMPT = """Given the below `Original Query` and `Baseline Answer`, analyze the `Verification Questions & Answers` to finally filter the refined answer, your final answer should only be only one sentence.
 Original Query: {original_question}
 Baseline Answer: {baseline_response}
 
@@ -100,7 +100,7 @@ Final Refined Answer:"""
 ROUTER_CHAIN_PROMPT = """Please classify the below question in on of the following categories. The output should be a JSON as shown in the Examples.
 
 Categories:
-WIKI_CHAIN: Good for answering questions which asks for a list or set of entites as its answer. 
+WIKI_CHAIN: Good for answering questions which asks for a list or set of entities as its answer. 
 MULTI_CHAIN: Good for answering questions which  comprises of questions that have multiple independent answers (derived from a series of multiple discontiguous spans in the text) and multiple questions are asked in the original question.
 LONG_CHAIN: Good for answering questions whose answer is long.
 

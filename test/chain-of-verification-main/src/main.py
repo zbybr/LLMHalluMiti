@@ -17,18 +17,17 @@ CUSTOM_BASE_URL = os.getenv("OPENAI_BASE_URL")
 
 
 def process_question(question, base_response, model_name, temperature, max_tokens, show_steps):
-    chain_llm = ChatOpenAI(model_name=model_name, temperature=temperature, max_tokens=max_tokens,
+    chain_llm = ChatOpenAI(model=model_name, temperature=temperature, max_tokens=max_tokens,
                            api_key=CUSTOM_API_KEY,
                            base_url=CUSTOM_BASE_URL)
-    route_llm = ChatOpenAI(model_name=model_name, temperature=0.1, max_tokens=2048,
+    route_llm = ChatOpenAI(model=model_name, temperature=0.1, max_tokens=2048,
                            api_key=CUSTOM_API_KEY,
                            base_url=CUSTOM_BASE_URL)
 
     router_cove_chain_instance = RouteCOVEChain(question, route_llm, chain_llm, show_steps)
     router_cove_chain = router_cove_chain_instance()
-    result = router_cove_chain({
-        "original_question": question,
-        "baseline_response": base_response
+    result = router_cove_chain.invoke({
+        "input": f"Original question: {question}\nBaseline response: {base_response}"
     })
 
     if show_steps:
@@ -56,7 +55,7 @@ if __name__ == "__main__":
     if args.dataset_path:
         dataset_path = args.dataset_path
         df = pd.read_csv(dataset_path)
-        print(f"Processing {len(df)} questions from dataset: {args.dataset}")
+        print(f"Processing {len(df)} questions from dataset: {args.dataset_path}")
         for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
             start = time.time()
             question = row["Question"]
@@ -76,7 +75,7 @@ if __name__ == "__main__":
             df.loc[index, "time_cost"] = end - start
 
         dataset_name = str(Path(dataset_path).stem).lower()
-        output_path = f"{args.model_key}_outputs_{dataset_path}.csv"
+        output_path = f"{args.model_key}_CoVe_outputs_{dataset_name}.csv"
         df.to_csv(output_path, index=False)
         print(f"Output saved at {output_path}")
 
