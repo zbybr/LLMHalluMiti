@@ -1,15 +1,7 @@
 import json
-from langchain.chains.router import MultiPromptChain
-from langchain.chains.llm import LLMChain
-from langchain.chains import ConversationChain
-from langchain.prompts import PromptTemplate
-from langchain.chains.router.llm_router import LLMRouterChain, RouterOutputParser
-from langchain.chains.router.multi_prompt_prompt import MULTI_PROMPT_ROUTER_TEMPLATE
-from langchain.schema import (
-    AIMessage,
-    HumanMessage,
-    SystemMessage
-)
+from langchain_classic.chains import ConversationChain
+from langchain_classic.chains import LLMChain
+from langchain_core.messages import HumanMessage
 from cove_chains import (
     WikiDataCategoryListCOVEChain,
     MultiSpanCOVEChain,

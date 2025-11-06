@@ -11,14 +11,14 @@ from langchain_classic.chains import LLMChain, SequentialChain
 from langchain_core.prompts import PromptTemplate
 from langchain_core.prompts import BasePromptTemplate
 from langchain_community.tools import DuckDuckGoSearchRun
-from langchain.chains.base import Chain
+from langchain_classic.chains.base import Chain
 
 import prompts
 
 
 class ExecuteVerificationChain(Chain):
     """
-    Implements the logic to execute the verification question for factual acuracy
+    Implements the logic to execute the verification question for factual accuracy
     """
 
     prompt: BasePromptTemplate
