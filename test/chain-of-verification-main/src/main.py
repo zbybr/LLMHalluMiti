@@ -59,8 +59,8 @@ if __name__ == "__main__":
         dataset_path = args.dataset_path
         df = pd.read_csv(dataset_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
         print(f"Processing {len(df)} questions from dataset: {args.dataset_path}")
-        with get_openai_callback() as cb:
-            for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
+        for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
+            with get_openai_callback() as cb:
                 start = time.time()
                 question = row["Question"]
                 base_response = row['base_response']

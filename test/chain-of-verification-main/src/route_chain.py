@@ -12,7 +12,6 @@ from cove_chains import (
 import prompts
 
 
-memory = ConversationBufferMemory(return_messages=True)
 prompt_for_ConversationChain = ChatPromptTemplate.from_messages([
     ("system", prompts.FINAL_REFINED_CONVERSATION_PROMPT),
     MessagesPlaceholder(variable_name="history"),
@@ -38,7 +37,7 @@ class RouteCOVEChain(object):
             "MULTI_CHAIN": multi_span_cove_chain,
             "LONG_CHAIN": long_form_cove_chain
         }
-        self.default_chain = ConversationChain(llm=chain_llm, memory=memory, prompt=prompt_for_ConversationChain, output_key="final_answer", verbose=True)
+        self.default_chain = ConversationChain(llm=chain_llm, memory=ConversationBufferMemory(memory_key="history",  return_messages=True), prompt=prompt_for_ConversationChain, output_key="final_answer", verbose=True)
         
     def __call__(self):
         route_message = [HumanMessage(content=prompts.ROUTER_CHAIN_PROMPT.format(self.question))]
