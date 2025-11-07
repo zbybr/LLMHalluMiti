@@ -151,6 +151,7 @@ def generate_answer(entity, process_record, model_key, question, num_iter, docum
         )
     if SHOW:
         print(f'\n[INFO]:\t\tanswer: {answer}')
+    answer = str(answer)
     time.sleep(sleep_time)
     if flag == 'init':
         process_record[f'{num_iter}-iter'][f'{flag}-answer'] = answer
@@ -158,7 +159,7 @@ def generate_answer(entity, process_record, model_key, question, num_iter, docum
     else:
         process_record[f'{num_iter}-iter']['rectification'][f'{flag}-answer'] = answer
         process_record[f'{num_iter}-iter']['rectification'][f'{flag}-tokens'] = tokens
-    return answer, tokens
+    return answer.string(), tokens
 
 
 def construct_verification_question(verification_question_pro, answer):

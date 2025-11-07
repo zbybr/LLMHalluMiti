@@ -50,6 +50,7 @@ class WikiDataCategoryListCOVEChain(object):
                                                       template=prompts.FINAL_REFINED_PROMPT)
         final_answer_chain = LLMChain(llm=self.llm,
                                       prompt=final_answer_prompt_template,
+                                      verbose=True,
                                       output_key="final_answer")
 
         chains_list.append(verification_question_template_chain)
@@ -112,6 +113,7 @@ class MultiSpanCOVEChain(object):
                                                       template=prompts.FINAL_REFINED_PROMPT)
         final_answer_chain = LLMChain(llm=self.llm,
                                       prompt=final_answer_prompt_template,
+                                      verbose=True,
                                       output_key="final_answer")
 
         chains_list.append(verification_question_generation_chain)
@@ -170,6 +172,7 @@ class LongFormCOVEChain(object):
                                                       template=prompts.FINAL_REFINED_PROMPT)
         final_answer_chain = LLMChain(llm=self.llm,
                                       prompt=final_answer_prompt_template,
+                                      verbose=True,
                                       output_key="final_answer")
         chains_list.append(verification_question_generation_chain)
         chains_list.append(execute_verification_question_chain)

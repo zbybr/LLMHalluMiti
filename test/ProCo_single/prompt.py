@@ -152,6 +152,7 @@ def generate_answer(entity, process_record, model_key, question, num_iter, docum
     if SHOW:
         print(f'\n[INFO]:\t\tanswer: {answer}')
     time.sleep(sleep_time)
+    answer = str(answer)
     if flag == 'init':
         process_record[f'{num_iter}-iter'][f'{flag}-answer'] = answer
         process_record[f'{num_iter}-iter'][f'{flag}-tokens'] = tokens

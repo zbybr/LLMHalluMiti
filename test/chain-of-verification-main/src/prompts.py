@@ -87,13 +87,14 @@ Answer:"""
 EXECUTE_PLAN_PROMPT = "{verification_questions}"
 
 ################################################################## FINAL REFINED PROMPTS ##################################################################
-FINAL_REFINED_PROMPT = """Given the below `Original Query` and `Baseline Answer`, analyze the `Verification Questions & Answers` to finally filter the refined answer, your final answer should only be only one sentence.
+FINAL_REFINED_PROMPT = """Given the below `Original Query` and `Baseline Answer`, analyze the `Verification Questions & Answers` to finally filter the refined answer.
 Original Query: {original_question}
 Baseline Answer: {baseline_response}
 
 Verification Questions & Answer Pairs:
 {verification_answers}
 
+Your final refined answer should be only ONE SENTENCE.
 Final Refined Answer:"""
 
 ################################################################## ROUTER PROMPTS ##################################################################

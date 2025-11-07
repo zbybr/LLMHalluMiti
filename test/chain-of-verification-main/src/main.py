@@ -1,4 +1,6 @@
 import argparse
+import csv
+
 from dotenv import load_dotenv
 from pprint import pprint
 from langchain_openai import ChatOpenAI
@@ -7,6 +9,7 @@ import pandas as pd
 import time
 from tqdm import tqdm
 from pathlib import Path
+from langchain_community.callbacks import get_openai_callback
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -54,25 +57,26 @@ if __name__ == "__main__":
 
     if args.dataset_path:
         dataset_path = args.dataset_path
-        df = pd.read_csv(dataset_path)
+        df = pd.read_csv(dataset_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
         print(f"Processing {len(df)} questions from dataset: {args.dataset_path}")
-        for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
-            start = time.time()
-            question = row["Question"]
-            base_response = row['base_response']
-            final_answer = process_question(question, base_response, args.model_key, args.temperature, args.max_tokens,
-                                            args.show_intermediate_steps)
-            end = time.time()
-            print("===================================")
-            print(f"Question: {question}")
-            print(f"Base Response: {base_response}")
-            # print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
-            print(f"Final Answer: {final_answer} (time={end - start:.4f}s)")
+        with get_openai_callback() as cb:
+            for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
+                start = time.time()
+                question = row["Question"]
+                base_response = row['base_response']
+                final_answer = process_question(question, base_response, args.model_key, args.temperature, args.max_tokens,
+                                                args.show_intermediate_steps)
+                end = time.time()
+                tokens = cb.total_tokens
+                print("===================================")
+                print(f"Question: {question}")
+                print(f"Base Response: {base_response}")
+                print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
 
-            # Save results into dataframe
-            df.loc[index, "final_answer"] = final_answer
-            # df.loc[index, "token_cost"] = tokens
-            df.loc[index, "time_cost"] = end - start
+                # Save results into dataframe
+                df.loc[index, "final_answer"] = final_answer
+                df.loc[index, "token_cost"] = tokens
+                df.loc[index, "time_cost"] = end - start
 
         dataset_name = str(Path(dataset_path).stem).lower()
         output_path = f"{args.model_key}_CoVe_outputs_{dataset_name}.csv"

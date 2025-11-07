@@ -10,11 +10,19 @@ from langchain_core.callbacks.manager import (
 from langchain_classic.chains import LLMChain, SequentialChain
 from langchain_core.prompts import PromptTemplate
 from langchain_core.prompts import BasePromptTemplate
-from langchain_community.tools import DuckDuckGoSearchRun
+# from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_classic.chains.base import Chain
 
 import prompts
 
+
+class DummySearchTool:
+    name = "dummy-search-tool"
+    description = "This tool does nothing."
+
+    def run(self, query):
+        print(f"[DummySearchTool] Called with query: {query}, but doing nothing.")
+        return ""
 
 class ExecuteVerificationChain(Chain):
     """
@@ -25,8 +33,10 @@ class ExecuteVerificationChain(Chain):
     llm: BaseLanguageModel
     input_key: str = "verification_questions"
     output_key: str = "verification_answers"
-    use_search_tool: bool = True
-    search_tool: Any = DuckDuckGoSearchRun()
+    # use_search_tool: bool = True
+    # search_tool: Any = DuckDuckGoSearchRun()
+    use_search_tool: bool = False
+    search_tool: Any = DummySearchTool()
 
     class Config:
         """Configuration for this pydantic object."""
