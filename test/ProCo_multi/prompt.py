@@ -159,7 +159,7 @@ def generate_answer(entity, process_record, model_key, question, num_iter, docum
     else:
         process_record[f'{num_iter}-iter']['rectification'][f'{flag}-answer'] = answer
         process_record[f'{num_iter}-iter']['rectification'][f'{flag}-tokens'] = tokens
-    return answer.string(), tokens
+    return answer, tokens
 
 
 def construct_verification_question(verification_question_pro, answer):
