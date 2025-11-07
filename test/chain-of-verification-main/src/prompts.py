@@ -97,6 +97,11 @@ Verification Questions & Answer Pairs:
 Your final refined answer should be only ONE SENTENCE.
 Final Refined Answer:"""
 
+FINAL_REFINED_CONVERSATION_PROMPT = """Read the Original Query and the Baseline Answer provided below. Check whether the Baseline Answer logically and factually corresponds to the Original Query.
+If the answer is incorrect: Rewrite it as ONE concise, self-contained sentence that directly answers the query. If it the answer is correct: Output the Baseline Answer.
+
+Final Refined Answer(ONE SENTENCE):"""
+
 ################################################################## ROUTER PROMPTS ##################################################################
 ROUTER_CHAIN_PROMPT = """Please classify the below question in on of the following categories. The output should be a JSON as shown in the Examples.
 

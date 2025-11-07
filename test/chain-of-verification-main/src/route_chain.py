@@ -2,6 +2,8 @@ import json
 from langchain_classic.chains import ConversationChain
 from langchain_classic.chains import LLMChain
 from langchain_core.messages import HumanMessage
+from langchain_classic.memory import ConversationBufferMemory
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from cove_chains import (
     WikiDataCategoryListCOVEChain,
     MultiSpanCOVEChain,
@@ -10,6 +12,13 @@ from cove_chains import (
 import prompts
 
 
+memory = ConversationBufferMemory(return_messages=True)
+prompt_for_ConversationChain = ChatPromptTemplate.from_messages([
+    ("system", prompts.FINAL_REFINED_CONVERSATION_PROMPT),
+    MessagesPlaceholder(variable_name="history"),
+    ("human", "{input}")
+])
+
 class RouteCOVEChain(object):
     def __init__(self, question, llm, chain_llm, show_intermediate_steps):
         self.llm = llm
@@ -17,7 +26,7 @@ class RouteCOVEChain(object):
         self.show_intermediate_steps = show_intermediate_steps
         wiki_data_category_list_cove_chain_instance = WikiDataCategoryListCOVEChain(chain_llm)
         wiki_data_category_list_cove_chain = wiki_data_category_list_cove_chain_instance()
-        
+
         multi_span_cove_chain_instance = MultiSpanCOVEChain(chain_llm)
         multi_span_cove_chain = multi_span_cove_chain_instance()
         
@@ -29,7 +38,7 @@ class RouteCOVEChain(object):
             "MULTI_CHAIN": multi_span_cove_chain,
             "LONG_CHAIN": long_form_cove_chain
         }
-        self.default_chain = ConversationChain(llm=chain_llm, output_key="final_answer")
+        self.default_chain = ConversationChain(llm=chain_llm, memory=memory, prompt=prompt_for_ConversationChain, output_key="final_answer", verbose=True)
         
     def __call__(self):
         route_message = [HumanMessage(content=prompts.ROUTER_CHAIN_PROMPT.format(self.question))]
