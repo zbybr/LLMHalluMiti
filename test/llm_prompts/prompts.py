@@ -21,12 +21,12 @@ subjective opinions. If the question is subjective, answer "I have no idea.". ""
 #
 # Do not include anything else outside this format."""
 
-RECHECK_PROMPT_NOSPLIT = """You must assume that the **original response** contains hallucinations or factual errors 
-in answering the given question. Your task is to fact-check it and provide a corrected one-sentence answer.
+RECHECK_PROMPT_NOSPLIT = """The **original response** contains hallucinations or factual errors in answering the 
+given question. Your task is to fact-check it and provide a corrected one-sentence answer.
 
 Follow these steps exactly in order:
 1. Using your factual knowledge or trusted sources, determine whether the original response is factually correct for 
-the given question. 
+the given question. Correct answer must consider about real facts, not myths, fairy tails or legends.
 2. If any hallucination or factual error is found, produce a fully corrected factual answer to the question, in 
 **exactly one sentence** and don't start with 'Yes' or 'No', preserving key facts from the question context. For 
 subjective/unverifiable questions or questions you cannot provide answers, respond with "I have no idea." 
