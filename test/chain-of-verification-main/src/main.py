@@ -30,7 +30,7 @@ def process_question(question, base_response, model_name, temperature, max_token
     router_cove_chain_instance = RouteCOVEChain(question, route_llm, chain_llm, show_steps)
     router_cove_chain = router_cove_chain_instance()
     result = router_cove_chain.invoke({
-        "input": f"Original question: {question}\nBaseline response: {base_response}"
+        "input": f"original_question: {question}\nbaseline_response: {base_response}"
     })
 
     if show_steps:
