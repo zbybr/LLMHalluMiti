@@ -33,10 +33,10 @@ class ExecuteVerificationChain(Chain):
     llm: BaseLanguageModel
     input_key: str = "verification_questions"
     output_key: str = "verification_answers"
-    use_search_tool: bool = True
-    search_tool: Any = DuckDuckGoSearchRun()
-    # use_search_tool: bool = False
-    # search_tool: Any = DummySearchTool()
+    # use_search_tool: bool = True
+    # search_tool: Any = DuckDuckGoSearchRun()
+    use_search_tool: bool = False
+    search_tool: Any = DummySearchTool()
 
     class Config:
         """Configuration for this pydantic object."""

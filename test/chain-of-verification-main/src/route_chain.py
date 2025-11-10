@@ -1,4 +1,5 @@
 import json
+import json_repair
 from langchain_classic.chains import ConversationChain
 from langchain_classic.chains import LLMChain
 from langchain_core.messages import HumanMessage
@@ -44,7 +45,7 @@ class RouteCOVEChain(object):
         response = self.llm.invoke(route_message)
         response_str = response.content
         try:
-            chain_dict = json.loads(response_str)
+            chain_dict = json_repair.loads(response_str)
             try:
                 if self.show_intermediate_steps:
                     print("Chain selected: {}".format(chain_dict["category"]))
