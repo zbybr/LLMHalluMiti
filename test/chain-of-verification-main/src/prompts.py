@@ -94,7 +94,7 @@ Baseline Answer: {baseline_response}
 Verification Questions & Answer Pairs:
 {verification_answers}
 
-Your final refined answer should be only ONE SENTENCE.
+Please note: the final refined answer must directly answer the Original Query, your final refined answer should be only ONE SENTENCE.
 Final Refined Answer:"""
 
 FINAL_REFINED_CONVERSATION_PROMPT = """Read the Original Query and the Baseline Answer provided below. Check whether the Baseline Answer logically and factually corresponds to the Original Query.

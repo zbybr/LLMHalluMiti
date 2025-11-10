@@ -1,5 +1,6 @@
 import tiktoken
-
+import spacy
+from sentence_transformers import SentenceTransformer, util
 encoding_name = "cl100k_base"
 encoding = tiktoken.get_encoding(encoding_name)
 
