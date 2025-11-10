@@ -10,7 +10,7 @@ from langchain_core.callbacks.manager import (
 from langchain_classic.chains import LLMChain, SequentialChain
 from langchain_core.prompts import PromptTemplate
 from langchain_core.prompts import BasePromptTemplate
-# from langchain_community.tools import DuckDuckGoSearchRun
+from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_classic.chains.base import Chain
 
 import prompts
@@ -33,10 +33,10 @@ class ExecuteVerificationChain(Chain):
     llm: BaseLanguageModel
     input_key: str = "verification_questions"
     output_key: str = "verification_answers"
-    # use_search_tool: bool = True
-    # search_tool: Any = DuckDuckGoSearchRun()
-    use_search_tool: bool = False
-    search_tool: Any = DummySearchTool()
+    use_search_tool: bool = True
+    search_tool: Any = DuckDuckGoSearchRun()
+    # use_search_tool: bool = False
+    # search_tool: Any = DummySearchTool()
 
     class Config:
         """Configuration for this pydantic object."""
