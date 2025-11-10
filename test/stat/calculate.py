@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv("../gpt-5_outputs_dataset20250926_hallucination_entity.csv", encoding="latin-1")
+df = pd.read_csv("../gpt-4o_outputs_dataset20250926_hallucination.csv", encoding="latin-1")
 
 total_samples = len(df)
 print(f"Total samples: {total_samples}")
@@ -23,12 +23,12 @@ df['is_hallucination'] = df['is_hallucination'].apply(normalize)
 # hallucination_rate: origin_hallucination == YES
 hallucination = df[(df['is_hallucination'] == 'YES')]
 hallucination_ratio = len(hallucination) / total_samples
-print(f"Hallucination rate: {len(hallucination)} ({hallucination_ratio:.2%})")
+print(f"Hallucination rate: {len(hallucination)} / {total_samples} ({hallucination_ratio:.2%})")
 
 # re-hallucination_rate: origin_hallucination == YES
 recheck_hallu = df[(df['recheck_hallucination'] == 'YES')]
 recheck_hallu_ratio = len(recheck_hallu) / total_samples
-print(f"Recheck Hallu rate: {len(recheck_hallu)} ({recheck_hallu_ratio:.2%})")
+print(f"Recheck Hallu rate: {len(recheck_hallu)} / {total_samples} ({recheck_hallu_ratio:.2%})")
 
 
 # successful_repair: hallucination_check == YES and is_hallucination == YES and recheck_hallucination == NO

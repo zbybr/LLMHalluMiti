@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv("../ProCo_single/gpt-4o_proco_single_outputs_dataset20250926_hallucination.csv", encoding="latin-1")
+df = pd.read_csv("../chain-of-verification-main/gpt-4o_CoVe_outputs_dataset20250926_hallucination_entity.csv", encoding="latin-1")
 # df = pd.read_csv("../ProCo_multi/gpt-4o_proco_multi_outputs_dataset20250926.csv", encoding="latin-1")
 total_samples = len(df)
 print(f"Total samples: {total_samples}")
@@ -23,12 +23,12 @@ def normalize(value):
 # hallucination_rate: origin_hallucination == YES
 hallucination = df[(df['is_hallucination'] == 'YES')]
 hallucination_ratio = len(hallucination) / total_samples
-print(f"Hallucination rate: {len(hallucination)} ({hallucination_ratio:.2%})")
+print(f"Hallucination rate: {len(hallucination)} / {total_samples} ({hallucination_ratio:.2%})")
 
 # re-hallucination_rate: origin_hallucination == YES
 recheck_hallu = df[(df['recheck_hallucination'] == 'YES')]
 recheck_hallu_ratio = len(recheck_hallu) / total_samples
-print(f"Recheck Hallu rate: {len(recheck_hallu)} ({recheck_hallu_ratio:.2%})")
+print(f"Recheck Hallu rate: {len(recheck_hallu)} / {total_samples} ({recheck_hallu_ratio:.2%})")
 
 # # successful_detect: ['base_response'] != ['proco_answer']
 # successful_detect = df[(df['origin_hallucination'] == 'YES') & (df['base_response'] != df['proco_answer'])]
@@ -52,7 +52,6 @@ print(f"Successful repair: {len(successful_repair)} / {len(hallucination)} ({suc
 # unsuccessful_repair: origin_hallucination == YES and base_response != proco_answer and recheck_hallucination == YES
 unsuccessful_repair = df[
     (df['is_hallucination'] == 'YES') &
-    (df['base_response'] != df['proco_answer']) &
     (df['recheck_hallucination'] == 'YES')
 ]
 unsuccessful_repair_ratio = len(unsuccessful_repair) / len(hallucination)
@@ -77,7 +76,7 @@ unnecessary_repair_ratio = len(unnecessary_repair) / (total_samples - len(halluc
 print(f"Unnecessary repair: {len(unnecessary_repair)} / {total_samples - len(hallucination)} ({unnecessary_repair_ratio:.2%})")
 
 # average token_cost and time_cost
-avg_token_cost = df["proco_token_cost"].mean()
-avg_time_cost = df["proco_time_cost"].mean()
+avg_token_cost = df["token_cost"].mean()
+avg_time_cost = df["time_cost"].mean()
 print(f"Average token cost: {avg_token_cost:.2f}")
 print(f"Average time cost: {avg_time_cost:.4f} s")
