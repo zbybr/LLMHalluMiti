@@ -46,7 +46,7 @@ def process_question(question, base_response, model_name, temperature, max_token
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Chain of Verification (CoVE) parser.')
+    parser = argparse.ArgumentParser(description='Chain of Verification (CoVE) pipeline with cost tracking.')
     parser.add_argument('--question', type=str, required=False, help='Single question to ask')
     parser.add_argument('--base_response', type=str, required=False, help='Base response to verify')
     parser.add_argument('--dataset_path', type=str, required=False, help='Dataset path')

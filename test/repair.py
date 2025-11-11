@@ -97,7 +97,7 @@ def run_pipeline(input_path, output_path, model_key):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="GPT Hallucination Mitigation pipeline with cost tracking")
+    parser = argparse.ArgumentParser(description="Hallucination Mitigation pipeline with cost tracking")
     parser.add_argument("--dataset_path", type=str, required=True, help="Dataset path")
     parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
