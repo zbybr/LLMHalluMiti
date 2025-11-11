@@ -57,12 +57,33 @@ if __name__ == "__main__":
                         help='Show intermediate steps')
 
     args = parser.parse_args()
-
     if args.dataset_path:
         dataset_path = args.dataset_path
+        dataset_name = str(Path(dataset_path).stem).lower()
+        output_path = f"{args.model_key}_CoVe_outputs_{dataset_name}.csv"
         df = pd.read_csv(dataset_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
+
+        if os.path.exists(output_path):
+            print(f"Resuming from existing output file: {output_path}")
+            df_out = pd.read_csv(output_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
+            df = df.merge(
+                df_out[["Question", "final_answer", "token_cost", "time_cost"]],
+                on="Question",
+                how="left",
+                suffixes=("", "_saved")
+            )
+        else:
+            df["final_answer"] = ""
+            df["token_cost"] = None
+            df["time_cost"] = None
+        df_todo = df[df["final_answer"].isna() | (df["final_answer"].astype(str).str.strip() == "")]
+
+        print(f"Total questions: {len(df)}")
+        print(f"Already processed: {len(df) - len(df_todo)}")
+        print(f"Remaining to process: {len(df_todo)}")
+
         print(f"Processing {len(df)} questions from dataset: {args.dataset_path}")
-        for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
+        for index, row in tqdm(df_todo.iterrows(), total=len(df_todo), desc="Processing QA"):
             with get_openai_callback() as cb:
                 start = time.time()
                 question = row["Question"]
@@ -77,13 +98,10 @@ if __name__ == "__main__":
                 print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
 
                 # Save results into dataframe
-                df.loc[index, "final_answer"] = final_answer
-                df.loc[index, "token_cost"] = tokens
-                df.loc[index, "time_cost"] = end - start
-
-        dataset_name = str(Path(dataset_path).stem).lower()
-        output_path = f"{args.model_key}_CoVe_outputs_{dataset_name}.csv"
-        df.to_csv(output_path, index=False)
+                df.loc[df["Question"] == question, "final_answer"] = final_answer
+                df.loc[df["Question"] == question, "token_cost"] = tokens
+                df.loc[df["Question"] == question, "time_cost"] = end - start
+            df.to_csv(output_path, index=False)
         print(f"Output saved at {output_path}")
 
     elif args.question:

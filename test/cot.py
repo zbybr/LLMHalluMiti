@@ -16,6 +16,10 @@ client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
     base_url=os.getenv("OPENAI_BASE_URL")
 )
+client = OpenAI(
+    api_key="sk-wi5c6GQjiqZVC0vqDjSHZA5UIIHpmgiFgRgSyDS0PnOkJWWF",
+    base_url="https://yunwu.ai/v1"
+)
 
 
 def parse_rechecked_response(text: str):
@@ -72,23 +76,18 @@ def run_pipeline(input_path, output_path, model_key):
         base_response = row['base_response']
         qapair = f"Question: {question}\n\nBase_response: {base_response}"
         start = time.time()
-        messages = [{"role": "assistant", "content": qapair},
-                    {"role": "user", "content": prompts.RECHECK_PROMPT}]
-        record, tokens = safe_chat_call(messages, model_key)
-        final_answer, hallucination_check = parse_rechecked_response(record)
-        end = time.time()
+        messages = [{"role": "user", "content": qapair + '\n' + prompts.COT_PROMPT}]
+        final_answer, tokens = safe_chat_call(messages, model_key)
 
+        end = time.time()
         # Logging
         print("===================================")
         print(f"Question: {question}")
         print(f"Base Response: {base_response}")
         print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
-        print(f"Hallucination Check: {hallucination_check}")
 
         # Save results into dataframe
         df.loc[index, "final_answer"] = final_answer
-        df.loc[index, "hallucination_check"] = hallucination_check
-        df.loc[index, "raw_rechecked_response"] = record
         df.loc[index, "token_cost"] = tokens
         df.loc[index, "time_cost"] = end - start
 
@@ -104,6 +103,6 @@ if __name__ == "__main__":
 
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"{args.model_key}_outputs_{dataset_name}.csv"
+    output_path = f"{args.model_key}_cot_outputs_{dataset_name}.csv"
 
     run_pipeline(dataset_path, output_path, args.model_key)

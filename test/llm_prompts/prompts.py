@@ -1,3 +1,5 @@
+from langchain_classic.evaluation.qa.eval_prompt import COT_PROMPT
+
 SYSTEM_PROMPT = """You are a factual answering assistant. 
 
 For the given question, provide an answer in exactly one sentence that incorporates key facts from the question context.
@@ -5,23 +7,7 @@ If there are multiple answers, answer any one of them. Your answer must be stric
 information, not myths, fairy tales, legends, or fabricated details. Never start your sentence with 'Yes' or 'No'. Avoid 
 subjective opinions. If the question is subjective, answer "I have no idea.". """
 
-# RECHECK_PROMPT = """Assume the original response to the given question contains hallucinations or factual errors.
-# Your task is to verify whether it correctly answers the question and then re-answer in exactly one sentence.
-#
-# Steps:
-# 1. Using factual knowledge or trusted sources, check if the original response is correct for the given question.
-# 2. If errors exist, produce a corrected one-sentence answer using key facts from the question context.
-#    If subjective question, answer "I have no idea."
-# 3. If correct, repeat the original answer unchanged in factual content and meaning, in exactly one sentence.
-# 4. Output 'YES' if errors were found, 'NO' otherwise.
-#
-# Format:
-# 1. [Corrected or repeated answer in exactly one sentence]
-# 2. [YES or NO only]
-#
-# Do not include anything else outside this format."""
-
-RECHECK_PROMPT_NOSPLIT = """The **original response** contains hallucinations or factual errors in answering the 
+RECHECK_PROMPT = """The **original response** contains hallucinations or factual errors in answering the 
 given question. Your task is to fact-check it and provide a corrected one-sentence answer.
 
 Follow these steps exactly in order:
@@ -39,3 +25,8 @@ Your output must strictly follow this numbered list format:
 2. [YES or NO only]
 
 Do not include anything else outside this format."""
+
+COT_PROMPT = """You are given a question and original response.
+Let's think step by step and provide the most accurate final answer.
+The final answer should exactly contain one sentence.
+"""
