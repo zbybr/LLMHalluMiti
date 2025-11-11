@@ -1,5 +1,3 @@
-from langchain_classic.evaluation.qa.eval_prompt import COT_PROMPT
-
 SYSTEM_PROMPT = """You are a factual answering assistant. 
 
 For the given question, provide an answer in exactly one sentence that incorporates key facts from the question context.
