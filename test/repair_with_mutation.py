@@ -16,8 +16,6 @@ client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
     base_url=os.getenv("OPENAI_BASE_URL")
 )
-system_prompt = prompts.SYSTEM_PROMPT
-recheck_prompt_nsp = prompts.RECHECK_PROMPT_NOSPLIT
 
 
 def parse_rechecked_response(text: str):
@@ -31,22 +29,20 @@ def parse_rechecked_response(text: str):
     return final_answer, hallucination_check
 
 
-def safe_chat_call(messages, model_key, max_retries=3, base_delay=2.0):
+def safe_chat_call(messages, model_key, max_retries=10, base_delay=0.0):
     """
     Safe wrapper for OpenAI chat completion with retries and detailed tracking.
     Returns: (content, token_cost, time_cost)
     """
     for attempt in range(max_retries):
         try:
-            start = time.perf_counter()
-            response_obj = client.chat.completions.create(
+            response = client.chat.completions.create(
                 model=model_key,
                 messages=messages,
                 temperature=0.0,
             )
-            end = time.perf_counter()
 
-            content = response_obj.choices[0].message.content
+            content = response.choices[0].message.content
             if not content or not content.strip():
                 raise ValueError("Empty or null response from model")
 
@@ -56,8 +52,7 @@ def safe_chat_call(messages, model_key, max_retries=3, base_delay=2.0):
             input_text = "\n".join(m["content"] for m in messages if "content" in m)
             tokens = utils.num_tokens_from_string(input_text) + utils.num_tokens_from_string(content)
 
-            time_cost = end - start
-            return content, tokens, time_cost
+            return content, tokens
 
         except Exception as e:
             wait = base_delay * (attempt + 1) + random.uniform(0, 1)
@@ -66,7 +61,7 @@ def safe_chat_call(messages, model_key, max_retries=3, base_delay=2.0):
             time.sleep(wait)
 
     print("[Error] Model failed after multiple retries.")
-    return "ERROR: Empty or invalid model output", 0, 0.0
+    return "ERROR: Empty or invalid model output", 0
 
 
 def run_pipeline(input_path, output_path, model_key):
@@ -74,40 +69,27 @@ def run_pipeline(input_path, output_path, model_key):
 
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
         question = row["Question"]
+        base_response = row['base_response']
+        qapair = f"Question: {question}\n\nBase_response: {base_response}"
         start = time.time()
-        # Step 1: Base response with SYSTEM_PROMPT
-        messages = [
-            {"role": "system", "content": prompts.SYSTEM_PROMPT},
-            {"role": "user", "content": question},
-        ]
-        first_response, first_tokens, first_time = safe_chat_call(messages, model_key)
-
-        # Step 2: Re-check with RECHECK_PROMPT_NOSPLIT
-        messages.append({"role": "assistant", "content": first_response})
-        messages.append({"role": "user", "content": prompts.RECHECK_PROMPT_NOSPLIT})
-        second_response, second_tokens, second_time = safe_chat_call(messages, model_key)
-
-        # Step 3: Parse hallucination mitigation output
-        final_answer, hallucination_check = parse_rechecked_response(second_response)
-
+        messages = [{"role": "assistant", "content": qapair},
+                    {"role": "user", "content": prompts.RECHECK_PROMPT}]
+        record, tokens = safe_chat_call(messages, model_key)
+        final_answer, hallucination_check = parse_rechecked_response(record)
         end = time.time()
+
         # Logging
         print("===================================")
         print(f"Question: {question}")
-        print(f"Base Response: {first_response} (tokens={first_tokens}, time={first_time:.4f}s)")
-        print(f"Final Answer: {final_answer} (tokens={second_tokens}, time={second_time:.4f}s)")
+        print(f"Base Response: {base_response}")
+        print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
         print(f"Hallucination Check: {hallucination_check}")
 
         # Save results into dataframe
-        df.loc[index, "base_response"] = first_response
         df.loc[index, "final_answer"] = final_answer
         df.loc[index, "hallucination_check"] = hallucination_check
-        df.loc[index, "raw_rechecked_response"] = second_response
-        df.loc[index, "base_token_cost"] = first_tokens
-        df.loc[index, "base_time_cost"] = first_time
-        df.loc[index, "recheck_token_cost"] = second_tokens
-        df.loc[index, "recheck_time_cost"] = second_time
-        df.loc[index, "token_cost"] = first_tokens + second_tokens
+        df.loc[index, "raw_rechecked_response"] = record
+        df.loc[index, "token_cost"] = tokens
         df.loc[index, "time_cost"] = end - start
 
     df.to_csv(output_path, index=False)
@@ -115,7 +97,7 @@ def run_pipeline(input_path, output_path, model_key):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="GPT Hallucination Mitigation pipeline with cost tracking")
+    parser = argparse.ArgumentParser(description="Hallucination Mitigation pipeline with cost tracking")
     parser.add_argument("--dataset_path", type=str, required=True, help="Dataset path")
     parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
