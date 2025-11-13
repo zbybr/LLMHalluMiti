@@ -16,17 +16,17 @@ client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
     base_url=os.getenv("OPENAI_BASE_URL")
 )
-
-
-def parse_rechecked_response(text: str):
-    final_answer, hallucination_check = "", ""
-    for line in text.splitlines():
-        line = line.strip()
-        if line.startswith("1"):
-            final_answer = line.lstrip("1234567890. ").strip()
-        elif line.startswith("2"):
-            hallucination_check = line.lstrip("1234567890. ").strip()
-    return final_answer, hallucination_check
+#
+#
+# def parse_rechecked_response(text: str):
+#     final_answer, hallucination_check = "", ""
+#     for line in text.splitlines():
+#         line = line.strip()
+#         if line.startswith("1"):
+#             final_answer = line.lstrip("1234567890. ").strip()
+#         elif line.startswith("2"):
+#             hallucination_check = line.lstrip("1234567890. ").strip()
+#     return final_answer, hallucination_check
 
 
 def safe_chat_call(messages, model_key, max_retries=10, base_delay=0.0):
@@ -73,9 +73,10 @@ def run_pipeline(input_path, output_path, model_key):
         qapair = f"Question: {question}\n\nBase_response: {base_response}"
         start = time.time()
         messages = [{"role": "assistant", "content": qapair},
-                    {"role": "user", "content": prompts.RECHECK_PROMPT}]
-        record, tokens = safe_chat_call(messages, model_key)
-        final_answer, hallucination_check = parse_rechecked_response(record)
+                    {"role": "user", "content": prompts.SYSTEM_PROMPT}]
+        final_answer, tokens = safe_chat_call(messages, model_key)
+        # record, tokens = safe_chat_call(messages, model_key)
+        # final_answer, hallucination_check = parse_rechecked_response(record)
         end = time.time()
 
         # Logging
@@ -83,12 +84,12 @@ def run_pipeline(input_path, output_path, model_key):
         print(f"Question: {question}")
         print(f"Base Response: {base_response}")
         print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
-        print(f"Hallucination Check: {hallucination_check}")
+        # print(f"Hallucination Check: {hallucination_check}")
 
         # Save results into dataframe
         df.loc[index, "final_answer"] = final_answer
-        df.loc[index, "hallucination_check"] = hallucination_check
-        df.loc[index, "raw_rechecked_response"] = record
+        # df.loc[index, "hallucination_check"] = hallucination_check
+        # df.loc[index, "raw_rechecked_response"] = record
         df.loc[index, "token_cost"] = tokens
         df.loc[index, "time_cost"] = end - start
 
