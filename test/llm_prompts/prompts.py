@@ -42,5 +42,5 @@ The final answer should exactly contain one sentence.
 
 JUDGE_PROMPT = """Given a question and a list of answers from different reasoning paths, determine the final answer 
 by majority voting. Identify answers with the same meaning, count their occurrences, and select the most frequent 
-meaning. 'I have no idea.' is also a possible answer. If there are equal occurrences, you should think step by step, 
-make final decision. Output only the final consensus answer as one clear complete sentence."""
+meaning. 'I have no idea.' is also a possible answer. If there are equal occurrences or the final selection can't be 
+decided, you should think step by step, choose the most possible one."""
