@@ -99,7 +99,7 @@ def run_pipeline(input_path, output_path, model_key):
             record.append(answer.strip())
 
         record_str = "\n".join(record)
-        messages = [{"role": "system", "content": record_str + '\n' + prompts.JUDGE_PROMPT}]
+        messages = [{"role": "system", "content": f"Question: {question}\nAnswers: {record_str}\n" + prompts.JUDGE_PROMPT}]
         final_answer, _tokens = safe_chat_call(messages, model_key)
         tokens += _tokens
         end = time.time()

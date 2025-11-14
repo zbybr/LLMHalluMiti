@@ -1,21 +1,20 @@
-SYSTEM_PROMPT = """The **base response** contains hallucinations or factual errors in answering the given question. 
-Think step by step, use your factual knowledge or trusted sources provide a corrected one-sentence answer based only on 
-real facts. Do not include myths, fairy tails, bible or legends. Never begin your answer with 'Yes' or 'No'. If the question is 
-subjective or cannot be answered factually, respond with "I have no idea."."""
+SYSTEM_PROMPT = """The base response contains hallucinations or factual errors. Verify facts step-by-step and produce 
+one corrected, factual, one-sentence answer based on real-world truth. Do not include invented details or information 
+from non-authoritative sources (e.g., advertisements, fan fiction, or marketing).
 
-MUTATION_PROMPT = """Given a question and a base response, generate 5 distinct mutations of the base response. Each 
-mutation should be a complete, coherent sentence.
+If the question explicitly asks about myths, legends, fiction, films, or other non-real contexts, answer within that 
+fictional context but clearly label it as fictional and also provide any concise, verified real-world context if 
+relevant.
 
-Think step by step, use diverse rewriting strategies to create mutations:
-1. Change wording and structure: replace words with synonyms, shift between active/passive voice, reorder or combine 
-sentences, or simplify and elaborate phrasing.
-2. Introduce slight content changes: add or remove a condition, present an opposite viewpoint, omit a detail, 
-swap a cause-and-effect relationship, or include a minor commonsense twist.
-3. If the base response is not a complete sentence, expand or rewrite it using the question's context so that each
-mutation is a grammatically complete and self-contained sentence.
+If the question is subjective and has no factual resolution, reply exactly: "I have no idea."."""
 
-Ensure each mutation reads naturally and remains relevant to the original question content. Do not label or explain the 
-changes. Finally, output all mutations as a numbered list, with each item being one full sentence version."""
+
+MUTATION_PROMPT = """Given a question and a base response, create 5 different complete-sentence mutations of the 
+response. Use varied rewriting strategies, such as replacing words with synonyms or antonyms, changing sentence 
+structure, or introducing slight content changes by adding or removing a condition, altering viewpoint, omitting a 
+detail, swapping a cause–effect relationship, or adding a small commonsense twist. If the base response is 
+incomplete, rewrite it into a full sentence using the question’s context. Output all mutations as a numbered list 
+without explanations."""
 
 # RECHECK_PROMPT = """The **original response** contains hallucinations or factual errors in answering the
 # given question. Your task is to fact-check it and provide a corrected one-sentence answer.
@@ -41,6 +40,7 @@ Let's think step by step and provide the most accurate final answer.
 The final answer should exactly contain one sentence.
 """
 
-JUDGE_PROMPT = """Given a list of answers from different reasoning paths, determine the final answer by majority voting. 
-Identify answers with the same meaning, count their occurrences, and select the most frequent meaning. 
-Output only the final consensus answer as one clear, complete sentence."""
+JUDGE_PROMPT = """Given a question and a list of answers from different reasoning paths, determine the final answer 
+by majority voting. Identify answers with the same meaning, count their occurrences, and select the most frequent 
+meaning. 'I have no idea.' is also a possible answer. If there are equal occurrences, you should think step by step, 
+make final decision. Output only the final consensus answer as one clear complete sentence."""
