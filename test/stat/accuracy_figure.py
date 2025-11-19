@@ -10,10 +10,10 @@ mpl.rcParams['savefig.bbox'] = 'tight'
 mpl.rcParams['savefig.pad_inches'] = 0
 
 labels = ['gpt-4o', 'gpt-5']
-group1 = [16.96, 13.39]
-group2 = [22.77, 14.8]
-group3 = [15, 9.82]
-group4 = [12.95, 6.7]
+group1 = [78.76, 87.5]
+group2 = [78.38, 83.93]
+group3 = [85.32, 90.18]
+group4 = [88.5, 93.81]
 # groups = [group1, group2, group3]
 # colors = ['orange', 'green', 'purple']
 # labels_group = ['CoT', 'CoVe', 'Our Approach']
@@ -30,15 +30,17 @@ rec3 = ax.bar(x + 0.5 * width, group3, width, label='Our Approach', color='darkv
 rec4 = ax.bar(x + 1.5 * width, group4, width, label='Our Approach - mutations', color='darkorange')
 # rec5 = ax.bar(x + 1.5 * width, group4, width, label='Our Approach - mutations', color='cyan')
 
-ax.set_ylabel('Percentage (%)')
+ax.set_ylabel('Accuracy (%)')
 ax.set_xticks(x)
 ax.set_xticklabels(labels)
-ax.set_title('Recheck Hallucination Rate')
+ax.set_title('Hallucination Repair Accuracy')
 ax.set_xticks(x)
 ax.set_xticklabels(labels)
 
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
+
+ax.set_ylim(64, 96)
 
 ax.legend(
     loc='upper center',
@@ -57,5 +59,6 @@ for rects in [rec1, rec2, rec3, rec4]:
                     textcoords="offset points",
                     ha='center', va='bottom')
 
-plt.savefig('bar_chart_square.png')
+plt.savefig('accuracy.png')
+# plt.savefig('accuracy.pdf')
 plt.show()
