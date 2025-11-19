@@ -10,21 +10,25 @@ mpl.rcParams['savefig.bbox'] = 'tight'
 mpl.rcParams['savefig.pad_inches'] = 0
 
 labels = ['gpt-4o', 'gpt-5']
-group1 = [20, 34]
-group2 = [25, 32]
-group3 = [25, 32]
+group1 = [16.96, 13.39]
+group2 = [22.77, 14.8]
+group3 = [15, 9.82]
+group4 = [12.95, 6.7]
 # groups = [group1, group2, group3]
 # colors = ['orange', 'green', 'purple']
 # labels_group = ['CoT', 'CoVe', 'Our Approach']
 
 x = np.arange(len(labels))
-width = 0.2
+width = 0.1
 
-fig, ax = plt.subplots(figsize=(6, 6))
+fig, ax = plt.subplots(figsize=(6, 4.5))
+x = np.array([0.0, 0.6])
 
-rec1 = ax.bar(x - width, group1, width, label='CoT', color='orange')
-rec2 = ax.bar(x, group2, width, label='CoVe', color='green')
-rec3 = ax.bar(x + width, group3, width, label='Our Approach', color='purple')
+rec1 = ax.bar(x - 1.5 * width, group1, width, label='CoT', color='red')
+rec2 = ax.bar(x - 0.5 * width, group2, width, label='CoVe', color='limegreen')
+rec3 = ax.bar(x + 0.5 * width, group3, width, label='Our Approach', color='darkviolet')
+rec4 = ax.bar(x + 1.5 * width, group4, width, label='Our Approach - mutations', color='darkorange')
+# rec5 = ax.bar(x + 1.5 * width, group4, width, label='Our Approach - mutations', color='cyan')
 
 ax.set_ylabel('Percentage (%)')
 ax.set_xticks(x)
@@ -38,20 +42,20 @@ ax.spines['right'].set_visible(False)
 
 ax.legend(
     loc='upper center',
-    bbox_to_anchor=(0.5, -0.05),
-    ncol=3,
+    bbox_to_anchor=(0.45, -0.05),
+    ncol=4,
     handlelength=1.2,
-    columnspacing=1.5,
+    columnspacing=0.9,
 )
 
-for rects in [rec1, rec2, rec3]:
+for rects in [rec1, rec2, rec3, rec4]:
     for rect in rects:
         height = rect.get_height()
         ax.annotate(f'{height}',
                     xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, 3),
+                    xytext=(0, 2),
                     textcoords="offset points",
                     ha='center', va='bottom')
 
-# plt.savefig('bar_chart_square.png')
+plt.savefig('bar_chart_square.png')
 plt.show()

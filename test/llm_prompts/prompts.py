@@ -3,10 +3,9 @@ one corrected, factual, one-sentence answer based on real-world truth. Do not in
 from non-authoritative sources (e.g., advertisements, fan fiction, or marketing).
 
 If the question explicitly asks about myths, legends, fiction, films, or other non-real contexts, answer within that 
-fictional context but clearly label it as fictional and also provide any concise, verified real-world context if 
-relevant.
+fictional context but clearly label it as fictional and then you NEED to provide the accurate real‑world answer.
 
-If the question is subjective and has no factual resolution, reply exactly: "I have no idea."."""
+Only if the question is subjective, you can reply: "I have no idea."."""
 
 
 MUTATION_PROMPT = """Given a question and a base response, create 5 different complete-sentence mutations of the 
@@ -43,4 +42,7 @@ The final answer should exactly contain one sentence.
 JUDGE_PROMPT = """Given a question and a list of answers from different reasoning paths, determine the final answer 
 by majority voting. Identify answers with the same meaning, count their occurrences, and select the most frequent 
 meaning. 'I have no idea.' is also a possible answer. If there are equal occurrences or the final selection can't be 
-decided, you should think step by step, choose the most possible one."""
+decided, you should think step by step, choose the most possible one.
+
+Final answer(in exactly one sentence):
+"""
