@@ -30,10 +30,10 @@ rec3 = ax.bar(x + 0.5 * width, group3, width, label='Our Approach', color='darkv
 rec4 = ax.bar(x + 1.5 * width, group4, width, label='Our Approach - mutations', color='darkorange')
 # rec5 = ax.bar(x + 1.5 * width, group4, width, label='Our Approach - mutations', color='cyan')
 
-ax.set_ylabel('Percentage (%)')
+ax.set_ylabel('Hallucination (%)')
 ax.set_xticks(x)
 ax.set_xticklabels(labels)
-ax.set_title('Recheck Hallucination Rate')
+ax.set_title('Hallucination Rate after Repair')
 ax.set_xticks(x)
 ax.set_xticklabels(labels)
 
