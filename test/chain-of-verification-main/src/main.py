@@ -82,7 +82,7 @@ if __name__ == "__main__":
         print(f"Already processed: {len(df) - len(df_todo)}")
         print(f"Remaining to process: {len(df_todo)}")
 
-        print(f"Processing {len(df)} questions from dataset: {args.dataset_path}")
+        print(f"Processing {len(df_todo)} questions from dataset: {args.dataset_path}")
         for index, row in tqdm(df_todo.iterrows(), total=len(df_todo), desc="Processing QA"):
             with get_openai_callback() as cb:
                 start = time.time()
