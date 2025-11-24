@@ -68,6 +68,9 @@ class ExecuteVerificationChain(Chain):
         verification_questions_prompt_value = self.prompt.format_prompt(**sub_inputs)
         verification_questions_str = verification_questions_prompt_value.text
         verification_questions_list = verification_questions_str.split("\n")
+        print("DEBUG inputs:", inputs)
+        print("DEBUG self.input_key:", self.input_key)
+        print("DEBUG sub_inputs:", sub_inputs)
         
         # Setting up prompt for both search tool and llm self evaluation
         execution_prompt_search_tool = PromptTemplate.from_template(prompts.EXECUTE_PLAN_PROMPT_SEARCH_TOOL)
