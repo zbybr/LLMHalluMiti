@@ -52,7 +52,7 @@ ax.legend(
     columnspacing=0.9,
 )
 
-for rects in [rec1, rec2, rec3, rec4]:
+for rects in [rec0, rec1, rec2, rec3, rec4]:
     for rect in rects:
         height = rect.get_height()
         ax.annotate(f'{height}',
