@@ -10,8 +10,9 @@ mpl.rcParams['savefig.bbox'] = 'tight'
 mpl.rcParams['savefig.pad_inches'] = 0
 
 labels = ['gpt-4o', 'gpt-5']
-group1 = [12.61, 14.29]
-group2 = [23.89, 13.51]
+group0 = [12.61, 14.29]
+group1 = [23.89, 13.51]
+group2 = [25.23, 14.41]
 group3 = [17.12, 9.82]
 group4 = [14.41, 7.21]
 # groups = [group1, group2, group3]
@@ -21,14 +22,15 @@ group4 = [14.41, 7.21]
 x = np.arange(len(labels))
 width = 0.1
 
-fig, ax = plt.subplots(figsize=(6, 4.5))
+fig, ax = plt.subplots(figsize=(7.5, 7.5))
 x = np.array([0.0, 0.6])
-
-rec1 = ax.bar(x - 1.5 * width, group1, width, label='CoT', color='red')
-rec2 = ax.bar(x - 0.5 * width, group2, width, label='CoVe', color='limegreen')
-rec3 = ax.bar(x + 0.5 * width, group3, width, label='Our Approach', color='darkviolet')
-rec4 = ax.bar(x + 1.5 * width, group4, width, label='Our Approach - mutations', color='darkorange')
-# rec5 = ax.bar(x + 1.5 * width, group4, width, label='Our Approach - mutations', color='cyan')
+n_groups = 5
+offsets = np.linspace(-(n_groups-1)/2, (n_groups-1)/2, n_groups) * width
+rec0 = ax.bar(x + offsets[0], group0, width, label='CoT', color='red')
+rec1 = ax.bar(x + offsets[1], group1, width, label='CoVe', color='limegreen')
+rec2 = ax.bar(x + offsets[2], group2, width, label='CoVe - Search Engine', color='cyan')
+rec3 = ax.bar(x + offsets[3], group3, width, label='Our Approach', color='darkviolet')
+rec4 = ax.bar(x + offsets[4], group4, width, label='Our Approach - mutations', color='darkorange')
 
 ax.set_ylabel('Overcorrection (%)')
 ax.set_xticks(x)
@@ -45,7 +47,7 @@ ax.spines['right'].set_visible(False)
 ax.legend(
     loc='upper center',
     bbox_to_anchor=(0.45, -0.05),
-    ncol=4,
+    ncol=3,
     handlelength=1.2,
     columnspacing=0.9,
 )

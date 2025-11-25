@@ -66,10 +66,6 @@ print(f"Unsuccessful repair: {len(unsuccessful_repair)} / {len(hallucination)} (
 # print(f"Unable repair: {len(unable_repair)} / {len(hallucination)} ({unable_repair_ratio:.2%})")
 
 
-# repair_ratio
-repair_ratio = len(successful_repair) / len(hallucination)
-print(f"Repair_ratio: {len(successful_repair)} / {len(hallucination)} ({repair_ratio:.2%})")
-
 # unnecessary_repair: hallucination_check == YES and origin_hallucination == NO and recheck_hallucination == YES
 unnecessary_repair = df[(df['is_hallucination'] == 'NO') & (df['recheck_hallucination'] == 'YES')]
 unnecessary_repair_ratio = len(unnecessary_repair) / (total_samples - len(hallucination))
