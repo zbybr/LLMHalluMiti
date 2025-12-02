@@ -1,9 +1,9 @@
 import pandas as pd
 
-input_path = "../truthfulqa1.3.csv"
-output_path = "../truthfulqa1.3_combine.csv"
+input_path = "../datasets/truthfulqa1.3.csv"
+output_path = "../datasets/truthfulqa1.3_combine.csv"
 
-df = pd.read_csv(input_path)
+df = pd.read_csv(input_path, encoding="latin-1")
 
 df["Answer"] = df["Best Answer"].fillna("") + ";" + df["Correct Answers"].fillna("")
 df["Answer"] = df["Answer"].str.strip(";")

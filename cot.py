@@ -16,10 +16,10 @@ client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
     base_url=os.getenv("OPENAI_BASE_URL")
 )
-client = OpenAI(
-    api_key="sk-wi5c6GQjiqZVC0vqDjSHZA5UIIHpmgiFgRgSyDS0PnOkJWWF",
-    base_url="https://yunwu.ai/v1"
-)
+# client = OpenAI(
+#     api_key="sk-wi5c6GQjiqZVC0vqDjSHZA5UIIHpmgiFgRgSyDS0PnOkJWWF",
+#     base_url="https://yunwu.ai/v1"
+# )
 
 
 def parse_rechecked_response(text: str):
