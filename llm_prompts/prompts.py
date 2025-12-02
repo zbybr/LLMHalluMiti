@@ -1,4 +1,4 @@
-SYSTEM_PROMPT = """The base response contains hallucinations or factual errors. Verify facts step-by-step and produce 
+SYSTEM_PROMPT = """The base response may contains hallucinations or factual errors. Verify facts step-by-step and produce 
 one corrected, factual, one-sentence answer based on real-world truth. Do not include invented details or information 
 from non-authoritative sources (e.g., advertisements, fan fiction, or marketing).
 

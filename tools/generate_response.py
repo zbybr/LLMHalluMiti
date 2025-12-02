@@ -74,8 +74,8 @@ if __name__ == "__main__":
     parser.add_argument('--dataset_path', type=str, required=True, help="Dataset path")
     parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
-
+    model_key = args.model_key
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"{dataset_name}_responses.csv"
-    main(dataset_path, output_path, args.model_key)
+    output_path = f"{model_key}_{dataset_name}_responses.csv"
+    main(dataset_path, output_path, model_key)

@@ -84,11 +84,13 @@ def run_pipeline(input_path, output_path, model_key):
     for index, row in tqdm(df.iterrows(), total=len(df_todo), desc="Processing QA"):
         start = time.time()
         record = []
+        mutation_list = []
         question = row["Question"]
         base_response = row['base_response']
         qapair = f"Question: {question}\nBase_response: {base_response}"
         messages = [{"role": "user", "content": qapair + '\n' + prompts.MUTATION_PROMPT}]
         mutations, tokens = safe_chat_call(messages, model_key)
+        mutation_list.append(base_response)
         mutation_list = extract_mutations(mutations)
         for mutation in mutation_list:
             qapair = f"Question: {question}\nBase_response: {mutation}"
