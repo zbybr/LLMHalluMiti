@@ -15,7 +15,7 @@ client = OpenAI(
 )
 
 
-def call_llm(prompt, model_key, max_retries=10, base_delay=3.0):
+def call_llm(prompt, model_key, max_retries=10, base_delay=2.0):
     for attempt in range(max_retries):
         try:
             response = client.chat.completions.create(
@@ -38,12 +38,11 @@ def call_llm(prompt, model_key, max_retries=10, base_delay=3.0):
     return "ERROR: Empty or invalid model output"
 
 
-def generate_response(question, correct_answer, model_key):
+def generate_response(question, model_key):
     prompt = (
-        f"Answer the following question accurately with one sentence based on first sentence in correct answer. "
-        f"Additionally, for the subjective question, 'I have no idea.' is considered as correct answer:\n"
+        f"Answer the following question accurately with one-complete sentence. "
+        f"Only for the subjective question, 'I have no idea.' is considered as correct answer:\n"
         f"Question: {question}\n"
-        f"Correct Answer: {correct_answer}"
     )
     return call_llm(prompt, model_key)
 
@@ -54,8 +53,7 @@ def main(input_path, output_path, model_key):
     base_responses = []
     for _, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
         question = row["Question"]
-        answer = row["Answer"]
-        response= generate_response(question, answer, model_key)
+        response= generate_response(question, model_key)
         base_responses.append(response)
 
         print("===================================")
