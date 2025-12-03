@@ -13,7 +13,7 @@ from langchain_community.callbacks import get_openai_callback
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ENV_PATH = os.path.join(BASE_DIR, '..', '.env')
+ENV_PATH = os.path.join(BASE_DIR, '..', '..', '.env')
 load_dotenv(dotenv_path=ENV_PATH, override=True)
 CUSTOM_API_KEY = os.getenv("OPENAI_API_KEY")
 CUSTOM_BASE_URL = os.getenv("OPENAI_BASE_URL")
