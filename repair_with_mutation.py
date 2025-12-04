@@ -92,6 +92,7 @@ def run_pipeline(input_path, output_path, model_key):
         mutations, tokens = safe_chat_call(messages, model_key)
         mutation_list.append(base_response)
         mutation_list = extract_mutations(mutations)
+        mutation_list.append(base_response)
         for mutation in mutation_list:
             qapair = f"Question: {question}\nBase_response: {mutation}"
             messages = [{"role": "assistant", "content": qapair},

@@ -9,12 +9,12 @@ mpl.rcParams['savefig.dpi'] = 100
 mpl.rcParams['savefig.bbox'] = 'tight'
 mpl.rcParams['savefig.pad_inches'] = 0
 
-labels = ['gpt-4o', 'gpt-5']
-group0 = [12.61, 14.29]
-group1 = [23.89, 13.51]
-group2 = [25.23, 14.41]
-group3 = [17.12, 9.82]
-group4 = [14.41, 7.21]
+labels = ['gpt-4o']
+group0 = [3.92]
+group1 = [7.84]
+group2 = [7.84]
+group3 = [1.96]
+group4 = [1.96]
 # groups = [group1, group2, group3]
 # colors = ['orange', 'green', 'purple']
 # labels_group = ['CoT', 'CoVe', 'Our Approach']
@@ -23,7 +23,7 @@ x = np.arange(len(labels))
 width = 0.1
 
 fig, ax = plt.subplots(figsize=(7.5, 7.5))
-x = np.array([0.0, 0.6])
+# x = np.array([0.0, 0.6])
 n_groups = 5
 offsets = np.linspace(-(n_groups-1)/2, (n_groups-1)/2, n_groups) * width
 rec0 = ax.bar(x + offsets[0], group0, width, label='CoT', color='red')
@@ -46,7 +46,7 @@ ax.spines['right'].set_visible(False)
 
 ax.legend(
     loc='upper center',
-    bbox_to_anchor=(0.45, -0.05),
+    bbox_to_anchor=(0.5, -0.05),
     ncol=3,
     handlelength=1.2,
     columnspacing=0.9,
