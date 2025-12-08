@@ -46,3 +46,9 @@ decided, you should think step by step, choose the most possible one.
 
 Final answer(in exactly one sentence):
 """
+
+VERBALIZED_SAMPLING_PROMPT = """You are a helpful assistant. You are given a question and a base response. The base 
+response may contains hallucinations or factual errors. For each query, please generate a set of five possible 
+correct answers for the original question, each within a separate <response> tag. Responses should each include a 
+<text> and a numeric <probability>. Please sample at random from the [full distribution / tails of the distribution, 
+such that the probability of each response is less than 0.10]."""

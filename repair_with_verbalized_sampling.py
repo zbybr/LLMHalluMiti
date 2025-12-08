@@ -86,34 +86,24 @@ def run_pipeline(input_path, output_path, model_key):
         record = []
         question = row["Question"]
         base_response = row['base_response']
-        qapair = f"Question: {question}\nBase_response: {base_response}"
-        messages = [{"role": "user", "content": qapair + '\n' + prompts.MUTATION_PROMPT}]
+        qapair = f"Question: {question}\nBase_response: {base_response}\n"
+        messages = [{"role": "user", "content": prompts.VERBALIZED_SAMPLING_PROMPT + '\n' + qapair}]
         mutations, tokens = safe_chat_call(messages, model_key)
         mutation_list = extract_mutations(mutations)
-        mutation_list.append(base_response)
-        for mutation in mutation_list:
-            qapair = f"Question: {question}\nBase_response: {mutation}"
-            messages = [{"role": "assistant", "content": qapair},
-                        {"role": "user", "content": prompts.SYSTEM_PROMPT}]
-            answer, _tokens = safe_chat_call(messages, model_key)
-            tokens += _tokens
-            record.append(answer.strip())
-
-        record_str = "\n".join(record)
-        messages = [{"role": "system", "content": f"Question: {question}\nAnswers: {record_str}\n" + prompts.JUDGE_PROMPT}]
-        final_answer, _tokens = safe_chat_call(messages, model_key)
-        tokens += _tokens
+        # record_str = "\n".join(record)
+        # final_answer, _tokens = safe_chat_call(messages, model_key)
+        # tokens += _tokens
         end = time.time()
         # Logging
         print("===================================")
         print(f"Question: {question}")
         print(f"Base Response: {base_response}")
-        print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
+        # print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
         mutation_list_str = "\n".join(mutation_list)
         # Save results into dataframe
-        df.loc[index, "final_answer"] = final_answer
+        # df.loc[index, "final_answer"] = final_answer
         df.loc[index, "mutation_list"] = mutation_list_str
-        df.loc[index, "answer_list"] = record_str
+        # df.loc[index, "answer_list"] = record_str
         df.loc[index, "token_cost"] = tokens
         df.loc[index, "time_cost"] = end - start
 
@@ -122,13 +112,13 @@ def run_pipeline(input_path, output_path, model_key):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Hallucination Mitigation using mutations pipeline with cost tracking")
+    parser = argparse.ArgumentParser(description="Hallucination Mitigation using verbalized sampling pipeline with cost tracking")
     parser.add_argument("--dataset_path", type=str, required=True, help="Dataset path")
     parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
 
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"{args.model_key}_mutation_outputs_{dataset_name}.csv"
+    output_path = f"{args.model_key}_vs_outputs_{dataset_name}.csv"
 
     run_pipeline(dataset_path, output_path, args.model_key)
