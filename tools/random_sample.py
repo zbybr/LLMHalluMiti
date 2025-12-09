@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv('gpt-4o_hotpotqa_responses.csv', encoding="latin-1")
+df = pd.read_csv('gpt-5_hotpotqa_responses.csv', encoding="latin-1")
 
 df_yes = df[df['is_hallucination'] == 'YES']
 df_no_all = df[df['is_hallucination'] == 'NO']

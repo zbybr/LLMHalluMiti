@@ -39,8 +39,8 @@ def call_llm(prompt, model_key, max_retries=10, base_delay=2.0):
 
 def generate_response(question, model_key):
     prompt = (
-        f"Answer the following question accurately with one-complete sentence. "
-        f"Only for the subjective question, 'I have no idea.' is considered as correct answer:\n"
+        f"Answer the following question accurately with one-complete sentence."
+        f"If the question is subjective, answer 'I have no idea.':\n"
         f"Question: {question}\n"
     )
     return call_llm(prompt, model_key)

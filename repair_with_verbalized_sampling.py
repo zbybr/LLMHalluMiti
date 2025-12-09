@@ -18,10 +18,33 @@ client = OpenAI(
 )
 
 
-def extract_mutations(text: str):
-    sentences = re.findall(r"(?:\d+[\.\)]\s*)([^0-9\n]+(?:[^\n]*))", text)
-    sentences = [s.strip() for s in sentences if s.strip()]
-    return sentences
+def parse_and_sort_responses(data: str):
+    # pattern = re.compile(
+    #     r"<response>\s*<text>(.*?)</text>\s*<probability>(.*?)</probability>\s*<confidence>(.*?)</confidence>\s*</response>",
+    #     re.DOTALL
+    # )
+    pattern = re.compile(
+        r"<response>\s*<text>(.*?)<probability>(.*?)</probability>\s*<confidence>(.*?)</confidence>\s*</response>",
+        re.DOTALL
+    )
+
+    responses = []
+    for text, prob, conf in pattern.findall(data):
+        responses.append({
+            "text": text.strip(),
+            "probability": float(prob.strip()),
+            "confidence": float(conf.strip())
+        })
+
+    if not responses:
+        return None
+
+    sorted_responses = sorted(
+        responses,
+        key=lambda x: (-x["confidence"], x["probability"])
+    )
+
+    return sorted_responses[0]["text"]
 
 
 def safe_chat_call(messages, model_key, max_retries=10, base_delay=0.0):
@@ -65,15 +88,14 @@ def run_pipeline(input_path, output_path, model_key):
         print(f"Resuming from existing output file: {output_path}")
         df_out = pd.read_csv(output_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
         df = df.merge(
-            df_out[["Question", "final_answer", "mutation_list", "answer_list", "token_cost", "time_cost"]],
+            df_out[["Question", "final_answer", "record", "token_cost", "time_cost"]],
             on="Question",
             how="left",
             suffixes=("", "_saved")
         )
     else:
         df["final_answer"] = ""
-        df["mutation_list"] = ""
-        df["answer_list"] = ""
+        df["record"] = ""
         df["token_cost"] = None
         df["time_cost"] = None
     df_todo = df[df["final_answer"].isna() | (df["final_answer"].astype(str).str.strip() == "")]
@@ -83,27 +105,24 @@ def run_pipeline(input_path, output_path, model_key):
     print(f"Remaining to process: {len(df_todo)}")
     for index, row in tqdm(df.iterrows(), total=len(df_todo), desc="Processing QA"):
         start = time.time()
-        record = []
         question = row["Question"]
         base_response = row['base_response']
         qapair = f"Question: {question}\nBase_response: {base_response}\n"
         messages = [{"role": "user", "content": prompts.VERBALIZED_SAMPLING_PROMPT + '\n' + qapair}]
-        mutations, tokens = safe_chat_call(messages, model_key)
-        mutation_list = extract_mutations(mutations)
-        # record_str = "\n".join(record)
-        # final_answer, _tokens = safe_chat_call(messages, model_key)
-        # tokens += _tokens
+        record, tokens = safe_chat_call(messages, model_key)
+        final_answer = parse_and_sort_responses(record)
         end = time.time()
+
         # Logging
         print("===================================")
         print(f"Question: {question}")
         print(f"Base Response: {base_response}")
-        # print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
-        mutation_list_str = "\n".join(mutation_list)
+        print(f"Record: {record}")
+        print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
+
         # Save results into dataframe
-        # df.loc[index, "final_answer"] = final_answer
-        df.loc[index, "mutation_list"] = mutation_list_str
-        # df.loc[index, "answer_list"] = record_str
+        df.loc[index, "final_answer"] = final_answer
+        df.loc[index, "record"] = record
         df.loc[index, "token_cost"] = tokens
         df.loc[index, "time_cost"] = end - start
 
