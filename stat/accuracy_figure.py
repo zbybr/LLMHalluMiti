@@ -9,14 +9,14 @@ mpl.rcParams['savefig.dpi'] = 100
 mpl.rcParams['savefig.bbox'] = 'tight'
 mpl.rcParams['savefig.pad_inches'] = 0
 
-labels = ['gpt-4o']
-group0 = [31.08]
-group1 = [27.03]
-group2 = [31.08]
-group3 = [62.16]
-group4 = [62.16]
-group5 = [65.33]
-group6 = [72.97]
+labels = ['gpt-4o', 'gpt-5']
+group0 = [31.08, 24]
+group1 = [27.03, 0]
+group2 = [31.08, 0]
+group3 = [62.16, 61.33]
+group4 = [62.16, 64]
+group5 = [65.33, 68]
+group6 = [72.97, 74.67]
 
 # groups = [group1, group2, group3]
 # colors = ['orange', 'green', 'purple']
@@ -26,7 +26,7 @@ x = np.arange(len(labels))
 width = 0.1
 
 fig, ax = plt.subplots(figsize=(7.5, 7.5))
-# x = np.array([0.0, 0.6])
+x = np.array([0.0, 1.0])
 n_groups = 7
 offsets = np.linspace(-(n_groups-1)/2, (n_groups-1)/2, n_groups) * width
 rec0 = ax.bar(x + offsets[0], group0, width, label='CoT', color='red')
@@ -48,7 +48,7 @@ ax.set_xticklabels(labels)
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 
-# ax.set_ylim(62, 97)
+# ax.set_ylim(0, 76)
 
 ax.legend(
     loc='upper center',
