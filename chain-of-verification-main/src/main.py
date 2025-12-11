@@ -60,7 +60,7 @@ if __name__ == "__main__":
     if args.dataset_path:
         dataset_path = args.dataset_path
         dataset_name = str(Path(dataset_path).stem).lower()
-        output_path = f"{args.model_key}_CoVe_outputs_{dataset_name}.csv"
+        output_path = f"{args.model_key}_cove_outputs_{dataset_name}.csv"
         df = pd.read_csv(dataset_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
 
         if os.path.exists(output_path):
