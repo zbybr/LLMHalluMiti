@@ -11,7 +11,7 @@ mpl.rcParams['savefig.pad_inches'] = 0
 
 labels = ['gpt-4o', 'gpt-5']
 group0 = [3.95, 2.67]
-group1 = [9.21, 0]
+group1 = [9.21, 9.33]
 group2 = [7.89, 0]
 group3 = [5.26, 1.33]
 group4 = [2.63, 0]
