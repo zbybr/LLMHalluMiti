@@ -39,7 +39,7 @@ print(f"Recheck Hallu rate: {len(recheck_hallu)} / {total_samples} ({recheck_hal
 # unsuccessful_detect = df[(df['hallucination_check'] == 'NO') & (df['origin_hallucination'] == 'YES')]
 # unsuccessful_detect_ratio = len(unsuccessful_detect) / total_samples
 # print(f"Unsuccessful detect: {len(unsuccessful_detect)} ({unsuccessful_detect_ratio:.2%})")
-#
+
 # # detect_ratio
 # detect_ratio = len(successful_detect) / len(hallucination)
 # print(f"Detect_ratio: {len(successful_detect)} / {len(hallucination)} ({detect_ratio:.2%})")
