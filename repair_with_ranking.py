@@ -11,6 +11,7 @@ import csv
 import time
 import utils
 import re
+
 load_dotenv(override=True)
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
@@ -51,7 +52,7 @@ def safe_chat_call(messages, model_key, max_retries=10, base_delay=0.0):
 
         except Exception as e:
             wait = base_delay * (attempt + 1) + random.uniform(0, 1)
-            print(f"[Warning] Attempt {attempt+1}/{max_retries} failed: {e}")
+            print(f"[Warning] Attempt {attempt + 1}/{max_retries} failed: {e}")
             print(f"Retrying after {wait:.1f}s ...")
             time.sleep(wait)
 
@@ -91,16 +92,16 @@ def run_pipeline(input_path, output_path, model_key):
         mutations, tokens = safe_chat_call(messages, model_key)
         mutation_list = extract_mutations(mutations)
         mutation_list.append(base_response)
-        for mutation in mutation_list:
-            qapair = f"Question: {question}\nBase_response: {mutation}"
-            messages = [{"role": "assistant", "content": qapair},
-                        {"role": "user", "content": prompts.SYSTEM_PROMPT}]
-            answer, _tokens = safe_chat_call(messages, model_key)
-            tokens += _tokens
-            record.append(answer.strip())
+        mutation_list_str = "\n".join(mutation_list)
+
+        question_mutations = f"Question: {question}\nSentences: {mutation_list_str}\n"
+        messages = [{"role": "system", "content": prompts.RANKING_PROMPT},
+                    {"role": "user", "content": question_mutations}]
+        answer, _tokens = safe_chat_call(messages, model_key)
+        tokens += _tokens
+        record.append(answer.strip())
 
         record_str = "\n".join(record)
-        messages = [{"role": "system", "content": f"Question: {question}\nAnswers: {record_str}\n" + prompts.VOTING_PROMPT}]
         final_answer, _tokens = safe_chat_call(messages, model_key)
         tokens += _tokens
         end = time.time()
@@ -109,7 +110,6 @@ def run_pipeline(input_path, output_path, model_key):
         print(f"Question: {question}")
         print(f"Base Response: {base_response}")
         print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
-        mutation_list_str = "\n".join(mutation_list)
         # Save results into dataframe
         df.loc[index, "final_answer"] = final_answer
         df.loc[index, "mutation_list"] = mutation_list_str
@@ -129,6 +129,6 @@ if __name__ == "__main__":
 
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"{args.model_key}_mutation_outputs_{dataset_name}.csv"
+    output_path = f"{args.model_key}_mutation_ra_outputs_{dataset_name}.csv"
 
     run_pipeline(dataset_path, output_path, args.model_key)

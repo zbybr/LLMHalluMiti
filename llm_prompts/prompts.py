@@ -1,6 +1,6 @@
-SYSTEM_PROMPT = """The base response may contains hallucinations or factual errors. Verify facts step-by-step and produce 
-one corrected, factual, one-sentence answer based on real-world truth. Do not include invented details or information 
-from non-authoritative sources (e.g., advertisements, fan fiction, or marketing).
+SYSTEM_PROMPT = """The base response may contains hallucinations or factual errors. Verify facts step-by-step and 
+produce one corrected, factual, one-sentence answer based on real-world truth. Do not include invented details or 
+information from non-authoritative sources (e.g., advertisements, fan fiction, or marketing).
 
 If the question explicitly asks about myths, legends, fiction, films, or other non-real contexts, answer within that 
 fictional context but clearly label it as fictional and then you NEED to provide the accurate real‑world answer.
@@ -39,7 +39,7 @@ Let's think step by step and provide the most accurate final answer.
 The final answer should exactly contain one sentence.
 """
 
-JUDGE_PROMPT = """Given a question and a list of answers from different reasoning paths, determine the final answer 
+VOTING_PROMPT = """Given a question and a list of answers from different reasoning paths, determine the final answer 
 by majority voting. Identify answers with the same meaning, count their occurrences, and select the most frequent 
 meaning. 'I have no idea.' is also a possible answer. If there are equal occurrences or the final selection can't be 
 decided, you should think step by step, choose the most possible one.
@@ -66,3 +66,50 @@ the probability of each response is less than 0.10
 range 0.00–1.00, two decimal places).
 
 Do not output any index numbers before responses. Both probability and confidence should be numeric."""
+
+CONFIDENCE_SCORE_PROMPT = """You are a helpful assistant. I have a question and six potential answer sentences. For 
+each answer sentence, please evaluate its relevance and quality in addressing the question. Provide a confidence 
+score for each sentence based on how well it answers the question, ranging from 0 to 1 (where 0 means no confidence 
+and 1 means full confidence).
+
+Instructions:
+1. Confidence Score: For each sentence, provide a confidence score between 0 and 1, representing how well that sentence 
+answers the question.
+2. The sentence with the highest confidence score should be identified as the best answer to the original question.
+3. Fictional Context Rule: If the question asks about myths, legends, fiction, films, or other non-real contexts, answer 
+within the fictional context, but clearly label it as fictional, and then provide the real-world answer.
+4. Subjective Question Rule: If the question is subjective or opinion-based, and you cannot determine an objective answer, 
+respond with "I have no idea".
+
+Final Step:
+The best answer is the one with the highest confidence score. Return this answer sentence.
+"""
+
+RANKING_PROMPT = """You are a helpful assistant. I have a question and six potential answer sentences. I would like you 
+to compare each answer against the others and rank them from best to worst based on the ground truth criteria in 
+addressing the question that I will provide. Each answer should be compared to every other answer, and you should assign 
+a ranking to each comparison.
+
+Ground Truth Criteria for Ranking:
+1. If the question explicitly asks about myths, legends, fiction, films, or other non-real contexts: Answer within the 
+fictional context, but clearly label it as fictional. After that, you must provide the accurate real-world answer (e.g., 
+real-world facts, history, or scientific information).
+2. If the question is subjective (i.e., based on opinion, interpretation, or preference): If unsure, you may respond 
+with "I have no idea."
+3. For all other questions: Rank the answers based on their relevance, clarity, and accuracy in addressing the original 
+question.
+
+Instructions:
+1. Please create a 6x6 matrix where each row represents an answer sentence, and each column represents a comparison of 
+that answer sentence with the others.
+2. he matrix should contain numbers from 1 to 6, where 1 is the best rank (highest quality), and 6 is the worst rank (
+lowest quality).
+3. In each cell, compare the corresponding row's answer to the sentence listed in the column. The lower the number, the 
+better the answer.
+4. Use the ground truth criteria to guide your rankings.
+5. The highest-ranked answer (i.e., the one with the lowest total ranking) is considered the best answer to the original 
+question.
+
+Final Step:
+The best answer is the one with the lowest rank in the matrix. Return this answer sentence.
+"""
