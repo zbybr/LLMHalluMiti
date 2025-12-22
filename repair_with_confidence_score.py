@@ -92,17 +92,21 @@ def run_pipeline(input_path, output_path, model_key):
         mutation_list = extract_mutations(mutations)
         mutation_list.append(base_response)
         mutation_list_str = "\n".join(mutation_list)
-
-        question_mutations = f"Question: {question}\nSentences: {mutation_list_str}\n"
-        messages = [{"role": "system", "content": prompts.CONFIDENCE_SCORE_PROMPT},
-                    {"role": "user", "content": question_mutations}]
-        answer, _tokens = safe_chat_call(messages, model_key)
-        tokens += _tokens
-        record.append(answer.strip())
-
+        for mutation in mutation_list:
+            qapair = f"Question: {question}\nBase_response: {mutation}"
+            messages = [{"role": "assistant", "content": qapair},
+                        {"role": "user", "content": prompts.SYSTEM_PROMPT}]
+            answer, _tokens = safe_chat_call(messages, model_key)
+            tokens += _tokens
+            record.append(answer.strip())
         record_str = "\n".join(record)
+
+        question_record = f"Question: {question}\nSentences: {record_str}\n"
+        messages = [{"role": "system", "content": prompts.CONFIDENCE_SCORE_PROMPT},
+                    {"role": "user", "content": question_record}]
         final_answer, _tokens = safe_chat_call(messages, model_key)
         tokens += _tokens
+
         end = time.time()
         # Logging
         print("===================================")

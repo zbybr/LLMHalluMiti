@@ -68,21 +68,18 @@ range 0.00–1.00, two decimal places).
 Do not output any index numbers before responses. Both probability and confidence should be numeric."""
 
 CONFIDENCE_SCORE_PROMPT = """You are a helpful assistant. I have a question and six potential answer sentences. For 
-each answer sentence, please evaluate its relevance and quality in addressing the question. Provide a confidence 
-score for each sentence based on how well it answers the question, ranging from 0 to 1 (where 0 means no confidence 
-and 1 means full confidence).
+each answer sentence, please evaluate its relevance and quality in addressing the question. Provide a numeric number 
+representing the model's confidence score for the factual correctness of the answer (range 0.00–1.00, two decimal places).
 
 Instructions:
-1. Confidence Score: For each sentence, provide a confidence score between 0 and 1, representing how well that sentence 
-answers the question.
-2. The sentence with the highest confidence score should be identified as the best answer to the original question.
-3. Fictional Context Rule: If the question asks about myths, legends, fiction, films, or other non-real contexts, answer 
+1. Fictional Context Rule: If the question asks about myths, legends, fiction, films, or other non-real contexts, answer 
 within the fictional context, but clearly label it as fictional, and then provide the real-world answer.
-4. Subjective Question Rule: If the question is subjective or opinion-based, and you cannot determine an objective answer, 
+2. Subjective Question Rule: If the question is subjective or opinion-based, and you cannot determine an objective answer, 
 respond with "I have no idea".
+3. The sentence with the highest confidence score should be identified as the best answer to the original question.
 
 Final Step:
-The best answer is the one with the highest confidence score. Return this answer sentence.
+The best answer is the one with the highest confidence score. Only return this highest score answer sentence.
 """
 
 RANKING_PROMPT = """You are a helpful assistant. I have a question and six potential answer sentences. I would like you 
@@ -111,5 +108,5 @@ better the answer.
 question.
 
 Final Step:
-The best answer is the one with the lowest rank in the matrix. Return this answer sentence.
+The best answer is the one with the lowest rank in the matrix. Only return this highest ranking answer sentence.
 """
