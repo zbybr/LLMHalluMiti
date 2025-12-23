@@ -44,7 +44,7 @@ by majority voting. Identify answers with the same meaning, count their occurren
 meaning. 'I have no idea.' is also a possible answer. If there are equal occurrences or the final selection can't be 
 decided, you should think step by step, choose the most possible one.
 
-Final answer(in exactly one sentence):
+Final answer should be in exactly one sentence.
 """
 
 VERBALIZED_SAMPLING_PROMPT = """You are a helpful assistant. You are given a question and a base response. The base 
