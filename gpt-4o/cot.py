@@ -68,7 +68,7 @@ def safe_chat_call(messages, model_key, max_retries=10, base_delay=0.0):
     return "ERROR: Empty or invalid model output", 0
 
 
-def run_pipeline(input_path, output_path, model_key):
+def run_pipeline(input_path, output_path, model_key='gpt-4o'):
     df = pd.read_csv(input_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
 
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
@@ -76,7 +76,7 @@ def run_pipeline(input_path, output_path, model_key):
         base_response = row['base_response']
         qapair = f"Question: {question}\n\nBase_response: {base_response}"
         start = time.time()
-        messages = [{"role": "user", "content": qapair + '\n' + prompts.COT_PROMPT}]
+        messages = [{"role": "system", "content": qapair + '\n' + prompts.COT_PROMPT}]
         final_answer, tokens = safe_chat_call(messages, model_key)
 
         end = time.time()
@@ -98,11 +98,11 @@ def run_pipeline(input_path, output_path, model_key):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="COT pipeline with cost tracking")
     parser.add_argument("--dataset_path", type=str, required=True, help="Dataset path")
-    parser.add_argument('--model_key', type=str, required=True, help="Model key")
+    # parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
 
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"./outputs/cot/{args.model_key}_cot_outputs_{dataset_name}.csv"
+    output_path = f"./outputs/cot/gpt-4o_cot_outputs_{dataset_name}.csv"
 
     run_pipeline(dataset_path, output_path, args.model_key)
