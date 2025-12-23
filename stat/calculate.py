@@ -25,59 +25,60 @@ hallucination = df[(df['is_hallucination'] == 'YES')]
 hallucination_ratio = len(hallucination) / total_samples
 print(f"Hallucination rate: {len(hallucination)} / {total_samples} ({hallucination_ratio:.2%})")
 
-# re-hallucination_rate: origin_hallucination == YES
+# recheck_hallucination_rate: origin_hallucination == YES
 recheck_hallu = df[(df['recheck_hallucination'] == 'YES')]
 recheck_hallu_ratio = len(recheck_hallu) / total_samples
 print(f"Recheck Hallu rate: {len(recheck_hallu)} / {total_samples} ({recheck_hallu_ratio:.2%})")
 
-# # successful_detect: ['base_response'] != ['proco_answer']
-# successful_detect = df[(df['origin_hallucination'] == 'YES') & (df['base_response'] != df['proco_answer'])]
-# successful_detect_ratio = len(successful_detect) / len(hallucination)
-# print(f"Successful detect: {len(successful_detect)} / {len(hallucination)}  ({successful_detect_ratio:.2%})")
+# successful repair by Majority Voting: origin_hallucination == YES and recheck_hallucination_mv == NO
+successful_repair_mv = df[(df['is_hallucination'] == 'YES') & (df['recheck_hallucination_mv'] == 'NO')]
+successful_repair_ratio_mv = len(successful_repair_mv) / len(hallucination)
+print(f"Successful repair by Majority Voting: {len(successful_repair_mv)} / {len(hallucination)} ({successful_repair_ratio_mv:.2%})")
 
-# # unsuccessful_detect: hallucination_check == NO and origin_hallucination == YES
-# unsuccessful_detect = df[(df['hallucination_check'] == 'NO') & (df['origin_hallucination'] == 'YES')]
-# unsuccessful_detect_ratio = len(unsuccessful_detect) / total_samples
-# print(f"Unsuccessful detect: {len(unsuccessful_detect)} ({unsuccessful_detect_ratio:.2%})")
-#
-# # detect_ratio
-# detect_ratio = len(successful_detect) / len(hallucination)
-# print(f"Detect_ratio: {len(successful_detect)} / {len(hallucination)} ({detect_ratio:.2%})")
+# unnecessary repair by Majority Voting: hallucination_check == YES and origin_hallucination == NO and recheck_hallucination == YES
+unnecessary_repair_mv = df[(df['is_hallucination'] == 'NO') & (df['recheck_hallucination_mv'] == 'YES')]
+unnecessary_repair_ratio_mv = len(unnecessary_repair_mv) / (total_samples - len(hallucination))
+print(f"Unnecessary repair by Majority Voting: {len(unnecessary_repair_mv)} / {total_samples - len(hallucination)} ({unnecessary_repair_ratio_mv:.2%})")
 
-# successful_repair: origin_hallucination == YES and recheck_hallucination == NO
-successful_repair = df[(df['is_hallucination'] == 'YES') & (df['recheck_hallucination'] == 'NO')]
-successful_repair_ratio = len(successful_repair) / len(hallucination)
-print(f"Successful repair: {len(successful_repair)} / {len(hallucination)} ({successful_repair_ratio:.2%})")
+# average token_cost and time_cost by Majority Voting
+avg_token_cost_mv = df["token_cost_mv"].mean()
+avg_time_cost_mv = df["time_cost_mv"].mean()
+print(f"Average token cost by Majority Voting: {avg_token_cost_mv:.2f}")
+print(f"Average time cost by Majority Voting: {avg_time_cost_mv:.4f} s")
 
-# unsuccessful_repair: origin_hallucination == YES and base_response != proco_answer and recheck_hallucination == YES
-unsuccessful_repair = df[
-    (df['is_hallucination'] == 'YES') &
-    (df['recheck_hallucination'] == 'YES')
-]
-unsuccessful_repair_ratio = len(unsuccessful_repair) / len(hallucination)
-print(f"Unsuccessful repair: {len(unsuccessful_repair)} / {len(hallucination)} ({unsuccessful_repair_ratio:.2%})")
+# successful repair by Confidence Score: origin_hallucination == YES and recheck_hallucination_cs == NO
+successful_repair_cs = df[(df['is_hallucination'] == 'YES') & (df['recheck_hallucination_cs'] == 'NO')]
+successful_repair_ratio_cs = len(successful_repair_cs) / len(hallucination)
+print(f"Successful repair by Confidence Score: {len(successful_repair_cs)} / {len(hallucination)} ({successful_repair_ratio_cs:.2%})")
 
-# # unable_repair: origin_hallucination == YES and base_response == proco_answer
-# unable_repair = df[
-#     (df['is_hallucination'] == 'YES') &
-#     (df['base_response'] == df['proco_answer'])
-# ]
-# unable_repair_ratio = len(unable_repair) / len(hallucination)
-# print(f"Unable repair: {len(unable_repair)} / {len(hallucination)} ({unable_repair_ratio:.2%})")
+# unnecessary repair by Confidence Score: hallucination_check == YES and origin_hallucination == NO and recheck_hallucination == YES
+unnecessary_repair_cs = df[(df['is_hallucination'] == 'NO') & (df['recheck_hallucination_cs'] == 'YES')]
+unnecessary_repair_ratio_cs = len(unnecessary_repair_cs) / (total_samples - len(hallucination))
+print(f"Unnecessary repair by Confidence Score: {len(unnecessary_repair_cs)} / {total_samples - len(hallucination)} ({unnecessary_repair_ratio_cs:.2%})")
 
+# average token_cost and time_cost by Confidence Score
+avg_token_cost_cs = df["token_cost_cs"].mean()
+avg_time_cost_cs = df["time_cost_cs"].mean()
+print(f"Average token cost by Confidence Score: {avg_token_cost_cs:.2f}")
+print(f"Average time cost by Confidence Score: {avg_time_cost_cs:.4f} s")
 
-# unnecessary_repair: hallucination_check == YES and origin_hallucination == NO and recheck_hallucination == YES
-unnecessary_repair = df[(df['is_hallucination'] == 'NO') & (df['recheck_hallucination'] == 'YES')]
-unnecessary_repair_ratio = len(unnecessary_repair) / (total_samples - len(hallucination))
-print(f"Unnecessary repair: {len(unnecessary_repair)} / {total_samples - len(hallucination)} ({unnecessary_repair_ratio:.2%})")
+# successful repair by Ranking: origin_hallucination == YES and recheck_hallucination_ra == NO
+successful_repair_ra = df[(df['is_hallucination'] == 'YES') & (df['recheck_hallucination_ra'] == 'NO')]
+successful_repair_ratio_ra = len(successful_repair_ra) / len(hallucination)
+print(f"Successful repair by Ranking: {len(successful_repair_ra)} / {len(hallucination)} ({successful_repair_ratio_ra:.2%})")
+
+# unnecessary repair by Ranking: hallucination_check == YES and origin_hallucination == NO and recheck_hallucination == YES
+unnecessary_repair_ra = df[(df['is_hallucination'] == 'NO') & (df['recheck_hallucination_ra'] == 'YES')]
+unnecessary_repair_ratio_ra = len(unnecessary_repair_ra) / (total_samples - len(hallucination))
+print(f"Unnecessary repair by Ranking: {len(unnecessary_repair_ra)} / {total_samples - len(hallucination)} ({unnecessary_repair_ratio_ra:.2%})")
+
+# average token_cost and time_cost by Ranking
+avg_token_cost_ra = df["token_cost_ra"].mean()
+avg_time_cost_ra = df["time_cost_ra"].mean()
+print(f"Average token cost by Ranking: {avg_token_cost_ra:.2f}")
+print(f"Average time cost by Ranking: {avg_time_cost_ra:.4f} s")
 
 # pass@6: pass@6 == YES
 passat6 = df[(df['pass@6'] == 'YES') & (df['is_hallucination'] == 'YES')]
 passat6_ratio = len(passat6) / len(hallucination)
 print(f"pass@6: {len(passat6)} / {len(hallucination)} ({passat6_ratio:.2%})")
-
-# average token_cost and time_cost
-avg_token_cost = df["token_cost"].mean()
-avg_time_cost = df["time_cost"].mean()
-print(f"Average token cost: {avg_token_cost:.2f}")
-print(f"Average time cost: {avg_time_cost:.4f} s")

@@ -64,19 +64,30 @@ def run_pipeline(input_path, output_path, model_key):
     if os.path.exists(output_path):
         print(f"Resuming from existing output file: {output_path}")
         df_out = pd.read_csv(output_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
-        df = df.merge(
-            df_out[["Question", "final_answer", "mutation_list", "answer_list", "token_cost", "time_cost"]],
-            on="Question",
-            how="left",
-            suffixes=("", "_saved")
-        )
+        merge_cols = [c for c in df_out.columns if c in df.columns or c not in df.columns]
+        df = df.merge(df_out[merge_cols], on="Question", how="left", suffixes=("", "_saved"))
     else:
-        df["final_answer"] = ""
-        df["mutation_list"] = ""
-        df["answer_list"] = ""
-        df["token_cost"] = None
-        df["time_cost"] = None
-    df_todo = df[df["final_answer"].isna() | (df["final_answer"].astype(str).str.strip() == "")]
+        init_cols = [
+            "final_answer_mv", "token_cost_mv", "time_cost_mv",
+            "final_answer_cs", "token_cost_cs", "time_cost_cs",
+            "final_answer_ra", "token_cost_ra", "time_cost_ra",
+            "mutation_list", "answer_list"
+        ]
+        for col in init_cols:
+            if col not in df.columns:
+                if "token_cost" in col or "time_cost" in col:
+                    df[col] = None
+                else:
+                    df[col] = ""
+
+    condition = (
+                    df["final_answer_mv"].isna() | (df["final_answer_mv"].astype(str).str.strip() == "")
+                ) | (
+                    df["final_answer_cs"].isna() | (df["final_answer_cs"].astype(str).str.strip() == "")
+                ) | (
+                    df["final_answer_ra"].isna() | (df["final_answer_ra"].astype(str).str.strip() == "")
+                )
+    df_todo = df[condition]
 
     print(f"Total questions: {len(df)}")
     print(f"Already processed: {len(df) - len(df_todo)}")
@@ -98,24 +109,57 @@ def run_pipeline(input_path, output_path, model_key):
             answer, _tokens = safe_chat_call(messages, model_key)
             tokens += _tokens
             record.append(answer.strip())
-
-        record_str = "\n".join(record)
-        messages = [{"role": "system", "content": f"Question: {question}\nAnswers: {record_str}\n" + prompts.VOTING_PROMPT}]
-        final_answer, _tokens = safe_chat_call(messages, model_key)
-        tokens += _tokens
         end = time.time()
+        time_mu = end - start
+        record_str = "\n".join(record)
+
+        # majority voting
+        start_mv = time.time()
+        messages = [{"role": "system", "content": f"Question: {question}\nAnswers: {record_str}\n" + prompts.VOTING_PROMPT}]
+        final_answer_mv, _tokens = safe_chat_call(messages, model_key)
+        tokens_mv = tokens + _tokens
+        end_mv = time.time()
+
+        # confidence score
+        start_cs = time.time()
+        messages = [
+            {"role": "system", "content": f"Question: {question}\nAnswers: {record_str}\n" + prompts.CONFIDENCE_SCORE_PROMPT}]
+        final_answer_cs, _tokens = safe_chat_call(messages, model_key)
+        tokens_cs = tokens + _tokens
+        end_cs = time.time()
+
+        # ranking
+        start_ra = time.time()
+        messages = [
+            {"role": "system", "content": f"Question: {question}\nAnswers: {record_str}\n" + prompts.RANKING_PROMPT}]
+        final_answer_ra, _tokens = safe_chat_call(messages, model_key)
+        tokens_ra = tokens + _tokens
+        end_ra = time.time()
+
         # Logging
         print("===================================")
         print(f"Question: {question}")
         print(f"Base Response: {base_response}")
-        print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
+        print(
+            f"Final Answer by Majority Voting: {final_answer_mv} (tokens={tokens_mv + tokens}, time={time_mu + end_mv - start_mv:.4f}s)")
+        print(
+            f"Final Answer by Confidence Score: {final_answer_cs} (tokens={tokens_cs + tokens}, time={time_mu + end_cs - start_cs:.4f}s)")
+        print(
+            f"Final Answer by Ranking: {final_answer_ra} (tokens={tokens_ra + tokens}, time={time_mu + end_ra - start_ra:.4f}s)")
         mutation_list_str = "\n".join(mutation_list)
+
         # Save results into dataframe
-        df.loc[index, "final_answer"] = final_answer
         df.loc[index, "mutation_list"] = mutation_list_str
         df.loc[index, "answer_list"] = record_str
-        df.loc[index, "token_cost"] = tokens
-        df.loc[index, "time_cost"] = end - start
+        df.loc[index, "final_answer_mv"] = final_answer_mv
+        df.loc[index, "token_cost_mv"] = tokens_mv + tokens
+        df.loc[index, "time_cost_mv"] = time_mu + end_mv - start_mv
+        df.loc[index, "final_answer_cs"] = final_answer_cs
+        df.loc[index, "token_cost_mv"] = tokens_cs + tokens
+        df.loc[index, "time_cost_mv"] = time_mu + end_cs - start_cs
+        df.loc[index, "final_answer_ra"] = final_answer_ra
+        df.loc[index, "token_cost_mv"] = tokens_ra + tokens
+        df.loc[index, "time_cost_mv"] = time_mu + end_ra - start_ra
 
     df.to_csv(output_path, index=False)
     print(f"Output saved at {output_path}")
@@ -129,6 +173,6 @@ if __name__ == "__main__":
 
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"{args.model_key}_mutation_outputs_{dataset_name}.csv"
+    output_path = f"./outputs/{args.model_key}_mutation_outputs_{dataset_name}.csv"
 
     run_pipeline(dataset_path, output_path, args.model_key)
