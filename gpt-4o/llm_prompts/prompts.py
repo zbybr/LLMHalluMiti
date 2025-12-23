@@ -1,0 +1,112 @@
+SYSTEM_PROMPT = """The base response may contains hallucinations or factual errors. Verify facts step-by-step and 
+produce one corrected, factual, one-sentence answer based on real-world truth. Do not include invented details or 
+information from non-authoritative sources (e.g., advertisements, fan fiction, or marketing).
+
+If the question explicitly asks about myths, legends, fiction, films, or other non-real contexts, answer within that 
+fictional context but clearly label it as fictional and then you NEED to provide the accurate real‑world answer.
+
+Only if the question is subjective, you can reply: "I have no idea."."""
+
+
+MUTATION_PROMPT = """Given a question and a base response, create 5 different complete-sentence mutations of the 
+response. Use varied rewriting strategies, such as replacing words with synonyms or antonyms, changing sentence 
+structure, or introducing slight content changes by adding or removing a condition, altering viewpoint, omitting a 
+detail, swapping a cause–effect relationship, or adding a small commonsense twist. If the base response is 
+incomplete, rewrite it into a full sentence using the question’s context. Output all mutations as a numbered list 
+without explanations."""
+
+# RECHECK_PROMPT = """The **original response** contains hallucinations or factual errors in answering the
+# given question. Your task is to fact-check it and provide a corrected one-sentence answer.
+#
+# Follow these steps exactly in order:
+# 1. Using your factual knowledge or trusted sources, determine whether the original response is factually correct for
+# the given question. Correct answer must consider real facts, not myths, fairy tails or legends.
+# 2. If any hallucination or factual error is found, produce a fully corrected factual answer to the question, in
+# **exactly one sentence** and don't start with 'Yes' or 'No', preserving key facts from the question context. For
+# subjective/unverifiable questions or questions you cannot provide answers, respond with "I have no idea."
+# 3. If no hallucination is found, repeat the original answer **unaltered in factual content and meaning**, also in
+# **exactly one sentence**.
+# 4. After re-answering, output 'YES' if hallucinations were present, or 'NO' if none were found.
+#
+# Your output must strictly follow this numbered list format:
+# 1. [Corrected or repeated answer in exactly one sentence]
+# 2. [YES or NO only]
+#
+# Do not include anything else outside this format."""
+
+COT_PROMPT = """You are given a question and original response.
+Let's think step by step and provide the most accurate final answer.
+The final answer should exactly contain one sentence.
+"""
+
+VOTING_PROMPT = """Given a question and a list of answers from different reasoning paths, determine the final answer 
+by majority voting. Identify answers with the same meaning, count their occurrences, and select the most frequent 
+meaning. 'I have no idea.' is also a possible answer. If there are equal occurrences or the final selection can't be 
+decided, you should think step by step, choose the most possible one.
+
+Final answer(in exactly one sentence):
+"""
+
+VERBALIZED_SAMPLING_PROMPT = """You are a helpful assistant. You are given a question and a base response. The base 
+response may contains hallucinations or factual errors. 
+
+For each query, verify facts step-by-step and produce a set of five corrected, factual, one-sentence correct answers for 
+the original question based on real-world truth each within a separate <response> tag. 
+
+If the question explicitly asks about myths, legends, fiction, films, or other non-real contexts, answer within that 
+fictional context but clearly label it as fictional. Then you NEED to provide the accurate real‑world answer. Real‑world 
+answer should not include invented details or information from non-authoritative sources (e.g., advertisements, fan 
+fiction, or marketing). 
+
+Responses should each include:
+- a <text> field for the answer text
+- a numeric <probability> field sampled at random from the [full distribution / tails of the distribution], such that 
+the probability of each response is less than 0.10
+- a numeric <confidence> field representing the model's confidence score for the factual correctness of the answer (
+range 0.00–1.00, two decimal places).
+
+Do not output any index numbers before responses. Both probability and confidence should be numeric."""
+
+CONFIDENCE_SCORE_PROMPT = """You are a helpful assistant. I have a question and six potential answer sentences. For 
+each answer sentence, please evaluate its relevance and quality in addressing the question. Provide a numeric number 
+representing the model's confidence score for the factual correctness of the answer (range 0.00–1.00, two decimal places).
+
+Instructions:
+1. Fictional Context Rule: If the question asks about myths, legends, fiction, films, or other non-real contexts, answer 
+within the fictional context, but clearly label it as fictional, and then provide the real-world answer.
+2. Subjective Question Rule: If the question is subjective or opinion-based, and you cannot determine an objective answer, 
+respond with "I have no idea".
+3. The sentence with the highest confidence score should be identified as the best answer to the original question.
+
+Final Step:
+The best answer is the one with the highest confidence score. Only return this highest score answer sentence.
+"""
+
+RANKING_PROMPT = """You are a helpful assistant. I have a question and six potential answer sentences. I would like you 
+to compare each answer against the others and rank them from best to worst based on the ground truth criteria in 
+addressing the question that I will provide. Each answer should be compared to every other answer, and you should assign 
+a ranking to each comparison.
+
+Ground Truth Criteria for Ranking:
+1. If the question explicitly asks about myths, legends, fiction, films, or other non-real contexts: Answer within the 
+fictional context, but clearly label it as fictional. After that, you must provide the accurate real-world answer (e.g., 
+real-world facts, history, or scientific information).
+2. If the question is subjective (i.e., based on opinion, interpretation, or preference): If unsure, you may respond 
+with "I have no idea."
+3. For all other questions: Rank the answers based on their relevance, clarity, and accuracy in addressing the original 
+question.
+
+Instructions:
+1. Please create a 6x6 matrix where each row represents an answer sentence, and each column represents a comparison of 
+that answer sentence with the others.
+2. he matrix should contain numbers from 1 to 6, where 1 is the best rank (highest quality), and 6 is the worst rank (
+lowest quality).
+3. In each cell, compare the corresponding row's answer to the sentence listed in the column. The lower the number, the 
+better the answer.
+4. Use the ground truth criteria to guide your rankings.
+5. The highest-ranked answer (i.e., the one with the lowest total ranking) is considered the best answer to the original 
+question.
+
+Final Step:
+The best answer is the one with the lowest rank in the matrix. Only return this highest ranking answer sentence.
+"""
