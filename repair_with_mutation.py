@@ -162,8 +162,17 @@ def run_pipeline(input_path, output_path, model_key):
                 "content": f"Question: {question}\nAnswers: {record_str}",
             },
         ]
-        final_answer_cs, _tokens = safe_chat_call(messages, model_key)
+        confidence_score_result, _tokens = safe_chat_call(messages, model_key)
         tokens_cs = tokens + _tokens
+        messages = [
+            {"role": "system", "content": prompts.REFINE_PROMPT},
+            {
+                "role": "user",
+                "content": f"{confidence_score_result}",
+            },
+        ]
+        final_answer_cs, _tokens = safe_chat_call(messages, model_key)
+        tokens_cs += _tokens
         end_cs = time.time()
 
         # ranking
@@ -178,8 +187,20 @@ def run_pipeline(input_path, output_path, model_key):
                 "content": f"Question: {question}\nAnswers: {record_str}",
             },
         ]
-        final_answer_ra, _tokens = safe_chat_call(messages, model_key)
+        ranking_result, _tokens = safe_chat_call(messages, model_key)
         tokens_ra = tokens + _tokens
+        messages = [
+            {
+                "role": "system",
+                "content": prompts.REFINE_PROMPT,
+            },
+            {
+                "role": "user",
+                "content": f"{ranking_result}",
+            },
+        ]
+        final_answer_ra, _tokens = safe_chat_call(messages, model_key)
+        tokens_ra += _tokens
         end_ra = time.time()
 
         # Logging
@@ -187,13 +208,13 @@ def run_pipeline(input_path, output_path, model_key):
         print(f"Question: {question}")
         print(f"Base Response: {base_response}")
         print(
-            f"Final Answer by Majority Voting: {final_answer_mv} (tokens={tokens_mv + tokens}, time={time_mu + end_mv - start_mv:.4f}s)"
+            f"Final Answer by Majority Voting: {final_answer_mv} (tokens={tokens_mv}, time={time_mu + end_mv - start_mv:.4f}s)"
         )
         print(
-            f"Final Answer by Confidence Score: {final_answer_cs} (tokens={tokens_cs + tokens}, time={time_mu + end_cs - start_cs:.4f}s)"
+            f"Final Answer by Confidence Score: {final_answer_cs} (tokens={tokens_cs}, time={time_mu + end_cs - start_cs:.4f}s)"
         )
         print(
-            f"Final Answer by Ranking: {final_answer_ra} (tokens={tokens_ra + tokens}, time={time_mu + end_ra - start_ra:.4f}s)"
+            f"Final Answer by Ranking: {final_answer_ra} (tokens={tokens_ra}, time={time_mu + end_ra - start_ra:.4f}s)"
         )
         mutation_list_str = "\n".join(mutation_list)
 
@@ -201,14 +222,14 @@ def run_pipeline(input_path, output_path, model_key):
         df.loc[index, "mutation_list"] = mutation_list_str
         df.loc[index, "answer_list"] = record_str
         df.loc[index, "final_answer_mv"] = final_answer_mv
-        df.loc[index, "token_cost_mv"] = tokens_mv + tokens
+        df.loc[index, "token_cost_mv"] = tokens_mv
         df.loc[index, "time_cost_mv"] = time_mu + end_mv - start_mv
         df.loc[index, "final_answer_cs"] = final_answer_cs
-        df.loc[index, "token_cost_mv"] = tokens_cs + tokens
-        df.loc[index, "time_cost_mv"] = time_mu + end_cs - start_cs
+        df.loc[index, "token_cost_cs"] = tokens_cs
+        df.loc[index, "time_cost_cs"] = time_mu + end_cs - start_cs
         df.loc[index, "final_answer_ra"] = final_answer_ra
-        df.loc[index, "token_cost_mv"] = tokens_ra + tokens
-        df.loc[index, "time_cost_mv"] = time_mu + end_ra - start_ra
+        df.loc[index, "token_cost_ra"] = tokens_ra
+        df.loc[index, "time_cost_ra"] = time_mu + end_ra - start_ra
 
     df.to_csv(output_path, index=False)
     print(f"Output saved at {output_path}")

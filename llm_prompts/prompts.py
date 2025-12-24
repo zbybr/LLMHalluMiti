@@ -1,3 +1,5 @@
+from langchain_classic.chains.summarize.refine_prompts import REFINE_PROMPT
+
 SYSTEM_PROMPT = """The base response may contains hallucinations or factual errors. Verify facts step-by-step and 
 produce one corrected, factual, one-sentence answer based on real-world truth. Do not include invented details or 
 information from non-authoritative sources (e.g., advertisements, fan fiction, or marketing).
@@ -110,3 +112,6 @@ question.
 Final Step:
 The best answer is the one with the lowest rank in the matrix. Only return this highest ranking answer sentence.
 """
+
+REFINE_PROMPT = """You are may given a paragraph, you need to find the final answer sentence in this paragraph. And ONLY 
+return this sentence itself, DO NOT include anything else."""
