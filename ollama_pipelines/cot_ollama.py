@@ -22,7 +22,7 @@ def parse_rechecked_response(text: str):
 
 
 def run_pipeline(input_path, output_path, model_key):
-    df = pd.read_csv(input_path, encoding="iso-8859-1", quoting=csv.QUOTE_ALL).sample(1)
+    df = pd.read_csv(input_path, encoding="iso-8859-1", quoting=csv.QUOTE_ALL)
 
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
         question = row["Question"]
