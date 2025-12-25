@@ -122,7 +122,8 @@ def run_pipeline(input_path, output_path, model_key):
         base_response = row["base_response"]
         qapair = f"Question: {question}\nBase_response: {base_response}"
         messages = [
-            {"role": "user", "content": qapair + "\n" + prompts.MUTATION_PROMPT}
+            {"role": "system", "content": prompts.MUTATION_PROMPT},
+            {"role": "user", "content": qapair},
         ]
         mutations, tokens = safe_chat_call(messages, model_key)
         mutation_list = extract_mutations(mutations)
@@ -144,10 +145,7 @@ def run_pipeline(input_path, output_path, model_key):
         start_mv = time.time()
         messages = [
             {"role": "system", "content": prompts.VOTING_PROMPT},
-            {
-                "role": "user",
-                "content": f"Question: {question}\nAnswers: {record_str}",
-            },
+            {"role": "user", "content": f"Question: {question}\nAnswers: {record_str}"},
         ]
         final_answer_mv, _tokens = safe_chat_call(messages, model_key)
         tokens_mv = tokens + _tokens
@@ -157,19 +155,13 @@ def run_pipeline(input_path, output_path, model_key):
         start_cs = time.time()
         messages = [
             {"role": "system", "content": prompts.CONFIDENCE_SCORE_PROMPT},
-            {
-                "role": "user",
-                "content": f"Question: {question}\nAnswers: {record_str}",
-            },
+            {"role": "user","content": f"Question: {question}\nAnswers: {record_str}"},
         ]
         confidence_score_result, _tokens = safe_chat_call(messages, model_key)
         tokens_cs = tokens + _tokens
         messages = [
             {"role": "system", "content": prompts.REFINE_PROMPT},
-            {
-                "role": "user",
-                "content": f"{confidence_score_result}",
-            },
+            {"role": "user", "content": f"{confidence_score_result}"},
         ]
         final_answer_cs, _tokens = safe_chat_call(messages, model_key)
         tokens_cs += _tokens
@@ -178,26 +170,14 @@ def run_pipeline(input_path, output_path, model_key):
         # ranking
         start_ra = time.time()
         messages = [
-            {
-                "role": "system",
-                "content": prompts.RANKING_PROMPT,
-            },
-            {
-                "role": "user",
-                "content": f"Question: {question}\nAnswers: {record_str}",
-            },
+            {"role": "system", "content": prompts.RANKING_PROMPT},
+            {"role": "user", "content": f"Question: {question}\nAnswers: {record_str}"},
         ]
         ranking_result, _tokens = safe_chat_call(messages, model_key)
         tokens_ra = tokens + _tokens
         messages = [
-            {
-                "role": "system",
-                "content": prompts.REFINE_PROMPT,
-            },
-            {
-                "role": "user",
-                "content": f"{ranking_result}",
-            },
+            {"role": "system", "content": prompts.REFINE_PROMPT},
+            {"role": "user", "content": f"{ranking_result}"},
         ]
         final_answer_ra, _tokens = safe_chat_call(messages, model_key)
         tokens_ra += _tokens
