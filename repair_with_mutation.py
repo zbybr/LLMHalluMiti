@@ -29,7 +29,7 @@ def extract_mutations(text: str):
 def safe_chat_call(messages, model_key, max_retries=10, base_delay=0.0):
     """
     Safe wrapper for OpenAI chat completion with retries and detailed tracking.
-    Returns: (content, token_cost, time_cost)
+    Returns: (content, token_cost)
     """
     for attempt in range(max_retries):
         try:
