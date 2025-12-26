@@ -211,7 +211,7 @@ def run_pipeline(input_path, output_path, model_key):
         df.loc[index, "token_cost_ra"] = tokens_ra
         df.loc[index, "time_cost_ra"] = time_mu + end_ra - start_ra
 
-    df.to_csv(output_path, index=False)
+    df.to_csv(output_path, encoding="iso-8859-1", index=False)
     print(f"Output saved at {output_path}")
 
 
