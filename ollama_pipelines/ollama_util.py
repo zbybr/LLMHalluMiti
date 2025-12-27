@@ -4,7 +4,7 @@ import time
 from langchain_ollama import ChatOllama
 
 
-def safe_chat_call(messages, model_key, max_retries=10, base_delay=0.0):
+def safe_chat_call(messages, model_key, max_retries=10, base_delay=1.0):
     """
     Safe wrapper for ChatOllama with retries and detailed tracking.
     Returns: (content, token_cost)

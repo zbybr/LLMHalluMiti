@@ -32,7 +32,7 @@ def safe_chat_call(messages, model_key, max_retries=10, base_delay=0.0):
     Returns: (content, token_cost)
     """
     llm = ChatOllama(
-        model=model_key, temperature=0.0, base_url="http://localhost:11439", timeout=60
+        model=model_key, base_url="http://localhost:11434", timeout=60
     )
 
     for attempt in range(max_retries):
@@ -141,6 +141,6 @@ if __name__ == "__main__":
 
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"{args.model_key}_outputs_{dataset_name}.csv"
+    output_path = f"outputs/{args.model_key}_outputs_{dataset_name}.csv"
 
     run_pipeline(dataset_path, output_path, args.model_key)

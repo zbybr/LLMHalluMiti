@@ -1,18 +1,18 @@
 # from __future__ import annotations
 import itertools
 from typing import Any, Dict, List, Optional
-from pydantic import Extra
-from langchain_core.language_models import BaseLanguageModel
+
+import prompts
+from langchain_classic.chains import LLMChain, SequentialChain
+from langchain_classic.chains.base import Chain
+from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_core.callbacks.manager import (
     AsyncCallbackManagerForChainRun,
     CallbackManagerForChainRun,
 )
-from langchain_classic.chains import LLMChain, SequentialChain
-from langchain_core.prompts import PromptTemplate
-from langchain_core.prompts import BasePromptTemplate
-from langchain_community.tools import DuckDuckGoSearchRun
-from langchain_classic.chains.base import Chain
-import prompts
+from langchain_core.language_models import BaseLanguageModel
+from langchain_core.prompts import BasePromptTemplate, PromptTemplate
+from pydantic import Extra
 
 
 class ExecuteVerificationChain(Chain):
@@ -49,46 +49,70 @@ class ExecuteVerificationChain(Chain):
         """
         return [self.output_key]
 
-    def search_for_verification_question(self,
-                                         verification_question: str
-                                        ) -> str:
+    def search_for_verification_question(self, verification_question: str) -> str:
+        print(f"Searching for verification question: {verification_question}")
         search_result = self.search_tool.run(verification_question)
         return search_result
-    
+
     def _call(
         self,
         inputs: Dict[str, Any],
         run_manager: Optional[CallbackManagerForChainRun] = None,
     ) -> Dict[str, str]:
-        verification_answers_list = list() # Will contain the answers of each verification questions
-        question_answer_pair = "" # Final output of verification question and answer pair
-        
+        verification_answers_list = (
+            list()
+        )  # Will contain the answers of each verification questions
+        question_answer_pair = (
+            ""  # Final output of verification question and answer pair
+        )
+
         # Convert all the verification questions into a list of string
-        sub_inputs = {k:v for k,v in inputs.items() if k==self.input_key}
+        sub_inputs = {k: v for k, v in inputs.items() if k == self.input_key}
+        print(sub_inputs)
         verification_questions_prompt_value = self.prompt.format_prompt(**sub_inputs)
         verification_questions_str = verification_questions_prompt_value.text
+        print("DEBUG verification_questions_str:", verification_questions_str)
         verification_questions_list = verification_questions_str.split("\n")
         print("DEBUG inputs:", inputs)
         print("DEBUG self.input_key:", self.input_key)
         print("DEBUG sub_inputs:", sub_inputs)
-        
+        print("DEBUG verification_questions_str:", verification_questions_str)
+
         # Setting up prompt for both search tool and llm self evaluation
-        execution_prompt_search_tool = PromptTemplate.from_template(prompts.EXECUTE_PLAN_PROMPT_SEARCH_TOOL)
-        execution_prompt_self_llm = PromptTemplate.from_template(prompts.EXECUTE_PLAN_PROMPT_SELF_LLM)
-        
+        execution_prompt_search_tool = PromptTemplate.from_template(
+            prompts.EXECUTE_PLAN_PROMPT_SEARCH_TOOL
+        )
+        execution_prompt_self_llm = PromptTemplate.from_template(
+            prompts.EXECUTE_PLAN_PROMPT_SELF_LLM
+        )
+
         # Executing the verification questions, either using search tool or self llm
         for question in verification_questions_list:
             if self.use_search_tool:
                 search_result = self.search_for_verification_question(question)
-                execution_prompt_value = execution_prompt_search_tool.format_prompt(**{"search_result": search_result, "verification_question": question})
+                execution_prompt_value = execution_prompt_search_tool.format_prompt(
+                    **{
+                        "search_result": search_result,
+                        "verification_question": question,
+                    }
+                )
             else:
-                execution_prompt_value = execution_prompt_self_llm.format_prompt(**{"verification_question": question})
-            verification_answer_llm_result = self.llm.generate_prompt([execution_prompt_value], callbacks=run_manager.get_child() if run_manager else None)
-            verification_answer_str = verification_answer_llm_result.generations[0][0].text
+                execution_prompt_value = execution_prompt_self_llm.format_prompt(
+                    **{"verification_question": question}
+                )
+            verification_answer_llm_result = self.llm.generate_prompt(
+                [execution_prompt_value],
+                callbacks=run_manager.get_child() if run_manager else None,
+            )
+            verification_answer_str = verification_answer_llm_result.generations[0][
+                0
+            ].text
             verification_answers_list.append(verification_answer_str)
-        
+
         # Create verification question and answer pair
-        for question, answer in itertools.zip_longest(verification_questions_list, verification_answers_list):
+        for question, answer in itertools.zip_longest(
+            verification_questions_list, verification_answers_list
+        ):
             question_answer_pair += "Question: {} Answer: {}\n".format(question, answer)
 
         if run_manager:
