@@ -1,7 +1,7 @@
 import pandas as pd
 
 # df = pd.read_csv("../gpt-4o_mutation_outputs_dataset20250926_hallucination.csv", encoding="latin-1")
-df = pd.read_csv("../outputs/gpt-5_mutation_outputs_gpt-5_sample_responses.csv", encoding="latin-1")
+df = pd.read_csv("../outputs/gpt-oss_20b_mutation_outputs_gpt-oss-20b_truthfulqa1.3.csv", encoding="iso-8859-1")
 total_samples = len(df)
 print(f"Total samples: {total_samples}")
 
@@ -25,10 +25,10 @@ hallucination = df[(df['is_hallucination'] == 'YES')]
 hallucination_ratio = len(hallucination) / total_samples
 print(f"Hallucination rate: {len(hallucination)} / {total_samples} ({hallucination_ratio:.2%})")
 
-# recheck_hallucination_rate: origin_hallucination == YES
-recheck_hallu = df[(df['recheck_hallucination'] == 'YES')]
-recheck_hallu_ratio = len(recheck_hallu) / total_samples
-print(f"Recheck Hallu rate: {len(recheck_hallu)} / {total_samples} ({recheck_hallu_ratio:.2%})")
+# # recheck_hallucination_rate: origin_hallucination == YES
+# recheck_hallu = df[(df['recheck_hallucination'] == 'YES')]
+# recheck_hallu_ratio = len(recheck_hallu) / total_samples
+# print(f"Recheck Hallu rate: {len(recheck_hallu)} / {total_samples} ({recheck_hallu_ratio:.2%})")
 
 # successful repair by Majority Voting: origin_hallucination == YES and recheck_hallucination_mv == NO
 successful_repair_mv = df[(df['is_hallucination'] == 'YES') & (df['recheck_hallucination_mv'] == 'NO')]
