@@ -47,7 +47,7 @@ def generate_response(question, model_key):
 
 
 def main(input_path, output_path, model_key):
-    df = pd.read_csv(input_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
+    df = pd.read_csv(input_path, encoding="utf-8", quoting=csv.QUOTE_ALL)
 
     base_responses = []
     for _, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
@@ -62,16 +62,16 @@ def main(input_path, output_path, model_key):
     df["base_response"] = base_responses
 
     # Save new dataset
-    df.to_csv(output_path, index=False)
+    df.to_csv(output_path, encoding="utf-8", index=False)
     print(f"Dataset saved as {output_path}")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="GPT Response Dataset Generation")
     parser.add_argument('--dataset_path', type=str, required=True, help="Dataset path")
-    parser.add_argument('--model_key', type=str, required=True, help="Model key")
+    # parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
-    model_key = args.model_key
+    model_key = 'gpt-5'
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
     output_path = f"{model_key}_{dataset_name}_responses.csv"
