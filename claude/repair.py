@@ -64,7 +64,7 @@ def safe_chat_call(messages, model_key, max_retries=10, base_delay=0.0):
     return "ERROR: Empty or invalid model output", 0
 
 
-def run_pipeline(input_path, output_path, model_key='gpt-4o'):
+def run_pipeline(input_path, output_path, model_key='claude-haiku-4-5-20251001-thinking'):
     df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     parser.add_argument("--dataset_path", type=str, required=True, help="Dataset path")
     # parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
-    model_key = "gpt-4o"
+    model_key = 'claude-haiku-4-5-20251001-thinking'
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
     output_path = f"./outputs/{model_key}_outputs_{dataset_name}.csv"

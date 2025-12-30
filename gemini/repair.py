@@ -99,9 +99,9 @@ if __name__ == "__main__":
     parser.add_argument("--dataset_path", type=str, required=True, help="Dataset path")
     # parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
-    model_key = "gpt-4o"
+
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"./outputs/{model_key}_outputs_{dataset_name}.csv"
+    output_path = f"./outputs/gpt-4o_outputs_{dataset_name}.csv"
 
-    run_pipeline(dataset_path, output_path, model_key)
+    run_pipeline(dataset_path, output_path, args.model_key)

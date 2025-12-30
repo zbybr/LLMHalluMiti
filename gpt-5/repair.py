@@ -16,17 +16,6 @@ client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
     base_url=os.getenv("OPENAI_BASE_URL")
 )
-#
-#
-# def parse_rechecked_response(text: str):
-#     final_answer, hallucination_check = "", ""
-#     for line in text.splitlines():
-#         line = line.strip()
-#         if line.startswith("1"):
-#             final_answer = line.lstrip("1234567890. ").strip()
-#         elif line.startswith("2"):
-#             hallucination_check = line.lstrip("1234567890. ").strip()
-#     return final_answer, hallucination_check
 
 
 def safe_chat_call(messages, model_key, max_retries=10, base_delay=0.0):
@@ -65,7 +54,7 @@ def safe_chat_call(messages, model_key, max_retries=10, base_delay=0.0):
 
 
 def run_pipeline(input_path, output_path, model_key):
-    df = pd.read_csv(input_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
+    df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
         question = row["Question"]
@@ -93,18 +82,18 @@ def run_pipeline(input_path, output_path, model_key):
         df.loc[index, "token_cost"] = tokens
         df.loc[index, "time_cost"] = end - start
 
-    df.to_csv(output_path, index=False)
+    df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
     print(f"Output saved at {output_path}")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Hallucination Mitigation pipeline with cost tracking")
     parser.add_argument("--dataset_path", type=str, required=True, help="Dataset path")
-    parser.add_argument('--model_key', type=str, required=True, help="Model key")
+    # parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
-
+    model_key = 'gpt-5'
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"./outputs/{args.model_key}_outputs_{dataset_name}.csv"
+    output_path = f"./outputs/{model_key}_outputs_{dataset_name}.csv"
 
-    run_pipeline(dataset_path, output_path, args.model_key)
+    run_pipeline(dataset_path, output_path, model_key)

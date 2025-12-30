@@ -47,7 +47,7 @@ def generate_response(question, model_key):
 
 
 def main(input_path, output_path, model_key):
-    df = pd.read_csv(input_path, encoding="utf-8", quoting=csv.QUOTE_ALL)
+    df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
     base_responses = []
     for _, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
@@ -62,7 +62,7 @@ def main(input_path, output_path, model_key):
     df["base_response"] = base_responses
 
     # Save new dataset
-    df.to_csv(output_path, encoding="utf-8", index=False)
+    df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
     print(f"Dataset saved as {output_path}")
 
 

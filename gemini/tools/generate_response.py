@@ -13,7 +13,6 @@ client = OpenAI(
     base_url=os.getenv("OPENAI_BASE_URL")
 )
 
-
 def call_llm(prompt, model_key, max_retries=10, base_delay=2.0):
     for attempt in range(max_retries):
         try:
@@ -71,7 +70,7 @@ if __name__ == "__main__":
     parser.add_argument('--dataset_path', type=str, required=True, help="Dataset path")
     # parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
-    model_key = 'gpt-5'
+    model_key = 'claude-haiku-4-5-20251001-thinking'
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
     output_path = f"{model_key}_{dataset_name}_responses.csv"

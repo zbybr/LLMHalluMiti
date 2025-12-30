@@ -50,7 +50,7 @@ if __name__ == "__main__":
     parser.add_argument('--question', type=str, required=False, help='Single question to ask')
     parser.add_argument('--base_response', type=str, required=False, help='Base response to verify')
     parser.add_argument('--dataset_path', type=str, required=False, help='Dataset path')
-    parser.add_argument('--model_key', type=str, required=False, default="gpt-4o", help='Model key')
+    parser.add_argument('--model_key', type=str, required=False, default="gpt-5", help='Model key')
     parser.add_argument('--temperature', type=float, required=False, default=0.1, help='LLM temperature')
     parser.add_argument('--max_tokens', type=int, required=False, default=2048, help='Maximum tokens')
     parser.add_argument('--show_intermediate_steps', type=bool, required=False, default=True,
@@ -61,11 +61,11 @@ if __name__ == "__main__":
         dataset_path = args.dataset_path
         dataset_name = str(Path(dataset_path).stem).lower()
         output_path = f"../../outputs/cove-se/{args.model_key}_cove_se_outputs_{dataset_name}.csv"
-        df = pd.read_csv(dataset_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
+        df = pd.read_csv(dataset_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
         if os.path.exists(output_path):
             print(f"Resuming from existing output file: {output_path}")
-            df_out = pd.read_csv(output_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
+            df_out = pd.read_csv(output_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
             df = df.merge(
                 df_out[["Question", "final_answer", "token_cost", "time_cost"]],
                 on="Question",
@@ -101,7 +101,7 @@ if __name__ == "__main__":
                 df.loc[df["Question"] == question, "final_answer"] = final_answer
                 df.loc[df["Question"] == question, "token_cost"] = tokens
                 df.loc[df["Question"] == question, "time_cost"] = end - start
-            df.to_csv(output_path, index=False)
+            df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
         print(f"Output saved at {output_path}")
 
     elif args.question:

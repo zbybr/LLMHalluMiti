@@ -60,10 +60,10 @@ def safe_chat_call(messages, model_key, max_retries=10, base_delay=0.0):
 
 
 def run_pipeline(input_path, output_path, model_key='gpt-4o'):
-    df = pd.read_csv(input_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
+    df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
     if os.path.exists(output_path):
         print(f"Resuming from existing output file: {output_path}")
-        df_out = pd.read_csv(output_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
+        df_out = pd.read_csv(output_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
         merge_cols = [c for c in df_out.columns if c in df.columns or c not in df.columns]
         df = df.merge(df_out[merge_cols], on="Question", how="left", suffixes=("", "_saved"))
     else:
@@ -160,7 +160,7 @@ def run_pipeline(input_path, output_path, model_key='gpt-4o'):
         df.loc[index, "token_cost_mv"] = tokens_ra + tokens
         df.loc[index, "time_cost_mv"] = time_mu + end_ra - start_ra
 
-    df.to_csv(output_path, index=False)
+    df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
     print(f"Output saved at {output_path}")
 
 
@@ -169,9 +169,9 @@ if __name__ == "__main__":
     parser.add_argument("--dataset_path", type=str, required=True, help="Dataset path")
     # parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
-
+    model_key = 'gpt-4o'
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"./outputs/gpt-4o_mutation_outputs_{dataset_name}.csv"
+    output_path = f"./outputs/{model_key}_mutation_outputs_{dataset_name}.csv"
 
-    run_pipeline(dataset_path, output_path, args.model_key)
+    run_pipeline(dataset_path, output_path, model_key)

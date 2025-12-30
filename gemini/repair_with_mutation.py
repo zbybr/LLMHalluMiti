@@ -59,7 +59,7 @@ def safe_chat_call(messages, model_key, max_retries=10, base_delay=0.0):
     return "ERROR: Empty or invalid model output", 0
 
 
-def run_pipeline(input_path, output_path, model_key):
+def run_pipeline(input_path, output_path, model_key='gpt-4o'):
     df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
     if os.path.exists(output_path):
         print(f"Resuming from existing output file: {output_path}")
@@ -98,14 +98,13 @@ def run_pipeline(input_path, output_path, model_key):
         question = row["Question"]
         base_response = row['base_response']
         qapair = f"Question: {question}\nBase_response: {base_response}"
-        messages = [{"role": "user", "content": qapair + '\n' + prompts.MUTATION_PROMPT}]
+        messages = [{"role": "system", "content": qapair + '\n' + prompts.MUTATION_PROMPT}]
         mutations, tokens = safe_chat_call(messages, model_key)
         mutation_list = extract_mutations(mutations)
         mutation_list.append(base_response)
         for mutation in mutation_list:
             qapair = f"Question: {question}\nBase_response: {mutation}"
-            messages = [{"role": "assistant", "content": qapair},
-                        {"role": "user", "content": prompts.SYSTEM_PROMPT}]
+            messages = [{"role": "system", "content": qapair + '\n' + prompts.SYSTEM_PROMPT}]
             answer, _tokens = safe_chat_call(messages, model_key)
             tokens += _tokens
             record.append(answer.strip())
@@ -170,9 +169,9 @@ if __name__ == "__main__":
     parser.add_argument("--dataset_path", type=str, required=True, help="Dataset path")
     # parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
-    model_key = 'gpt-5'
+
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"./outputs/{model_key}_mutation_outputs_{dataset_name}.csv"
+    output_path = f"./outputs/gpt-4o_mutation_outputs_{dataset_name}.csv"
 
-    run_pipeline(dataset_path, output_path, model_key)
+    run_pipeline(dataset_path, output_path, args.model_key)
