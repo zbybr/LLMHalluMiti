@@ -70,7 +70,7 @@ if __name__ == "__main__":
     parser.add_argument('--dataset_path', type=str, required=True, help="Dataset path")
     # parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
-    model_key = 'claude-haiku-4-5-20251001-thinking'
+    model_key = 'gemini-3-pro-preview-11-2025'
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
     output_path = f"{model_key}_{dataset_name}_responses.csv"
