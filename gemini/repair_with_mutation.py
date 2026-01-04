@@ -130,9 +130,17 @@ def run_pipeline(input_path, output_path, model_key='gpt-4o'):
         # ranking
         start_ra = time.time()
         messages = [
-            {"role": "system", "content": f"Question: {question}\nAnswers: {record_str}\n" + prompts.RANKING_PROMPT}]
-        final_answer_ra, _tokens = safe_chat_call(messages, model_key)
+            {"role": "system", "content": prompts.RANKING_PROMPT},
+            {"role": "user", "content": f"Question: {question}\nAnswers: {record_str}"},
+        ]
+        ranking_result, _tokens = safe_chat_call(messages, model_key)
         tokens_ra = tokens + _tokens
+        messages = [
+            {"role": "system", "content": prompts.REFINE_PROMPT},
+            {"role": "user", "content": f"{ranking_result}"},
+        ]
+        final_answer_ra, _tokens = safe_chat_call(messages, model_key)
+        tokens_ra += _tokens
         end_ra = time.time()
 
         # Logging
