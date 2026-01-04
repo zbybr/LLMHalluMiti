@@ -64,10 +64,10 @@ def safe_chat_call(messages, model_key, max_retries=10, base_delay=0.0):
 
 
 def run_pipeline(input_path, output_path, model_key):
-    df = pd.read_csv(input_path, encoding="iso-8859-1", quoting=csv.QUOTE_ALL)
+    df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
     if os.path.exists(output_path):
         print(f"Resuming from existing output file: {output_path}")
-        df_out = pd.read_csv(output_path, encoding="iso-8859-1", quoting=csv.QUOTE_ALL)
+        df_out = pd.read_csv(output_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
         merge_cols = [
             c for c in df_out.columns if c in df.columns or c not in df.columns
         ]
@@ -211,7 +211,7 @@ def run_pipeline(input_path, output_path, model_key):
         df.loc[index, "token_cost_ra"] = tokens_ra + tokens
         df.loc[index, "time_cost_ra"] = time_mu + end_ra - start_ra
 
-    df.to_csv(output_path, encoding="iso-8859-1", index=False)
+    df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
     print(f"Output saved at {output_path}")
 
 
