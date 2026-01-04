@@ -15,25 +15,6 @@ detail, swapping a cause–effect relationship, or adding a small commonsense tw
 incomplete, rewrite it into a full sentence using the question’s context. Output all mutations as a numbered list 
 without explanations."""
 
-# RECHECK_PROMPT = """The **original response** contains hallucinations or factual errors in answering the
-# given question. Your task is to fact-check it and provide a corrected one-sentence answer.
-#
-# Follow these steps exactly in order:
-# 1. Using your factual knowledge or trusted sources, determine whether the original response is factually correct for
-# the given question. Correct answer must consider real facts, not myths, fairy tails or legends.
-# 2. If any hallucination or factual error is found, produce a fully corrected factual answer to the question, in
-# **exactly one sentence** and don't start with 'Yes' or 'No', preserving key facts from the question context. For
-# subjective/unverifiable questions or questions you cannot provide answers, respond with "I have no idea."
-# 3. If no hallucination is found, repeat the original answer **unaltered in factual content and meaning**, also in
-# **exactly one sentence**.
-# 4. After re-answering, output 'YES' if hallucinations were present, or 'NO' if none were found.
-#
-# Your output must strictly follow this numbered list format:
-# 1. [Corrected or repeated answer in exactly one sentence]
-# 2. [YES or NO only]
-#
-# Do not include anything else outside this format."""
-
 COT_PROMPT = """You are given a question and original response.
 Let's think step by step and provide the most accurate final answer.
 The final answer should exactly contain one sentence.
@@ -44,7 +25,7 @@ by majority voting. Identify answers with the same meaning, count their occurren
 meaning. 'I have no idea.' is also a possible answer. If there are equal occurrences or the final selection can't be 
 decided, you should think step by step, choose the most possible one.
 
-Final answer(in exactly one sentence):
+Final answer should be in exactly one sentence.
 """
 
 VERBALIZED_SAMPLING_PROMPT = """You are a helpful assistant. You are given a question and a base response. The base 
@@ -110,3 +91,6 @@ question.
 Final Step:
 The best answer is the one with the lowest rank in the matrix. Only return this highest ranking answer sentence.
 """
+
+REFINE_PROMPT = """You are may given a paragraph, you need to find the final answer sentence in this paragraph. And ONLY 
+return this sentence itself, DO NOT include anything else."""
