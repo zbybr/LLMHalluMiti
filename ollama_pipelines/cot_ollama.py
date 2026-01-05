@@ -22,7 +22,7 @@ def parse_rechecked_response(text: str):
 
 
 def run_pipeline(input_path, output_path, model_key):
-    df = pd.read_csv(input_path, encoding="iso-8859-1", quoting=csv.QUOTE_ALL)
+    df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
         question = row["Question"]
@@ -46,7 +46,7 @@ def run_pipeline(input_path, output_path, model_key):
         df.loc[index, "token_cost"] = tokens
         df.loc[index, "time_cost"] = end - start
 
-    df.to_csv(output_path, encoding="utf-8", index=False)
+    df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
     print(f"Output saved at {output_path}")
 
 

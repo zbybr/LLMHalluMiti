@@ -70,10 +70,10 @@ def run_pipeline(input_path, output_path, model_key):
     # Load existing output if it exists, otherwise load input dataset
     if os.path.exists(output_path):
         print(f"Loading existing output from {output_path}")
-        df = pd.read_csv(output_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
+        df = pd.read_csv(output_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
     else:
         print(f"Loading input dataset from {input_path}")
-        df = pd.read_csv(input_path, encoding="latin-1", quoting=csv.QUOTE_ALL)
+        df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
         # Skip if final_answer already exists and is not empty
@@ -127,7 +127,7 @@ def run_pipeline(input_path, output_path, model_key):
         df.loc[index, "time_cost"] = end - start
 
         # Save after each row to preserve progress
-        df.to_csv(output_path, index=False)
+        df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
     print(f"Output saved at {output_path}")
 
 

@@ -76,12 +76,12 @@ if __name__ == "__main__":
         output_path = (
             f"../../outputs/cove/{args.model_key}_cove_outputs_{dataset_name}.csv"
         )
-        df = pd.read_csv(dataset_path, encoding="iso-8859-1", quoting=csv.QUOTE_ALL)
+        df = pd.read_csv(dataset_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
         if os.path.exists(output_path):
             print(f"Resuming from existing output file: {output_path}")
             df_out = pd.read_csv(
-                output_path, encoding="iso-8859-1", quoting=csv.QUOTE_ALL
+                output_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL
             )
             df = df.merge(
                 df_out[["Question", "final_answer", "token_cost", "time_cost"]],
@@ -154,7 +154,7 @@ if __name__ == "__main__":
                         df.loc[df["Question"] == question, "token_cost"] = 0
                         df.loc[df["Question"] == question, "time_cost"] = 0
 
-            df.to_csv(output_path, encoding="utf-8", index=False)
+            df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
         print(f"Output saved at {output_path}")
 
     elif args.question:
