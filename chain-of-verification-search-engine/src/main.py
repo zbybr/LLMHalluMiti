@@ -58,7 +58,7 @@ if __name__ == "__main__":
     if args.dataset_path:
         dataset_path = args.dataset_path
         dataset_name = str(Path(dataset_path).stem).lower()
-        output_path = f"../../outputs/cove-se/{args.model_key}_cove_se_outputs_{dataset_name}.csv"
+        output_path = f"../outputs/cove-se/{args.model_key}_cove_se_outputs_{dataset_name}.csv"
         df = pd.read_csv(dataset_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
         if os.path.exists(output_path):
@@ -120,8 +120,8 @@ if __name__ == "__main__":
                     retry_count += 1
                     print(f"Error on attempt {retry_count}/{max_retries}: {str(e)}")
                     if retry_count < max_retries:
-                        print(f"Retrying in 2 seconds...")
-                        time.sleep(2)
+                        print(f"Retrying in 1 seconds...")
+                        time.sleep(1)
                     else:
                         print(
                             f"Failed after {max_retries} attempts. Skipping question."

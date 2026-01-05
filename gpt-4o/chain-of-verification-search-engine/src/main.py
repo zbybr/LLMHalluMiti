@@ -21,11 +21,9 @@ CUSTOM_BASE_URL = os.getenv("OPENAI_BASE_URL")
 
 def process_question(question, base_response, model_name, temperature, max_tokens, show_steps):
     chain_llm = ChatOpenAI(model=model_name, temperature=temperature, max_tokens=max_tokens,
-                           max_retries=20,
                            api_key=CUSTOM_API_KEY,
                            base_url=CUSTOM_BASE_URL)
     route_llm = ChatOpenAI(model=model_name, temperature=0.1, max_tokens=2048,
-                           max_retries=20,
                            api_key=CUSTOM_API_KEY,
                            base_url=CUSTOM_BASE_URL)
 
@@ -84,23 +82,53 @@ if __name__ == "__main__":
 
         print(f"Processing {len(df_todo)} questions from dataset: {args.dataset_path}")
         for index, row in tqdm(df_todo.iterrows(), total=len(df_todo), desc="Processing QA"):
-            with get_openai_callback() as cb:
-                start = time.time()
-                question = row["Question"]
-                base_response = row['base_response']
-                final_answer = process_question(question, base_response, args.model_key, args.temperature, args.max_tokens,
-                                                args.show_intermediate_steps)
-                end = time.time()
-                tokens = cb.total_tokens
-                print("===================================")
-                print(f"Question: {question}")
-                print(f"Base Response: {base_response}")
-                print(f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)")
+            max_retries = 20
+            retry_count = 0
+            success = False
 
-                # Save results into dataframe
-                df.loc[df["Question"] == question, "final_answer"] = final_answer
-                df.loc[df["Question"] == question, "token_cost"] = tokens
-                df.loc[df["Question"] == question, "time_cost"] = end - start
+            while retry_count < max_retries and not success:
+                try:
+                    with get_openai_callback() as cb:
+                        start = time.time()
+                        question = row["Question"]
+                        base_response = row["base_response"]
+                        final_answer = process_question(
+                            question,
+                            base_response,
+                            args.model_key,
+                            args.temperature,
+                            args.max_tokens,
+                            args.show_intermediate_steps,
+                        )
+                        end = time.time()
+                        tokens = cb.total_tokens
+                        print("===================================")
+                        print(f"Question: {question}")
+                        print(f"Base Response: {base_response}")
+                        print(
+                            f"Final Answer: {final_answer} (tokens={tokens}, time={end - start:.4f}s)"
+                        )
+
+                        # Save results into dataframe
+                        df.loc[df["Question"] == question, "final_answer"] = (
+                            final_answer
+                        )
+                        df.loc[df["Question"] == question, "token_cost"] = tokens
+                        df.loc[df["Question"] == question, "time_cost"] = end - start
+                        success = True
+                except Exception as e:
+                    retry_count += 1
+                    print(f"Error on attempt {retry_count}/{max_retries}: {str(e)}")
+                    if retry_count < max_retries:
+                        print(f"Retrying in 2 seconds...")
+                        time.sleep(2)
+                    else:
+                        print(
+                            f"Failed after {max_retries} attempts. Skipping question."
+                        )
+                        df.loc[df["Question"] == question, "final_answer"] = "ERROR"
+                        df.loc[df["Question"] == question, "token_cost"] = 0
+                        df.loc[df["Question"] == question, "time_cost"] = 0
             df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
         print(f"Output saved at {output_path}")
 
