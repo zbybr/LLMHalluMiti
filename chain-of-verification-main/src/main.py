@@ -21,11 +21,11 @@ CUSTOM_BASE_URL = os.getenv("OPENAI_BASE_URL")
 
 def process_question(question, base_response, model_name, temperature, max_tokens, show_steps):
     chain_llm = ChatOpenAI(model=model_name, temperature=temperature, max_tokens=max_tokens,
-                           max_retries=10,
+                           max_retries=20,
                            api_key=CUSTOM_API_KEY,
                            base_url=CUSTOM_BASE_URL)
     route_llm = ChatOpenAI(model=model_name, temperature=0.1, max_tokens=2048,
-                           max_retries=10,
+                           max_retries=20,
                            api_key=CUSTOM_API_KEY,
                            base_url=CUSTOM_BASE_URL)
 

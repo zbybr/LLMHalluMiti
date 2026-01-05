@@ -13,7 +13,7 @@ client = OpenAI(
     base_url=os.getenv("OPENAI_BASE_URL")
 )
 
-def call_llm(prompt, model_key, max_retries=10, base_delay=2.0):
+def call_llm(prompt, model_key, max_retries=20, base_delay=2.0):
     for attempt in range(max_retries):
         try:
             response = client.chat.completions.create(

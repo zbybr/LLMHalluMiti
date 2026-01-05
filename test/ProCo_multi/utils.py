@@ -24,7 +24,7 @@ def check_string(s):
         raise ValueError("Empty or invalid string encountered.")
 
 
-def answer_by_model_key_with_cost(prompt, model_key, max_retries=10, base_delay=0.0):
+def answer_by_model_key_with_cost(prompt, model_key, max_retries=20, base_delay=0.0):
     for attempt in range(max_retries):
         try:
             completion = client.chat.completions.create(
