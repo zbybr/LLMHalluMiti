@@ -2,6 +2,7 @@ import argparse
 import csv
 import os
 import random
+import re
 import time
 from pathlib import Path
 
@@ -18,10 +19,11 @@ def safe_chat_call(messages, model_key, max_retries=5, base_delay=0.0):
     llm = ChatOllama(
         model=model_key,
         # temperature=0.0,
-        base_url="http://localhost:11439",
+        base_url="http://localhost:11434",
         timeout=30,
         cache=False,
         num_predict=2048,
+        hide_thinking=True,
     )
 
     for attempt in range(max_retries):
@@ -34,6 +36,9 @@ def safe_chat_call(messages, model_key, max_retries=5, base_delay=0.0):
                 raise ValueError("Empty or null response from model")
 
             content = content.strip()
+            content = re.sub(
+                r"<think>.*?</think>", "", content, flags=re.DOTALL
+            ).strip()
 
             # Get token usage from response metadata
             tokens = 0
@@ -118,7 +123,8 @@ if __name__ == "__main__":
     model_key = args.model_key
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"{model_key}_{dataset_name}_responses.csv"
+    safe_model_key = model_key.replace(":", "_")
+    output_path = f"outputs/{safe_model_key}_{dataset_name}_responses.csv"
     main(dataset_path, output_path, model_key)
 
 # safe_chat_call("Who are you?", "gpt-oss:20b")
