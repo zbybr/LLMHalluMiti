@@ -87,7 +87,7 @@ def run_pipeline(input_path, output_path, model_key='gpt-4o'):
         df.loc[index, "token_cost"] = tokens
         df.loc[index, "time_cost"] = end - start
 
-    df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
+        df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
     print(f"Output saved at {output_path}")
 
 

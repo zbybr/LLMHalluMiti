@@ -5,8 +5,10 @@ information from non-authoritative sources (e.g., advertisements, fan fiction, o
 If the question explicitly asks about myths, legends, fiction, films, or other non-real contexts, answer within that 
 fictional context but clearly label it as fictional and then you NEED to provide the accurate real‑world answer.
 
-Only if the question is subjective, you can reply: "I have no idea."."""
+Only if the question is subjective, you can reply: "I have no idea.".
 
+Return the final answer sentence, the final answer should exactly contain one sentence.
+"""
 
 MUTATION_PROMPT = """Given a question and a base response, create 5 different complete-sentence mutations of the 
 response. Use varied rewriting strategies, such as replacing words with synonyms or antonyms, changing sentence 
@@ -47,25 +49,25 @@ decided, you should think step by step, choose the most possible one.
 Final answer should be in exactly one sentence.
 """
 
-VERBALIZED_SAMPLING_PROMPT = """You are a helpful assistant. You are given a question and a base response. The base 
-response may contains hallucinations or factual errors. 
-
-For each query, verify facts step-by-step and produce a set of five corrected, factual, one-sentence correct answers for 
-the original question based on real-world truth each within a separate <response> tag. 
-
-If the question explicitly asks about myths, legends, fiction, films, or other non-real contexts, answer within that 
-fictional context but clearly label it as fictional. Then you NEED to provide the accurate real‑world answer. Real‑world 
-answer should not include invented details or information from non-authoritative sources (e.g., advertisements, fan 
-fiction, or marketing). 
-
-Responses should each include:
-- a <text> field for the answer text
-- a numeric <probability> field sampled at random from the [full distribution / tails of the distribution], such that 
-the probability of each response is less than 0.10
-- a numeric <confidence> field representing the model's confidence score for the factual correctness of the answer (
-range 0.00–1.00, two decimal places).
-
-Do not output any index numbers before responses. Both probability and confidence should be numeric."""
+# VERBALIZED_SAMPLING_PROMPT = """You are a helpful assistant. You are given a question and a base response. The base
+# response may contains hallucinations or factual errors.
+#
+# For each query, verify facts step-by-step and produce a set of five corrected, factual, one-sentence correct answers for
+# the original question based on real-world truth each within a separate <response> tag.
+#
+# If the question explicitly asks about myths, legends, fiction, films, or other non-real contexts, answer within that
+# fictional context but clearly label it as fictional. Then you NEED to provide the accurate real‑world answer. Real‑world
+# answer should not include invented details or information from non-authoritative sources (e.g., advertisements, fan
+# fiction, or marketing).
+#
+# Responses should each include:
+# - a <text> field for the answer text
+# - a numeric <probability> field sampled at random from the [full distribution / tails of the distribution], such that
+# the probability of each response is less than 0.10
+# - a numeric <confidence> field representing the model's confidence score for the factual correctness of the answer (
+# range 0.00–1.00, two decimal places).
+#
+# Do not output any index numbers before responses. Both probability and confidence should be numeric."""
 
 CONFIDENCE_SCORE_PROMPT = """You are a helpful assistant. I have a question and six potential answer sentences. For 
 each answer sentence, please evaluate its relevance and quality in addressing the question. Provide a numeric number 
@@ -114,3 +116,5 @@ The best answer is the one with the lowest rank in the matrix. Only return this 
 REFINE_PROMPT = """You are may given a paragraph, you need to find the final answer sentence in this paragraph. And ONLY 
 return this sentence itself, DO NOT include anything else."""
 
+LLM_JUDGE_PROMPT = """You are given a correct answer and another context, your task is to judge the final answer of the 
+context is correct or not according to the given correct answer. Only return YES or NO."""
