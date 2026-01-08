@@ -9,13 +9,21 @@ mpl.rcParams['savefig.dpi'] = 100
 mpl.rcParams['savefig.bbox'] = 'tight'
 mpl.rcParams['savefig.pad_inches'] = 0
 
-labels = ['gpt-4o', 'gpt-5']
-group0 = [3.95, 2.67]
-group1 = [9.21, 9.33]
-group2 = [7.89, 10.67]
-group3 = [5.26, 1.33]
-group4 = [2.63, 0]
-group5 = [4, 0]
+# labels = ['gpt-4o', 'gpt-5']
+# group0 = [3.95, 2.67]
+# group1 = [9.21, 9.33]
+# group2 = [7.89, 10.67]
+# group3 = [5.26, 1.33]
+# group4 = [2.63, 0]
+# group5 = [4, 0]
+labels = ['gpt-oss']
+group0 = [8.16]
+group1 = [10.2]
+group2 = [10.20]
+group3 = [4.08]
+group4 = [2.04]
+group5 = [0]
+group6 = [0]
 # groups = [group1, group2, group3]
 # colors = ['orange', 'green', 'purple']
 # labels_group = ['CoT', 'CoVe', 'Our Approach']
@@ -24,15 +32,16 @@ x = np.arange(len(labels))
 width = 0.1
 
 fig, ax = plt.subplots(figsize=(7.5, 7.5))
-x = np.array([0.0, 0.8])
-n_groups = 6
+# x = np.array([0.0, 0.8])
+n_groups = 7
 offsets = np.linspace(-(n_groups-1)/2, (n_groups-1)/2, n_groups) * width
 rec0 = ax.bar(x + offsets[0], group0, width, label='CoT', color='red')
 rec1 = ax.bar(x + offsets[1], group1, width, label='CoVe', color='limegreen')
 rec2 = ax.bar(x + offsets[2], group2, width, label='CoVe - Search Engine', color='cyan')
 rec3 = ax.bar(x + offsets[3], group3, width, label='Our Approach', color='gold')
 rec4 = ax.bar(x + offsets[4], group4, width, label='Our Approach - mut', color='darkorange')
-rec5 = ax.bar(x + offsets[5], group5, width, label='Our Approach - vs', color='mediumorchid')
+rec5 = ax.bar(x + offsets[5], group5, width, label='Our Approach - vs', color='darkviolet')
+rec6 = ax.bar(x + offsets[6], group6, width, label='Our Approach - ra', color='blue')
 
 ax.set_ylabel('Overcorrection (%)')
 ax.set_xticks(x)
@@ -48,13 +57,13 @@ ax.spines['right'].set_visible(False)
 
 ax.legend(
     loc='upper center',
-    bbox_to_anchor=(0.5, -0.05),
-    ncol=3,
+    bbox_to_anchor=(0.45, -0.05),
+    ncol=4,
     handlelength=1.2,
     columnspacing=0.9,
 )
 
-for rects in [rec0, rec1, rec2, rec3, rec4, rec5]:
+for rects in [rec0, rec1, rec2, rec3, rec4, rec5, rec6]:
     for rect in rects:
         height = rect.get_height()
         ax.annotate(f'{height}',
