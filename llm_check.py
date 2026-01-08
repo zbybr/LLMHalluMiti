@@ -15,16 +15,13 @@ client = OpenAI(
 )
 
 
-def call_llm(messages, model_key, max_retries=20, base_delay=2.0):
+def call_llm(messages, model_key, max_retries=20, base_delay=1.0):
     for attempt in range(max_retries):
         try:
             response = client.chat.completions.create(
                 model=model_key,
-                messages=[
-                            {"role": "system", "content": prompts.LLM_JUDGE},
-                            {"role": "user", "content": messages},
-                        ],
-                temperature=0.0
+                messages=messages,
+                temperature=0.0,
             )
             content = response.choices[0].message.content
             if not content or not content.strip():
@@ -43,13 +40,36 @@ def call_llm(messages, model_key, max_retries=20, base_delay=2.0):
 
 def run_pipeline(input_path, output_path, model_key):
     df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
+    for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
+        correct_answer = row["Answer"]
+        context = row['final_answer']
+        qapair = f"Correct Answer: {correct_answer}\n\nContext: {context}"
+        messages = [
+            {"role": "system", "content": prompts.LLM_JUDGE_PROMPT},
+            {"role": "user", "content": qapair},
+                    ]
+        final_answer = call_llm(messages, model_key)
+        if final_answer == 'YES':
+            final_answer = 'NO'
+        else:
+            final_answer = 'YES'
 
+        # Logging
+        print("===================================")
+        print(f"Correct Answer: {correct_answer}\nContext: {context}")
+        print(f"Final Judge: {final_answer}")
+
+        # Save results into dataframe
+        df.loc[index, "recheck_hallucination_llm"] = final_answer
+
+        df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
+    print(f"Output saved at {output_path}")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="LLM Judge")
     parser.add_argument("--dataset_path", type=str, required=True, help="Dataset path")
-    model_key = 'gpt-5'
+    model_key = 'gpt-4o'
     args = parser.parse_args()
 
     dataset_path = args.dataset_path

@@ -48,7 +48,7 @@ if __name__ == "__main__":
     parser.add_argument('--question', type=str, required=False, help='Single question to ask')
     parser.add_argument('--base_response', type=str, required=False, help='Base response to verify')
     parser.add_argument('--dataset_path', type=str, required=False, help='Dataset path')
-    parser.add_argument('--model_key', type=str, required=False, default="gpt-4o", help='Model key')
+    parser.add_argument('--model_key', type=str, required=False, default="gemini-2.5-flash-thinking", help='Model key')
     parser.add_argument('--temperature', type=float, required=False, default=0.1, help='LLM temperature')
     parser.add_argument('--max_tokens', type=int, required=False, default=2048, help='Maximum tokens')
     parser.add_argument('--show_intermediate_steps', type=bool, required=False, default=True,
@@ -58,7 +58,7 @@ if __name__ == "__main__":
     if args.dataset_path:
         dataset_path = args.dataset_path
         dataset_name = str(Path(dataset_path).stem).lower()
-        output_path = f"../outputs/cove-se/{args.model_key}_cove_se_outputs_{dataset_name}.csv"
+        output_path = f"../outputs/cove-se/gemini_cove_se_outputs_{dataset_name}.csv"
         df = pd.read_csv(dataset_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
         if os.path.exists(output_path):
