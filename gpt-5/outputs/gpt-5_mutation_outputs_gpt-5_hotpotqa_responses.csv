@@ -703,14 +703,94 @@ They are both Armenian-American.
 Both Scout Tufankjian and Daron Malakian are Armenian-American.
 They are both Armenian American.
 They are both Armenian-American."
-"Which novelist wrote under the pen name Walter Ericson: Laura Esquivel or Howard Fast?","Howard Melvin Fast","Howard Fast wrote under the pen name Walter Ericson.","","","","","","","","","","",""
-"Edmund Robert Harris is the principal benefactor of a museum located where ?","Preston","Edmund Robert Harris is the principal benefactor of the Harris Museum, located in Preston, Lancashire, England.","","","","","","","","","","",""
-"Were Illinois Institute of Technology and Boise State University both bounded before 1950?","yes","Yes; Illinois Institute of Technology was founded in 1940 (via a merger) and Boise State University began in 1932, so both were established before 1950.","","","","","","","","","","",""
-"Erwin Lambert was a member of which paramilitary organization under Hitler?","Schutzstaffel","Erwin Lambert was a member of the SA (Sturmabteilung), Hitler’s paramilitary “Brownshirts.”","","","","","","","","","","",""
-"Michael Pollock was was a senior officer in the United Kingdom's naval warfare force, also known as the what?","Royal Navy","Michael Pollock was a senior officer in the United Kingdom's naval warfare force, also known as the Royal Navy.","","","","","","","","","","",""
-"What is the population of the city at which the transmitter of WLLZ-LP was placed? ","143,372","I have no idea.","","","","","","","","","","",""
-"Who is descended from William, 4th Lord Livingston and was a statesman from New York City? ","Philip Livingston","Philip Livingston was the statesman from New York City who was descended from William, 4th Lord Livingston.","","","","","","","","","","",""
-"Padosan had a supporting actor who is known as a successful playback singer in what language?","Hindi","He is known as a successful playback singer in Hindi.","","","","","","","","","","",""
+"Which novelist wrote under the pen name Walter Ericson: Laura Esquivel or Howard Fast?","Howard Melvin Fast","Howard Fast wrote under the pen name Walter Ericson.","Howard Fast wrote under the pen name Walter Ericson.","3005","136.22484493255615","Howard Fast wrote under the pen name Walter Ericson.","3108","141.88782262802124","Howard Fast wrote under the pen name Walter Ericson.","3339","142.73023915290833","It was Howard Fast, not Laura Esquivel, who used the pen name Walter Ericson.
+Between the two, the novelist who wrote as Walter Ericson was Howard Fast.
+The pseudonym Walter Ericson belonged to Howard Fast rather than Laura Esquivel.
+If you’re choosing between Laura Esquivel and Howard Fast, the one who took the alias Walter Ericson is Howard Fast.
+Although Laura Esquivel is well known, the author who wrote under the name Walter Ericson was Howard Fast.
+Howard Fast wrote under the pen name Walter Ericson.","Howard Fast wrote under the pen name Walter Ericson.
+Howard Fast wrote under the pen name Walter Ericson.
+Howard Fast wrote under the pen name Walter Ericson.
+Howard Fast wrote under the pen name Walter Ericson.
+Howard Fast wrote under the pen name Walter Ericson.
+Howard Fast wrote under the pen name Walter Ericson."
+"Edmund Robert Harris is the principal benefactor of a museum located where ?","Preston","Edmund Robert Harris is the principal benefactor of the Harris Museum, located in Preston, Lancashire, England.","It is located in Preston, Lancashire, England.","2982","96.23004508018494","The museum he funded—the Harris Museum and Art Gallery—is located in Preston, Lancashire, England.","3094","90.50104641914368","In Preston, Lancashire, England.","3307","119.0587706565857","The Harris Museum, of which Edmund Robert Harris is the principal benefactor, is located in Preston, Lancashire, England.
+Edmund Robert Harris chiefly funded the Harris Museum situated in Preston in the English county of Lancashire.
+He is best known for endowing the Harris Museum, which stands in the city of Preston, England.
+As the museum’s main patron, Harris supported the institution located in Preston, Lancashire.
+The museum he bankrolled is in Preston, Lancashire, United Kingdom.
+Edmund Robert Harris is the principal benefactor of the Harris Museum, located in Preston, Lancashire, England.","The museum he funded—the Harris Museum and Art Gallery—is located in Preston, Lancashire, England.
+The museum he endowed is located in Preston, Lancashire, England.
+In Preston, Lancashire, England.
+The museum is located in Preston, Lancashire, England.
+In Preston, Lancashire, England.
+The museum is located in Preston, Lancashire, England."
+"Were Illinois Institute of Technology and Boise State University both bounded before 1950?","yes","Yes; Illinois Institute of Technology was founded in 1940 (via a merger) and Boise State University began in 1932, so both were established before 1950.","Yes; both were founded before 1950—Illinois Institute of Technology in 1940 and Boise State (originally Boise Junior College) in 1932.","3725","177.29272270202637","Yes; Illinois Institute of Technology was formed in 1940, and Boise State University began as Boise Junior College in 1932, so both were founded before 1950.","3830","202.3575894832611","Yes; Illinois Institute of Technology was formed in 1940, and Boise State University began as Boise Junior College in 1932, so both were founded before 1950.","4111","200.93679523468018","Yes; both institutions were established prior to 1950—Illinois Institute of Technology in 1940 and Boise State University in 1932.
+Indeed, they predate 1950: IIT was formed in 1940 through a merger, while Boise State began in 1932.
+Correct; assuming ""bounded"" means ""founded,"" Illinois Tech dates to 1940 and Boise State to 1932, so both are pre-1950.
+Yes, and in fact IIT came together in 1940, whereas Boise State opened its doors in 1932, which puts them both before mid-century.
+By the time 1950 arrived, each had already been founded—Illinois Institute of Technology in 1940 and Boise State University in 1932.
+Yes; Illinois Institute of Technology was founded in 1940 (via a merger) and Boise State University began in 1932, so both were established before 1950.","Yes, both were founded before 1950: Illinois Institute of Technology in 1940 and Boise State in 1932.
+Yes; Illinois Institute of Technology was formed in 1940, and Boise State University began as Boise Junior College in 1932, so both were founded before 1950.
+No—Illinois Institute of Technology was founded in 1940, while the institution that became Boise State University began in 1932 but did not become “Boise State University” until 1974.
+Yes—both were founded before 1950: Illinois Institute of Technology was established in 1940, and Boise State began as Boise Junior College in 1932.
+Yes, Illinois Institute of Technology was established in 1940 and Boise State University was founded in 1932, both before 1950.
+Yes; Illinois Institute of Technology was founded in 1940 (via a merger) and Boise State University was founded in 1932, so both were established before 1950."
+"Erwin Lambert was a member of which paramilitary organization under Hitler?","Schutzstaffel","Erwin Lambert was a member of the SA (Sturmabteilung), Hitler’s paramilitary “Brownshirts.”","Erwin Lambert was a member of the SA (Sturmabteilung), the Nazi Party’s Brownshirt paramilitary organization.","3276","223.61669325828552","Erwin Lambert was a member of the Sturmabteilung (SA), the Nazi Party’s ""Brownshirts"" paramilitary organization.","3382","242.90960884094238","Erwin Lambert was a member of the Sturmabteilung (SA), the Nazi Party’s “Brownshirts” paramilitary organization.","3649","249.84011244773865","Erwin Lambert belonged to the SA (Sturmabteilung), the paramilitary Brownshirts that supported Hitler.
+Rather than the SS, Lambert was part of the SA, Hitler’s Sturmabteilung, known as the Brownshirts.
+During the Nazi era, he served with the SA—the Sturmabteilung—Hitler’s notorious Brownshirt militia.
+It was the SA, or Sturmabteilung, that Erwin Lambert joined under Hitler’s regime.
+He was affiliated with Hitler’s Brownshirts, the SA, instead of any other paramilitary organization.
+Erwin Lambert was a member of the SA (Sturmabteilung), Hitler’s paramilitary “Brownshirts.”","Erwin Lambert was a member of the SA (Sturmabteilung).
+Erwin Lambert was a member of the SA (Sturmabteilung), Hitler’s Brownshirt paramilitary organization.
+Erwin Lambert was a member of the SA (Sturmabteilung), the Nazi Party’s Brownshirt paramilitary.
+Erwin Lambert was a member of the SA (Sturmabteilung).
+Erwin Lambert was a member of the Sturmabteilung (SA), the Nazi Party’s “Brownshirts” paramilitary organization.
+Erwin Lambert was a member of the Sturmabteilung (SA), Hitler’s paramilitary “Brownshirts.”"
+"Michael Pollock was was a senior officer in the United Kingdom's naval warfare force, also known as the what?","Royal Navy","Michael Pollock was a senior officer in the United Kingdom's naval warfare force, also known as the Royal Navy.","The United Kingdom's naval warfare force is known as the Royal Navy.","3202","150.06500244140625","The United Kingdom's naval warfare force is known as the Royal Navy.","3305","157.071147441864","The United Kingdom's naval warfare force is known as the Royal Navy.","3542","163.8389859199524","Michael Pollock served as a senior officer in the United Kingdom’s naval warfare branch, the Royal Navy.
+As a high-ranking officer, Michael Pollock was part of the UK’s maritime fighting service, commonly called the Royal Navy.
+Michael Pollock held senior rank within the British naval warfare force—better known as the Royal Navy.
+Michael Pollock’s career placed him among the top officers of the United Kingdom’s seagoing combat force, which is the Royal Navy.
+In the UK’s naval service, widely recognized as the Royal Navy, Michael Pollock was a senior officer.
+Michael Pollock was a senior officer in the United Kingdom's naval warfare force, also known as the Royal Navy.","The United Kingdom’s naval warfare force is known as the Royal Navy.
+The United Kingdom's naval warfare force is known as the Royal Navy.
+The United Kingdom's naval warfare force is known as the Royal Navy.
+The United Kingdom's naval warfare force is the Royal Navy.
+The United Kingdom's naval warfare force is known as the Royal Navy.
+It is known as the Royal Navy."
+"What is the population of the city at which the transmitter of WLLZ-LP was placed? ","143,372","I have no idea.","No authoritative source specifies the transmitter city for WLLZ-LP, so the population of that city cannot be determined.","3410","650.5734679698944","Detroit, Michigan—where WLLZ-LP’s transmitter was located—had a population of 639,111 at the 2020 U.S. Census.","3522","704.9317591190338","Detroit, Michigan—the city where WLLZ-LP’s transmitter was located—had a population of 639,111 at the 2020 U.S. Census.","3800","665.23171043396","I don't know the population of the city where WLLZ-LP's transmitter was located.
+I'm unable to determine the city's population at which the WLLZ-LP transmitter was placed based on the information given.
+That figure isn't available to me right now, so I can't say what the population of the transmitter's city is.
+Without the name of the city, I have no way to provide the population for the location of WLLZ-LP's transmitter.
+The question does not specify the population of the city where the WLLZ-LP transmitter was situated.
+I have no idea.","I cannot verify the population of the city where WLLZ-LP’s transmitter was located from authoritative sources.
+There is insufficient verifiable public information to identify the transmitter’s host city for WLLZ-LP, so the population of that city cannot be determined.
+Detroit, Michigan—where WLLZ-LP’s transmitter was located—had a population of 639,111 at the 2020 U.S. Census.
+I cannot determine the population because I cannot find a reliable, authoritative source identifying the city where WLLZ-LP’s transmitter was located.
+No authoritative source specifies the transmitter city for WLLZ-LP, so the population of that city cannot be determined.
+Detroit, Michigan—the city where WLLZ-LP’s transmitter was located—had a population of 639,111 at the 2020 U.S. Census."
+"Who is descended from William, 4th Lord Livingston and was a statesman from New York City? ","Philip Livingston","Philip Livingston was the statesman from New York City who was descended from William, 4th Lord Livingston.","Philip Livingston.","3294","387.3195700645447","Philip Livingston, a New York City statesman and signer of the Declaration of Independence, was descended from William, 4th Lord Livingston.","3422","395.2159607410431","Philip Livingston, a New York City statesman and signer of the Declaration of Independence, was descended from William, 4th Lord Livingston.","3687","409.7212383747101","The New York City statesman descended from William, 4th Lord Livingston was Philip Livingston.
+Philip Livingston, a statesman of New York City, was a descendant of William, 4th Lord Livingston.
+Historians generally identify Philip Livingston as the New York City statesman who descended from William, 4th Lord Livingston.
+If you mean the statesman from New York City, then the descendant of William, 4th Lord Livingston is Philip Livingston.
+Because he descended from William, 4th Lord Livingston, Philip Livingston rose to prominence as a statesman from New York City.
+Philip Livingston was the statesman from New York City who was descended from William, 4th Lord Livingston.","Philip Livingston was the statesman from New York City descended from William, 4th Lord Livingston.
+Philip Livingston.
+Philip Livingston, a New York City statesman and signer of the Declaration of Independence, was descended from William, 4th Lord Livingston.
+Philip Livingston was a statesman from New York City who was descended from William, 4th Lord Livingston.
+Philip Livingston was the New York City statesman descended from William, 4th Lord Livingston.
+Philip Livingston was the statesman from New York City who was descended from William, 4th Lord Livingston."
+"Padosan had a supporting actor who is known as a successful playback singer in what language?","Hindi","He is known as a successful playback singer in Hindi.","Hindi.","2788","175.16416025161743","He is known as a successful playback singer in Hindi.","2899","183.2340202331543","He is known as a successful playback singer in Hindi.","3130","192.24140667915344","The supporting actor from Padosan is widely recognized as a successful playback singer in Hindi.
+His success as a playback singer is primarily in the Hindi language.
+In the realm of playback singing, he is best known for his work in Hindi.
+He earned renown as a playback vocalist in Hindi, especially in Bollywood music.
+As a playback singer, his achievements are chiefly associated with Hindi rather than other languages.
+He is known as a successful playback singer in Hindi.","Hindi.
+Hindi.
+Hindi.
+Hindi.
+He is known as a successful playback singer in Hindi.
+Hindi."
 "Macclesfield Town F.C. plays in the league sponsored by whom?","Vanarama","Macclesfield Town F.C. plays in the league sponsored by Coca-Cola.","","","","","","","","","","",""
 "What song by the American rapper Coolio is on his greatest hits album ""Fantiastic Voyage"" and samples from a Stevie Wonder song?","Gangsta's Paradise","The song is Gangsta’s Paradise.","","","","","","","","","","",""
 "Who was the eldest brother of the Mexican drug trafficker born 12 March 1952?","Francisco Rafael Arellano FÃ©lix","His eldest brother was Francisco Rafael Arellano Félix.","","","","","","","","","","",""

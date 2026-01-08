@@ -64,7 +64,7 @@ def safe_chat_call(messages, model_key, max_retries=20, base_delay=0.0):
     return "ERROR: Empty or invalid model output", 0
 
 
-def run_pipeline(input_path, output_path, model_key='gemini-3-pro-preview-11-2025'):
+def run_pipeline(input_path, output_path, model_key='gemini-2.5-flash-thinking'):
     df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
@@ -97,7 +97,7 @@ if __name__ == "__main__":
     # parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
 
-    model_key = "gemini-3-pro-preview-11-2025"
+    model_key = "gemini-2.5-flash-thinking"
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
     output_path = f"./outputs/cot/gemini_cot_outputs_{dataset_name}.csv"

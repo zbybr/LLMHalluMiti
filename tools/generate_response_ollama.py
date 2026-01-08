@@ -81,7 +81,7 @@ def main(input_path, output_path, model_key):
 
     # Load existing outputs if available
     if os.path.exists(output_path):
-        existing_df = pd.read_csv(output_path, encoding="utf-8", quoting=csv.QUOTE_ALL)
+        existing_df = pd.read_csv(output_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
         base_responses = existing_df["base_response"].tolist()
         base_answers = existing_df["Answer"].tolist()
         base_questions = existing_df["Question"].tolist()
