@@ -73,5 +73,5 @@ if __name__ == "__main__":
     model_key = 'gemini-3-pro-preview-11-2025'
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"{model_key}_{dataset_name}_responses.csv"
+    output_path = f"gemini_{dataset_name}_responses.csv"
     main(dataset_path, output_path, model_key)

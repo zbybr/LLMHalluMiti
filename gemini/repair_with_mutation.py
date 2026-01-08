@@ -59,7 +59,7 @@ def safe_chat_call(messages, model_key, max_retries=20, base_delay=0.0):
     return "ERROR: Empty or invalid model output", 0
 
 
-def run_pipeline(input_path, output_path, model_key='gpt-4o'):
+def run_pipeline(input_path, output_path, model_key='gemini-3-pro-preview-11-2025'):
     df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
     if os.path.exists(output_path):
         print(f"Resuming from existing output file: {output_path}")
@@ -177,9 +177,9 @@ if __name__ == "__main__":
     parser.add_argument("--dataset_path", type=str, required=True, help="Dataset path")
     # parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
-
+    model_key = "gemini-3-pro-preview-11-2025"
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"./outputs/gpt-4o_mutation_outputs_{dataset_name}.csv"
+    output_path = f"./outputs/gemini_mutation_outputs_{dataset_name}.csv"
 
-    run_pipeline(dataset_path, output_path, args.model_key)
+    run_pipeline(dataset_path, output_path, model_key)
