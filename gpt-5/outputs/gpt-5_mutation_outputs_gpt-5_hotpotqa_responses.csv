@@ -1,16 +1,16 @@
 ﻿"Question","Answer","base_response","Answer_saved","base_response_saved","final_answer_mv","token_cost_mv","time_cost_mv","final_answer_cs","token_cost_cs","time_cost_cs","final_answer_ra","token_cost_ra","time_cost_ra","mutation_list","answer_list"
-"What year did Guns N Roses perform a promo for a movie starring Arnold Schwarzenegger as a former New York Police detective?","1999","It was in 1999.","1999","It was in 1999.","It was 1999.","2874.0","140.9493408203125","It was 1999.","2977.0","152.25524282455444","1999.","3189.0","150.8060610294342","The promo performance took place in 1999.
-Guns N’ Roses did that movie tie-in in 1999.
-It was 1999 when they promoted the Arnold Schwarzenegger film about a former New York Police detective.
-According to most accounts, the year was 1999.
-They carried out the promo in 1999, near the end of the decade.
-It was in 1999.","It was 1999.
+"What year did Guns N Roses perform a promo for a movie starring Arnold Schwarzenegger as a former New York Police detective?","1999","It was in 1999.","1999","It was in 1999.","1999","2934.0","155.0631526","1999","3037.0","163.0895379","1999","3252.0","164.670435","The promo took place in 1999.
+Guns N' Roses did that movie promo in 1999, the same year End of Days was released.
+It was back in 1999 when they promoted the Arnold Schwarzenegger film featuring a former New York Police detective.
+I’m pretty sure the year was 1999 for that promotional performance.
+Officially, the year was 1999, though some fans recall the promo hitting airwaves slightly earlier.
+It was in 1999.","1999.
+It was 1999.
 1999.
 1999.
-1999.
-It was in 1999.
-It was in 1999."
-"Brown State Fishing Lake is in a country that has a population of how many inhabitants ?","9,984","It is in the United States, which has a population of 310,232,863 inhabitants.","9,984","It is in the United States, which has a population of 310,232,863 inhabitants.","The United States, where Brown State Fishing Lake is located, has approximately 335 million inhabitants.","3352.0","163.84164428710938","The United States, where Brown State Fishing Lake is located, had an official 2020 Census population of 331,449,281 inhabitants.","3465.0","177.2829830646515","It is in the United States, which had an estimated population of 334,915,073 as of July 1, 2023.","3732.0","186.99954199790955","Brown State Fishing Lake is in the United States, a country with 310,232,863 inhabitants.
+It was 1999.
+It was 1999."
+"Brown State Fishing Lake is in a country that has a population of how many inhabitants ?","9,984","It is in the United States, which has a population of 310,232,863 inhabitants.","9,984","It is in the United States, which has a population of 310,232,863 inhabitants.","The United States, where Brown State Fishing Lake is located, has approximately 335 million inhabitants.","3352.0","163.8416443","The United States, where Brown State Fishing Lake is located, had an official 2020 Census population of 331,449,281 inhabitants.","3465.0","177.2829831","It is in the United States, which had an estimated population of 334,915,073 as of July 1, 2023.","3732.0","186.999542","Brown State Fishing Lake is in the United States, a country with 310,232,863 inhabitants.
 It is located in the U.S., whose population numbers 310,232,863 people.
 The country where Brown State Fishing Lake lies—the United States—has a population of 310,232,863 residents.
 Brown State Fishing Lake sits in America, which is home to about 310,232,863 inhabitants.
@@ -21,7 +21,7 @@ The lake is in the United States, which had 334,914,895 inhabitants according to
 The United States, where Brown State Fishing Lake is located, has about 336 million inhabitants.
 Brown State Fishing Lake is in the United States, which had 331,449,281 inhabitants according to the 2020 U.S. Census.
 The United States, where Brown State Fishing Lake is located, had an official 2020 Census population of 331,449,281 inhabitants."
-"Which performance act has a higher instrument to person ratio, Badly Drawn Boy or Wolf Alice? ","Badly Drawn Boy","Badly Drawn Boy has the higher instrument-to-person ratio.","Badly Drawn Boy","Badly Drawn Boy has the higher instrument-to-person ratio.","Neither; both Badly Drawn Boy and Wolf Alice typically have about one instrument per performer in live setups, so neither has a higher instrument-to-person ratio.","3454.0","183.64087200164795","Neither; in typical live lineups both acts have about one instrument per performer (Badly Drawn Boy as a solo performer and Wolf Alice as a four‑piece), so neither has a higher instrument‑to‑person ratio.","3571.0","195.8476300239563","Neither—both Badly Drawn Boy and Wolf Alice typically have about one instrument per performer in live setups, so neither has a higher instrument-to-person ratio.","3830.0","211.38308119773865","Badly Drawn Boy has a higher instrument-to-person ratio than Wolf Alice.
+"Which performance act has a higher instrument to person ratio, Badly Drawn Boy or Wolf Alice? ","Badly Drawn Boy","Badly Drawn Boy has the higher instrument-to-person ratio.","Badly Drawn Boy","Badly Drawn Boy has the higher instrument-to-person ratio.","Neither; both Badly Drawn Boy and Wolf Alice typically have about one instrument per performer in live setups, so neither has a higher instrument-to-person ratio.","3454.0","183.640872","Neither; in typical live lineups both acts have about one instrument per performer (Badly Drawn Boy as a solo performer and Wolf Alice as a four‑piece), so neither has a higher instrument‑to‑person ratio.","3571.0","195.84763","Neither—both Badly Drawn Boy and Wolf Alice typically have about one instrument per performer in live setups, so neither has a higher instrument-to-person ratio.","3830.0","211.3830812","Badly Drawn Boy has a higher instrument-to-person ratio than Wolf Alice.
 Compared to Wolf Alice, Badly Drawn Boy features more instruments per performer.
 On the metric of instruments per head, Badly Drawn Boy comes out ahead.
 Assuming typical live setups, Badly Drawn Boy’s instrument-to-person ratio is greater.
@@ -32,7 +32,7 @@ Neither; in typical live lineups both acts have about one instrument per perform
 Badly Drawn Boy, a solo performer, has a higher instrument-to-person ratio than the four-piece band Wolf Alice.
 Badly Drawn Boy has the higher instrument-to-person ratio, as he is a solo act who plays multiple instruments, whereas Wolf Alice is a four‑member band.
 It cannot be determined without knowing the number of instruments used in each act’s specific performance, although Badly Drawn Boy is a solo act and Wolf Alice is a four‑member band."
-"The Livesey Hal War Memorial commemorates the fallen of which war, that had over 60 million casualties?","World War II","The Livesey Hall War Memorial commemorates the fallen of World War II.","World War II","The Livesey Hall War Memorial commemorates the fallen of World War II.","World War II.","3005.0","192.2429506778717","The Livesey Hall War Memorial commemorates the fallen of the Second World War.","3120.0","193.68211364746094","The Livesey Hall War Memorial commemorates the fallen of the Second World War.","3361.0","201.45369720458984","The Livesey Hall War Memorial honors those who fell in the Second World War.
+"The Livesey Hal War Memorial commemorates the fallen of which war, that had over 60 million casualties?","World War II","The Livesey Hall War Memorial commemorates the fallen of World War II.","World War II","The Livesey Hall War Memorial commemorates the fallen of World War II.","World War II.","3005.0","192.2429507","The Livesey Hall War Memorial commemorates the fallen of the Second World War.","3120.0","193.6821136","The Livesey Hall War Memorial commemorates the fallen of the Second World War.","3361.0","201.4536972","The Livesey Hall War Memorial honors those who fell in the Second World War.
 At Livesey Hall, the memorial is dedicated to the victims of World War II, the global conflict that caused over 60 million deaths.
 The monument at Livesey Hall commemorates the fallen of WWII.
 Though many wars have been costly, this memorial specifically pays tribute to those lost in World War II, which claimed more than sixty million lives.
@@ -43,7 +43,7 @@ It commemorates the fallen of World War II.
 World War II.
 World War II.
 It commemorates the fallen of World War II."
-"Ellie Goulding worked with what other writers on her third studio album, Delirium?","Max Martin, Savan Kotecha and Ilya Salmanzadeh","Ellie Goulding worked with Max Martin, Savan Kotecha, and Ali Payami on Delirium.","Max Martin, Savan Kotecha and Ilya Salmanzadeh","Ellie Goulding worked with Max Martin, Savan Kotecha, and Ali Payami on Delirium.","Max Martin, Greg Kurstin, Ilya Salmanzadeh (Ilya), Savan Kotecha, Ali Payami, and Tove Lo.","3884.0","348.1820185184479","On Delirium, Ellie Goulding worked with writers including Max Martin, Greg Kurstin, Ilya Salmanzadeh (Ilya), Savan Kotecha, Ali Payami, and Tove Lo.","3999.0","367.2336015701294","Ellie Goulding collaborated with writers including Max Martin, Greg Kurstin, Klas Åhlund, Savan Kotecha, Ilya Salmanzadeh, Ali Payami, and Tove Lo on Delirium.","4305.0","439.01514172554016","On her third studio album, Delirium, Ellie Goulding collaborated with Max Martin, Savan Kotecha, and Ali Payami.
+"Ellie Goulding worked with what other writers on her third studio album, Delirium?","Max Martin, Savan Kotecha and Ilya Salmanzadeh","Ellie Goulding worked with Max Martin, Savan Kotecha, and Ali Payami on Delirium.","Max Martin, Savan Kotecha and Ilya Salmanzadeh","Ellie Goulding worked with Max Martin, Savan Kotecha, and Ali Payami on Delirium.","Max Martin, Greg Kurstin, Ilya Salmanzadeh (Ilya), Savan Kotecha, Ali Payami, and Tove Lo.","3884.0","348.1820185","On Delirium, Ellie Goulding worked with writers including Max Martin, Greg Kurstin, Ilya Salmanzadeh (Ilya), Savan Kotecha, Ali Payami, and Tove Lo.","3999.0","367.2336016","Ellie Goulding collaborated with writers including Max Martin, Greg Kurstin, Klas Åhlund, Savan Kotecha, Ilya Salmanzadeh, Ali Payami, and Tove Lo on Delirium.","4305.0","439.0151417","On her third studio album, Delirium, Ellie Goulding collaborated with Max Martin, Savan Kotecha, and Ali Payami.
 Ellie Goulding’s Delirium saw her teaming up with Max Martin and Savan Kotecha, as well as Ali Payami, among other writers.
 For Delirium, she worked closely with Max Martin and Savan Kotecha on songwriting.
 Writers such as Max Martin, Savan Kotecha, and Ali Payami contributed to Ellie Goulding’s third studio album, Delirium.
@@ -54,7 +54,7 @@ On her third studio album, Delirium, Ellie Goulding worked with other writers in
 On her third studio album, Delirium, Ellie Goulding collaborated with writers including Max Martin, Savan Kotecha, Ilya Salmanzadeh, Ali Payami, and Greg Kurstin.
 On her third studio album Delirium, Ellie Goulding worked with writers including Max Martin, Greg Kurstin, Ryan Tedder, Savan Kotecha, Ali Payami, Ilya Salmanzadeh, Joe Janiak, and Tove Lo.
 Ellie Goulding collaborated with writers including Max Martin, Greg Kurstin, Klas Åhlund, Savan Kotecha, Ilya Salmanzadeh, Ali Payami, and Tove Lo on Delirium."
-"Based on a True Story... is an album by which country music star, with the single My Eyes?","Blake Shelton","Based on a True Story... is an album by country music star Blake Shelton.","Blake Shelton","Based on a True Story... is an album by country music star Blake Shelton.","The album is by Blake Shelton.","3113.0","67.91129398345947","The album Based on a True Story..., which includes the single ""My Eyes,"" is by country music star Blake Shelton.","3233.0","75.71664261817932","The album Based on a True Story..., which includes the single ""My Eyes,"" is by country music star Blake Shelton.","3492.0","73.02357149124146","The album Based on a True Story... was released by country music star Blake Shelton.
+"Based on a True Story... is an album by which country music star, with the single My Eyes?","Blake Shelton","Based on a True Story... is an album by country music star Blake Shelton.","Blake Shelton","Based on a True Story... is an album by country music star Blake Shelton.","The album is by Blake Shelton.","3113.0","67.91129398","The album Based on a True Story..., which includes the single ""My Eyes,"" is by country music star Blake Shelton.","3233.0","75.71664262","The album Based on a True Story..., which includes the single ""My Eyes,"" is by country music star Blake Shelton.","3492.0","73.02357149","The album Based on a True Story... was released by country music star Blake Shelton.
 Country singer Blake Shelton is the artist behind Based on a True Story..., which includes the single ""My Eyes.""
 It's Blake Shelton who recorded the album Based on a True Story..., featuring ""My Eyes.""
 If you're asking about the album with the track ""My Eyes,"" that's Blake Shelton's Based on a True Story....
@@ -65,7 +65,7 @@ It is by Blake Shelton.
 It is by Blake Shelton.
 Based on a True Story... is an album by country music star Blake Shelton.
 Based on a True Story... is an album by country music star Blake Shelton."
-"Were the bands Skin Yard and Ostava from the U.S.?","no","Skin Yard was from the U.S., but Ostava was Bulgarian.","no","Skin Yard was from the U.S., but Ostava was Bulgarian.","Skin Yard was from the United States, but Ostava is a Bulgarian band and not from the U.S.","3017.0","71.16127419471741","Skin Yard was an American band from Seattle, whereas Ostava is a Bulgarian band and not from the U.S.","3121.0","79.09731674194336","No; Skin Yard was from the U.S., whereas Ostava is a Bulgarian band.","3361.0","84.20520520210266","Skin Yard hailed from the United States, whereas Ostava came from Bulgaria.
+"Were the bands Skin Yard and Ostava from the U.S.?","no","Skin Yard was from the U.S., but Ostava was Bulgarian.","no","Skin Yard was from the U.S., but Ostava was Bulgarian.","Skin Yard was from the United States, but Ostava is a Bulgarian band and not from the U.S.","3017.0","71.16127419","Skin Yard was an American band from Seattle, whereas Ostava is a Bulgarian band and not from the U.S.","3121.0","79.09731674","No; Skin Yard was from the U.S., whereas Ostava is a Bulgarian band.","3361.0","84.2052052","Skin Yard hailed from the United States, whereas Ostava came from Bulgaria.
 Only Skin Yard was American; Ostava is a Bulgarian band.
 Skin Yard originated in the U.S., but Ostava did not—they’re Bulgarian.
 No: Skin Yard was U.S.-based, while Ostava was a Bulgarian group.
@@ -76,7 +76,7 @@ Skin Yard is from the United States, while Ostava is a Bulgarian band and not fr
 No; Skin Yard was from the U.S., whereas Ostava is a Bulgarian band.
 Skin Yard was an American band from Seattle, whereas Ostava is a Bulgarian band and not from the U.S.
 Skin Yard was from the U.S., but Ostava was Bulgarian, not American."
-"The youngest daughter of Lady Mary-Gaye Curzon stars with Douglas Smith and Lucien Laviscount  in what 2017 film?","The Bye Bye Man","The film is The Bye Bye Man.","The Bye Bye Man","The film is The Bye Bye Man.","The film is The Bye Bye Man.","3015.0","108.06793999671936","The 2017 film is The Bye Bye Man.","3121.0","109.97525715827942","The 2017 film is The Bye Bye Man.","3352.0","132.51756930351257","The film in question is The Bye Bye Man.
+"The youngest daughter of Lady Mary-Gaye Curzon stars with Douglas Smith and Lucien Laviscount  in what 2017 film?","The Bye Bye Man","The film is The Bye Bye Man.","The Bye Bye Man","The film is The Bye Bye Man.","The film is The Bye Bye Man.","3015.0","108.06794","The 2017 film is The Bye Bye Man.","3121.0","109.9752572","The 2017 film is The Bye Bye Man.","3352.0","132.5175693","The film in question is The Bye Bye Man.
 She co-starred with Douglas Smith and Lucien Laviscount in the 2017 horror movie The Bye Bye Man.
 If you're referring to the 2017 release, it's The Bye Bye Man.
 The movie you’re asking about is titled The Bye Bye Man.
@@ -87,501 +87,501 @@ The 2017 film is The Bye Bye Man.
 The 2017 film is The Bye Bye Man.
 The 2017 film is The Bye Bye Man.
 The 2017 film is The Bye Bye Man."
-"When was the palace founded at which Columba de Dunbar died in 1435?","the late 12th Century","Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century.","the late 12th Century","Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century.","Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century.","3553.0","210.815443","Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century.","3656.0","209.5053289","Spynie Palace, where Bishop Columba de Dunbar died in 1435, was founded in the late 12th century.","3922.0","219.7914851","Spynie Palace, the site of Columba de Dunbar’s death in 1435, was established in the late twelfth century.
-The palace at Spynie, where Columba de Dunbar died in 1435, dates back to the latter part of the 12th century.
-Long before Columba de Dunbar's 1435 death, Spynie Palace had been founded toward the close of the 12th century.
-Most sources place the founding of Spynie Palace—where Columba de Dunbar died in 1435—in the late 1100s.
-Spynie Palace, associated with Columba de Dunbar's 1435 death, traces its origins to the late 12th century.
-Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century.","Spynie Palace, where Bishop Columba de Dunbar died in 1435, was founded in the late 12th century.
-Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century.
-Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century.
-Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century.
+"When was the palace founded at which Columba de Dunbar died in 1435?","the late 12th Century","Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century.","the late 12th Century","Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century.","Spynie Palace was founded in the late 12th century.","3387.0","199.8121762","Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century.","3503.0","209.9253354","Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century.","3766.0","220.5890379","The palace where Columba de Dunbar died in 1435—Spynie Palace—was founded in the late twelfth century.
+Spynie Palace, the site of Columba de Dunbar’s 1435 death, was established in the late 1100s.
+Founded in the late 12th century, Spynie Palace stood for centuries before Columba de Dunbar died there in 1435.
+By the late twelfth century, the palace at which Columba de Dunbar would die in 1435 had already been founded.
+Most accounts place the founding of Spynie Palace, where Columba de Dunbar died in 1435, in the late 12th century.
+Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century.","Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century.
+Spynie Palace was founded in the late 12th century.
+Spynie Palace was founded in the late 12th century.
+It was founded in the late 12th century.
 Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century.
 Spynie Palace, where Columba de Dunbar died in 1435, was founded in the late 12th century."
-"The author of Sexual Politics attended which British University?","Oxford","The author of Sexual Politics, Kate Millett, attended the University of Oxford.","Oxford","The author of Sexual Politics, Kate Millett, attended the University of Oxford.","The University of Oxford.","2895.0","174.675657","The University of Oxford.","2998.0","186.3303373","The University of Oxford.","3217.0","174.8194194","Kate Millett, the author of Sexual Politics, attended the University of Oxford.
-The British university she studied at was Oxford University.
-In the United Kingdom, the author of Sexual Politics pursued her studies at the University of Oxford rather than at Cambridge.
-It was the University of Oxford that Kate Millett attended during her time in Britain.
-As part of her education, the author of Sexual Politics studied at St Hilda’s College of the University of Oxford in England.
-The author of Sexual Politics, Kate Millett, attended the University of Oxford.","Kate Millett, the author of Sexual Politics, attended the University of Oxford.
-The author of Sexual Politics, Kate Millett, attended the University of Oxford.
-The author of Sexual Politics, Kate Millett, attended the University of Oxford.
+"The author of Sexual Politics attended which British University?","Oxford","The author of Sexual Politics, Kate Millett, attended the University of Oxford.","Oxford","The author of Sexual Politics, Kate Millett, attended the University of Oxford.","She attended the University of Oxford.","2843.0","129.8782148","Kate Millett, author of Sexual Politics, attended the University of Oxford at St Hilda’s College.","2960.0","148.629802","Kate Millett, author of Sexual Politics, attended the University of Oxford at St Hilda’s College.","3211.0","147.9739711","Kate Millett—the author of Sexual Politics—attended the University of Oxford.
+The British university she enrolled in was Oxford University.
+In Britain, her studies were at the University of Oxford, notably at St Hilda's College.
+If you’re asking about her UK alma mater, it was the University of Oxford.
+She chose Oxford rather than Cambridge for her British university education.
+The author of Sexual Politics, Kate Millett, attended the University of Oxford.","Kate Millett, author of Sexual Politics, attended the University of Oxford.
 Kate Millett, author of Sexual Politics, attended the University of Oxford.
-The University of Oxford.
+Kate Millett, author of Sexual Politics, attended the University of Oxford at St Hilda’s College.
+The author of Sexual Politics, Kate Millett, attended the University of Oxford.
+She attended the University of Oxford.
 Kate Millett, author of Sexual Politics, attended the University of Oxford."
-"Who had the best singles ranking, Roberta Vinci or Jorge Lozano?","Roberta Vinci","Roberta Vinci had the better singles ranking, reaching a career-high of world No. 7 compared to Jorge Lozano’s career-high of No. 51.","Roberta Vinci","Roberta Vinci had the better singles ranking, reaching a career-high of world No. 7 compared to Jorge Lozano’s career-high of No. 51.","Roberta Vinci had the higher singles ranking, reaching world No. 7 compared to Jorge Lozano’s career-high of No. 51.","3558.0","143.3982248","Roberta Vinci had the higher singles ranking, reaching world No. 7, while Jorge Lozano’s career-high singles ranking was No. 51.","3663.0","151.0477166","Roberta Vinci had the better singles ranking, reaching a career-high of world No. 7, compared to Jorge Lozano’s career-high of world No. 51.","3946.0","169.5837147","Roberta Vinci achieved the superior singles ranking, peaking at world No. 7, whereas Jorge Lozano’s best was No. 51.
-If you compare their career-high singles standings, Vinci comes out on top at No. 7, while Lozano topped out at No. 51.
-Because Roberta Vinci climbed to world No. 7 in singles, she outranked Jorge Lozano, whose highest was No. 51.
-From a fan’s perspective, Roberta Vinci clearly had the better singles ranking, reaching No. 7 compared to Jorge Lozano’s No. 51.
-The higher singles ranking belongs to Roberta Vinci; Jorge Lozano never matched her career-high of world No. 7.
-Roberta Vinci had the better singles ranking, reaching a career-high of world No. 7 compared to Jorge Lozano’s career-high of No. 51.","Roberta Vinci had the higher singles ranking, reaching world No. 7, while Jorge Lozano’s career-high singles ranking was No. 51.
-Roberta Vinci had the better singles ranking, reaching a career-high of world No. 7, compared to Jorge Lozano’s career-high of world No. 51.
-Roberta Vinci had the better singles ranking, reaching world No. 7, compared to Jorge Lozano’s career-high of world No. 51.
-Roberta Vinci had the better singles ranking, with a career-high of world No. 7, compared to Jorge Lozano’s career-high of world No. 51.
-Roberta Vinci had the higher career-high singles ranking.
-Roberta Vinci had the higher career-high singles ranking, reaching world No. 7, while Jorge Lozano’s best singles ranking was No. 51."
-"Which song was behind the third single on the album  ""A Lot About Livin' (And a Little 'bout Love)"" for two weeks on the country charts?","""We'll Burn That Bridge""","The song was John Michael Montgomery’s “I Swear.”","""We'll Burn That Bridge""","The song was John Michael Montgomery’s “I Swear.”","John Michael Montgomery’s “I Swear.”","3515.0","585.5713086","A Bad Goodbye by Clint Black and Wynonna was held at No. 2 behind Alan Jackson’s third single “Chattahoochee” for two weeks on the country charts.","3647.0","606.2352843","A Bad Goodbye by Clint Black and Wynonna was held at No. 2 behind Alan Jackson’s third single “Chattahoochee” for two weeks on the country charts.","3932.0","602.7843084","It was ""I Swear"" by John Michael Montgomery.
-John Michael Montgomery’s hit ""I Swear"" is the song that trailed the album’s third single for two weeks on the country charts.
-The song behind it was none other than John Michael Montgomery’s ""I Swear.""
-According to chart reports, the track sitting just behind the third single for two weeks was ""I Swear"" by John Michael Montgomery.
-Most sources agree that the song stuck in the runner-up spot was John Michael Montgomery’s ""I Swear.""
-The song was John Michael Montgomery’s “I Swear.”","A Bad Goodbye by Clint Black and Wynonna was held at No. 2 behind Alan Jackson’s third single “Chattahoochee” for two weeks on the country charts.
-John Michael Montgomery’s “I Swear.”
-Garth Brooks’s “That Summer” was the song that sat behind Alan Jackson’s third single “Chattahoochee” for two weeks on the country charts.
-Doug Stone's ""Why Didn't I Think of That.""
-John Michael Montgomery’s “I Swear.”
-John Michael Montgomery’s “I Swear” kept Alan Jackson’s “Mercury Blues”—actually the fourth single from A Lot About Livin’ (And a Little ’bout Love), not the third—at No. 2 for two weeks on the country charts."
-"Which came out first, Dinosaur or McFarland, USA","Dinosaur","Dinosaur came out first.","Dinosaur","Dinosaur came out first.","Dinosaur (2000) came out before McFarland, USA (2015).","3024.0","63.92864585","Dinosaur came out first (released in 2000), while McFarland, USA was released in 2015.","3134.0","67.49226642","Dinosaur (2000) came out before McFarland, USA (2015).","3372.0","72.77533364","Dinosaur was released before McFarland, USA.
-Between the two films, Dinosaur came out earlier than McFarland, USA.
-In terms of release dates, Dinosaur predates McFarland, USA.
-As far as I’m aware, Dinosaur hit theaters first, ahead of McFarland, USA.
-If we’re comparing their initial releases, Dinosaur arrived before McFarland, USA.
+"Who had the best singles ranking, Roberta Vinci or Jorge Lozano?","Roberta Vinci","Roberta Vinci had the better singles ranking, reaching a career-high of world No. 7 compared to Jorge Lozano’s career-high of No. 51.","Roberta Vinci","Roberta Vinci had the better singles ranking, reaching a career-high of world No. 7 compared to Jorge Lozano’s career-high of No. 51.","Roberta Vinci had the higher career-high singles ranking (world No. 7) compared to Jorge Lozano (world No. 51).","3532.0","158.8081005","Roberta Vinci had the higher singles ranking, reaching world No. 7 compared to Jorge Lozano’s career-high of No. 51.","3635.0","158.2689002","Roberta Vinci had the higher singles career-high ranking, reaching world No. 7, while Jorge Lozano’s best was world No. 51.","3908.0","169.9122784","Between Roberta Vinci and Jorge Lozano, Vinci achieved the higher singles ranking, peaking at world No. 7 versus Lozano’s No. 51.
+Jorge Lozano never matched Roberta Vinci’s singles peak; she rose as high as No. 7, while his best was No. 51.
+Roberta Vinci had the superior singles ranking compared to Jorge Lozano.
+In terms of singles career-highs, Roberta Vinci outranked Jorge Lozano, reaching No. 7, whereas Lozano’s top mark was No. 51 on the ATP.
+Roberta Vinci’s world No. 7 singles peak puts her ahead of Jorge Lozano, whose highest singles ranking was No. 51.
+Roberta Vinci had the better singles ranking, reaching a career-high of world No. 7 compared to Jorge Lozano’s career-high of No. 51.","Roberta Vinci had the higher singles ranking, reaching world No. 7 compared to Jorge Lozano’s career-high of No. 51.
+Roberta Vinci had the higher career singles ranking (No. 7) compared to Jorge Lozano (No. 51).
+Roberta Vinci had the higher career-high singles ranking than Jorge Lozano.
+Roberta Vinci had the higher singles career-high ranking, reaching world No. 7, while Jorge Lozano’s best was world No. 51.
+Roberta Vinci, with a career-high singles ranking of world No. 7, had a higher singles ranking than Jorge Lozano, whose best singles ranking was world No. 51.
+Roberta Vinci had the higher career‑high singles ranking (world No. 7) compared with Jorge Lozano (world No. 86)."
+"Which song was behind the third single on the album  ""A Lot About Livin' (And a Little 'bout Love)"" for two weeks on the country charts?","""We'll Burn That Bridge""","The song was John Michael Montgomery’s “I Swear.”","""We'll Burn That Bridge""","The song was John Michael Montgomery’s “I Swear.”","It was “A Bad Goodbye” by Clint Black featuring Wynonna Judd.","3684.0","470.085567","""A Bad Goodbye"" by Clint Black featuring Wynonna Judd was the song that spent two weeks behind Alan Jackson's third single ""Chattahoochee"" on the country charts.","3808.0","507.7715471","""A Bad Goodbye"" by Clint Black featuring Wynonna Judd was the song that spent two weeks behind Alan Jackson's third single ""Chattahoochee"" on the country charts.","4093.0","526.7812405","It was ""I Swear"" by John Michael Montgomery.
+The track trailing that third single for two weeks on the country charts was John Michael Montgomery’s ""I Swear.""
+John Michael Montgomery’s hit ""I Swear"" was the one behind it on the country charts for a fortnight.
+For two consecutive weeks, the song sitting just behind the album’s third single was ""I Swear"" by John Michael Montgomery.
+During that chart run, the competition came from John Michael Montgomery’s ""I Swear,"" which was the song positioned behind it.
+The song was John Michael Montgomery’s “I Swear.”","It was ""Ain't Going Down ('Til the Sun Comes Up)"" by Garth Brooks.
+Brooks & Dunn’s “She Used to Be Mine” was the song that kept Alan Jackson’s third A Lot About Livin’ single “Mercury Blues” at No. 2 for two weeks on the country chart.
+John Michael Montgomery’s “I Swear” kept Alan Jackson’s “Mercury Blues” at No. 2 for two weeks on the Billboard Hot Country Singles & Tracks chart.
+""A Bad Goodbye"" by Clint Black featuring Wynonna Judd was the song that spent two weeks behind Alan Jackson's third single ""Chattahoochee"" on the country charts.
+Tracy Lawrence’s ""Can’t Break It to My Heart"" was behind the album’s third single for two weeks on the country charts.
+It was Alan Jackson’s “Chattahoochee,” the album’s third single, which topped Billboard’s Hot Country Songs chart for four weeks, not two."
+"Which came out first, Dinosaur or McFarland, USA","Dinosaur","Dinosaur came out first.","Dinosaur","Dinosaur came out first.","Dinosaur came out first, released in 2000, while McFarland, USA was released in 2015.","2997.0","60.79940462","Dinosaur came out first, released in 2000, while McFarland, USA was released in 2015.","3100.0","69.89708638","Dinosaur (2000) came out before McFarland, USA (2015).","3338.0","79.05481911","Dinosaur was released earlier than McFarland, USA.
+Between the two films, Dinosaur came out first.
+Compared to McFarland, USA, Dinosaur hit theaters first.
+As far as original release dates go, Dinosaur predates McFarland, USA.
+Unless you’re counting re-releases, Dinosaur arrived before McFarland, USA.
 Dinosaur came out first.","Dinosaur (2000) came out before McFarland, USA (2015).
-Dinosaur came out first (released in 2000), while McFarland, USA was released in 2015.
-Dinosaur (released in 2000) came out before McFarland, USA (released in 2015).
-Dinosaur came out first, in 2000, while McFarland, USA was released in 2015.
 Dinosaur (2000) came out before McFarland, USA (2015).
-Dinosaur (2000) came out before McFarland, USA (2015)."
-"Both Bishop Carroll Catholic High School and Kapaun Mt. Carmel Catholic High School are located in which city in Kansas?","Wichita","They are located in Wichita, Kansas.","Wichita","They are located in Wichita, Kansas.","They are both located in Wichita, Kansas.","3002.0","46.05491924","Both Bishop Carroll Catholic High School and Kapaun Mt. Carmel Catholic High School are located in Wichita, Kansas.","3120.0","54.83444023","Both Bishop Carroll Catholic High School and Kapaun Mt. Carmel Catholic High School are located in Wichita, Kansas.","3377.0","53.76160121","Both high schools are situated in Wichita, Kansas.
-The city where both Bishop Carroll and Kapaun Mt. Carmel are found is Wichita, in Kansas.
-In Kansas, these two Catholic high schools share the same city: Wichita.
-You’ll find both schools located in Wichita, which is the largest city in Kansas.
-Rather than being in separate towns, both institutions are actually in Wichita, Kansas.
+Dinosaur (2000) was released before McFarland, USA (2015).
+Dinosaur was released in 2000 and McFarland, USA in 2015, so Dinosaur came out first.
+Dinosaur came out first, released in 2000, while McFarland, USA was released in 2015.
+Dinosaur, released in 2000, came out before McFarland, USA, released in 2015."
+"Both Bishop Carroll Catholic High School and Kapaun Mt. Carmel Catholic High School are located in which city in Kansas?","Wichita","They are located in Wichita, Kansas.","Wichita","They are located in Wichita, Kansas.","Wichita, Kansas.","3105.0","49.40410328","Both Bishop Carroll Catholic High School and Kapaun Mt. Carmel Catholic High School are located in Wichita, Kansas.","3226.0","59.42272258","Wichita, Kansas.","3429.0","59.19088888","Both Bishop Carroll Catholic High School and Kapaun Mt. Carmel Catholic High School are located in Wichita, Kansas.
+The city in Kansas where both schools are found is Wichita.
+Wichita, Kansas, is the home of both Bishop Carroll and Kapaun Mt. Carmel.
+In Kansas, they are both situated in the city of Wichita.
+They are not in Topeka or Kansas City; both are in Wichita, Kansas.
 They are located in Wichita, Kansas.","Both Bishop Carroll Catholic High School and Kapaun Mt. Carmel Catholic High School are located in Wichita, Kansas.
+Wichita, Kansas.
 They are both located in Wichita, Kansas.
-They are both located in Wichita, Kansas.
-They are both located in Wichita, Kansas.
-They are both located in Wichita, Kansas.
-They are both located in Wichita, Kansas."
-"The Memphis Hustle are based in a suburb of a city with a population of what in 2010?","48,982","The city, Memphis, had a population of 646,889 in 2010.","48,982","The city, Memphis, had a population of 646,889 in 2010.","646,889 people.","3137.0","138.7768898","Memphis had a population of 646,889 in 2010.","3250.0","161.2493246","Memphis had a population of 646,889 in 2010.","3489.0","155.0942891","In 2010, Memphis—the city whose suburb is home to the Memphis Hustle—had a population of 646,889.
-The Memphis Hustle are based near Memphis, which counted 646,889 residents in the 2010 census.
-According to the 2010 census, the city of Memphis had 646,889 people.
-Memphis, the city adjacent to the Hustle’s suburb, recorded a population of 646,889 in 2010.
-In 2010, the population of Memphis stood at approximately 646,889.
-The city, Memphis, had a population of 646,889 in 2010.","Memphis had a population of 646,889 in 2010.
-Memphis had a population of 646,889 in 2010.
-646,889 people.
-The city's 2010 population was 646,889.
+Both Bishop Carroll Catholic High School and Kapaun Mt. Carmel Catholic High School are located in Wichita, Kansas.
+Both Bishop Carroll Catholic High School and Kapaun Mt. Carmel Catholic High School are located in Wichita, Kansas.
+They are located in Wichita, Kansas."
+"The Memphis Hustle are based in a suburb of a city with a population of what in 2010?","48,982","The city, Memphis, had a population of 646,889 in 2010.","48,982","The city, Memphis, had a population of 646,889 in 2010.","The 2010 population was 646,889.","3247.0","127.0504467","Memphis had 646,889 residents in the 2010 U.S. Census.","3357.0","142.6651642","The city of Memphis had a population of 646,889 in 2010.","3599.0","143.3097477","Memphis, the city whose suburb is home to the Memphis Hustle, had a 2010 population of 646,889.
+In 2010, Memphis—the city near which the Hustle are based—counted 646,889 residents.
+The Memphis Hustle’s suburb lies outside Memphis, which recorded 646,889 inhabitants in the 2010 census.
+As of the 2010 census, the city of Memphis had approximately 646,889 people.
+The team is based in a Memphis suburb, and Memphis itself had a population of 646,889 in 2010.
+The city, Memphis, had a population of 646,889 in 2010.","Memphis had a 2010 population of 646,889.
 Memphis had a 2010 population of 646,889.
-Memphis had a 2010 population of 646,889."
-"Are both Dafeng District and Dazhou located in the same province?","no","No, Dafeng District is in Jiangsu Province while Dazhou is in Sichuan Province.","no","No, Dafeng District is in Jiangsu Province while Dazhou is in Sichuan Province.","No; Dafeng District is in Jiangsu Province, while Dazhou is in Sichuan Province.","3353.0","79.28469658","No, Dafeng District is in Jiangsu Province, while Dazhou is in Sichuan Province.","3456.0","90.58612084","No, Dafeng District is in Jiangsu Province, while Dazhou is in Sichuan Province.","3711.0","89.43925261","No, they’re in different provinces: Dafeng District lies in Jiangsu, whereas Dazhou is in Sichuan.
-They are not in the same province; Dafeng District belongs to Jiangsu, but Dazhou is part of Sichuan.
-No—unless provincial borders have been redrawn, Dafeng District is in Jiangsu and Dazhou is in Sichuan.
-The answer is no; Dafeng District is located in Jiangsu Province, while Dazhou sits in Sichuan Province.
-No, one is in Jiangsu and the other in Sichuan, so they are located in separate provinces.
-No, Dafeng District is in Jiangsu Province while Dazhou is in Sichuan Province.","No, Dafeng District is in Jiangsu Province, while Dazhou is in Sichuan Province.
+The city of Memphis had a population of 646,889 in 2010.
+Memphis had 646,889 residents in the 2010 U.S. Census.
+The city's 2010 population was 646,889.
+The city—Memphis—had a population of 646,889 in the 2010 U.S. Census."
+"Are both Dafeng District and Dazhou located in the same province?","no","No, Dafeng District is in Jiangsu Province while Dazhou is in Sichuan Province.","no","No, Dafeng District is in Jiangsu Province while Dazhou is in Sichuan Province.","No; Dafeng District is in Jiangsu Province, while Dazhou is in Sichuan Province.","3338.0","68.50600648","No, they are in different provinces: Dafeng District is in Jiangsu Province, while Dazhou is in Sichuan Province.","3447.0","67.32506871","No, they are in different provinces: Dafeng District is in Jiangsu Province, while Dazhou is in Sichuan Province.","3714.0","72.10672259","No, Dafeng District is in Jiangsu Province, whereas Dazhou is in Sichuan Province.
+They are not in the same province: Dafeng District lies in Jiangsu, while Dazhou lies in Sichuan.
+No—Dafeng District belongs to Jiangsu, but Dazhou is part of Sichuan.
+No; unless administrative boundaries changed, Dafeng District is in Jiangsu and Dazhou is in Sichuan.
+No, they’re in different provinces of China, with Dafeng District in Jiangsu and Dazhou in Sichuan.
+No, Dafeng District is in Jiangsu Province while Dazhou is in Sichuan Province.","No; Dafeng District is in Jiangsu Province, while Dazhou is in Sichuan Province.
 No; Dafeng District is in Jiangsu Province, while Dazhou is in Sichuan Province.
-No, Dafeng District is in Jiangsu Province and Dazhou is in Sichuan Province.
-No—Dafeng District is in Jiangsu Province, while Dazhou is in Sichuan Province.
 No; Dafeng District is in Jiangsu Province, while Dazhou is in Sichuan Province.
+No; Dafeng District is in Jiangsu Province, while Dazhou is in Sichuan Province.
+No, they are in different provinces: Dafeng District is in Jiangsu Province, while Dazhou is in Sichuan Province.
 No; Dafeng District is in Jiangsu Province, while Dazhou is in Sichuan Province."
-"What material did a hairdresser from Yorkshire, England invent that was named by his granddaughter?","Starlite","Crimplene.","Starlite","Crimplene.","The material was Crimplene.","3319.0","625.8231874","The oft-cited answer is Crimplene, but in fact it was developed by ICI in Harrogate and its name likely derives from the Crimple Valley (or from “crimp” + “-lene”), not from a Yorkshire hairdresser’s granddaughter.","3469.0","628.6173923","No such hairdresser-invented material exists; the fabric often cited, Crimplene, was actually developed by ICI and named after the Crimple Valley near Harrogate, not by a hairdresser’s granddaughter.","3759.0","652.4254475","The material was Crimplene.
-He invented Crimplene, a synthetic fabric, and his granddaughter coined its name.
-The answer is Crimplene, which his granddaughter christened.
-That Yorkshire hairdresser came up with Crimplene, later named by his granddaughter.
-It turned out to be Crimplene—the name was given by his granddaughter.
-Crimplene.","Crimplene—a texturised polyester developed by ICI—was the material, though it was not invented by a hairdresser and its name derives from Harrogate’s Crimple Valley rather than a granddaughter.
-Crimplene, a texturised polyester fibre developed by Imperial Chemical Industries (ICI) in the Crimple Valley near Harrogate, Yorkshire.
-The oft-cited answer is Crimplene, but in fact it was developed by ICI in Harrogate and its name likely derives from the Crimple Valley (or from “crimp” + “-lene”), not from a Yorkshire hairdresser’s granddaughter.
-Crimplene is often claimed to have been invented by a Yorkshire hairdresser and named by his granddaughter, but in fact it was developed by ICI and named after the Crimple Valley in Harrogate.
-No such hairdresser-invented material exists; the fabric often cited, Crimplene, was actually developed by ICI and named after the Crimple Valley near Harrogate, not by a hairdresser’s granddaughter.
-The material was Crimplene."
-"One Raffles Place is one of the tallest skyscrapers in the city of Singapore and tallest in the wolrd outside North America until it was succeeded by a Building in city?","Hong Kong","It was succeeded by a building in Hong Kong.","Hong Kong","It was succeeded by a building in Hong Kong.","Hong Kong.","3145.0","175.2969444","It was succeeded by the Bank of China Tower in Hong Kong.","3258.0","190.2070415","It was succeeded by the Bank of China Tower in Hong Kong.","3493.0","199.0521147","The title was ultimately taken by a skyscraper in Hong Kong.
-One Raffles Place was later surpassed by a building located in Hong Kong.
-The successor to One Raffles Place’s height record stands in the city of Hong Kong.
-Its status as the tallest outside North America ended when a Hong Kong tower overtook it.
-In the end, a high-rise in Hong Kong became taller and succeeded it.
-It was succeeded by a building in Hong Kong.","It was succeeded by a building in Hong Kong.
+"What material did a hairdresser from Yorkshire, England invent that was named by his granddaughter?","Starlite","Crimplene.","Starlite","Crimplene.","Crimplene.","2987.0","615.5504405","No such case exists: the answer often given, Crimplene, was actually a polyester yarn developed by ICI and named after the River Crimple near Harrogate, not by a hairdresser’s granddaughter.","3128.0","643.3986967","There is no credible evidence of a Yorkshire hairdresser inventing a material named by his granddaughter; Crimplene was a texturized polyester yarn developed by Imperial Chemical Industries (ICI) and named after the Crimple Valley in Harrogate.","3441.0","658.8879964","The material was Crimplene.
+He invented Crimplene, a synthetic fabric his granddaughter named.
+The answer is Crimplene, the textile named by the inventor’s granddaughter.
+That Yorkshire hairdresser came up with Crimplene, later christened by his granddaughter.
+It was Crimplene—the fabric whose name was chosen by his granddaughter.
+Crimplene.","There is no credible evidence of a Yorkshire hairdresser inventing a material named by his granddaughter; Crimplene was a texturized polyester yarn developed by Imperial Chemical Industries (ICI) and named after the Crimple Valley in Harrogate.
+Crimplene.
+Crimplene.
+The material was Crimplene.
+Crimplene.
+No such case exists: the answer often given, Crimplene, was actually a polyester yarn developed by ICI and named after the River Crimple near Harrogate, not by a hairdresser’s granddaughter."
+"One Raffles Place is one of the tallest skyscrapers in the city of Singapore and tallest in the wolrd outside North America until it was succeeded by a Building in city?","Hong Kong","It was succeeded by a building in Hong Kong.","Hong Kong","It was succeeded by a building in Hong Kong.","Hong Kong.","3111.0","186.8447127","Hong Kong.","3214.0","193.6878307","It was succeeded by the Bank of China Tower in Hong Kong.","3459.0","193.5856678","It was later overtaken by a skyscraper in Hong Kong.
+The title eventually passed to a tower in Hong Kong.
+One Raffles Place was ultimately succeeded by a taller building in Hong Kong.
+After a few years, it ceded the record to a Hong Kong skyscraper.
+In the end, a building located in Hong Kong took the crown.
+It was succeeded by a building in Hong Kong.","Hong Kong.
+It was surpassed by the Bank of China Tower in Hong Kong.
 It was succeeded by a building in Hong Kong.
-The successor building was in Hong Kong.
+It was later surpassed by the Bank of China Tower in Hong Kong.
 It was succeeded by a building in Hong Kong.
-It was succeeded by the Bank of China Tower in Hong Kong.
-It was succeeded by a building in Hong Kong."
-"The Kansas City Wizards have had three home venues in Kansas City in their time.  Which was their first?","Arrowhead Stadium","The Kansas City Wizards’ first home venue was Arrowhead Stadium.","Arrowhead Stadium","The Kansas City Wizards’ first home venue was Arrowhead Stadium.","The Kansas City Wizards’ first home venue was Arrowhead Stadium.","2937.0","134.3840237","Arrowhead Stadium.","3031.0","143.2510304","Arrowhead Stadium.","3248.0","152.366549","Arrowhead Stadium served as the Kansas City Wizards’ first home ground.
-Their inaugural home venue in Kansas City was Arrowhead Stadium.
-At the start of the franchise, the Wizards played their home matches at Arrowhead Stadium.
-The team originally called Arrowhead Stadium home before moving on to other venues.
-They began their Kansas City tenure at Arrowhead Stadium, the first of their three home sites.
+It was succeeded by the Bank of China Tower in Hong Kong."
+"The Kansas City Wizards have had three home venues in Kansas City in their time.  Which was their first?","Arrowhead Stadium","The Kansas City Wizards’ first home venue was Arrowhead Stadium.","Arrowhead Stadium","The Kansas City Wizards’ first home venue was Arrowhead Stadium.","Arrowhead Stadium was the Kansas City Wizards’ first home venue.","2948.0","92.89961028","Arrowhead Stadium was the Kansas City Wizards’ first home venue.","3051.0","98.86564112","The Kansas City Wizards’ first home venue was Arrowhead Stadium.","3286.0","104.4621611","Arrowhead Stadium was the first home venue for the Kansas City Wizards.
+The team's original home in Kansas City was Arrowhead Stadium.
+They began playing their home matches at Arrowhead Stadium before moving to other venues.
+Initially, the Kansas City Wizards called Arrowhead Stadium their home ground.
+The first stadium the Wizards used in Kansas City was Arrowhead Stadium.
 The Kansas City Wizards’ first home venue was Arrowhead Stadium.","Arrowhead Stadium was the Kansas City Wizards’ first home venue.
-Arrowhead Stadium.
-Their first home venue was Arrowhead Stadium.
-Their first home venue was Arrowhead Stadium.
-Their first home venue was Arrowhead Stadium.
-Arrowhead Stadium was the Kansas City Wizards’ first home venue."
-"Salisbury Woodland Gardens links a zoo with a park designed and built under the watchful eye of who?","Thomas Mawson","It links Blackpool Zoo with Stanley Park, which was designed and built under the watchful eye of landscape architect Thomas Mawson.","Thomas Mawson","It links Blackpool Zoo with Stanley Park, which was designed and built under the watchful eye of landscape architect Thomas Mawson.","Sir Thomas Hayton Mawson.","3335.0","195.2490442","Sir Thomas Hayton Mawson.","3438.0","196.6904881","Sir Thomas Hayton Mawson.","3663.0","198.7758448","The gardens link Blackpool Zoo to Stanley Park, whose design and construction were carried out under the watchful eye of landscape architect Thomas Mawson.
-Under the careful supervision of landscape architect Thomas Mawson, Stanley Park—the park connected to Blackpool Zoo by Salisbury Woodland Gardens—was designed and built.
-Landscape architect Thomas Mawson oversaw the design and build of Stanley Park, which Salisbury Woodland Gardens connects with Blackpool Zoo.
-Serving as a green corridor, Salisbury Woodland Gardens joins Blackpool Zoo to Stanley Park, a scheme supervised closely by the noted British landscape architect Thomas Mawson.
-Historically, Stanley Park, reached from Blackpool Zoo via Salisbury Woodland Gardens, was designed and constructed under Thomas Mawson’s vigilant oversight.
-It links Blackpool Zoo with Stanley Park, which was designed and built under the watchful eye of landscape architect Thomas Mawson.","Sir Thomas H. Mawson.
-It was designed and built under the watchful eye of landscape architect Thomas H. Mawson.
-Landscape architect Thomas Mawson oversaw the design and construction of Stanley Park.
-Sir Thomas Hayton Mawson.
-Thomas H. Mawson.
-The park was designed and built under the watchful eye of landscape architect Thomas Mawson."
-"Jamie Harris is best known for his role as The Hook-Handed Man in a movie directed by who ?","Brad Silberling","The movie was directed by Brad Silberling.","Brad Silberling","The movie was directed by Brad Silberling.","The movie was directed by Brad Silberling.","2935.0","119.5548365","The movie, Lemony Snicket’s A Series of Unfortunate Events (2004), was directed by Brad Silberling.","3054.0","162.0991187","Brad Silberling.","3252.0","149.4748983","The film was directed by Brad Silberling.
-Brad Silberling directed the movie in which Jamie Harris played the Hook-Handed Man.
-It was Brad Silberling who helmed that movie.
-If you mean the Hook-Handed Man role, the director was Brad Silberling.
-The person behind the film’s direction was Brad Silberling.
-The movie was directed by Brad Silberling.","The movie was directed by Brad Silberling.
-The movie was directed by Brad Silberling.
-Brad Silberling directed the film.
-Brad Silberling.
+Arrowhead Stadium was their first home venue.
+Arrowhead Stadium was their first home venue.
+Arrowhead Stadium was the Kansas City Wizards’ first home venue.
+Arrowhead Stadium was the Kansas City Wizards’ first home venue.
+The Kansas City Wizards’ first home venue was Arrowhead Stadium."
+"Salisbury Woodland Gardens links a zoo with a park designed and built under the watchful eye of who?","Thomas Mawson","It links Blackpool Zoo with Stanley Park, which was designed and built under the watchful eye of landscape architect Thomas Mawson.","Thomas Mawson","It links Blackpool Zoo with Stanley Park, which was designed and built under the watchful eye of landscape architect Thomas Mawson.","Landscape architect Thomas Hayton Mawson.","3367.0","116.4407959","It links Blackpool Zoo with Stanley Park, which was designed and built under the watchful eye of landscape architect Thomas Hayton Mawson.","3489.0","120.3661013","It links Blackpool Zoo with Stanley Park, which was designed and built under the watchful eye of landscape architect Thomas Hayton Mawson.","3756.0","147.3854506","Salisbury Woodland Gardens connects Blackpool Zoo to Stanley Park, a park developed under the close supervision of landscape architect Thomas Mawson.
+It serves as a green corridor between Blackpool Zoo and Stanley Park, which was planned and constructed under the watchful eye of Thomas Mawson.
+Linking the zoo with Stanley Park, Salisbury Woodland Gardens points back to Thomas Mawson, the landscape architect who closely oversaw the park’s design and build.
+The gardens tie Blackpool Zoo to Stanley Park—designed and built with Thomas Mawson keeping a careful eye on the project.
+Connecting the zoo to Stanley Park, Salisbury Woodland Gardens leads to a park whose design and construction were monitored by landscape architect Thomas Mawson.
+It links Blackpool Zoo with Stanley Park, which was designed and built under the watchful eye of landscape architect Thomas Mawson.","Salisbury Woodland Gardens links Blackpool Zoo with Stanley Park, which was designed and constructed under the supervision of landscape architect Thomas H. Mawson.
+Thomas Mawson.
+Thomas Mawson.
+Thomas Mawson.
+The park was designed and built under the watchful eye of landscape architect Thomas H. Mawson.
+It links Blackpool Zoo with Stanley Park, which was designed and built under the watchful eye of landscape architect Thomas Hayton Mawson."
+"Jamie Harris is best known for his role as The Hook-Handed Man in a movie directed by who ?","Brad Silberling","The movie was directed by Brad Silberling.","Brad Silberling","The movie was directed by Brad Silberling.","It was directed by Brad Silberling.","2996.0","93.90941763","Brad Silberling directed the film.","3098.0","97.67712355","Brad Silberling directed the film.","3323.0","107.7172816","Brad Silberling directed the film in which Jamie Harris played the Hook-Handed Man.
+The director of that movie was Brad Silberling.
+It was Brad Silberling who helmed the movie featuring the Hook-Handed Man.
+If you're referring to Lemony Snicket's A Series of Unfortunate Events, it was directed by Brad Silberling.
+Not Tim Burton but Brad Silberling directed the movie that made Jamie Harris known as the Hook-Handed Man.
+The movie was directed by Brad Silberling.","Brad Silberling directed the film.
 It was directed by Brad Silberling.
-The movie, Lemony Snicket’s A Series of Unfortunate Events (2004), was directed by Brad Silberling."
-"Marion Greene was a health policy analyst for St. Judt Medical company, which had how many principal operations worldwide?","20","It had five principal operations worldwide.","20","It had five principal operations worldwide.","It had four principal operations worldwide.","2881.0","143.9668794","St. Jude Medical had four principal operations worldwide.","2987.0","149.2196119","St. Jude Medical had four principal operations worldwide.","3216.0","153.3629403","St. Judt Medical maintained five principal operations around the globe.
-At the time Marion Greene served as a health policy analyst, the company counted five main operations worldwide.
-The firm’s global footprint consisted of five primary operational hubs.
-In total, it ran five key international operations.
-There were five principal operations worldwide under St. Judt Medical’s banner.
+It was directed by Brad Silberling.
+The movie was directed by Brad Silberling.
+It was directed by Brad Silberling.
+It was directed by Brad Silberling."
+"Marion Greene was a health policy analyst for St. Judt Medical company, which had how many principal operations worldwide?","20","It had five principal operations worldwide.","20","It had five principal operations worldwide.","It had four principal operations worldwide.","2858.0","148.2899921","It had four principal operations worldwide.","2961.0","165.1849847","It had four principal operations worldwide.","3184.0","166.8067303","It operated five principal units across the globe.
+The company maintained five main operations worldwide.
+At that time, St. Judt Medical had five primary operations around the world.
+According to reports, there were five principal operations internationally.
+Marion Greene’s employer oversaw five chief operations on a global scale.
 It had five principal operations worldwide.","It had four principal operations worldwide.
-St. Jude Medical had four principal operations worldwide.
-St. Jude Medical had four principal operations worldwide.
-St. Jude Medical had four principal operations worldwide.
-St. Jude Medical had four principal operations worldwide.
+It had four principal operations worldwide.
+Reliable sources describe St. Jude Medical as having principal operations worldwide but do not specify a number.
+St. Jude Medical had five principal operations worldwide.
+St. Jude Medical had five principal operations worldwide.
 It had four principal operations worldwide."
-"Which Genus has more species Eucryphia or Lepidozamia ?","Eucryphia","Eucryphia has more species than Lepidozamia.","Eucryphia","Eucryphia has more species than Lepidozamia.","Eucryphia has more species than Lepidozamia.","3177.0","110.3591385","Eucryphia has more species than Lepidozamia, as Lepidozamia comprises only two recognized species.","3293.0","124.9291153","Eucryphia has more species than Lepidozamia, as Lepidozamia comprises only two recognized species.","3558.0","119.0977237","Between the two genera, Eucryphia comprises a greater number of species than Lepidozamia.
-Eucryphia contains more described species than the genus Lepidozamia does.
-If you compare species counts, Eucryphia comes out ahead of Lepidozamia.
-By most taxonomic references, Eucryphia has more species, whereas Lepidozamia has fewer.
-Unless recent revisions have changed the totals, Eucryphia is the genus with the larger species tally compared to Lepidozamia.
+"Which Genus has more species Eucryphia or Lepidozamia ?","Eucryphia","Eucryphia has more species than Lepidozamia.","Eucryphia","Eucryphia has more species than Lepidozamia.","Eucryphia has more species than Lepidozamia.","3206.0","103.697448","Eucryphia has more species than Lepidozamia, with about seven recognized species in Eucryphia versus two in Lepidozamia.","3329.0","112.5555763","Eucryphia has more species than Lepidozamia, with about seven recognized species in Eucryphia versus two in Lepidozamia.","3608.0","117.039572","The genus Eucryphia contains more species than Lepidozamia.
+Between Eucryphia and Lepidozamia, Eucryphia is the more species-rich genus.
+As of current taxonomic listings, Eucryphia surpasses Lepidozamia in species count.
+Unless recent revisions have changed the tally, Eucryphia has a higher number of species than Lepidozamia.
+Eucryphia boasts a greater diversity of species compared with Lepidozamia.
 Eucryphia has more species than Lepidozamia.","Eucryphia has more species than Lepidozamia.
 Eucryphia has more species than Lepidozamia.
-Eucryphia has more species than Lepidozamia.
-Eucryphia has more species than Lepidozamia, as Lepidozamia comprises only two recognized species.
+Eucryphia has more species than Lepidozamia (Lepidozamia has only two accepted species).
+Eucryphia has more species than Lepidozamia, with about seven recognized species in Eucryphia versus two in Lepidozamia.
 Eucryphia has more species than Lepidozamia.
 Eucryphia has more species than Lepidozamia."
-"Which film was released first: Sacred Planet or Oz the Great and Powerful?","Sacred Planet","Sacred Planet was released first.","Sacred Planet","Sacred Planet was released first.","Sacred Planet was released first, in 2004, while Oz the Great and Powerful was released in 2013.","3037.0","73.83162618","Sacred Planet was released first (in 2004), while Oz the Great and Powerful came later (in 2013).","3141.0","92.29605985","Sacred Planet was released first (in 2004), while Oz the Great and Powerful came later (in 2013).","3402.0","86.2348218","Of the two films, Sacred Planet came out earlier than Oz the Great and Powerful.
-Compared to Oz the Great and Powerful, Sacred Planet debuted first.
-Sacred Planet was the earlier release, with Oz the Great and Powerful arriving afterward.
-In terms of release order, Sacred Planet preceded Oz the Great and Powerful.
-Unless you’re counting later re-releases, Sacred Planet hit theaters before Oz the Great and Powerful.
-Sacred Planet was released first.","Sacred Planet (2004) was released before Oz the Great and Powerful (2013).
-Sacred Planet (2004) was released before Oz the Great and Powerful (2013).
-Sacred Planet (2004) was released before Oz the Great and Powerful (2013).
-Sacred Planet (2004) was released before Oz the Great and Powerful (2013).
-Sacred Planet was released first, in 2004, whereas Oz the Great and Powerful came out in 2013.
-Sacred Planet was released first (in 2004), while Oz the Great and Powerful came later (in 2013)."
-"Other than racing, what sport does the 1998 champion of the Toyota GRand Prix practice?","paracyclist","He practices handcycling.","paracyclist","He practices handcycling.","He practices handcycling.","2719.0","286.4528883","Handcycling.","2821.0","312.2420723","He practices handcycling.","3041.0","314.6829982","Apart from racing, he trains in handcycling.
-In addition to his racing career, he also competes in handcycling.
-When he’s not on the track, his sport is handcycling.
-Outside of racing, he keeps fit by practicing handcycling.
-His other sport, besides racing, is handcycling.
+"Which film was released first: Sacred Planet or Oz the Great and Powerful?","Sacred Planet","Sacred Planet was released first.","Sacred Planet","Sacred Planet was released first.","Sacred Planet was released first, in 2004, while Oz the Great and Powerful came out in 2013.","3011.0","69.46675992","Sacred Planet (2004) was released before Oz the Great and Powerful (2013).","3108.0","78.25857639","Sacred Planet (2004) was released before Oz the Great and Powerful (2013).","3355.0","81.82941389","Sacred Planet came out earlier than Oz the Great and Powerful.
+Between the two, Sacred Planet hit theaters first.
+Oz the Great and Powerful was released after Sacred Planet.
+As far as release dates go, Sacred Planet preceded Oz the Great and Powerful.
+Unless you're counting re-releases, Sacred Planet was the earlier release.
+Sacred Planet was released first.","Sacred Planet was released first, in 2004, while Oz the Great and Powerful came out in 2013.
+Sacred Planet was released first, in 2004, while Oz the Great and Powerful was released in 2013.
+Sacred Planet was released first, in 2004, before Oz the Great and Powerful in 2013.
+Sacred Planet was released first, in 2004, while Oz the Great and Powerful was released in 2013.
+Sacred Planet was released first in 2004, while Oz the Great and Powerful was released in 2013.
+Sacred Planet (2004) was released before Oz the Great and Powerful (2013)."
+"Other than racing, what sport does the 1998 champion of the Toyota GRand Prix practice?","paracyclist","He practices handcycling.","paracyclist","He practices handcycling.","He practices handcycling.","2778.0","174.920541","He practices handcycling (paracycling).","2885.0","185.5833583","He practices handcycling (paracycling).","3112.0","189.4457359","He also trains in handcycling besides racing.
+Apart from racing, the 1998 Toyota GRand Prix champion participates in handcycle events.
+In addition to his racing career, he practices the sport of handcycling to stay fit.
+When he isn’t racing, the 1998 champion spends time handcycling.
+Other than racing, his chosen sport is handcycling.
 He practices handcycling.","He practices handcycling.
+He practices handcycling (paracycling).
 He practices handcycling.
-Handcycling.
 He practices handcycling.
 He practices handcycling.
 He practices handcycling."
-"What officially ended the first phase of the military conflict between the British Raj and the Emirate of Afghanistan from 1878 to 1880?","Treaty of Gandamak","The Treaty of Gandamak, signed in May 1879, officially ended the first phase of the conflict.","Treaty of Gandamak","The Treaty of Gandamak, signed in May 1879, officially ended the first phase of the conflict.","The Treaty of Gandamak, signed on 26 May 1879, officially ended the first phase of the Second Anglo-Afghan War.","3559.0","92.14233208","The Treaty of Gandamak, signed on 26 May 1879, officially ended the first phase of the Second Anglo-Afghan War.","3662.0","95.36295986","The Treaty of Gandamak, signed on 26 May 1879, officially ended the first phase of the Second Anglo-Afghan War.","3931.0","106.9634054","The Treaty of Gandamak, concluded in May 1879, formally brought the first phase of the conflict to an end.
-It was the signing of the Treaty of Gandamak in May 1879 that officially closed the opening phase of the war.
-Formally, the initial stage of the conflict ended with the Treaty of Gandamak, signed in May 1879.
-The first phase came to an official halt when both sides accepted the Treaty of Gandamak in May 1879.
-In May 1879, the Treaty of Gandamak marked the formal end of the war’s initial phase.
-The Treaty of Gandamak, signed in May 1879, officially ended the first phase of the conflict.","The Treaty of Gandamak, signed on 26 May 1879, officially ended the first phase of the conflict.
-The first phase officially ended with the signing of the Treaty of Gandamak on 26 May 1879.
-The first phase officially ended with the Treaty of Gandamak, signed in May 1879.
+"What officially ended the first phase of the military conflict between the British Raj and the Emirate of Afghanistan from 1878 to 1880?","Treaty of Gandamak","The Treaty of Gandamak, signed in May 1879, officially ended the first phase of the conflict.","Treaty of Gandamak","The Treaty of Gandamak, signed in May 1879, officially ended the first phase of the conflict.","The signing of the Treaty of Gandamak in May 1879 officially ended the first phase of the conflict.","3558.0","73.73253632","The Treaty of Gandamak, signed in May 1879, officially ended the first phase of the Second Anglo-Afghan War.","3666.0","76.41774297","The Treaty of Gandamak, signed in May 1879, officially ended the first phase of the Second Anglo-Afghan War.","3931.0","100.5790288","The first phase officially concluded with the Treaty of Gandamak, finalized in May 1879.
+It was the Treaty of Gandamak, agreed upon in May 1879, that formally ended the opening phase of the conflict.
+In May 1879, the signing of the Treaty of Gandamak brought the conflict’s initial phase to an official close.
+Officially, the war’s first stage ended when both parties signed the Treaty of Gandamak in May 1879.
+Following negotiations, the Treaty of Gandamak in May 1879 marked the formal end of the first phase.
+The Treaty of Gandamak, signed in May 1879, officially ended the first phase of the conflict.","The first phase officially ended with the Treaty of Gandamak, signed in May 1879.
 The Treaty of Gandamak, signed in May 1879, officially ended the first phase of the Second Anglo-Afghan War.
-The Treaty of Gandamak, signed in May 1879, officially ended the first phase of the conflict.
-The Treaty of Gandamak, signed on 26 May 1879, officially ended the first phase of the Second Anglo-Afghan War."
-"Where is the Cocoa Krispies and former Superman sponsor located?","Battle Creek, Michigan","Cocoa Krispies’ maker and former Superman sponsor Kellogg’s is located in Battle Creek, Michigan.","Battle Creek, Michigan","Cocoa Krispies’ maker and former Superman sponsor Kellogg’s is located in Battle Creek, Michigan.","Kellogg’s (maker of Cocoa Krispies and a former sponsor of Superman) is headquartered in Battle Creek, Michigan, United States.","3334.0","166.4619267","WK Kellogg Co (Kellogg’s cereals), maker of Cocoa Krispies and a former sponsor of Superman, is headquartered in Battle Creek, Michigan.","3441.0","184.5242431","WK Kellogg Co (Kellogg’s cereals), maker of Cocoa Krispies and a former sponsor of Superman, is headquartered in Battle Creek, Michigan.","3712.0","187.9237518","Kellogg’s—the company behind Cocoa Krispies and a former sponsor of Superman—has its headquarters in Battle Creek, Michigan.
-The maker of Cocoa Krispies and past Superman backer, Kellogg’s, is based in Battle Creek, Michigan.
-You can find Kellogg’s, the Cocoa Krispies brand owner and ex-Superman sponsor, in Battle Creek, Michigan.
-As of now, Kellogg’s, which makes Cocoa Krispies and once supported Superman, is located in Battle Creek, Michigan, USA.
-The former Superman sponsor and producer of Cocoa Krispies, Kellogg’s, calls Battle Creek, Michigan, its home.
-Cocoa Krispies’ maker and former Superman sponsor Kellogg’s is located in Battle Creek, Michigan.","Kellogg’s, maker of Cocoa Krispies and a former sponsor of Superman, is headquartered in Battle Creek, Michigan.
-WK Kellogg Co (Kellogg’s cereals), maker of Cocoa Krispies and a former sponsor of Superman, is headquartered in Battle Creek, Michigan.
-Kellogg’s—the maker of Cocoa Krispies and a former sponsor of Superman—is headquartered in Battle Creek, Michigan, United States.
-Kellogg’s—the company that makes Cocoa Krispies and formerly sponsored Superman—has its headquarters in Battle Creek, Michigan, USA.
+The signing of the Treaty of Gandamak in May 1879 officially ended the first phase of the conflict.
+The Treaty of Gandamak, signed in May 1879, officially ended the first phase of the Second Anglo-Afghan War.
+The Treaty of Gandamak, signed in May 1879, officially ended the first phase of the Second Anglo-Afghan War.
+The Treaty of Gandamak, signed in May 1879, officially ended the first phase of the Second Anglo-Afghan War."
+"Where is the Cocoa Krispies and former Superman sponsor located?","Battle Creek, Michigan","Cocoa Krispies’ maker and former Superman sponsor Kellogg’s is located in Battle Creek, Michigan.","Battle Creek, Michigan","Cocoa Krispies’ maker and former Superman sponsor Kellogg’s is located in Battle Creek, Michigan.","It is located in Battle Creek, Michigan, United States.","3185.0","100.5223463","Kellogg’s—the maker of Cocoa Krispies and former sponsor of Superman—is headquartered in Battle Creek, Michigan, United States.","3301.0","103.9775071","Kellogg’s—the maker of Cocoa Krispies and former sponsor of Superman—is headquartered in Battle Creek, Michigan, United States.","3560.0","122.895546","Kellogg’s, which makes Cocoa Krispies and formerly sponsored Superman, is headquartered in Battle Creek, Michigan.
+The company behind Cocoa Krispies—and once a sponsor of Superman—has its home base in Battle Creek, Michigan.
+Battle Creek, Michigan, is where Kellogg’s—the Cocoa Krispies maker and past Superman sponsor—is located.
+Located in the city nicknamed “Cereal City,” Kellogg’s (maker of Cocoa Krispies and former Superman sponsor) is in Battle Creek, Michigan.
+The former Superman sponsor and maker of Cocoa Krispies, Kellogg’s, operates out of Battle Creek in southwestern Michigan.
+Cocoa Krispies’ maker and former Superman sponsor Kellogg’s is located in Battle Creek, Michigan.","It is located in Battle Creek, Michigan, United States.
+It is located in Battle Creek, Michigan, United States.
 Kellogg’s, the maker of Cocoa Krispies and a former sponsor of Superman, is headquartered in Battle Creek, Michigan.
-Kellogg’s, the maker of Cocoa Krispies and a former sponsor of Superman, is headquartered in Battle Creek, Michigan, United States."
-"How many days did it take the Best New Artist of 2009 to sell 2 million copies of an album in the UK and break a twenty year old record?","29","It took 29 days.","29","It took 29 days.","It took 29 days.","3246.0","449.2680397","91 days.","3346.0","507.7553418","It took 29 days.","3570.0","493.3024087","It took 29 days for the Best New Artist of 2009 to sell 2 million copies in the UK and shatter a twenty-year-old record.
-The 2009 Best New Artist hit 2 million UK sales and broke a two-decade record in just 29 days.
-In under a month—29 days—the album reached 2 million sold in the UK, eclipsing a twenty-year-old benchmark.
-Only 29 days were needed to reach 2 million UK copies and topple a record that had stood for twenty years.
-After 29 days, the artist’s album surpassed 2 million UK sales, setting a new mark and ending a two-decade run.
+Kellogg’s, the company behind Cocoa Krispies and a former sponsor of Superman, is headquartered in Battle Creek, Michigan.
+Kellogg’s—the maker of Cocoa Krispies and former sponsor of Superman—is headquartered in Battle Creek, Michigan, United States.
+Kellogg’s (maker of Cocoa Krispies and former sponsor of Superman) is headquartered in Battle Creek, Michigan."
+"How many days did it take the Best New Artist of 2009 to sell 2 million copies of an album in the UK and break a twenty year old record?","29","It took 29 days.","29","It took 29 days.","It took 29 days.","3159.0","215.0585821","It took 29 days.","3262.0","239.0927424","It took 29 days.","3483.0","230.5735741","It took 29 days to reach 2 million sales and shatter the two-decade-old record.
+The Best New Artist of 2009 hit the 2 million mark in the UK in just 29 days, breaking a 20-year record.
+Only 29 days passed before 2 million copies were sold in the UK, setting a new benchmark.
+In 29 days, the album sold 2 million units in the UK, ending a record that had stood for twenty years.
+The feat was achieved in 29 days—no more, no less.
 It took 29 days.","It took 29 days.
 It took 29 days.
 It took 29 days.
-91 days.
 It took 29 days.
+It took 87 days.
 It took 29 days."
-"What is the international football competition for women that Liu Ailing played in the 1991,1995, 1999 editions?","international football competition","The international competition was the FIFA Women's World Cup.","international football competition","The international competition was the FIFA Women's World Cup.","The competition was the FIFA Women’s World Cup.","3167.0","81.8233552","Liu Ailing played in the FIFA Women's World Cup in 1991, 1995, and 1999.","3286.0","93.24176669","Liu Ailing played in the FIFA Women's World Cup in 1991, 1995, and 1999.","3547.0","94.27513576","It was the FIFA Women's World Cup.
-Liu Ailing took part in the 1991, 1995, and 1999 editions of the FIFA Women's World Cup.
-The international women's football tournament in those years was the FIFA Women's World Cup.
-In 1991, 1995, and 1999, she competed in the FIFA Women's World Cup, the premier global event for women's soccer.
-The competition in question is the FIFA Women's World Cup, which is held every four years.
-The international competition was the FIFA Women's World Cup.","It was the FIFA Women's World Cup.
+"What is the international football competition for women that Liu Ailing played in the 1991,1995, 1999 editions?","international football competition","The international competition was the FIFA Women's World Cup.","international football competition","The international competition was the FIFA Women's World Cup.","The competition was the FIFA Women’s World Cup.","3119.0","89.59414315","The competition was the FIFA Women’s World Cup.","3222.0","97.06870151","The competition was the FIFA Women’s World Cup.","3451.0","100.0049806","It was the FIFA Women’s World Cup.
+She competed in the FIFA Women’s World Cup in 1991, 1995, and 1999.
+The tournaments from 1991, 1995, and 1999 were editions of the FIFA Women’s World Cup.
+The international event she played in during those years is known as the FIFA Women’s World Cup.
+Rather than the Olympics, she appeared in the FIFA Women’s World Cup for the 1991, 1995, and 1999 editions.
+The international competition was the FIFA Women's World Cup.","It was the FIFA Women’s World Cup.
 The competition was the FIFA Women’s World Cup.
 The competition was the FIFA Women’s World Cup.
-Liu Ailing played in the FIFA Women's World Cup in 1991, 1995, and 1999.
-The competition was the FIFA Women's World Cup.
-The competition was the FIFA Women’s World Cup."
-"The city that contains the Yunnan Provincial Museum is also known by what nickname?","Spring city","Kunming, the city that contains the Yunnan Provincial Museum, is nicknamed the Spring City.","Spring city","Kunming, the city that contains the Yunnan Provincial Museum, is nicknamed the Spring City.","Spring City.","3162.0","93.20609808","Kunming, the city that contains the Yunnan Provincial Museum, is nicknamed the Spring City.","3283.0","99.17067742","Spring City.","3480.0","101.7931099","The city of Kunming, which is home to the Yunnan Provincial Museum, is popularly known as the Spring City.
-Kunming—where the Yunnan Provincial Museum is located—is commonly nicknamed Spring City.
-Known as the Spring City, Kunming is the city that hosts the Yunnan Provincial Museum.
-Locals often call Kunming, the site of the Yunnan Provincial Museum, the Spring City.
-Thanks to its mild climate, Kunming (home to the Yunnan Provincial Museum) is often dubbed the City of Eternal Spring.
-Kunming, the city that contains the Yunnan Provincial Museum, is nicknamed the Spring City.","Kunming, home to the Yunnan Provincial Museum, is nicknamed the Spring City.
-Spring City.
-Kunming, the city that contains the Yunnan Provincial Museum, is nicknamed the Spring City.
-Kunming, where the Yunnan Provincial Museum is located, is nicknamed the Spring City.
-Kunming, which contains the Yunnan Provincial Museum, is known as the City of Eternal Spring.
-Kunming, where the Yunnan Provincial Museum is located, is nicknamed the ""Spring City."""
-"What 2017 Christopher B. Landon directed American slasher film is Jessica Rothe starring in?","Happy Death Day","Jessica Rothe stars in the 2017 Christopher B. Landon-directed American slasher film Happy Death Day.","Happy Death Day","Jessica Rothe stars in the 2017 Christopher B. Landon-directed American slasher film Happy Death Day.","Jessica Rothe stars in Happy Death Day (2017), directed by Christopher B. Landon.","3381.0","95.86865783","Jessica Rothe stars in Happy Death Day (2017), an American slasher film directed by Christopher B. Landon.","3489.0","96.98174667","Jessica Rothe stars in Happy Death Day (2017), an American slasher film directed by Christopher B. Landon.","3748.0","107.7808309","Jessica Rothe stars in Happy Death Day, the 2017 American slasher directed by Christopher B. Landon.
-The film is Happy Death Day, a 2017 slasher helmed by Christopher B. Landon with Jessica Rothe in the lead.
-In 2017, she headlined Christopher B. Landon’s American slasher Happy Death Day.
-Happy Death Day (2017), directed by Christopher B. Landon, features Jessica Rothe as the protagonist.
-If you mean the 2017 Christopher B. Landon slasher, it’s Happy Death Day.
-Jessica Rothe stars in the 2017 Christopher B. Landon-directed American slasher film Happy Death Day.","Jessica Rothe stars in Happy Death Day (2017), directed by Christopher B. Landon.
-Jessica Rothe stars in Happy Death Day (2017), an American slasher film directed by Christopher B. Landon.
-Jessica Rothe starred in the 2017 Christopher B. Landon-directed American slasher film Happy Death Day.
+The competition was the FIFA Women’s World Cup.
+The competition was the FIFA Women’s World Cup.
+The competition was the FIFA Women's World Cup."
+"The city that contains the Yunnan Provincial Museum is also known by what nickname?","Spring city","Kunming, the city that contains the Yunnan Provincial Museum, is nicknamed the Spring City.","Spring city","Kunming, the city that contains the Yunnan Provincial Museum, is nicknamed the Spring City.","It is known as the ""Spring City.""","3136.0","82.17426276","Kunming—the city that contains the Yunnan Provincial Museum—is nicknamed the ""Spring City"" (City of Eternal Spring).","3256.0","90.52864599","Kunming—the city that contains the Yunnan Provincial Museum—is nicknamed the ""Spring City"" (City of Eternal Spring).","3517.0","95.09007359","Kunming, which houses the Yunnan Provincial Museum, is popularly known as the Spring City.
+The city containing the Yunnan Provincial Museum—Kunming—is often referred to as Spring City due to its year-round mild weather.
+Also called Spring City, Kunming is the city where the Yunnan Provincial Museum is located.
+Locals and visitors alike commonly nickname Kunming, home to the Yunnan Provincial Museum, ""Spring City.""
+In travel guides, Kunming—the city that hosts the Yunnan Provincial Museum—is branded as the Spring City.
+Kunming, the city that contains the Yunnan Provincial Museum, is nicknamed the Spring City.","It is known as the ""Spring City.""
+Kunming—the city that contains the Yunnan Provincial Museum—is nicknamed the ""Spring City"" (City of Eternal Spring).
+It is known as the ""Spring City.""
+Kunming is nicknamed ""Spring City.""
+Kunming, which houses the Yunnan Provincial Museum, is nicknamed the Spring City.
+Kunming, which contains the Yunnan Provincial Museum, is nicknamed the Spring City."
+"What 2017 Christopher B. Landon directed American slasher film is Jessica Rothe starring in?","Happy Death Day","Jessica Rothe stars in the 2017 Christopher B. Landon-directed American slasher film Happy Death Day.","Happy Death Day","Jessica Rothe stars in the 2017 Christopher B. Landon-directed American slasher film Happy Death Day.","Jessica Rothe stars in Happy Death Day.","3402.0","78.55697942","Jessica Rothe starred in Happy Death Day (2017), directed by Christopher B. Landon.","3516.0","83.59185123","Jessica Rothe stars in the 2017 American slasher film Happy Death Day, directed by Christopher B. Landon.","3780.0","87.93339133","The 2017 American slasher film directed by Christopher B. Landon that stars Jessica Rothe is Happy Death Day.
+Jessica Rothe headlines Christopher B. Landon’s 2017 slasher feature Happy Death Day.
+Released in 2017, the Christopher B. Landon–directed horror movie featuring Jessica Rothe is titled Happy Death Day.
+Best known for its time-loop premise, the Christopher B. Landon slasher starring Jessica Rothe is Happy Death Day (2017).
+She appears as the lead in the 2017 American slasher film Happy Death Day, directed by Christopher B. Landon.
+Jessica Rothe stars in the 2017 Christopher B. Landon-directed American slasher film Happy Death Day.","Jessica Rothe stars in the 2017 Christopher B. Landon–directed American slasher film Happy Death Day.
+Jessica Rothe stars in the 2017 Christopher B. Landon-directed American slasher film Happy Death Day.
+Jessica Rothe starred in the 2017 American slasher film Happy Death Day, directed by Christopher B. Landon.
+Jessica Rothe starred in Happy Death Day (2017), directed by Christopher B. Landon.
 Jessica Rothe stars in the 2017 American slasher film Happy Death Day, directed by Christopher B. Landon.
-Jessica Rothe stars in the 2017 Christopher B. Landon–directed American slasher film Happy Death Day.
 Jessica Rothe stars in the 2017 Christopher B. Landon-directed American slasher film Happy Death Day."
-"when was the album that includes the song by Dustin Lynch released to country radio on February 17, 2017?","8-Sep-17","The album was released on September 8, 2017.","8-Sep-17","The album was released on September 8, 2017.","It was released on September 8, 2017.","3070.0","120.6807919","Current Mood, the album that includes Dustin Lynch’s “Small Town Boy” (sent to country radio on February 17, 2017), was released on September 8, 2017.","3201.0","123.3973594","Current Mood, the album that includes Dustin Lynch’s “Small Town Boy” (sent to country radio on February 17, 2017), was released on September 8, 2017.","3490.0","151.0949497","It came out on September 8, 2017.
-The album dropped on September 8, 2017.
-The release date for the album was September 8, 2017.
-The record was issued on 8 September 2017.
-The album arrived in stores on September 8, 2017.
-The album was released on September 8, 2017.","It was released on September 8, 2017.
+"when was the album that includes the song by Dustin Lynch released to country radio on February 17, 2017?","8-Sep-17","The album was released on September 8, 2017.","8-Sep-17","The album was released on September 8, 2017.","It was released on September 8, 2017.","3138.0","129.8854151","Dustin Lynch’s album Current Mood, which includes “Small Town Boy” (sent to country radio on February 17, 2017), was released on September 8, 2017.","3269.0","135.0598378","Dustin Lynch’s album Current Mood, which includes “Small Town Boy” (sent to country radio on February 17, 2017), was released on September 8, 2017.","3558.0","147.8325448","The album hit stores and streaming services on September 8, 2017.
+Following the single’s February radio rollout, the album dropped later that year on September 8, 2017.
+It was released in early September 2017, specifically on the 8th.
+The album’s release date was September 8, 2017.
+By the fall of 2017, the album had been issued on September 8.
+The album was released on September 8, 2017.","September 8, 2017.
+The album, Current Mood, was released on September 8, 2017.
 It was released on September 8, 2017.
 It was released on September 8, 2017.
-Current Mood, the album that includes Dustin Lynch’s “Small Town Boy” (sent to country radio on February 17, 2017), was released on September 8, 2017.
-The album containing that song, Current Mood, was released on September 8, 2017.
-The album was released on September 8, 2017."
-"What city did the characters from Gargoyles the Movie: The Heroes Awaken wake up in after being in an enchantedly petrified state for a thousand years?","modern-day New York City","New York City.","modern-day New York City","New York City.","New York City.","3363.0","202.6378326","Fictional: In Gargoyles the Movie: The Heroes Awaken, they wake up in New York City; real-world: this is a fictional storyline and no such event occurred.","3501.0","220.5570116","real-world: this is a fictional storyline and no such event occurred.","3763.0","256.0188584","They awoke in New York City.
-After a thousand years of petrification, the gargoyles opened their eyes in New York City.
-The city where the heroes finally awakened was New York City.
-Breaking the enchantment landed them in modern-day New York City.
-Instead of returning to medieval Scotland, they woke up in New York City.
-New York City.","In the fiction of Gargoyles the Movie: The Heroes Awaken, they awoke in New York City; in reality, this is a fictional plot point with no real-world counterpart.
-Fictional: New York City; Real-world: New York City, United States.
-In the fictional film, they awaken in New York City; in the real world, that is the actual city depicted.
-Fictional: New York City; real-world: the film’s setting is Manhattan in New York City.
-Fictional: New York City; real-world: New York City in the United States.
-Fictional: In Gargoyles the Movie: The Heroes Awaken, they wake up in New York City; real-world: this is a fictional storyline and no such event occurred."
-"Which American writer wrote both The Ganymede Takeover (1967) and The Man in the High Castle (1962)?","Philip K. Dick","Philip K. Dick is the American writer who wrote both The Ganymede Takeover (1967) and The Man in the High Castle (1962).","Philip K. Dick","Philip K. Dick is the American writer who wrote both The Ganymede Takeover (1967) and The Man in the High Castle (1962).","Philip K. Dick.","3582.0","117.4239142","Philip K. Dick, an American writer, wrote The Man in the High Castle (1962) and co-wrote The Ganymede Takeover (1967) with Ray Nelson.","3718.0","120.5631554","Philip K. Dick, an American writer, wrote The Man in the High Castle (1962) and co-wrote The Ganymede Takeover (1967) with Ray Nelson.","4003.0","133.5105054","The American novelist who authored The Ganymede Takeover and The Man in the High Castle is Philip K. Dick.
-Philip K. Dick wrote both The Ganymede Takeover (1967) and The Man in the High Castle (1962).
-It was Philip K. Dick, an American writer, who penned The Man in the High Castle (1962) and, with Ray Nelson, The Ganymede Takeover (1967).
-If you’re wondering who the American author is behind those two novels, it’s Philip K. Dick.
-Both The Ganymede Takeover and The Man in the High Castle were written by the American writer Philip K. Dick.
+Dustin Lynch’s album Current Mood, which includes “Small Town Boy” (sent to country radio on February 17, 2017), was released on September 8, 2017.
+It was released on September 8, 2017."
+"What city did the characters from Gargoyles the Movie: The Heroes Awaken wake up in after being in an enchantedly petrified state for a thousand years?","modern-day New York City","New York City.","modern-day New York City","New York City.","They awaken in New York City, specifically Manhattan.","3607.0","173.0477335","Fictional: New York City (Manhattan); real-world: this is a fictional event from Gargoyles the Movie: The Heroes Awaken, a 1995 direct-to-video compilation of episodes of Disney’s Gargoyles set in Manhattan, New York.","3756.0","177.9065139","Fictional: New York City (Manhattan); real-world: this is a fictional event from Gargoyles the Movie: The Heroes Awaken, a 1995 direct-to-video compilation of episodes of Disney’s Gargoyles set in Manhattan, New York.","4077.0","230.8737154","They awakened in New York City.
+After a thousand years of enchanted petrification, the gargoyles awoke in modern-day New York City.
+Their long stone sleep ended in New York City, specifically in Manhattan.
+The city where they finally came back to life was New York City.
+Upon breaking free of the spell, they found themselves in New York City, amid its towering skyscrapers.
+New York City.","Fictional: New York City; Real-world: The movie’s setting is New York City, United States.
+Fictional: New York City; real-world: no actual city because this awakening is a fictional event from Disney’s Gargoyles.
+Fictional: They awaken in New York City (specifically Manhattan); real-world: this is a compiled movie version of the TV series Gargoyles, whose modern-day setting is New York City.
+Fictional: New York City; real-world: the series/film is set in New York City.
+Fictional: They awaken in New York City; real-world: Gargoyles the Movie: The Heroes Awaken is a compilation of the first five episodes of Disney’s animated series Gargoyles, which depict their awakening in modern-day New York City.
+Fictional: New York City (Manhattan); real-world: this is a fictional event from Gargoyles the Movie: The Heroes Awaken, a 1995 direct-to-video compilation of episodes of Disney’s Gargoyles set in Manhattan, New York."
+"Which American writer wrote both The Ganymede Takeover (1967) and The Man in the High Castle (1962)?","Philip K. Dick","Philip K. Dick is the American writer who wrote both The Ganymede Takeover (1967) and The Man in the High Castle (1962).","Philip K. Dick","Philip K. Dick is the American writer who wrote both The Ganymede Takeover (1967) and The Man in the High Castle (1962).","Philip K. Dick.","3654.0","90.44464612","Philip K. Dick, an American writer, wrote The Man in the High Castle (1962) and co-wrote The Ganymede Takeover (1967).","3786.0","99.11157537","Philip K. Dick is the American writer who wrote The Man in the High Castle (1962) and co-wrote The Ganymede Takeover (1967).","4063.0","98.44975495","The American author responsible for both The Ganymede Takeover (1967) and The Man in the High Castle (1962) is Philip K. Dick.
+Both The Ganymede Takeover, published in 1967, and The Man in the High Castle, from 1962, were written by Philip K. Dick, an American writer.
+Philip K. Dick, best known as an American science fiction novelist, wrote The Man in the High Castle in 1962 and later The Ganymede Takeover in 1967.
+Although The Ganymede Takeover was co-authored, the American writer connected to both titles is Philip K. Dick.
+The answer is Philip K. Dick, the American novelist behind The Ganymede Takeover and The Man in the High Castle.
 Philip K. Dick is the American writer who wrote both The Ganymede Takeover (1967) and The Man in the High Castle (1962).","Philip K. Dick.
+Philip K. Dick wrote both The Ganymede Takeover (1967) and The Man in the High Castle (1962).
+Philip K. Dick is the American writer who wrote The Man in the High Castle (1962) and co-wrote The Ganymede Takeover (1967).
 Philip K. Dick is the American writer who wrote both The Ganymede Takeover (1967) and The Man in the High Castle (1962).
-Philip K. Dick, an American writer, wrote The Man in the High Castle (1962) and co-wrote The Ganymede Takeover (1967) with Ray Nelson.
-Philip K. Dick wrote both novels.
-Philip K. Dick, an American writer, wrote The Man in the High Castle (1962) and (with Ray Nelson) The Ganymede Takeover (1967).
-Philip K. Dick—who co-authored The Ganymede Takeover (1967) with Ray Nelson—also wrote The Man in the High Castle (1962)."
-"Which football team does Lewis Young's older brother, Ashley Young, play for?","Premier League club Manchester United and the England national team","Ashley Young plays for Manchester United.","Premier League club Manchester United and the England national team","Ashley Young plays for Manchester United.","Ashley Young plays for Everton.","2735.0","121.4781156","Ashley Young plays for Everton.","2838.0","118.608799","Ashley Young plays for Everton.","3061.0","123.3288114","Ashley Young, Lewis Young’s older brother, plays his club football for Manchester United.
+Philip K. Dick is the American writer who wrote both.
+Philip K. Dick, an American writer, wrote The Man in the High Castle (1962) and co-wrote The Ganymede Takeover (1967)."
+"Which football team does Lewis Young's older brother, Ashley Young, play for?","Premier League club Manchester United and the England national team","Ashley Young plays for Manchester United.","Premier League club Manchester United and the England national team","Ashley Young plays for Manchester United.","Ashley Young plays for Everton.","2727.0","117.7184672","Ashley Young, Lewis Young’s older brother, plays for Everton FC.","2838.0","134.0060449","Ashley Young, Lewis Young’s older brother, plays for Everton FC.","3077.0","124.1919355","Ashley Young plays his club football for Manchester United.
 The team Ashley Young represents is Manchester United.
-At present, Ashley Young is on Manchester United’s roster.
-Rather than playing for another side, Ashley Young suits up for Manchester United.
-As Lewis Young’s elder sibling, Ashley Young competes professionally with Manchester United.
+Manchester United is the side Ashley Young turns out for.
+As Lewis Young’s older brother, Ashley Young competes for Manchester United.
+It isn’t Arsenal or Chelsea—Ashley Young’s team is Manchester United.
 Ashley Young plays for Manchester United.","Ashley Young plays for Everton.
 Ashley Young plays for Everton.
 Ashley Young plays for Everton.
 Ashley Young plays for Everton.
-Ashley Young plays for Everton.
+Ashley Young, Lewis Young’s older brother, plays for Everton FC.
 Ashley Young plays for Everton."
-"The Indian actor and philanthropist, who starred in ""Mera Damad,"" entered the film industry in what year?","1977","He entered the film industry in 1973.","1977","He entered the film industry in 1973.","He entered the film industry in 1973.","2907.0","507.5387332","He entered the film industry in 1973.","3010.0","517.9398844","He entered the film industry in 1973.","3239.0","528.4564426","He broke into the film industry in 1973.
-The year he first joined the film world was 1973.
-It was in 1973 that the Indian actor and philanthropist entered films.
-He did not enter the film industry until 1973.
-By 1973, he had stepped into the film industry.
-He entered the film industry in 1973.","He entered the film industry in 1936.
+"The Indian actor and philanthropist, who starred in ""Mera Damad,"" entered the film industry in what year?","1977","He entered the film industry in 1973.","1977","He entered the film industry in 1973.","He entered the film industry in 1973.","2997.0","495.6497052","He entered the Indian film industry in 1973.","3101.0","512.851301","He entered the Indian film industry in 1973.","3332.0","538.1897418","The Indian actor and philanthropist who starred in ""Mera Damad"" entered the film industry in 1973.
+He made his entry into the movie business in 1973, marking the start of his career.
+In 1973, the ""Mera Damad"" star broke into Bollywood.
+His film career began in 1973, after earlier work in theater.
+It was not until 1973 that he stepped into the Indian film industry.
+He entered the film industry in 1973.","He entered the film industry in 1973.
+1936.
 He entered the film industry in 1972.
-He entered the film industry in 1980.
-He entered the film industry in 1973.
 1973.
-He entered the film industry in 1982."
-"Which magazine is older, Gallery or Dime Magazine?","arose on the ""Playboy"" magazine pattern in the 1970s.","Gallery is older, debuting in 1972, whereas Dime Magazine launched decades later in 2003.","arose on the ""Playboy"" magazine pattern in the 1970s.","Gallery is older, debuting in 1972, whereas Dime Magazine launched decades later in 2003.","Gallery is older than Dime Magazine, having debuted in 1972 compared to Dime Magazine’s 2003 launch.","3255.0","166.9578254","Gallery is older—it debuted in 1972, whereas Dime Magazine launched in 2003.","3353.0","174.0754194","Gallery is older, debuting in 1972, while Dime Magazine launched in 2003.","3605.0","232.0559645","Gallery predates Dime Magazine, having first appeared in 1972, while Dime didn’t hit newsstands until 2003.
-The older magazine is Gallery, which began publication in 1972; Dime Magazine arrived decades later, in 2003.
-If we’re comparing original launch dates, Gallery is older at 1972, and Dime Magazine started in the early 2000s, specifically 2003.
-Dime Magazine is the newer title, with its launch in 2003, whereas Gallery has been around since 1972.
-As far as first issues go, Gallery came out in 1972, making it older than Dime Magazine, which didn’t launch until 2003.
-Gallery is older, debuting in 1972, whereas Dime Magazine launched decades later in 2003.","Gallery is older—it debuted in 1972, whereas Dime Magazine launched in 2003.
-Gallery is older: it began publication in 1972, whereas Dime Magazine launched in 2003.
-Gallery magazine, first published in 1972, is older than Dime Magazine.
-Gallery magazine is older than Dime Magazine.
-Gallery is older, debuting in 1972, while Dime Magazine launched in 2003.
-Gallery is older, first published in 1972, while Dime Magazine began in 2003."
-"How large is the shopping mall where KGOT radio station has its studios ?","728,000 ftÂ²","It is approximately 728,000 square feet.","728,000 ftÂ²","It is approximately 728,000 square feet.","Approximately 728,000 square feet.","3186.0","245.6283267","The shopping mall housing KGOT’s studios—the Dimond Center in Anchorage—has approximately 728,000 square feet of retail space.","3308.0","283.1715019","The shopping mall housing KGOT’s studios—the Dimond Center in Anchorage—has approximately 728,000 square feet of retail space.","3573.0","266.7356622","The shopping mall where KGOT’s studios are located measures approximately 728,000 square feet.
-By floor area, the center that houses KGOT’s radio studios is about 728,000 square feet in size.
-According to published figures, the mall containing KGOT’s studios spans roughly 728,000 square feet.
-It’s not a small complex—the mall hosting KGOT comes in at around 728,000 square feet, roughly three-quarters of a million.
-Put another way, the shopping center with KGOT’s studios covers close to 728,000 square feet, about 13 football fields.
-It is approximately 728,000 square feet.","The shopping mall is Anchorage’s Dimond Center, which has about 728,000 square feet of retail space.
-The shopping mall housing KGOT’s studios—the Dimond Center in Anchorage—has a floor area of approximately 728,000 square feet.
-The mall is approximately 728,000 square feet.
-The shopping mall housing KGOT’s studios—the Dimond Center in Anchorage—has approximately 728,000 square feet of retail space.
-About 728,000 square feet.
-The Dimond Center mall (where KGOT’s studios are located) is approximately 728,000 square feet."
-"Jacques Mathou starred in Delicatessen, the 1991 French movie in the style of which celebrated American animator?","Terry Gilliam","It was made in the style of celebrated American animator Tex Avery.","Terry Gilliam","It was made in the style of celebrated American animator Tex Avery.","Tex Avery.","2949.0","227.9695849","Tex Avery.","3052.0","262.1845288","Tex Avery.","3267.0","242.1018262","The film was crafted in the style of the celebrated American animator Tex Avery.
-Delicatessen channels the zany, cartoonish sensibility of legendary American animator Tex Avery.
-Critics have noted that the 1991 French movie borrows heavily from the style of acclaimed U.S. animator Tex Avery.
-In terms of aesthetics, it pays homage to Tex Avery, the iconic American animation pioneer.
-Despite its French origins, Delicatessen deliberately echoes the madcap style associated with American animator Tex Avery.
-It was made in the style of celebrated American animator Tex Avery.","Tex Avery.
+He entered the Indian film industry in 1973.
+He entered the film industry in 1973."
+"Which magazine is older, Gallery or Dime Magazine?","arose on the ""Playboy"" magazine pattern in the 1970s.","Gallery is older, debuting in 1972, whereas Dime Magazine launched decades later in 2003.","arose on the ""Playboy"" magazine pattern in the 1970s.","Gallery is older, debuting in 1972, whereas Dime Magazine launched decades later in 2003.","Gallery is older; it debuted in 1972, while Dime Magazine launched in 2003.","3284.0","130.1535904","Gallery magazine, first published in 1972, is older than Dime Magazine, which debuted in 2003.","3390.0","132.4175072","Gallery magazine, first published in 1972, is older than Dime Magazine, which debuted in 2003.","3647.0","141.3585663","Gallery predates Dime Magazine; it first hit newsstands in 1972, while Dime didn’t appear until 2003.
+Between the two, Gallery is the elder title, having launched in 1972, with Dime Magazine following much later in 2003.
+If you’re comparing original release dates, Gallery is older, starting in 1972, whereas Dime Magazine only began publication in 2003.
+Gallery came out long before Dime Magazine—by decades, in fact—with a 1972 debut versus Dime’s 2003 start.
+The older publication is Gallery (1972); Dime Magazine arrived decades afterward, in 2003.
+Gallery is older, debuting in 1972, whereas Dime Magazine launched decades later in 2003.","Gallery is older; it debuted in 1972, while Dime Magazine launched in 2003.
+Gallery is older, having launched in 1972, whereas Dime Magazine began in 2003.
+Gallery is older, first published in 1972, while Dime Magazine launched in 2003.
+Gallery is older: Gallery debuted in 1972, while Dime Magazine launched in 2003.
+Gallery magazine, first published in 1972, is older than Dime Magazine, which debuted in 2003.
+Gallery is older; it began publication in 1972, while Dime Magazine launched in the early 2000s."
+"How large is the shopping mall where KGOT radio station has its studios ?","728,000 ftÂ²","It is approximately 728,000 square feet.","728,000 ftÂ²","It is approximately 728,000 square feet.","Approximately 728,000 square feet.","3227.0","137.5676458","The Dimond Center in Anchorage, where KGOT’s studios are located, contains about 728,000 square feet of retail space.","3349.0","144.0378611","The Dimond Center mall in Anchorage, where KGOT’s studios are located, has over 728,000 square feet of retail space.","3617.0","153.9983716","The shopping mall where KGOT radio station has its studios is approximately 728,000 square feet in size.
+KGOT’s studio mall spans roughly 728,000 square feet of floor space.
+By most accounts, the shopping center that houses KGOT’s studios covers about 728,000 square feet.
+Including common areas, the mall that contains KGOT’s studios totals around 728,000 square feet.
+The complex hosting KGOT’s radio studios measures close to 728,000 square feet, sometimes rounded to 730,000.
+It is approximately 728,000 square feet.","The Dimond Center in Anchorage, where KGOT’s studios are located, is approximately 1,000,000 square feet in size.
+The Dimond Center in Anchorage, where KGOT’s studios are located, contains about 728,000 square feet of retail space.
+The Dimond Center mall that houses KGOT’s studios is approximately 728,000 square feet.
+The KGOT studios are in Anchorage’s Dimond Center, which is approximately 728,000 square feet in size.
+Dimond Center, the Anchorage mall housing KGOT’s studios, is approximately 728,000 square feet.
+The Dimond Center mall in Anchorage, where KGOT’s studios are located, has over 728,000 square feet of retail space."
+"Jacques Mathou starred in Delicatessen, the 1991 French movie in the style of which celebrated American animator?","Terry Gilliam","It was made in the style of celebrated American animator Tex Avery.","Terry Gilliam","It was made in the style of celebrated American animator Tex Avery.","The answer is Tex Avery.","2950.0","196.2516577","Delicatessen (1991) is styled after the work of celebrated American animator Tex Avery.","3067.0","152.5602822","Delicatessen (1991) is styled after the work of celebrated American animator Tex Avery.","3316.0","172.7692366","The film was crafted in the vein of the famed American animator Tex Avery.
+Delicatessen’s stylistic flair pays homage to celebrated U.S. animator Tex Avery.
+It channels the zany, exaggerated aesthetic associated with Tex Avery.
+In terms of style, the movie clearly nods to the work of legendary American animator Tex Avery.
+The 1991 French film echoes the wild comic sensibility pioneered by Tex Avery.
+It was made in the style of celebrated American animator Tex Avery.","Delicatessen (1991) is styled after the work of celebrated American animator Tex Avery.
 Tex Avery.
-Terry Gilliam.
 Tex Avery.
 Tex Avery.
+It is in the style of Terry Gilliam.
 Tex Avery."
-"What is the height of the player who won the 2015 AFL Rising Star award?","1.95 m","He is 195 centimeters tall.","1.95 m","He is 195 centimeters tall.","Jesse Hogan, who won the 2015 AFL Rising Star award, is 195 centimeters tall.","2991.0","164.3092422","Jesse Hogan, who won the 2015 AFL Rising Star award, is 195 cm (6 ft 5 in) tall.","3100.0","178.0375161","Jesse Hogan, who won the 2015 AFL Rising Star award, is 195 cm (6 ft 5 in) tall.","3365.0","179.6882565","His height is 195 centimeters.
-The player who won the 2015 AFL Rising Star is listed at 195 cm tall.
-He stands at roughly 1.95 meters in height.
-He’s about six feet five inches tall.
-Without his boots, he measures around 195 centimeters.
-He is 195 centimeters tall.","Jesse Hogan, the 2015 AFL Rising Star winner, is 195 centimeters tall.
+"What is the height of the player who won the 2015 AFL Rising Star award?","1.95 m","He is 195 centimeters tall.","1.95 m","He is 195 centimeters tall.","He is 195 cm tall.","3062.0","88.23295379","Jesse Hogan, the 2015 AFL Rising Star winner, is 195 cm tall.","3177.0","94.01810718","Jesse Hogan, who won the 2015 AFL Rising Star award, is 195 cm (about 6 ft 5 in) tall.","3457.0","95.54881835","His listed height is 195 centimeters.
+The player who won the 2015 AFL Rising Star stands about 195 cm tall.
+He is approximately 1.95 meters in height.
+Reportedly, he measures around 195 cm, which is roughly 6 feet 5 inches.
+If measured without shoes, his height is given as 195 centimetres.
+He is 195 centimeters tall.","Jesse Hogan, the winner of the 2015 AFL Rising Star award, is listed at 195 centimetres tall.
 The 2015 AFL Rising Star winner, Jesse Hogan, is 195 cm tall.
-He is 195 cm (1.95 m) tall.
-Jesse Hogan, who won the 2015 AFL Rising Star award, is 195 cm (6 ft 5 in) tall.
-Jesse Hogan, winner of the 2015 AFL Rising Star award, is 195 centimeters tall.
-Jesse Hogan, who won the 2015 AFL Rising Star award, is 195 centimeters tall."
-"The movies The Boatniks and The Great Locomotive Chase were both made by which production company?","Walt Disney Productions","They were both made by Walt Disney Productions.","Walt Disney Productions","They were both made by Walt Disney Productions.","They were both made by Walt Disney Productions.","2913.0","67.98943877","Both The Boatniks (1970) and The Great Locomotive Chase (1956) were produced by Walt Disney Productions.","3034.0","80.60193133","Both films were produced by Walt Disney Productions.","3243.0","81.56058121","Both films were produced by Walt Disney Productions.
-The production company behind The Boatniks and The Great Locomotive Chase was Walt Disney Productions.
-Walt Disney Productions made both movies.
-Each of the two films is a Walt Disney Productions release.
-They were both produced under the Walt Disney Productions banner.
-They were both made by Walt Disney Productions.","Both The Boatniks (1970) and The Great Locomotive Chase (1956) were produced by Walt Disney Productions.
+Jesse Hogan, the 2015 AFL Rising Star winner, is 195 cm tall.
+Jesse Hogan, who won the 2015 AFL Rising Star award, is 195 cm (about 6 ft 5 in) tall.
+The 2015 AFL Rising Star winner, Jesse Hogan, is 195 centimetres tall.
+Jesse Hogan, the 2015 AFL Rising Star winner, is 195 centimeters tall."
+"The movies The Boatniks and The Great Locomotive Chase were both made by which production company?","Walt Disney Productions","They were both made by Walt Disney Productions.","Walt Disney Productions","They were both made by Walt Disney Productions.","Both films were made by Walt Disney Productions.","2829.0","70.9613626","Both films were produced by Walt Disney Productions.","2932.0","77.57312989","Walt Disney Productions.","3147.0","81.97156572","Both films were produced by Walt Disney Productions.
+Walt Disney Productions is the studio that made both The Boatniks and The Great Locomotive Chase.
+The movies were released under the Walt Disney Productions banner.
+As with many family titles of that era, both were made by Walt Disney Productions.
+In each case, the production company responsible was Walt Disney Productions.
+They were both made by Walt Disney Productions.","Both films were produced by Walt Disney Productions.
+Walt Disney Productions.
+Walt Disney Productions.
+Walt Disney Productions.
 Both films were produced by Walt Disney Productions.
-Both films were produced by Walt Disney Productions.
-Both ""The Boatniks"" and ""The Great Locomotive Chase"" were produced by Walt Disney Productions.
-They were both produced by Walt Disney Productions.
-They were both made by Walt Disney Productions."
-"Mick Carter is the landlord of a public house located at what address?","46 Albert Square, Walford, London E20","It is located at 46 Albert Square, Walford, London.","46 Albert Square, Walford, London E20","It is located at 46 Albert Square, Walford, London.","In EastEnders, Mick Carter is landlord of The Queen Victoria at 46 Albert Square, Walford, London; in reality the pub’s exterior set is at the BBC Elstree Centre in Borehamwood, Hertfordshire.","3815.0","278.3287547","Fictional: In EastEnders, Mick Carter is landlord of The Queen Victoria at 46 Albert Square, Walford, London E20; real-world: this pub is a TV set at the BBC Elstree Centre in Borehamwood, Hertfordshire.","3925.0","291.7056453","real world: the exterior set is at BBC Elstree Centre, Eldon Avenue, Borehamwood, Hertfordshire WD6 1NT.","4237.0","318.5570891","Mick Carter is the landlord of a public house at 46 Albert Square, Walford, London.
-The address of Mick Carter’s pub is 46 Albert Square in Walford, London.
-You can find the public house he runs at number 46 Albert Square, Walford.
-Situated at 46 Albert Square, Walford, London, the pub is under Mick Carter’s tenancy.
-As depicted in EastEnders, Mick Carter’s establishment is located at 46 Albert Square in the Walford area of London.
-It is located at 46 Albert Square, Walford, London.","Fictional: In EastEnders, Mick Carter is landlord of The Queen Victoria at 46 Albert Square, Walford, London E20; real world: the exterior set is at BBC Elstree Centre, Eldon Avenue, Borehamwood, Hertfordshire WD6 1NT.
-Fictional: The Queen Victoria pub is at 46 Albert Square, Walford; in reality, its exterior set is on the backlot at BBC Elstree Centre in Borehamwood, Hertfordshire.
-In the fictional EastEnders universe, Mick Carter is landlord of The Queen Victoria at 46 Albert Square, Walford; in reality, the pub set is located at the BBC Elstree Centre in Borehamwood, Hertfordshire.
-Fictional: In EastEnders, Mick Carter is landlord of The Queen Victoria at 46 Albert Square, Walford, London E20; real-world: this pub is a TV set at the BBC Elstree Centre in Borehamwood, Hertfordshire.
-Fictional: The Queen Victoria pub where Mick Carter is landlord is at 46 Albert Square, Walford, London; real-world: its exterior set stands on the BBC Elstree Centre backlot in Borehamwood, Hertfordshire.
-Fictional: In EastEnders, Mick Carter is landlord of The Queen Victoria pub at 46 Albert Square, Walford, London; real-world: the Albert Square exterior set is located at the BBC Elstree Centre in Borehamwood, Hertfordshire."
-"What is the shared country of ancestry between Art Laboe and Scout Tufankjian?","Armenian","Their shared country of ancestry is Armenia.","Armenian","Their shared country of ancestry is Armenia.","The shared country of ancestry between Art Laboe and Scout Tufankjian is Armenia.","2888.0","138.1207783","Armenia is the shared country of ancestry between Art Laboe and Scout Tufankjian.","2993.0","145.0851569","The shared country of ancestry between Art Laboe and Scout Tufankjian is Armenia.","3236.0","154.2561166","Both Art Laboe and Scout Tufankjian trace their ancestry to Armenia.
-The country they share as part of their heritage is Armenia.
-Armenia is the common ancestral homeland of Art Laboe and Scout Tufankjian.
-They each have roots in Armenia.
-A country common to both of their family origins is Armenia.
-Their shared country of ancestry is Armenia.","Armenia is their shared country of ancestry.
-The shared country of ancestry between Art Laboe and Scout Tufankjian is Armenia.
-Armenia is the shared country of ancestry between Art Laboe and Scout Tufankjian.
-They both have ancestral roots in Armenia.
+Both films were made by Walt Disney Productions."
+"Mick Carter is the landlord of a public house located at what address?","46 Albert Square, Walford, London E20","It is located at 46 Albert Square, Walford, London.","46 Albert Square, Walford, London E20","It is located at 46 Albert Square, Walford, London.","46 Albert Square, Walford, London E20.","3417.0","204.4891231","Fictional: Mick Carter is the landlord of The Queen Victoria pub at 46 Albert Square, Walford, London E20; in reality, Walford is fictional and the set is filmed at the BBC Elstree Centre in Borehamwood, Hertfordshire.","3567.0","226.5411584","in reality, Walford is fictional and the set is filmed at the BBC Elstree Centre in Borehamwood, Hertfordshire.","3866.0","238.7768908","The pub’s address is 46 Albert Square, Walford, London.
+It is situated at number 46 on Albert Square in Walford, London.
+Officially, the address is listed as 46 Albert Square, Walford, London.
+In the series, Mick Carter’s public house stands at 46 Albert Square in Walford, London.
+It is found at 46 Albert Square in Walford.
+It is located at 46 Albert Square, Walford, London.","Mick Carter is a fictional EastEnders character whose pub, The Queen Victoria, is located at the fictional address 46 Albert Square, Walford, London.
+In the fictional EastEnders universe, Mick Carter is landlord of The Queen Victoria at 46 Albert Square, Walford (E20), while in reality the set is at the BBC Elstree Centre in Borehamwood, Hertfordshire.
+In the fictional BBC series EastEnders, Mick Carter is the landlord of The Queen Victoria pub at Albert Square, Walford, London E20.
+46 Albert Square, Walford.
+Fictional context: In EastEnders, Mick Carter is the landlord of The Queen Victoria public house at 46 Albert Square, Walford; in reality, the Albert Square set is located at the BBC Elstree Centre in Borehamwood, Hertfordshire.
+Fictional: Mick Carter is the landlord of The Queen Victoria pub at 46 Albert Square, Walford, London E20; in reality, Walford is fictional and the set is filmed at the BBC Elstree Centre in Borehamwood, Hertfordshire."
+"What is the shared country of ancestry between Art Laboe and Scout Tufankjian?","Armenian","Their shared country of ancestry is Armenia.","Armenian","Their shared country of ancestry is Armenia.","Armenia.","2875.0","146.4883094","Armenia is the shared country of ancestry for both Art Laboe and Scout Tufankjian.","2995.0","157.1172819","Armenia is the shared country of ancestry for both Art Laboe and Scout Tufankjian.","3246.0","159.2356255","Armenia is the shared country of ancestry for both Art Laboe and Scout Tufankjian.
+Both Art Laboe and Scout Tufankjian trace their family roots to Armenia.
+The common ancestral homeland tying Art Laboe and Scout Tufankjian together is Armenia.
+By heritage, they are connected through Armenia.
+According to their backgrounds, the country they share by ancestry is Armenia.
+Their shared country of ancestry is Armenia.","Armenia is the shared country of ancestry for both Art Laboe and Scout Tufankjian.
+Armenia.
+Armenia is their shared country of ancestry.
 Armenia is the shared country of ancestry for both Art Laboe and Scout Tufankjian.
+Armenia.
 Their shared country of ancestry is Armenia."
-"How many Senate seats will be contested during the midterm elections that Nancy Soderberg has filed to run for Congress in?","33","Thirty-five Senate seats will be contested.","33","Thirty-five Senate seats will be contested.","Thirty-five Senate seats will be contested.","3165.0","154.653007","During the 2018 midterm elections in which Nancy Soderberg filed to run for Congress, 35 U.S. Senate seats were contested.","3289.0","167.97013","During the 2018 midterm elections in which Nancy Soderberg filed to run for Congress, 35 U.S. Senate seats were contested.","3556.0","165.1442134","Thirty-five Senate seats will be on the ballot in those midterm elections.
-In that midterm cycle, a total of 35 Senate seats are up for grabs.
-Analysts projected that 35 of the 100 Senate seats would be contested during those midterms.
-Including scheduled races and any specials, the midterms in question feature 35 Senate contests.
-When Nancy Soderberg filed, there were expected to be 35 Senate seats at stake in those elections.
-Thirty-five Senate seats will be contested.","Thirty-five Senate seats were contested in the 2018 midterm elections in which Nancy Soderberg ran for Congress.
-In the 2018 midterm election cycle in which Nancy Soderberg ran for Congress, 35 U.S. Senate seats were contested.
-35 Senate seats will be contested in the 2018 midterm elections.
-During the 2018 midterm elections in which Nancy Soderberg filed to run for Congress, 35 U.S. Senate seats were contested.
-Thirty-five Senate seats will be contested in those midterm elections.
-Thirty-five Senate seats will be contested."
-"How many restaurants comprise the quick service restaurant chain that Ron Joyce helped found?","4,613","The chain comprises 4,846 restaurants.","4,613","The chain comprises 4,846 restaurants.","Tim Hortons, the quick-service restaurant chain Ron Joyce helped found, comprised 4,846 restaurants worldwide as of the end of 2018.","3168.0","168.5456927","As of year‑end 2018, Tim Hortons—the quick service restaurant chain Ron Joyce helped found—comprised 4,846 restaurants.","3272.0","182.2036815","Tim Hortons, the quick-service chain Ron Joyce helped found, comprised 4,846 restaurants worldwide as of December 31, 2018.","3540.0","193.9255495","There are 4,846 restaurants in the quick service chain that Ron Joyce helped to establish.
-As of the latest tally, the chain Ron Joyce co-founded counts 4,846 locations.
-Ron Joyce’s quick-service brand is made up of a total of 4,846 restaurants.
-The quick service restaurant chain associated with Ron Joyce encompasses 4,846 outlets.
-At last count, 4,846 restaurants comprise the chain he helped found.
-The chain comprises 4,846 restaurants.","Tim Hortons, the quick‑service restaurant chain Ron Joyce co‑founded, had 4,846 restaurants worldwide as of the end of 2018.
-Tim Hortons, the quick-service chain Ron Joyce helped found, comprised 4,846 restaurants worldwide as of December 31, 2018.
-Tim Hortons, the quick-service restaurant chain Ron Joyce helped found, comprises over 5,700 restaurants worldwide.
-It comprises approximately 5,700 restaurants worldwide.
-As of year‑end 2018, Tim Hortons—the quick service restaurant chain Ron Joyce helped found—comprised 4,846 restaurants.
-As of 2018, the quick service restaurant chain Ron Joyce helped found (Tim Hortons) comprised 4,846 restaurants."
-"What type of film are both ""500 Years Later"" and ""Manson""?","documentary","Both ""500 Years Later"" and ""Manson"" are documentary films.","documentary","Both ""500 Years Later"" and ""Manson"" are documentary films.","Both ""500 Years Later"" and ""Manson"" are documentary films.","2929.0","77.62709522","Both ""500 Years Later"" and ""Manson"" are documentary films.","3032.0","90.75200415","Both ""500 Years Later"" and ""Manson"" are documentary films.","3271.0","89.02758789","Both ""500 Years Later"" and ""Manson"" belong to the documentary genre.
-Each of these films is a documentary rather than a scripted narrative.
-In terms of type, ""500 Years Later"" and ""Manson"" are documentary works.
-Critics generally classify both ""500 Years Later"" and ""Manson"" as documentaries.
-Both movies are documentaries, not fiction films.
-Both ""500 Years Later"" and ""Manson"" are documentary films.","Both are documentary films.
+"How many Senate seats will be contested during the midterm elections that Nancy Soderberg has filed to run for Congress in?","33","Thirty-five Senate seats will be contested.","33","Thirty-five Senate seats will be contested.","Thirty-five Senate seats will be contested in the 2018 midterm elections in which Nancy Soderberg filed to run for Congress.","3253.0","119.4754262","35 Senate seats will be contested in the 2018 midterm elections in which Nancy Soderberg filed to run for Congress.","3355.0","130.2911537","35 Senate seats will be contested in the 2018 midterm elections in which Nancy Soderberg filed to run for Congress.","3614.0","137.3826725","Thirty-five Senate seats will be contested in that midterm election.
+In the midterm where Nancy Soderberg filed to run, there are 35 Senate seats up for grabs.
+That midterm cycle features a total of thirty-five contested Senate seats.
+If all scheduled races go forward, 35 Senate seats will be on the ballot during those midterms.
+Observers estimated that, including special elections, thirty-five Senate seats would be in play in that cycle.
+Thirty-five Senate seats will be contested.","In the 2018 U.S. midterm elections in which Nancy Soderberg ran for Congress, 35 Senate seats were contested.
+Thirty-five Senate seats were contested in the 2018 midterm elections in which Nancy Soderberg ran for Congress.
+Thirty-five Senate seats will be contested in that midterm cycle.
+35 Senate seats will be contested in the 2018 midterm elections in which Nancy Soderberg filed to run for Congress.
+Thirty-five Senate seats were contested in the 2018 midterm elections in which Nancy Soderberg filed to run for Congress.
+Thirty-five Senate seats were contested in the 2018 midterm elections, the cycle in which Nancy Soderberg filed to run for Congress."
+"How many restaurants comprise the quick service restaurant chain that Ron Joyce helped found?","4,613","The chain comprises 4,846 restaurants.","4,613","The chain comprises 4,846 restaurants.","It comprises 4,846 restaurants.","3092.0","162.8428168","Tim Hortons, the quick service restaurant chain Ron Joyce helped found, has over 5,700 restaurants worldwide.","3210.0","187.9627652","As of 2024, Tim Hortons—the quick service restaurant chain Ron Joyce helped found—operates about 5,700 restaurants worldwide.","3483.0","170.1665921","There are 4,846 restaurants in the quick service chain Ron Joyce helped to found.
+The quick-service restaurant network that Ron Joyce co-founded totals 4,846 locations.
+As of the latest tally, the chain includes approximately 4,846 eateries.
+In all, 4,846 restaurants make up the chain associated with Ron Joyce's founding role.
+The chain Ron Joyce helped launch comprises 4,846 restaurants worldwide.
+The chain comprises 4,846 restaurants.","As of 2024, Tim Hortons—the quick service restaurant chain Ron Joyce helped found—operates about 5,700 restaurants worldwide.
+Tim Hortons, the quick‑service restaurant chain Ron Joyce helped found, comprises about 5,700 restaurants worldwide.
+Tim Hortons, the quick‑service restaurant chain Ron Joyce co‑founded, comprises 4,846 restaurants worldwide (as of 2018).
+Tim Hortons, the quick service restaurant chain Ron Joyce helped found, has over 5,700 restaurants worldwide.
+Ron Joyce helped found Tim Hortons, which comprised 4,846 restaurants worldwide as of the end of 2017.
+It comprises 4,846 restaurants."
+"What type of film are both ""500 Years Later"" and ""Manson""?","documentary","Both ""500 Years Later"" and ""Manson"" are documentary films.","documentary","Both ""500 Years Later"" and ""Manson"" are documentary films.","Both ""500 Years Later"" and ""Manson"" are documentary films.","2956.0","67.9925952","Both ""500 Years Later"" and ""Manson"" are documentary films.","3059.0","71.53296947","Both ""500 Years Later"" and ""Manson"" are documentary films.","3298.0","76.20072031","500 Years Later and Manson are both documentaries.
+The movies 500 Years Later and Manson belong to the documentary genre.
+Each film, 500 Years Later and Manson, is a nonfiction documentary rather than a scripted drama.
+Despite covering different subjects, both 500 Years Later and Manson are classified as documentary films.
+If you're asking about their type, 500 Years Later and Manson count as documentaries.
+Both ""500 Years Later"" and ""Manson"" are documentary films.","They are both documentary films.
 Both ""500 Years Later"" and ""Manson"" are documentary films.
 Both ""500 Years Later"" and ""Manson"" are documentary films.
 Both ""500 Years Later"" and ""Manson"" are documentary films.
 Both ""500 Years Later"" and ""Manson"" are documentary films.
 Both ""500 Years Later"" and ""Manson"" are documentary films."
-"What professions did S. Sylvan Simon and Danny Cannon have in common?","director and producer","They were both film directors and producers.","director and producer","They were both film directors and producers.","They were both film directors and producers.","2845.0","167.9558027","Both S. Sylvan Simon and Danny Cannon were film directors and producers.","2955.0","191.3126771","Both S. Sylvan Simon and Danny Cannon were film directors and producers.","3194.0","190.560746","Both S. Sylvan Simon and Danny Cannon worked as film directors and producers.
-They shared careers in the film industry as directors and as producers.
-Each of them held roles as a film director and a producer.
-The overlap in their professions was that both directed films and produced them.
-Professionally, they had in common that they were film directors and also served as producers.
-They were both film directors and producers.","Both S. Sylvan Simon and Danny Cannon were directors and producers.
-They were both directors and producers.
-Both S. Sylvan Simon and Danny Cannon were film directors and producers.
-Both S. Sylvan Simon and Danny Cannon worked as film directors and producers.
+"What professions did S. Sylvan Simon and Danny Cannon have in common?","director and producer","They were both film directors and producers.","director and producer","They were both film directors and producers.","They were both film directors and producers.","2803.0","174.5902588","They were both directors and producers.","2905.0","202.5062399","Both S. Sylvan Simon and Danny Cannon worked as directors and producers.","3152.0","197.1974213","Both S. Sylvan Simon and Danny Cannon worked as film directors and producers.
+Each of them pursued careers as a director as well as a producer in the movie industry.
+They shared the professions of film director and film producer.
+Over their careers, both men served as directors and also worked as producers.
+In common, they held dual roles, directing films and producing them.
+They were both film directors and producers.","They were both film directors and producers.
 They were both film directors and producers.
-Both S. Sylvan Simon and Danny Cannon were film directors and producers."
-"Where is the academy, for which Joseph D. Stewart was appointed Superintendent, located?","Kings Point, New York","The academy is located in Kings Point, New York.","Kings Point, New York","The academy is located in Kings Point, New York.","It is located in Kings Point, New York.","2877.0","95.86058235","It is located in Kings Point, New York.","2980.0","102.4586732","The academy is located in Kings Point, New York.","3212.0","105.4859297","The academy is situated in Kings Point, New York.
-Officially, the academy’s campus is in Kings Point, NY, on Long Island.
-Contrary to common confusion with Annapolis, the academy is located in Kings Point, New York.
-Joseph D. Stewart served as Superintendent at the academy in Kings Point, New York.
-The academy’s home base is Kings Point in New York State.
-The academy is located in Kings Point, New York.","It is located in Kings Point, New York.
-It is located in Kings Point, New York.
-It is located in Kings Point, New York.
+They were both directors and producers.
+Both S. Sylvan Simon and Danny Cannon worked as directors and producers.
+Both S. Sylvan Simon and Danny Cannon were film directors and producers.
+They were both film directors and producers."
+"Where is the academy, for which Joseph D. Stewart was appointed Superintendent, located?","Kings Point, New York","The academy is located in Kings Point, New York.","Kings Point, New York","The academy is located in Kings Point, New York.","The academy is located in Kings Point, New York.","2903.0","98.94628024","The United States Merchant Marine Academy, for which Joseph D. Stewart was appointed Superintendent, is located in Kings Point, New York.","3021.0","103.0564475","The United States Merchant Marine Academy, for which Joseph D. Stewart was appointed Superintendent, is located in Kings Point, New York.","3282.0","106.5864372","It is situated in Kings Point, New York.
+The academy’s home is Kings Point, NY.
+You’ll find the academy in Kings Point on Long Island, New York.
+The institution is based in Kings Point, New York, in the United States.
+Joseph D. Stewart was appointed to lead an academy located in Kings Point, New York.
+The academy is located in Kings Point, New York.","The academy is located in Kings Point, New York.
 The academy is located in Kings Point, New York.
+The academy is located in Kings Point, Long Island, New York.
+It is located in Kings Point, New York, United States.
 The academy is located in Kings Point, New York.
-The academy is located in Kings Point, New York."
-"Luke Null is an actor who was on the program that premiered its 43rd season on which date?","30-Sep-17","The program’s 43rd season premiered on September 30, 2017.","30-Sep-17","The program’s 43rd season premiered on September 30, 2017.","It premiered on September 30, 2017.","3072.0","90.008744","Saturday Night Live’s 43rd season premiered on September 30, 2017.","3182.0","93.60976839","Saturday Night Live’s 43rd season premiered on September 30, 2017.","3427.0","96.2269485","The show’s 43rd season debuted on September 30, 2017.
-It was September 30, 2017, when the 43rd season kicked off.
-Luke Null was on the program whose forty-third-season premiere occurred on September 30, 2017.
-The premiere date for the 43rd season was September 30, 2017, as noted in network schedules.
-The 43rd season started airing on September 30, 2017.
-The program’s 43rd season premiered on September 30, 2017.","It premiered on September 30, 2017.
+The United States Merchant Marine Academy, for which Joseph D. Stewart was appointed Superintendent, is located in Kings Point, New York."
+"Luke Null is an actor who was on the program that premiered its 43rd season on which date?","30-Sep-17","The program’s 43rd season premiered on September 30, 2017.","30-Sep-17","The program’s 43rd season premiered on September 30, 2017.","The program’s 43rd season premiered on September 30, 2017.","3100.0","76.8166914","Saturday Night Live premiered its 43rd season on September 30, 2017.","3204.0","76.20472884","Saturday Night Live premiered its 43rd season on September 30, 2017.","3449.0","79.97773075","September 30, 2017 marked the premiere of the program’s 43rd season.
+The show kicked off its forty-third season on September 30, 2017.
+On September 30, 2017, the program debuted its 43rd season.
+The program’s 43rd season began airing on September 30, 2017.
+The premiere date for the show’s 43rd season was September 30, 2017.
+The program’s 43rd season premiered on September 30, 2017.","The program’s 43rd season premiered on September 30, 2017.
+Saturday Night Live premiered its 43rd season on September 30, 2017.
 It premiered on September 30, 2017.
-Saturday Night Live’s 43rd season premiered on September 30, 2017.
 It premiered on September 30, 2017.
-The 43rd season premiered on September 30, 2017.
-It premiered on September 30, 2017."
-"The Azad Hind Dal was created by an Indian nationalist whose defiant patriotism made him a hero in India, but whose attempt to rid India of British rule during what war left a troubled legacy?","World War II","It was during World War II.","World War II","It was during World War II.","It was during World War II.","3006.0","126.8768818","World War II.","3106.0","137.2067437","World War II.","3323.0","138.3722172","It occurred during the Second World War.
-His attempt to drive out British rule came in World War II.
-That push unfolded amid WWII, which helped make his legacy contentious.
-The campaign was undertaken during the global conflict of 1939–1945.
-It was not during World War I but during World War II.
+The program’s 43rd season premiered on September 30, 2017.
+The program’s 43rd season premiered on September 30, 2017."
+"The Azad Hind Dal was created by an Indian nationalist whose defiant patriotism made him a hero in India, but whose attempt to rid India of British rule during what war left a troubled legacy?","World War II","It was during World War II.","World War II","It was during World War II.","World War II.","3047.0","99.64067292","World War II.","3150.0","105.3799381","World War II.","3367.0","127.7243819","The attempt occurred during the Second World War.
+It was in the midst of WWII that he tried to drive the British out of India.
+His controversial campaign unfolded during World War II.
+The effort took place during World War II, not during World War I.
+He made that bid to end British rule during the global conflict of World War II.
 It was during World War II.","It was during World War II.
 World War II.
+It was during World War II.
 World War II.
-World War II.
-World War II.
+He made that attempt during World War II.
 It was during World War II."
-"The 2011 La Manga Cup was won by Viking, who beat which Norwegian football club from the town of Kristiansand, currently playing in Tippeligaen having been promoted from Adeccoligaen in 2012?","IK Start","Viking beat IK Start.","IK Start","Viking beat IK Start.","IK Start.","3434.0","168.0795257","Viking beat IK Start of Kristiansand.","3544.0","176.9655149","Viking beat IK Start of Kristiansand.","3773.0","183.5768955","Viking beat IK Start to win the 2011 La Manga Cup.
-The Kristiansand club they defeated was IK Start, which returned to the Tippeligaen after promotion from the Adeccoligaen in 2012.
-It was IK Start—often just called Start—that Viking overcame in the final.
-Viking’s trophy came via a victory over IK Start of Kristiansand, a side that would be promoted in 2012 and play in the Tippeligaen.
-The team Viking saw off was IK Start, the Norwegian club from Kristiansand currently competing in the Tippeligaen.
-Viking beat IK Start.","Viking beat IK Start to win the 2011 La Manga Cup.
+"The 2011 La Manga Cup was won by Viking, who beat which Norwegian football club from the town of Kristiansand, currently playing in Tippeligaen having been promoted from Adeccoligaen in 2012?","IK Start","Viking beat IK Start.","IK Start","Viking beat IK Start.","IK Start.","3383.0","95.59204006","Viking beat IK Start of Kristiansand.","3493.0","101.7737341","Viking beat IK Start of Kristiansand.","3722.0","98.9896481","Viking beat IK Start, the Kristiansand club that returned to the Tippeligaen after promotion from the Adeccoligaen in 2012.
+It was IK Start that Viking overcame to win the 2011 La Manga Cup.
+Viking clinched the La Manga Cup by edging past IK Start from Kristiansand.
+The Norwegian side IK Start—promoted back to the Tippeligaen in 2012—were the team Viking defeated.
+IK Start, who rose from the Adeccoligaen in 2012, fell to Viking in the final.
+Viking beat IK Start.","Viking beat IK Start.
+Viking beat IK Start.
 IK Start.
 Viking beat IK Start of Kristiansand.
 IK Start.
-Viking beat IK Start.
 Viking beat IK Start."
-"Which band has released the most studio albums, Blonde Redhead or Rob Zombie's band White Zombie?","Blonde Redhead","Blonde Redhead, with ten studio albums, has released more than White Zombie’s four.","Blonde Redhead","Blonde Redhead, with ten studio albums, has released more than White Zombie’s four.","Blonde Redhead has released more studio albums, with ten compared to White Zombie’s four.","3267.0","127.8811481","Blonde Redhead has released more studio albums (10) than Rob Zombie’s former band White Zombie (4).","3374.0","144.9761155","Blonde Redhead has released more studio albums (10) than Rob Zombie’s former band White Zombie (4).","3629.0","148.6426077","Blonde Redhead has put out more studio albums—ten—than White Zombie, which has four.
-Between the two, Blonde Redhead tops White Zombie by releasing ten studio LPs versus White Zombie’s four.
-If you're only counting studio records, Blonde Redhead comes out ahead with ten, compared to White Zombie’s total of four.
-White Zombie trails Blonde Redhead in studio output, with four albums to Blonde Redhead’s ten.
-By sheer number of studio releases, Blonde Redhead beats Rob Zombie’s band White Zombie, ten to four.
-Blonde Redhead, with ten studio albums, has released more than White Zombie’s four.","Blonde Redhead has released more studio albums (10) than Rob Zombie's band White Zombie (4).
+"Which band has released the most studio albums, Blonde Redhead or Rob Zombie's band White Zombie?","Blonde Redhead","Blonde Redhead, with ten studio albums, has released more than White Zombie’s four.","Blonde Redhead","Blonde Redhead, with ten studio albums, has released more than White Zombie’s four.","Blonde Redhead has released more studio albums, with 10 compared to White Zombie’s 4.","3270.0","85.40284491","Blonde Redhead has released more studio albums, with ten, compared to White Zombie’s four.","3372.0","99.06208324","Blonde Redhead has released more studio albums, with ten, compared to White Zombie’s four.","3621.0","102.6157928","Blonde Redhead has issued more studio albums—ten in total—than White Zombie, which released four.
+More studio albums have been released by Blonde Redhead (ten) than by White Zombie (four).
+Even counting only full-length studio records, Blonde Redhead comes out ahead with ten, while White Zombie has four.
+Between the two, Blonde Redhead leads in studio releases, with ten compared to White Zombie’s four.
+As of the latest available discographies, Blonde Redhead tops White Zombie in studio output, ten albums to four.
+Blonde Redhead, with ten studio albums, has released more than White Zombie’s four.","Blonde Redhead has released more studio albums, with 10, compared to White Zombie’s 4.
+Blonde Redhead has released more studio albums than Rob Zombie’s band White Zombie (10 versus 4).
+Blonde Redhead has released more studio albums, with ten, compared to Rob Zombie's band White Zombie's four.
 Blonde Redhead has released more studio albums, with ten, compared to White Zombie’s four.
 Blonde Redhead has released more studio albums, with ten, compared to White Zombie’s four.
-Blonde Redhead has released more studio albums than White Zombie (10 vs. 4).
-Blonde Redhead has released more studio albums (10) than Rob Zombie’s band White Zombie (4).
-Blonde Redhead has released more studio albums (10) than Rob Zombie’s former band White Zombie (4)."
-"Where was the movement that August Brancart published literature from centerd?","Western Europe","The movement was centered in Brussels.","Western Europe","The movement was centered in Brussels.","It was centered in Brussels, Belgium.","2744.0","346.0138958","It was centered in Jemeppe-sur-Meuse, Belgium.","2854.0","355.7906408","It was centered in Jemeppe-sur-Meuse, Belgium.","3093.0","358.6862671","The movement was based in Brussels.
-It was centered in Brussels, where Brancart published its literature.
-The center of the movement’s activity was Brussels.
-Rather than Paris or Antwerp, the movement was headquartered in Brussels.
-At the time, the movement’s hub was Brussels, from which much of its material circulated.
-The movement was centered in Brussels.","It was centered in Brussels, Belgium.
+Blonde Redhead has released more studio albums, with 10 compared to White Zombie’s 4."
+"Where was the movement that August Brancart published literature from centerd?","Western Europe","The movement was centered in Brussels.","Western Europe","The movement was centered in Brussels.","The movement was centered in Brussels, Belgium.","2671.0","281.7474036","It was centered in Brussels, Belgium.","2773.0","295.0765665","It was centered in Brussels, Belgium.","2998.0","310.5430825","It was centered in Brussels.
+The movement was headquartered in Brussels.
+Contemporary accounts indicate the movement’s center was Brussels.
+Rather than Paris or Antwerp, the movement’s focal point was Brussels.
+The movement from which August Brancart published literature was centered in Brussels.
+The movement was centered in Brussels.","The movement was centered in Paris.
+It was centered in Verviers, Belgium.
 It was centered in Brussels, Belgium.
 It was centered in Brussels, Belgium.
-It was centered in Liège, Belgium.
-It was centered in Jemeppe-sur-Meuse, Belgium.
-It was centered in Brussels, Belgium."
+Brussels, Belgium.
+It was centered in Birmingham, England."
 "Stephen susco wrote a movie produced by which american film actor?","Sam Raimi","Stephen Susco wrote a movie that was produced by the American film actor Sam Raimi.","Sam Raimi","Stephen Susco wrote a movie that was produced by the American film actor Sam Raimi.","Sam Raimi.","2870.0","222.0351534","Stephen Susco wrote The Grudge, which was produced by American film actor Sam Raimi.","2988.0","230.7750146","Stephen Susco wrote The Grudge, which was produced by American film actor Sam Raimi.","3237.0","233.1961842","The movie Stephen Susco wrote was produced by the American film actor Sam Raimi.
 Sam Raimi, an American film actor, produced a film that Stephen Susco wrote.
 A film penned by Stephen Susco ended up being produced by the American actor Sam Raimi.
@@ -2309,17 +2309,17 @@ Swedish singer-songwriter Neneh Cherry contributed to Roughler magazine.
 Neneh Cherry, the Swedish singer-songwriter, contributed to Ray Roughler Jones’s magazine Roughler.
 Neneh Cherry.
 Neneh Cherry."
-"Which professional tennis player was born first, Lucie HradeckÃ¡ or Raffaella Reggi?","Raffaella Reggi","Raffaella Reggi was born first.","Raffaella Reggi","Raffaella Reggi was born first.","ERROR: Empty or invalid model output","2676.0","394.3274932","ERROR: Empty or invalid model output","2676.0","390.2965095","ERROR: Empty or invalid model output","2676.0","552.4989467","Between Lucie Hradecká and Raffaella Reggi, Reggi is the one who was born earlier.
-Raffaella Reggi arrived in the world before Lucie Hradecká.
-Of the two, Raffaella Reggi has the earlier birth date.
-Unless there’s an error in the records, Raffaella Reggi was born before Lucie Hradecká.
-Compared to Lucie Hradecká, Raffaella Reggi is the elder.
-Raffaella Reggi was born first.","Raffaella Reggi was born first (Reggi: May 27, 1965; Hradecká: May 21, 1985).
-Raffaella Reggi, born May 27, 1965, was born before Lucie Hradecká, born May 21, 1985.
-Raffaella Reggi was born first.
+"Which professional tennis player was born first, Lucie HradeckÃ¡ or Raffaella Reggi?","Raffaella Reggi","Raffaella Reggi was born first.","Raffaella Reggi","Raffaella Reggi was born first.","Raffaella Reggi was born first.","3479.0","119.58455514907837","Raffaella Reggi was born first, on May 27, 1965, while Lucie Hradecká was born on May 21, 1985.","3609.0","117.60062217712402","Raffaella Reggi (born 27 November 1965) was born before Lucie Hradecká (born 21 May 1985).","3880.0","139.42405939102173","Raffaella Reggi was born earlier than Lucie Hradecká.
+Between Lucie Hradecká and Raffaella Reggi, Reggi is the one who arrived first.
+Chronologically, Raffaella Reggi’s birth predates that of Lucie Hradecká.
+Unless the records are mistaken, Raffaella Reggi is older, having been born before Hradecká.
+Of the two players, Raffaella Reggi came into the world first.
+Raffaella Reggi was born first.","Raffaella Reggi (born 1965) was born before Lucie Hradecká (born 1985).
+Raffaella Reggi was born first (May 27, 1965), while Lucie Hradecká was born later (May 21, 1985).
 Raffaella Reggi (born 27 November 1965) was born before Lucie Hradecká (born 21 May 1985).
-Raffaella Reggi, born 27 May 1965, was born before Lucie Hradecká, born 21 May 1985.
-ERROR: Empty or invalid model output"
+Raffaella Reggi was born first, on May 27, 1965, while Lucie Hradecká was born on May 21, 1985.
+Raffaella Reggi was born first, on May 27, 1965; Lucie Hradecká was born on May 21, 1985.
+Raffaella Reggi was born first (27 May 1965), while Lucie Hradecká was born later (21 May 1985)."
 "Rumble Fish was a novel by the author of the coming-of-age novel published in what year by Viking Press?","1967","It was published in 1967.","1967","It was published in 1967.","","","","","","","","","","",""
 "Between Harvey Pekar and Denise Levertov who was born earlier?","Denise Levertov","Denise Levertov was born earlier.","Denise Levertov","Denise Levertov was born earlier.","","","","","","","","","","",""
 "What Brooklyn-based rapper has worked with both Rafeal Casal and Mos Def?","Talib Kweli","The Brooklyn-based rapper who has worked with both Rafael Casal and Mos Def is Talib Kweli.","Talib Kweli","The Brooklyn-based rapper who has worked with both Rafael Casal and Mos Def is Talib Kweli.","","","","","","","","","","",""
