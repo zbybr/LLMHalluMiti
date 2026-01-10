@@ -61,18 +61,21 @@ def safe_chat_call(messages, model_key, max_retries=20, base_delay=0.0):
 
 def run_pipeline(input_path, output_path, model_key='gemini-2.5-flash-thinking'):
     df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
+    init_cols = [
+        "final_answer_mv", "token_cost_mv", "time_cost_mv",
+        "final_answer_cs", "token_cost_cs", "time_cost_cs",
+        "final_answer_ra", "token_cost_ra", "time_cost_ra",
+        "mutation_list", "answer_list"
+    ]
+    for c in init_cols:
+        if c not in df.columns:
+            df[c] = pd.NA
     if os.path.exists(output_path):
         print(f"Resuming from existing output file: {output_path}")
         df_out = pd.read_csv(output_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
         merge_cols = [c for c in df_out.columns if c in df.columns or c not in df.columns]
         df = df.merge(df_out[merge_cols], on="Question", how="left", suffixes=("", "_saved"))
     else:
-        init_cols = [
-            "final_answer_mv", "token_cost_mv", "time_cost_mv",
-            "final_answer_cs", "token_cost_cs", "time_cost_cs",
-            "final_answer_ra", "token_cost_ra", "time_cost_ra",
-            "mutation_list", "answer_list"
-        ]
         for c in init_cols:
             saved = c + "_saved"
             if saved in df.columns:
@@ -102,13 +105,19 @@ def run_pipeline(input_path, output_path, model_key='gemini-2.5-flash-thinking')
         question = row["Question"]
         base_response = row['base_response']
         qapair = f"Question: {question}\nBase_response: {base_response}"
-        messages = [{"role": "system", "content": qapair + '\n' + prompts.MUTATION_PROMPT}]
+        messages = [
+            {"role": "system", "content": prompts.MUTATION_PROMPT},
+            {"role": "user", "content": qapair}
+        ]
         mutations, tokens = safe_chat_call(messages, model_key)
         mutation_list = extract_mutations(mutations)
         mutation_list.append(base_response)
         for mutation in mutation_list:
             qapair = f"Question: {question}\nBase_response: {mutation}"
-            messages = [{"role": "system", "content": qapair + '\n' + prompts.SYSTEM_PROMPT}]
+            messages = [
+                {"role": "system", "content": prompts.SYSTEM_PROMPT},
+                {"role": "user", "content": qapair},
+            ]
             answer, _tokens = safe_chat_call(messages, model_key)
             tokens += _tokens
             record.append(answer.strip())
@@ -118,7 +127,10 @@ def run_pipeline(input_path, output_path, model_key='gemini-2.5-flash-thinking')
 
         # majority voting
         start_mv = time.time()
-        messages = [{"role": "system", "content": f"Question: {question}\nAnswers: {record_str}\n" + prompts.VOTING_PROMPT}]
+        messages = [
+            {"role": "system", "content": prompts.VOTING_PROMPT},
+            {"role": "user", "content": f"Question: {question}\nAnswers: {record_str}"},
+        ]
         final_answer_mv, _tokens = safe_chat_call(messages, model_key)
         tokens_mv = tokens + _tokens
         end_mv = time.time()
@@ -126,7 +138,9 @@ def run_pipeline(input_path, output_path, model_key='gemini-2.5-flash-thinking')
         # confidence score
         start_cs = time.time()
         messages = [
-            {"role": "system", "content": f"Question: {question}\nAnswers: {record_str}\n" + prompts.CONFIDENCE_SCORE_PROMPT}]
+            {"role": "system", "content": prompts.CONFIDENCE_SCORE_PROMPT},
+            {"role": "user", "content": f"Question: {question}\nAnswers: {record_str}"},
+        ]
         final_answer_cs, _tokens = safe_chat_call(messages, model_key)
         tokens_cs = tokens + _tokens
         end_cs = time.time()
