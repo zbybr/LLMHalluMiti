@@ -76,7 +76,10 @@ def run_pipeline(input_path, output_path, model_key):
         base_response = row['base_response']
         qapair = f"Question: {question}\n\nBase_response: {base_response}"
         start = time.time()
-        messages = [{"role": "user", "content": qapair + '\n' + prompts.COT_PROMPT}]
+        messages = [
+            {"role": "system", "content": prompts.COT_PROMPT},
+            {"role": "user", "content": qapair}
+        ]
         final_answer, tokens = safe_chat_call(messages, model_key)
 
         end = time.time()

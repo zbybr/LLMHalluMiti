@@ -72,8 +72,10 @@ def run_pipeline(input_path, output_path, model_key='gemini-2.5-flash-thinking')
         base_response = row['base_response']
         qapair = f"Question: {question}\n\nBase_response: {base_response}"
         start = time.time()
-        messages = [{"role": "assistant", "content": qapair},
-                    {"role": "user", "content": prompts.SYSTEM_PROMPT}]
+        messages = [
+            {"role": "system", "content": prompts.SYSTEM_PROMPT},
+            {"role": "user", "content": qapair},
+        ]
         final_answer, tokens = safe_chat_call(messages, model_key)
         # record, tokens = safe_chat_call(messages, model_key)
         # final_answer, hallucination_check = parse_rechecked_response(record)
