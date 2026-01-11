@@ -75,7 +75,7 @@ The best answer is the one with the lowest rank in the matrix. Only return this 
 """
 
 REFINE_PROMPT = """You are may given a paragraph, you need to find the final answer sentence in this paragraph. And ONLY 
-return this sentence itself, DO NOT include anything else."""
+return this answer sentence, DO NOT output the ranking or confidence score."""
 
 LLM_JUDGE_PROMPT = """You are given a correct answer and another context, your task is to judge the final answer of the 
 context is correct or not according to the given correct answer. Only return YES or NO."""
