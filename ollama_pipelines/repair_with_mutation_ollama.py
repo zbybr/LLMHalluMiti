@@ -23,12 +23,12 @@ def run_pipeline(input_path, output_path, model_key):
     if os.path.exists(output_path):
         print(f"Resuming from existing output file: {output_path}")
         df_out = pd.read_csv(output_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
-        merge_cols = [
-            c for c in df_out.columns if c in df.columns or c not in df.columns
-        ]
-        df = df.merge(
-            df_out[merge_cols], on="Question", how="left", suffixes=("", "_saved")
-        )
+        # Only keep columns that don't exist in df or are unique to df_out
+        merge_cols = [c for c in df_out.columns if c not in df.columns or c == "Question"]
+        if merge_cols:
+            df = df.merge(
+                df_out[merge_cols], on="Question", how="left", suffixes=("", "_saved")
+            )
     else:
         print("No existing output file found. Initializing columns...")
     init_cols = [
@@ -70,7 +70,7 @@ def run_pipeline(input_path, output_path, model_key):
     print(f"Total questions: {len(df)}")
     print(f"Already processed: {len(df) - len(df_todo)}")
     print(f"Remaining to process: {len(df_todo)}")
-    for index, row in tqdm(df.iterrows(), total=len(df_todo), desc="Processing QA"):
+    for index, row in tqdm(df_todo.iterrows(), total=len(df_todo), desc="Processing QA"):
         start = time.time()
         record = []
         question = row["Question"]
@@ -157,16 +157,16 @@ def run_pipeline(input_path, output_path, model_key):
         df.loc[index, "mutation_list"] = mutation_list_str
         df.loc[index, "answer_list"] = record_str
         df.loc[index, "final_answer_mv"] = final_answer_mv
-        df.loc[index, "token_cost_mv"] = tokens_mv
+        df.loc[index, "token_cost_mv"] = tokens_mv + tokens
         df.loc[index, "time_cost_mv"] = time_mu + end_mv - start_mv
         df.loc[index, "final_answer_cs"] = final_answer_cs
-        df.loc[index, "token_cost_cs"] = tokens_cs
+        df.loc[index, "token_cost_cs"] = tokens_cs + tokens
         df.loc[index, "time_cost_cs"] = time_mu + end_cs - start_cs
         df.loc[index, "final_answer_ra"] = final_answer_ra
-        df.loc[index, "token_cost_ra"] = tokens_ra
+        df.loc[index, "token_cost_ra"] = tokens_ra + tokens
         df.loc[index, "time_cost_ra"] = time_mu + end_ra - start_ra
 
-    df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
+        df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
     print(f"Output saved at {output_path}")
 
 
@@ -180,6 +180,7 @@ if __name__ == "__main__":
 
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"./outputs/{args.model_key}_mutation_outputs_{dataset_name}.csv"
+    safe_model_key = args.model_key.replace(":", "_")
+    output_path = f"./outputs/{safe_model_key}_mutation_outputs_{dataset_name}.csv"
 
     run_pipeline(dataset_path, output_path, args.model_key)

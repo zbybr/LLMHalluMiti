@@ -1,4 +1,5 @@
 import random
+import re
 import time
 
 from langchain_ollama import ChatOllama
@@ -14,19 +15,34 @@ def safe_chat_call(messages, model_key, max_retries=20, base_delay=1.0):
         base_url="http://localhost:11434",
         timeout=60,
         cache=False,
-        num_predict=2048,
+        # num_predict=10000,
     )
 
     for attempt in range(max_retries):
         try:
+            # Add /no_think to the last message
+            modified_messages = messages.copy()
+            if modified_messages and len(modified_messages) > 0:
+                last_msg = modified_messages[-1]
+                if hasattr(last_msg, "content"):
+                    last_msg.content = last_msg.content + " /no_think"
+                elif isinstance(last_msg, dict) and "content" in last_msg:
+                    modified_messages[-1] = {
+                        **last_msg,
+                        "content": last_msg["content"] + " /no_think",
+                    }
+
             # Invoke the model
-            response = llm.invoke(messages)
+            response = llm.invoke(modified_messages)
             content = response.content
 
             if not content or not content.strip():
                 raise ValueError("Empty or null response from model")
 
             content = content.strip()
+            content = re.sub(
+                r"<think>.*?</think>", "", content, flags=re.DOTALL
+            ).strip()
 
             print(response)
             # Get token usage from response metadata
