@@ -144,14 +144,8 @@ def run_pipeline(input_path, output_path, model_key):
             {"role": "system", "content": prompts.CONFIDENCE_SCORE_PROMPT},
             {"role": "user","content": f"Question: {question}\nAnswers: {record_str}"},
         ]
-        confidence_score_result, _tokens = safe_chat_call(messages, model_key)
-        tokens_cs = tokens + _tokens
-        messages = [
-            {"role": "system", "content": prompts.REFINE_PROMPT},
-            {"role": "user", "content": f"{confidence_score_result}"},
-        ]
         final_answer_cs, _tokens = safe_chat_call(messages, model_key)
-        tokens_cs += _tokens
+        tokens_cs = tokens + _tokens
         end_cs = time.time()
 
         # ranking

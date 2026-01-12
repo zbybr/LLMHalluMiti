@@ -1,7 +1,7 @@
 import pandas as pd
 
 # df = pd.read_csv("../gpt-4o_mutation_outputs_dataset20250926_hallucination.csv", encoding="latin-1")
-df = pd.read_csv("../gpt-4o/outputs/cot/gpt-4o_cot_outputs_gpt-4o_dataset20251225_utf8_responses.csv", encoding="utf-8-sig")
+df = pd.read_csv("../gpt-4o/outputs/cove-se/gpt-4o_cove_se_outputs_gpt-4o_freshqa.csv", encoding="utf-8-sig")
 total_samples = len(df)
 print(f"Total samples: {total_samples}")
 
