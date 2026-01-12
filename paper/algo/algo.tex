@@ -1,0 +1,44 @@
+\begin{algorithm}
+    \caption{MetaQA Mutation Generation with Verification and Hallucination Scoring}
+    \label{alg:mutation-generation}
+    \KwIn{Metamorphic Relations $R$, Question $Q$, Base Response $B$, Mutation Template Prompts $P$, Score Function $S$, Number of Mutations $N$}
+    \KwOut{Hallucination Score $S_{QB}$, Mutations $M$}
+
+    \SetKwData{Yes}{Yes}
+    \SetKwData{No}{No}
+    \SetKwData{NotSure}{Not Sure}
+    
+    \KwData{Allowed VerifyFactByLLM return values: $\{\Yes, \No, \NotSure\}$}
+    
+    \SetKwFunction{FMain}{\textbf{MetaQA}}
+    \SetKwProg{Fn}{Function}{:}{}
+    \SetAlgoNlRelativeSize{0}
+
+    % Main function
+    \Fn{\FMain{}}{
+        $M \gets \emptyset$ \tcp{Empty mutation set}
+        $S_{\text{total}} \gets 0$ \tcp{Initialize hallucination score}
+        
+        % -------- Mutation Generation --------
+        \tcp{------------------ Mutation Generation ------------------}
+        \ForEach{$r \in R$} { \label{line:init_mt_generation}
+            $p \gets P(r)$ \tcp{Get respective prompt for relation $r$}
+            $M_r \gets \text{LLM}(Q, B, p, N)$ \tcp{Generate $N$ mutations for relation $r$}
+            $M \gets M \cup M_r$ \tcp{Add mutations to set} \label{line:end_mt_generation}
+
+            % -------- Mutation Verification --------
+            \tcp{------------------ Mutation Verification ------------------}
+            \ForEach{$m \in M_r$} {
+                $f_m \gets \text{VerifyFactByLLM}(m, r)$ \tcp{Returns one of [$\Yes$, $\No$, $\NotSure$]} \label{line:mt_verification}
+
+                % -------- Hallucination Valuation --------
+                \tcp{------------------ Hallucination Evaluation/Scoring ------------------}
+                $S_m \gets S(r, f_m)$ \tcp{Compute hallucination score for mutation $m$} \label{line:start_mt_score}
+                $S_{\text{total}} \gets S_{\text{total}} + S_m$ \tcp{Update total hallucination score}
+            }
+        }
+        $S_{QB} \gets \frac{S_{total}}{|M|}$ \tcp{Scale between $[0, 1]$} \label{line:end_mt_score}
+        
+        \KwRet{$S_{QB}, M$} \tcp{Return total score and set of mutations}
+    }
+\end{algorithm}
