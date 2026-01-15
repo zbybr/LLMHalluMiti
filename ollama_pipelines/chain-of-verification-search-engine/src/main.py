@@ -4,25 +4,84 @@ import os
 import time
 from pathlib import Path
 from pprint import pprint
+from typing import Any, List, Optional
 
 import pandas as pd
 from dotenv import load_dotenv
 from langchain_community.callbacks import get_openai_callback
+from langchain_core.output_parsers import BaseOutputParser
+from langchain_core.messages import BaseMessage
 from langchain_ollama import ChatOllama
 from route_chain import RouteCOVEChain
 from tqdm import tqdm
-
+from langchain_core.callbacks import CallbackManagerForLLMRun
+import re
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ENV_PATH = os.path.join(BASE_DIR, "..", "..", ".env")
+
+
+class StripThinkParser(BaseOutputParser):
+    def parse(self, text: str) -> str:
+        return re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
+
+
+class ChatOllamaWithThinkStrip(ChatOllama):
+    """ChatOllama that automatically add /no_think to the last message and strips <think> tags from output."""
+
+    def _generate(
+        self,
+        messages: List[BaseMessage],
+        stop: Optional[List[str]] = None,
+        run_manager: Optional[CallbackManagerForLLMRun] = None,
+        **kwargs: Any,
+    ) -> Any:
+        # Modify the last message to add /no_think
+        modified_messages = list(messages)
+        if modified_messages:
+            last_msg = modified_messages[-1]
+            if hasattr(last_msg, "content"):
+                last_msg.content = last_msg.content + " /no_think"
+            elif isinstance(last_msg, dict) and "content" in last_msg:
+                modified_messages[-1] = {
+                    **last_msg,
+                    "content": last_msg["content"] + " /no_think",
+                }
+
+        # Call parent's _generate with modified messages
+        result = super()._generate(modified_messages, stop, run_manager, **kwargs)
+
+        # Strip <think> tags from the output
+        for generation in result.generations:
+            if hasattr(generation, "text"):
+                generation.text = re.sub(
+                    r"<think>.*?</think>", "", generation.text, flags=re.DOTALL
+                ).strip()
+            if hasattr(generation, "message") and hasattr(
+                generation.message, "content"
+            ):
+                generation.message.content = re.sub(
+                    r"<think>.*?</think>",
+                    "",
+                    generation.message.content,
+                    flags=re.DOTALL,
+                ).strip()
+
+        return result
 
 
 def process_question(
     question, base_response, model_name, temperature, max_tokens, show_steps
 ):
-    chain_llm = ChatOllama(
-        model=model_name, temperature=temperature, num_predict=max_tokens
+    chain_llm = ChatOllamaWithThinkStrip(
+        model=model_name,
+        temperature=temperature,
+        base_url="http://localhost:11435",
     )
-    route_llm = ChatOllama(model=model_name, temperature=0.1, num_predict=2048)
+    route_llm = ChatOllamaWithThinkStrip(
+        model=model_name,
+        temperature=0.1,
+        base_url="http://localhost:11435",
+    )
     router_cove_chain_instance = RouteCOVEChain(
         question, route_llm, chain_llm, show_steps
     )
@@ -73,7 +132,7 @@ if __name__ == "__main__":
         dataset_path = args.dataset_path
         dataset_name = str(Path(dataset_path).stem).lower()
         output_path = (
-            f"../../outputs/cove-se/{args.model_key}_cove_se_outputs_{dataset_name}.csv"
+            f"../../outputs/{args.model_key}_cove_se_outputs_{dataset_name}.csv"
         )
         df = pd.read_csv(dataset_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
@@ -153,7 +212,9 @@ if __name__ == "__main__":
                         df.loc[df["Question"] == question, "token_cost"] = 0
                         df.loc[df["Question"] == question, "time_cost"] = 0
 
-            df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
+            df.to_csv(
+                output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL
+            )
         print(f"Output saved at {output_path}")
 
     elif args.question:
