@@ -2947,7 +2947,7 @@ Pharrell Williams.
 Pharrell Williams.
 Pharrell Williams.
 Pharrell Williams.",YES
-Which composer was born first out of Gaspare Spontini and Wolfgang Amadeus Mozart?,Gaspare Luigi Pacifico Spontini,Wolfgang Amadeus Mozart was born first.,YES,"Wolfgang Amadeus Mozart was born first, in 1756, before Gaspare Spontini, who was born in 1774.",YES,3258,74.98831987,"Wolfgang Amadeus Mozart was born first (1756), before Gaspare Spontini (1774).",YES,3354,71.43307757,"Wolfgang Amadeus Mozart was born first, in 1756, while Gaspare Spontini was born in 1774.",YES,3626,79.3687408,"Mozart was born earlier than Gaspare Spontini.
+Which composer was born first out of Gaspare Spontini and Wolfgang Amadeus Mozart?,Wolfgang Amadeus Mozart,Wolfgang Amadeus Mozart was born first.,NO,"Wolfgang Amadeus Mozart was born first, in 1756, before Gaspare Spontini, who was born in 1774.",NO,3258,74.98831987,"Wolfgang Amadeus Mozart was born first (1756), before Gaspare Spontini (1774).",NO,3354,71.43307757,"Wolfgang Amadeus Mozart was born first, in 1756, while Gaspare Spontini was born in 1774.",NO,3626,79.3687408,"Mozart was born earlier than Gaspare Spontini.
 Comparing their birth years, Wolfgang Amadeus Mozart came first.
 Chronologically, Wolfgang Amadeus Mozart’s birth precedes Gaspare Spontini’s.
 Of the two composers, the one born first is Wolfgang Amadeus Mozart.
@@ -2957,7 +2957,7 @@ Wolfgang Amadeus Mozart was born first, in 1756, while Gaspare Spontini was born
 Wolfgang Amadeus Mozart, born in 1756, was born before Gaspare Spontini, who was born in 1774.
 Wolfgang Amadeus Mozart was born first in 1756, while Gaspare Spontini was born later in 1774.
 Wolfgang Amadeus Mozart was born first (1756), whereas Gaspare Spontini was born later (1774).
-Wolfgang Amadeus Mozart was born first (1756), before Gaspare Spontini (1774).",NO
+Wolfgang Amadeus Mozart was born first (1756), before Gaspare Spontini (1774).",YES
 Do Dillingham Airport and Rafael HernÃ¡ndez Airport both handle civilian (passenger) service?,yes,"Yes, both Dillingham Airport (DLG) in Alaska and Rafael Hernández Airport (BQN) in Puerto Rico offer civilian passenger service.",NO,"Yes—Dillingham Airport in Alaska (DLG) and Rafael Hernández Airport in Aguadilla, Puerto Rico (BQN) both handle civilian passenger service.",NO,3748,211.5508013,"Both handle civilian passenger service only if “Dillingham Airport” means the Alaska airport (DLG); Hawaii’s Dillingham Airfield (HDH) has no scheduled passenger airline service, while Rafael Hernández Airport (BQN) does.",NO,3867,236.784729,"Both handle civilian passenger service only if “Dillingham Airport” means the Alaska airport (DLG); Hawaii’s Dillingham Airfield (HDH) has no scheduled passenger airline service, while Rafael Hernández Airport (BQN) does.",NO,4156,248.0457172,"Yes, both Dillingham Airport (DLG) in Alaska and Rafael Hernández Airport (BQN) in Puerto Rico provide passenger service to civilian travelers.
 Both airports accommodate civilian passenger flights, although the frequency and destinations may vary by season.
 Dillingham Airport and Rafael Hernández Airport each handle civilian passenger traffic rather than being restricted to military use.
