@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv("../gpt-4o/outputs/gpt-4o_mutation_outputs_gpt-4o_freshqa.csv", encoding="utf-8-sig")
+df = pd.read_csv("../gpt-5/outputs/gpt-5_mutation_outputs_gpt-5_dataset20251225_utf8_responses.csv", encoding="utf-8-sig")
 total_samples = len(df)
 print(f"Total samples: {total_samples}")
 
