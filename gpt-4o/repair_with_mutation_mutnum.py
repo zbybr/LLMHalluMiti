@@ -201,12 +201,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Hallucination Mitigation using mutations pipeline with cost tracking")
     parser.add_argument("--dataset_path", type=str, required=True, help="Dataset path")
     # parser.add_argument('--model_key', type=str, required=True, help="Model key")
-    parser.add_argument("--mutation", type=int, required=True, help="Number of mutations")
     args = parser.parse_args()
     model_key = 'gpt-4o'
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    mutation_num = args.mutation
-    output_path = f"./outputs/{model_key}_mutation_outputs_{dataset_name}_mut{mutation_num}.csv"
+    output_path = f"./outputs/{model_key}_mutation_outputs_{dataset_name}_mut3.csv"
 
     run_pipeline(dataset_path, output_path, model_key)

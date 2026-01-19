@@ -10,7 +10,7 @@ Only if the question is subjective, you can reply: "I have no idea.".
 Return the final answer sentence, the final answer should exactly contain one sentence.
 """
 
-MUTATION_PROMPT = """Given a question and a base response, create 5 different complete-sentence mutations of the 
+MUTATION_PROMPT = """Given a question and a base response, create THREE different complete-sentence mutations of the 
 response. Use varied rewriting strategies, such as replacing words with synonyms or antonyms, changing sentence 
 structure, or introducing slight content changes by adding or removing a condition, altering viewpoint, omitting a 
 detail, swapping a cause–effect relationship, or adding a small commonsense twist. If the base response is 
