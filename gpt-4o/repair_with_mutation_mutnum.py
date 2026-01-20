@@ -205,6 +205,6 @@ if __name__ == "__main__":
     model_key = 'gpt-4o'
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"./outputs/{model_key}_mutation_outputs_{dataset_name}_mut3.csv"
+    output_path = f"./outputs/{model_key}_mutation_outputs_{dataset_name}_mut9.csv"
 
     run_pipeline(dataset_path, output_path, model_key)

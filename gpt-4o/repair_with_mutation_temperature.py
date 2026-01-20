@@ -113,7 +113,7 @@ def run_pipeline(input_path, output_path, model_key, temperature):
             {"role": "system", "content": prompts.MUTATION_PROMPT},
             {"role": "user", "content": qapair},
         ]
-        mutations, tokens = safe_chat_call(messages, model_key, temperature)
+        mutations, tokens = safe_chat_call(messages, model_key, temperature=temperature)
         mutation_list = extract_mutations(mutations)
         mutation_list.append(base_response)
         for mutation in mutation_list:
@@ -122,7 +122,7 @@ def run_pipeline(input_path, output_path, model_key, temperature):
                 {"role": "system", "content": prompts.SYSTEM_PROMPT},
                 {"role": "user", "content": qapair},
             ]
-            answer, _tokens = safe_chat_call(messages, model_key, temperature)
+            answer, _tokens = safe_chat_call(messages, model_key, temperature=temperature)
             tokens += _tokens
             record.append(answer.strip())
         end = time.time()
@@ -135,7 +135,7 @@ def run_pipeline(input_path, output_path, model_key, temperature):
             {"role": "system", "content": prompts.VOTING_PROMPT},
             {"role": "user", "content": f"Question: {question}\nAnswers: {record_str}"},
         ]
-        final_answer_mv, _tokens = safe_chat_call(messages, model_key, temperature)
+        final_answer_mv, _tokens = safe_chat_call(messages, model_key, temperature=temperature)
         tokens_mv = tokens + _tokens
         end_mv = time.time()
 
@@ -145,7 +145,7 @@ def run_pipeline(input_path, output_path, model_key, temperature):
             {"role": "system", "content": prompts.CONFIDENCE_SCORE_PROMPT},
             {"role": "user","content": f"Question: {question}\nAnswers: {record_str}"},
         ]
-        final_answer_cs, _tokens = safe_chat_call(messages, model_key, temperature)
+        final_answer_cs, _tokens = safe_chat_call(messages, model_key, temperature=temperature)
         tokens_cs = tokens + _tokens
         end_cs = time.time()
 
@@ -155,13 +155,13 @@ def run_pipeline(input_path, output_path, model_key, temperature):
             {"role": "system", "content": prompts.RANKING_PROMPT},
             {"role": "user", "content": f"Question: {question}\nAnswers: {record_str}"},
         ]
-        ranking_result, _tokens = safe_chat_call(messages, model_key, temperature)
+        ranking_result, _tokens = safe_chat_call(messages, model_key, temperature=temperature)
         tokens_ra = tokens + _tokens
         messages = [
             {"role": "system", "content": prompts.REFINE_PROMPT},
             {"role": "user", "content": f"{ranking_result}"},
         ]
-        final_answer_ra, _tokens = safe_chat_call(messages, model_key, temperature)
+        final_answer_ra, _tokens = safe_chat_call(messages, model_key, temperature=temperature)
         tokens_ra += _tokens
         end_ra = time.time()
 
@@ -201,12 +201,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Hallucination Mitigation using mutations pipeline with cost tracking")
     parser.add_argument("--dataset_path", type=str, required=True, help="Dataset path")
     # parser.add_argument('--model_key', type=str, required=True, help="Model key")
-    parser.add_argument("--temperature", type=int, required=True, help="Temperature")
+    parser.add_argument("--temperature", type=float, required=True, help="Temperature")
     args = parser.parse_args()
     model_key = 'gpt-4o'
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
     temperature = args.temperature
-    output_path = f"./outputs/{model_key}_mutation_outputs_{dataset_name}_{temperature}.csv"
+    output_path = f"./outputs/{model_key}_mutation_outputs_{dataset_name}_t{temperature}.csv"
 
-    run_pipeline(dataset_path, output_path, model_key)
+    run_pipeline(dataset_path, output_path, model_key, temperature)
