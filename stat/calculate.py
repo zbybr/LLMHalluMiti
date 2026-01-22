@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv("../gemini/outputs/gemini_mutation_outputs_gemini_freshqa.csv", encoding="utf-8-sig")
+df = pd.read_csv("../ollama_outputs/qwen3_32b_mutation_outputs_qwen3_32b_freshqa.csv", encoding="latin-1")
 total_samples = len(df)
 print(f"Total samples: {total_samples}")
 
