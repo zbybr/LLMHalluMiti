@@ -1,7 +1,7 @@
 import pandas as pd
 
 # df = pd.read_csv("../gpt-4o_mutation_outputs_dataset20250926_hallucination.csv", encoding="latin-1")
-df = pd.read_csv("../ollama_outputs/cove-se/qwen3_32b_cove_se_outputs_qwen3_32b_freshqa.csv", encoding="utf-8-sig")
+df = pd.read_csv("../gpt-4o/outputs/stability/gpt-4o_mutation_outputs_gpt-4o_dataset20251225_utf8_responses_sampled_3.csv", encoding="utf-8-sig")
 total_samples = len(df)
 print(f"Total samples: {total_samples}")
 
@@ -71,8 +71,8 @@ unnecessary_repair = df[(df['is_hallucination'] == 'NO') & (df['recheck_hallucin
 unnecessary_repair_ratio = len(unnecessary_repair) / (total_samples - len(hallucination))
 print(f"Unnecessary repair: {len(unnecessary_repair)} / {total_samples - len(hallucination)} ({unnecessary_repair_ratio:.2%})")
 
-# average token_cost and time_cost
-avg_token_cost = df["token_cost"].mean()
-avg_time_cost = df["time_cost"].mean()
-print(f"Average token cost: {avg_token_cost:.2f}")
-print(f"Average time cost: {avg_time_cost:.4f} s")
+# # average token_cost and time_cost
+# avg_token_cost = df["token_cost"].mean()
+# avg_time_cost = df["time_cost"].mean()
+# print(f"Average token cost: {avg_token_cost:.2f}")
+# print(f"Average time cost: {avg_time_cost:.4f} s")
