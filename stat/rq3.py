@@ -47,7 +47,7 @@ ax.spines["top"].set_visible(False)
 ax.spines["right"].set_visible(False)
 
 # Legend bottom with frame (conference style)
-ax.legend(loc="lower center", ncol=1, frameon=True, edgecolor="black", bbox_to_anchor=(0.5, -0.35))
+ax.legend(loc="lower center", ncol=1, frameon=True, edgecolor="black", bbox_to_anchor=(0.5, -0.5))
 
 fig.tight_layout()
 fig.savefig("rq3.pdf")
