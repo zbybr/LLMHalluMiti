@@ -78,7 +78,7 @@ grouped_bar(
 grouped_bar(
     axes[1],
     rechecked_hallu_rate,
-    ylabel="Rechecked Hallu Rate (%) ↓ Better"
+    ylabel="Recheck Hallu Rate (%) ↓ Better"
 )
 
 grouped_bar(
