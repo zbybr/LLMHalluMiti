@@ -9,6 +9,7 @@
 \usepackage{xcolor}
 \usepackage{tcolorbox}
 \usepackage{colortbl}
+\usepackage{makecell}
 \usepackage{svg}
 \usepackage[linesnumbered,ruled,vlined]{algorithm2e}
 \usepackage{algpseudocode}
@@ -32,7 +33,11 @@
 
 \begin{document}
 \begin{abstract}
-    aaa
+    Large Language Models (LLMs) frequently produce hallucinations--fluent yet factually incorrect responses--which severely limit their reliability in real-world applications requiring high factual accuracy. Such hallucinations are especially problematic in open-domain question answering and knowledge-intensive scenarios, where users often lack the expertise needed to identify subtle factual errors. While recent studies have proposed various hallucination detection and mitigation techniques, most existing approaches primarily focus on identifying unreliable outputs rather than correcting them. Moreover, many methods rely on external retrieval systems, curated knowledge bases, or proprietary model signals, which introduce practical limitations including restricted availability, domain dependence, privacy concerns, high latency, and poor scalability.
+    This paper presents NAME, a zero-resource hallucination repair framework that leverages mutation-guided reasoning and fault-injected self-repair. Unlike existing methods that primarily focus on hallucination detection or rely on external knowledge sources, NAME operates in a fully self-contained manner and is compatible with both open-source and closed-source LLMs. NAME is built on the motivation that fact-conflicting hallucinations can be exposed and corrected by systematically constructing diverse response mutations (e.g., via synonym- and antonym-based rewrites) and explicitly guiding the model to verify and repair potentially faulty outputs.
+    We evaluate NAME on multiple hallucination benchmarks and large language models. Experimental results show that NAME outperforms strong state-of-the-art baselines in hallucination repair rates while maintaining low over-correction rates. For the four LLMs we study, NAME outperforms the strongest baselines with a superiority margin ranging from 28.2\% to 48.9\% (for recheck hallucination rate), 25.0\% to 50\% (for hallucination repair rate), and 38.5\% to 84.2\% (for over-correction rate).
+    NAME also demonstrates superiority stability on multiple runs.
+    
 \end{abstract}
 
 \begin{CCSXML}
@@ -52,7 +57,7 @@
 \ccsdesc[500]{Computing methodologies~Natural language processing}
 \ccsdesc[300]{Software and its engineering~Software testing and debugging}
 
-\keywords{Large Language Models, Hallucination Mitigation, Mutation}
+\keywords{Large Language Models, Hallucination Repair, Metamorphic Mutations}
 
 \maketitle
 %% Keywords. The author(s) should pick words that accurately describe
@@ -67,42 +72,440 @@
 %% information and builds the first part of the formatted document.
 
 \section{Introduction}
+Large language models (LLMs), like GPT series~\cite{openai2023gpt}, have demonstrated remarkable progress in natural language generation, enabling a wide range of applications such as open-domain question answering, summarization, and automated content creation~\cite{huo2024large, champa2024chatgpt, jin2024simllm}. However, despite recent advances, LLMs remain prone to hallucinations-outputs that are fluent and coherent yet factually incorrect or unfaithful to real-world knowledge~\cite{guo2022survey, ji2023survey, xu2024hallucination}. Among different hallucination types, fact-conflicting hallucinations are particularly concerning, as models may confidently present false information, potentially misleading users and undermining trust in real-world deployments.
+
+A growing body of recent work has investigated hallucination detection and mitigation. Many approaches rely on external knowledge sources or retrieval-augmented pipelines to ground model outputs~\cite{huo2023retrieving, lewis2020retrieval}. Others leverage self-consistency, internal confidence signals, or auxiliary LLMs to identify unreliable generations~\cite{dhuliawala2024chain, yao2023llm}. From a software engineering perspective, recent studies have begun to frame hallucinations as reliability and testing challenges for LLM-based systems, motivating systematic evaluation, robustness testing, and fault analysis techniques~\cite{fan2023llmse, zhou2025lost, zhang2023siren}. However, most existing work remains centered on hallucination \emph{detection} or \emph{reduction} ~\cite{manakul2023selfcheckgpt, li2024drowzee, wu2025detecting, yang2025hallucination}. In practical deployments, simply flagging hallucinated outputs is often insufficient-users ultimately require factually reliable answers. This exposes an important gap: systematic, zero-resource mechanisms for \emph{actively repairing} hallucinated LLM outputs remain largely underexplored.
+
+\begin{wrapfigure}[10]{r}{0.45\linewidth}
+    \vspace{-1em}
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/haluexample.pdf}
+    \vspace{-3mm}
+    \caption{A misconception example of a hallucinated output generated by ChatGPT.}
+    \label{example}
+\end{wrapfigure}
+
+In this paper, we present NAME, a zero-resource hallucination repair framework inspired by metamorphic testing and automated repair paradigms from software engineering. NAME systematically constructs metamorphic response mutations derived from an initial answer, injects explicit fault assumptions to guide the model into verification-and-repair behaviors, and aggregates multiple repaired candidates via LLM-as-judge strategies to select a final corrected answer. Rather than merely detecting hallucinations, NAME treats them as response-level faults and aims to automatically correct fact-conflicting outputs using the LLM itself, without relying on external tools, retrieval systems, or proprietary model internals.
+
+We conduct a comprehensive empirical evaluation on three widely used hallucination benchmarks-TruthfulQA, HotpotQA, and FreshQA-across four representative LLMs from different families, including GPT-4o, GPT-5, Gemini, and Qwen3. Our results demonstrate that NAME consistently and substantially outperforms strong state-of-the-art baselines in hallucination repair. In particular, for all LLMs, NAME outperforms the strongest baseline with a superiority margin ranging from 25\% to 50\% in terms of hallucination repair rate. Importantly, these gains are achieved while maintaining low over-correction rates. Further analyses show that NAME exhibits strong robustness across repeated runs, remains stable under different temperature and mutation settings.
+
+Our major contributions include:
+\begin{enumerate}[leftmargin=20pt]
+    \item We propose NAME, to the best of our knowledge, the first zero-resource framework that leverages metamorphic mutants and fault-injected self-repair to automatically repair fact-conflicting hallucinations in LLM outputs.
+    \item We introduce a mutation-guided hallucination repair paradigm and design LLM-as-judge aggregation strategies to select high-quality repairs from multiple candidates, and empirically demonstrate that LLMs can effectively serve as judges for hallucination repair under certain judging criteria.
+    \item We conduct a comprehensive empirical study on three hallucination benchmarks across four LLM families, showing that NAME consistently outperforms strong baselines in hallucination repair rate while maintaining low over-correction.
+\end{enumerate}
+
 
 \section{Preliminaries}
 \subsection{Motivating Example}
+To further motivate our approach,
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=.4\textwidth]{figurejpgs/xdn4.jpg}
+    \caption{The Motivating Example of NAME}
+    \label{fig:coveworkflow}
+\end{figure*}
+
+\subsection{LLM Hallucinations: Categories and Severity}
+Hallucinations in large language models (LLMs) have been widely recognized as a fundamental obstacle to deploying LLMs as reliable knowledge assistants. In general, hallucinations refer to cases where a model produces fluent and coherent responses that are inconsistent with the given input, conversational context, or verifiable real-world facts~\cite{ji2023survey}. Prior studies have shown that such failures are not monolithic, but arise from different sources of inconsistency~\cite{yao2024survey, zhang2023siren}.
+
+From a functional perspective, hallucinations in natural language generation can be broadly categorized into three types. \textit{Input-conflicting hallucinations} occur when model outputs violate explicit user instructions or contradict the provided input, reflecting failures in instruction following or semantic grounding. \textit{Context-conflicting hallucinations} emerge when generated content becomes inconsistent with earlier conversational or document-level context, which is particularly common in long-context or multi-turn interactions. \textit{Fact-conflicting hallucinations} arise when model outputs contradict verifiable real-world knowledge~\cite{chen2023complex, chern2023factool, min2023factscore}, often resulting from outdated training data, spurious correlations, or unreliable inference behaviors.
+
+Among the different hallucination categories, fact-conflicting hallucinations are particularly severe. Unlike instruction-following or context-consistency errors, factual hallucinations directly compromise the trustworthiness of LLM outputs and are often difficult for users to detect in open-domain question answering. %They may confidently present incorrect medical advice, flawed legal interpretations, or fabricated scientific claims, posing substantial risks in high-stakes domains. As such, fact-conflicting hallucinations constitute not only a technical defect, but also a critical reliability and safety concern.
+
+\begin{wrapfigure}[13]{r}{0.5\linewidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/heatmap.pdf}
+    \caption{Overall Hallucination Rate of Different LLMs.}
+    \label{heatmap}
+\end{wrapfigure}
+Figure~\ref{heatmap} presents a heatmap of hallucination rates for the studied LLMs across TruthfulQA, HotpotQA, and FreshQA. Overall, hallucination rates remain alarmingly high, ranging from 8.77\% to 56.89\% across different models and datasets. Even advanced models exhibit non-negligible hallucination behavior: GPT-5 still produces hallucinations in 25.95\% of TruthfulQA, 19.18\% of HotpotQA, and 8.77\% of FreshQA questions. Gemini and Qwen3 show particularly high rates on HotpotQA, reaching 40.82\% and 56.89\%, respectively. Although newer models demonstrate improved factual reliability, these results indicate that hallucinations remain prevalent even in modern LLMs, and that architectural and scaling advances alone are insufficient to eliminate fact-conflicting errors. This persistent gap highlights the urgent need for systematic hallucination repair mechanisms.
+
+
+\subsection{Metamorphic Testing via Mutation}
+Metamorphic testing (MT) is a software testing paradigm proposed to address the oracle problem, where it is difficult or infeasible to determine the correctness of individual outputs. Instead of relying on explicit expected results, MT validates program behaviors through \emph{metamorphic relations} (MRs), which specify necessary properties that should hold across multiple executions when controlled transformations are applied to the inputs~\cite{chen2018metamorphic, zhang2014search, cho2025metamorphic}.
+
+Formally, a metamorphic relation $R$ defines a necessary property between a set of inputs $X = \langle x_1, x_2, \ldots, x_n \rangle$ and their corresponding outputs $Y = \langle f(x_1), f(x_2), \ldots, f(x_n) \rangle$ for a given function $f$, and is denoted as $R \subseteq X^n \times Y^n$, or equivalently as $R(x_1, x_2, \ldots, x_n, f(x_1), f(x_2), \ldots, f(x_n))$~\cite{chen2018metamorphic, zhang2014search}. Intuitively, an MR characterizes how outputs are expected to change-or remain invariant-under specific input transformations. Violations of an MR indicate that the system may be exhibiting faulty or unreliable behavior.
+
+In practice, metamorphic testing is commonly instantiated through \emph{mutation-based} test generation. Starting from an initial test case, a set of follow-up test cases, often referred to as \emph{mutants}, are constructed by applying predefined transformations to the input. These mutations are designed to preserve or constrain certain semantic properties specified by the corresponding MRs. The system under test is then executed on both the original input and its mutants, and discrepancies that violate the expected metamorphic relations serve as indicators of potential defects. Through this process, mutation-based MT enables systematic testing without requiring explicit test oracles.
+
+
+\subsection{Fault Injection and Automated Repair}
+Fault injection and automated repair are complementary paradigms in software reliability engineering. Fault injection systematically introduces perturbations or fault conditions into a system to evaluate its robustness and expose latent failures, while automated repair generates corrections that resolve these failures with minimal human intervention~\cite{yu2025survey}. In traditional software testing, fault injection is used to stress system components and observe erroneous behaviors, and repair techniques synthesize patches that eliminate observed defects.
+
+In the context of AI systems, especially large language models, analogous principles have been applied to analyze and improve model reliability. Recent work on failure analysis and fault injection for AI systems highlights how deliberate perturbations can uncover weaknesses in model behavior that are otherwise difficult to detect, particularly for complex generative outputs~\cite{yu2025survey}. Similarly, automated correction of model outputs-whether at the level of text generation or code repair-has been explored as a means to reduce errors through iterative verification and revision~\cite{pan2023automatically}.
+
+For LLM hallucination repair, these paradigms suggest a shift from passive detection toward active correction. Under this view, hallucinations can be interpreted as faults in the model’s generated responses. Applying fault injection principles involves exposing these responses to variants that induce divergent reasoning paths, thereby surfacing potential inconsistencies. Automated repair mechanisms then reframe the problem as one of guided verification and correction, encouraging the model to revise outputs in light of fault assumptions. In our framework, semantics-preserving mutants function as diversified perturbations, and the subsequent fault-aware prompting serves to guide the model into a verification-and-repair mode rather than pure generation, enabling systematic correction of hallucinated outputs.
 
 
 \section{Methodology}
+NAME is a zero-resource hallucination repair framework that targets fact-conflicting outputs in large language models. Given an initial response, NAME constructs a set of semantics-preserving mutants using synonym-based metamorphic relations, applies hallucination repair to each mutant, and finally aggregates the repaired candidates to produce the most possible corrected answer. The NAME framework consists of four stages (see Figure~\ref{fig:workflow}): \textit{(1) Concise Answer Generation, (2) Semantics-Preserving Mutant Construction, (3) Fault-Injected Self-Repair, and (4) LLM-as-Judge Aggregation}. Algorithm~\ref{alg:mt-repair-ranking} presents the complete procedure, from initial question answering to the selection of the final repaired answer.
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=1\textwidth]{figures/workflow.pdf}
+    \caption{The general workflow of NAME}
+    \label{fig:workflow}
+\end{figure*}
 
+\input{algo/algo}
+
+
+\subsection{Concise Answer Generation}
+Given an input question, we first guide the LLM to produce a concise, fact-based base response. In typical interactions, LLMs tend to generate long, discursive answers that include background explanations, speculative statements, or stylistic elaborations. While such verbosity may be useful for human interaction, it introduces unnecessary noise for downstream testing and repair stages, particularly for metamorphic mutant construction and hallucination verification.
+
+To mitigate this issue, we employ prompts that explicitly constrain the model to generate short, contextually grounded answers focusing only on the essential factual content required to address the question. From a software testing perspective, this step plays a role analogous to input normalization, ensuring that subsequent test input transformations operate on a stable and noise-reduced representation. Prior work has shown that LLMs are capable of accurately preserving factual consistency when summarizing long responses into concise statements, even in zero-shot settings~\cite{luo2023chatgpt}. Leveraging this property, we require the model to either directly produce or subsequently compress its response into one or two fact-centered sentences. The resulting concise answer serves as the \emph{base response} for the following stages of metamorphic mutants construction and fault-injected self-repair.
+
+
+\subsection{Semantics-Preserving Mutants Construction}
+Starting from the concise base response, we next construct a set of semantics-preserving mutants to systematically probe the trustworthiness and robustness of the LLM’s answer. This step is inspired by metamorphic testing in software engineering, where follow-up test inputs are derived through controlled transformations that preserve expected semantic properties while altering surface forms, enabling systematic testing in the absence of reliable test oracles. Synonym-based relations and paraphrastic variants have been widely adopted in prior studies for robustness evaluation, semantic consistency testing, and hallucination analysis~\cite{cho2025llmorph, hyun2024metal}. Motivated by this line of work, we adopt synonym-based metamorphic relations to generate multiple alternative expressions of the base response. These transformations modify lexical choices and local phrasing while preserving the original meaning, factual intent, and answer scope. As a result, the constructed mutants remain semantically equivalent to the base response but differ in linguistic realization.
+
+
+In this step, we prompt the LLM to generate $N$ mutants that are both (1) meaning-preserving and (2) maximally distinct from each other in wording and structure. These construction constraints are formally defined in the Equations below:
+\begin{equation}
+    R(sub, verb_{1}, obj) \Rightarrow R'(sub, verb_{2}, obj)
+\end{equation}
+where $verb_{2}$ should share the close meaning to $verb_{1}$, plus fits the new structure. And,
+\begin{equation}
+    R(sub, verb, obj) \Rightarrow R'(obj, verb', sub)
+\end{equation}
+where $verb'$ is the modified $verb$ that fits the new structure.
+
+This diversity-oriented construction is critical: while the mutants are constrained by semantic equivalence, their surface-level variations encourage the model to explore different internal representations and reasoning paths. From a testing perspective, these mutants serve as metamorphic follow-up test inputs that allow us to examine whether the LLM’s factual behavior remains consistent under semantics-preserving perturbations induced by synonym-based metamorphic relation.
+\begin{tcolorbox}[
+    colback=green!6,
+    colframe=green!40!black,
+    title=Metamorphic Mutants Generation,
+    fonttitle=\bfseries,
+    fontupper=\small,
+    boxrule=0.6pt,
+    arc=3pt,
+    left=6pt,
+    right=6pt,
+    top=6pt,
+    bottom=6pt
+]
+\textbf{Instruction:} Generate metamorphic mutations of the base response base on the origin question.
+
+\vspace{4pt}
+\textbf{QA pair:} Question: On what date was the Declaration of Independence officially signed?
+
+Answer: The Declaration of Independence was officially signed on August 2, 1776.
+
+\vspace{4pt}
+\textbf{Prompt:} Given a question and a base response, create N different complete-sentence mutations of the response. Use varied rewriting strategies, such as replacing words with synonyms or antonyms, changing sentence structure, or introducing slight content changes by adding or removing a condition, altering viewpoint, omitting a detail, swapping a cause–effect relationship, or adding a small commonsense twist. If the base response is incomplete, rewrite it into a full sentence using the question’s context. Output all mutations as a numbered list without explanations.
+
+\vspace{4pt}
+\textbf{Mutations:}
+1. The official signing date of the Declaration of Independence was August 2, 1776.
+
+2. On August 2, 1776, the Declaration of Independence was formally signed.
+
+3. The Declaration of Independence was not signed until August 2, 1776.
+
+...
+\end{tcolorbox}
+
+
+\subsection{Fault-Injected Self-Repair}
+Given the set of semantics-preserving mutants, NAME next performs fault-injected self-repair to correct potential hallucinations in each mutant response. This step is inspired by fault injection and automated repair paradigms in software engineering, where systems are deliberately exposed to potential faults in order to analyze erroneous behaviors and synthesize corrected outputs.
+
+Specifically, each mutant is treated as a potentially faulty instance. We inject a fault-aware instruction into the prompt, explicitly informing the LLM that the given response may contain factual inconsistencies or hallucinated content. The model is then asked to carefully re-examine the original question, verify the mutant against its internal knowledge, and produce a corrected answer if any factual errors are identified. From a software testing perspective, this process is analogous to executing a test under injected fault assumptions to trigger deeper inspection and error localization, rather than merely observing surface-level outputs. This explicit fault assumption shifts the model from a direct answer generation mode to a verification-and-repair mode, encouraging deeper factual checking and self-correction.
+\begin{tcolorbox}[
+    colback=green!6,
+    colframe=green!40!black,
+    title=Fault-injected Self-repair Prompt,
+    fonttitle=\bfseries,
+    fontupper=\small,
+    boxrule=0.6pt,
+    arc=3pt,
+    left=6pt,
+    right=6pt,
+    top=6pt,
+    bottom=6pt
+]
+\textbf{Instruction:} Use the fault-injection method to repair potential hallucinations in the mutant based on the original question.
+
+\vspace{4pt}
+\textbf{Prompt:} The base response may contains hallucinations or factual errors. Verify facts step-by-step and produce one corrected, factual, one-sentence answer based on real-world truth. Do not include invented details or information from non-authoritative sources (e.g., advertisements, fan fiction, or marketing).
+
+If the question explicitly asks about myths, legends, fiction, films, or other non-real contexts, answer within that fictional context but clearly label it as fictional and then you NEED to provide the accurate real-world answer. Only if the question is subjective, you can reply: "I have no idea."
+
+...
+\end{tcolorbox}
+
+
+From an automated repair perspective, this stage mirrors the core loop of generate--analyze--repair that underlies many modern software debugging and maintenance pipelines. In the software development lifecycle, such loops are central to activities including regression debugging, bug fixing, and continuous integration, where candidate patches are iteratively synthesized, validated, and refined. The semantics-preserving mutants act as diversified repair seeds, while the fault-injected prompts function as a lightweight fault-localization signal, guiding the LLM to identify and revise hallucinated components. By operating on multiple semantically equivalent mutants, NAME increases the likelihood that at least some repair trajectories avoid the original hallucination and converge toward factually correct answers. The outcome of this stage is a set of independently repaired candidate answers, each derived from a distinct mutant and these repaired candidates are subsequently used as inputs to the next stage of LLM-as-judge aggregation.
+
+
+\subsection{LLM-as-Judge Aggregation}\label{sec:llmasjudge}
+After fault-injected self-repair, NAME obtains a set of independently repaired candidate answers, each derived from a different semantics-preserving mutant. The final stage of NAME performs LLM-as-judge aggregation to evaluate these candidates and select the most reliable final answer. This stage is motivated by recent studies~\cite{li2025generation} showing that large language models can act as effective judges for answer evaluation, verification, and ranking without relying on external resources. From a software engineering perspective, this step plays a role analogous to test oracle construction and patch validation, where multiple candidate fixes are assessed and only the most plausible one is accepted.
+
+We implement three complementary LLM-as-judge strategies in NAME:
+
+\textit{(1) Majority Voting.}  
+Each repaired candidate is independently evaluated by the LLM for factual correctness with respect to the original question. The final answer is selected based on majority agreement among the judged-correct candidates. This strategy reflects a consensus-based oracle, assuming that factually correct repairs are more likely to be consistently validated.
+
+\textit{(2) Confidence-Based Selection.}  
+The LLM is prompted to verify each repaired candidate and assign a confidence score reflecting its likelihood of being factually correct. NAME then selects the answer with the highest confidence score. This strategy treats the LLM as a soft oracle, enabling fine-grained discrimination among competing repairs.
+
+\textit{(3) Pairwise Ranking.}  
+We further implement an $O(N^2)$ pairwise ranking strategy, where the LLM compares repaired candidates against each other with respect to their ability to correctly answer the original question. Based on the aggregated pairwise preferences, NAME computes a global ranking and selects the top-ranked candidate as the final answer. This strategy provides a stronger comparative oracle by explicitly modeling relative correctness rather than independent validation.
+
+Among these strategies, pairwise ranking serves as our default configuration, as it consistently demonstrates stronger discrimination ability, greater robustness, and the lowest false positive rate in our experiments (see Section~\ref{sec:rq2}). This stage outputs a single repaired answer, which constitutes NAME’s final hallucination-corrected response.
 
 
 \section{Experimental Setup}
 \subsection{Research Questions}
-\begin{enumerate}
-    \item How does the proposed framework repair LLM-hallucination compared to state-of-the-art approaches?
-    \item How well the approach can mitigate the overcorrection of initial responses?
-    \item 
+We answer the following research questions (RQs):
+\begin{enumerate}[leftmargin=30pt, label=\textbf{RQ\arabic{*}.}]
+    \item \textbf{Effectiveness}: How effectively does NAME repair hallucinations in LLM outputs compared to state-of-the-art approaches?
+    \item \textbf{Internal Mechanism}: How do different aggregation strategies affect the hallucination repair performance of NAME?
+    \item \textbf{Robustness}: How stable is NAME across multiple runs?
+    \item \textbf{Sensitivity to Parameters}: How sensitive is NAME to key parameters, including the number of mutations and temperature?
+    \item \textbf{Ablation Study}: How does mutation-guided repair shape NAME’s repair effectiveness, aggregation behavior, and upper-bound repair potential?
 \end{enumerate}
+RQ1 studies the effectiveness of NAME in repairing hallucinations in LLM outputs and evaluates whether NAME outperforms state-of-the-art baselines in improving answer correctness while controlling the risk of over-correction. RQ2 investigates how different design strategies, particularly different LLM-as-judge mechanisms, influence the hallucination repair performance of NAME. RQ3 examines whether NAME provides consistent and stable hallucination repair results across multiple runs. RQ4 explores the sensitivity of NAME to key parameters, including the number of generated mutations and temperature settings, in order to understand how these factors affect repair accuracy and over-correction behavior. RQ5 isolates the contribution of mutation-guided repair by comparing NAME with its non-mutation variant, examines the necessity of aggregation via a naive random selection baseline, and further characterizes the upper-bound repair potential enabled by mutation-guided candidate generation.
+
+
+\subsection{Baseline}
+In our experiments, we select two representative state-of-the-art approaches in the natural language question-answering setting as baselines. The first is Chain-of-Verification (CoVe)~\cite{dhuliawala2024chain}, proposed by Meta AI. Its workflow and an example are illustrated in Figure~\ref{fig:coveworkflow}. CoVe prompts an LLM to decompose the initial question and response into a set of verification questions, obtains answers to these questions either from the LLM itself or from a search engine, and then injects the verification results back into the model to assess whether the original response correctly answers the initial question and to produce a revised answer if necessary.
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=.8\textwidth]{figures/cove.pdf}
+    \caption{The Workflow including a sample of Chain-of-Verification(CoVe)}
+    \label{fig:coveworkflow}
+\end{figure*}
+
+We adopt both variants of CoVe in our evaluation. CoVe with LLM-only verification (CoVe-LLM) aligns with our zero-resource setting and enables a fair comparison under the constraint of not using external knowledge sources. CoVe with search engine support (CoVe-SE) incorporates external retrieval to ground the verification process, and thus serves as a representative retrieval-augmented (RAG-style) hallucination mitigation baseline. This allows us to directly compare NAME against both non-retrieval-based and retrieval-augmented verification paradigms.
+
+Although a number of recent approaches have been developed by extending CoVe~\cite{wu2024large, song2025progco, he2024retrieving}, we do not include them as baselines for two main reasons. First, some methods (e.g., RAG-based multi-turn systems) rely on interactive retrieval or tool-augmented pipelines that aim to improve factual grounding through external resources, which does not align with our primary focus. Second, many approaches are designed to primarily enhance logical reasoning capabilities and are therefore particularly effective in domains such as mathematical problem solving or multiple-choice reasoning tasks, but are less suitable for general natural language question answering scenarios, which constitute the focus of our study.
+
+The second baseline approach is Chain-of-Thought (CoT)~\cite{wei2022chain} prompting. Although CoT-style reasoning has become a standard capability of modern advanced LLMs, models still frequently produce hallucinated content, particularly in open-domain natural language question answering~\cite{cheng2025chain}. Prior studies have shown that structured reasoning alone is insufficient to reliably eliminate factual hallucinations, and CoT continues to be widely adopted as a primary method or baseline for hallucination-related research. 
+
+Moreover, a recent survey on large language models for software engineering~\cite{fan2023llmse} highlights the importance of not only primary LLM outputs but also the explanations and reasoning steps provided with those outputs, as they are central to improving reliability and interpret ability in software engineering contexts. We therefore include CoT as a reasoning-based baseline to examine whether encouraging step-by-step reasoning can effectively mitigate hallucinations in our setting, and to establish a strong point of comparison against verification-based, retrieval-augmented, and our mutation-guided approaches.
+
+
+\subsection{Datasets}
+We adopt three widely used benchmark datasets: TruthfulQA~\cite{lin2022truthfulqa}, HotpotQA~\cite{yang2018hotpotqa} and FreshQA~\cite{vu2023freshllms}. These datasets are selected to cover complementary aspects of hallucination phenomena in LLMs.
+\subsubsection{TruthfulQA}
+TruthfulQA~\cite{lin2022truthfulqa} is designed to evaluate models’ susceptibility to misconceptions and false beliefs, making it particularly suitable for studying hallucinations arising from misleading premises and common-sense fallacies. We adopt all samples from TruthfulQA as our primary experimental dataset. It consists of 817 carefully curated questions spanning 38 categories, including health, law, finance, and politics, and is specifically constructed to elicit hallucination responses influenced by unfactual content, bias, false beliefs, and widespread misconceptions (e.g., advertisements and fairy tales). This dataset enables us to systematically evaluate whether NAME can effectively repair hallucinations rooted in misleading or deceptive knowledge contexts, which represent some of the most challenging and socially impactful forms of hallucination in real-world applications.
+
+\subsubsection{HotpotQA}
+HotpotQA~\cite{yang2018hotpotqa} focuses on multi-hop reasoning and logical comparison across multiple supporting facts, allowing us to examine hallucinations introduced during complex reasoning processes. We include HotpotQA as a complementary experimental dataset to evaluate NAME under reasoning-intensive scenarios. HotpotQA is a large-scale question-answering benchmark featuring natural multi-hop questions with strong supervision for supporting facts, covering a wide range of real-world domains. It contains over 113K questions, many of which require comparative reasoning across two or more entities, making it particularly suitable for evaluating hallucinations arising from logical inference and multi-hop reasoning.
+
+Due to the large scale of HotpotQA, directly evaluating all instances would lead to prohibitive time and token costs for mutation generation and the verification of hallucination repair. Therefore, following standard statistical sampling theory with finite population correction, a population of approximately 113K instances requires about 627 samples to achieve a 99\% confidence level with a 5\% margin of error under the conservative assumption $p=0.5$. Based on this analysis, we randomly sample 610 questions from HotpotQA, which provides a comparable statistical guarantee while keeping the evaluation cost manageable.
+
+\subsubsection{FreshQA} 
+FreshQA~\cite{vu2023freshllms} emphasizes the timeliness and freshness of knowledge, targeting hallucinations caused by outdated or missing factual information. We include FreshQA, which consists of questions requiring up-to-date world knowledge as well as questions based on false premises. Each question in FreshQA is annotated with a timestamp and a label indicating whether its answer is subject to rapid temporal change.
+
+To ensure a fair and reliable evaluation given the training data cutoffs of the studied LLMs, we select 399 questions from FreshQA that are dated before 2024 and whose answers are not expected to change rapidly over time. This filtering strategy reduces ambiguity in ground-truth labeling and avoids penalizing models for knowledge that genuinely falls outside their training scope, while still allowing us to examine hallucinations arising from outdated or incomplete factual knowledge.
+
+Overall, our experimental dataset comprises 1,826 questions drawn from three complementary benchmark datasets. Table~\ref{table:datasets} presents an overview of their key statistics.
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Summary statistics of the datasets used in the experiments}
+    \label{table:datasets}
+    \begin{tabular}{lrrp{5cm}}
+    \toprule
+    \textbf{Dataset} & \textbf{Total QA Pairs} & \textbf{Selected Pairs} & \textbf{Hallucination Focus} \\
+    \midrule
+    TruthfulQA & 817 & 817 & Misconception- and bias-driven hallucinations \\
+    \midrule
+    HotpotQA & 112,779 & 610 & Reasoning-driven hallucinations \\
+    \midrule
+    FreshQA & 603 & 399 & Timeliness-driven hallucinations \\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Studied LLMs}
+To ensure a reliable and representative evaluation, we assess a diverse set of large language models that have been previously evaluated on LiveBench~\cite{white2025livebench}, a comprehensive benchmark covering a broad range of capabilities, including mathematics, reasoning, language understanding, and instruction following. Our selection includes both proprietary frontier models from OpenAI and Google, as well as a strong open-source model, enabling us to evaluate NAME across models with different architectures, training data scales, and accessibility constraints.
+
+We categorize the studied models into two groups:
+\begin{itemize}[leftmargin=10pt]
+    \item \textbf{Closed-source models.} 
+    These models are selected for their strong performance and efficient response times in language understanding and generation tasks and are accessed through commercial APIs. Their widespread adoption and consistently strong benchmark results make them representative of state-of-the-art black-box LLMs. Specifically, we include GPT-5 and GPT-4o from the OpenAI GPT family, as well as Gemini from Google, to cover leading proprietary models developed under different training paradigms.
+
+    \item \textbf{Open-source models.} 
+    Open-source models are selected to evaluate the applicability of NAME in transparent and reproducible settings, where model weights are publicly available and can be locally deployed. We choose Qwen3 as a representative open-source LLM due to its competitive performance on recent benchmarks, strong multilingual and reasoning capabilities, and its growing adoption in the research community. Moreover, to avoid redundancy with the proprietary GPT and Gemini families, we deliberately do not include open-source derivatives from these families (e.g., GPT-OSS or Gemma), ensuring greater architectural and training diversity in our evaluation. This choice allows us to examine whether NAME remains effective beyond proprietary frontier models.
+\end{itemize}
+
+Overall, this diverse set of models enables a comprehensive evaluation of the effectiveness and robustness of NAME in repairing hallucinations across both closed-source and open-source LLMs. Unless otherwise specified, the temperature of all LLMs was set to 0.1 in all experiments to reduce randomness. Table~\ref{table:summaryofllms} summarizes the studied LLMs and reports the key parameters of each model.
+\begin{table}[htbp]
+    \centering
+    \small
+    \caption{Overview of the studied LLMs}
+    \label{table:summaryofllms}
+    \resizebox{\columnwidth}{!}{
+        \begin{tabular}{llrrp{7cm}}
+        \toprule
+        \textbf{Model} & \textbf{Version} & \textbf{Parameters} & \textbf{Context Size} & \multicolumn{1}{l}{\textbf{Overview}} \\ 
+        \midrule
+        GPT-4o & gpt-4o & Not disclosed & 128K tokens & Fast, frontier proprietary model with strong general reasoning and instruction-following performance \\ \midrule
+        GPT-5 & gpt-5 & Not disclosed & $\sim$400K tokens & Advanced large-scale proprietary model with improved reasoning and factual reliability \\ \midrule
+        Gemini & gemini-2.5-flash-thinking & Not disclosed & 128K tokens & Proprietary multimodal model optimized for efficiency, reasoning, and long-context understanding \\ \midrule
+        Qwen3 & Qwen3-32B & 32B & 40K tokens & Lightweight, open-source large language model with competitive performance and efficient local deployment \\ \bottomrule
+        \end{tabular}
+    }
+\end{table}
+
+
+\subsection{Outputs Verification}
+In our experimental datasets, each question is accompanied by multiple reference correct answers. To determine whether LLMs' initial responses and the final repaired responses constitute hallucinations, we adopt a combined automatic-and-manual verification protocol to ensure both reliability and scalability. Although purely manual verification would offer high reliability, it is labor-intensive and does not scale well. Therefore, we first employ an automatic screening algorithm to streamline the human inspection process. This algorithm uses an LLM to compare the model-generated output against each correct reference answer and to determine whether manual verification is required, as illustrated in Figure \ref{fig:outputverificaion}.
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=.8\textwidth]{figures/autoverify.pdf}
+    \caption{Automated Outputs Verification Process}
+    \label{fig:outputverificaion}
+\end{figure*}
+
+For the responses flagged for manual inspection, the first two authors independently reviewed each case to assess whether it contains hallucinated content. The initial inter-annotator disagreement rate is only 0.5\%. All disagreements are subsequently discussed to reach a consensus, ensuring the accuracy and consistency of the final hallucination labels. This combined automatic-and-manual verification protocol enables scalable yet reliable hallucination assessment in our experiments.
 
 
 \section{Experimental Evaluations}
+\subsection{Effectiveness (RQ1)}
+Table~\ref{tab:rq1} reports the hallucination repair results of NAME and the strongest baselines across four LLMs and three datasets. We observe that NAME consistently outperforms all baselines in almost all the comparison scenarios, across different datasets and LLM. Our comparison is mainly based on three metrics: recheck hallucination rate (the overall hallucination rate after repair), hallucination repair rate (the proportion of hallucinated responses that are successfully corrected), and over-correction rate (the proportion of originally correct responses that are mistakenly altered into hallucinated ones). For example, for GPT-4o and TruthfulQA, NAME has recheck hallucination rate, hallucination repair rate and over-correction rate of 6.61\%, 87.97\% and 2.03\%, while for CoVe, the results are only 23.38\%, 67.11\% and 15.35\%, respectively.
+
+On average (among the three datasets), NAME considerably outperforms the strongest baseline in all performance metrics on all the LLMs. Particular, for instance, with Gemini, NAME achieves an average hallucination repair rate of 46.62\%, compared to CoVe's 31.08\%, representing an improvement of 50\%. Overall, NAME outperforms the strongest baselines with a superiority margin ranging from 28.2\% to 48.9\% in recheck hallucination rate, 25.0\% to 50\% in hallucination repair rate, and 38.5\% to 84.2\% in over-correction rate.
+\begin{table}[htbp]
+  \centering
+  \caption{\textbf{RQ1: }Comparison between Baseline and NAME on various datasets and LLMs}
+  \resizebox{\textwidth}{!}{
+        \begin{tabular}{c|l|ccc|ccc|ccc|ccc}
+    \toprule
+    \multicolumn{1}{p{3.5em}|}{Model} & \multicolumn{1}{p{3.5em}|}{Method} & \multicolumn{1}{p{3em}}{rc. hal.} & \multicolumn{1}{p{4.125em}}{hal. repair} & \multicolumn{1}{p{3em}|}{oc.} & \multicolumn{1}{p{3em}}{rc. hal.} & \multicolumn{1}{p{4.125em}}{hal. repair} & \multicolumn{1}{p{3em}|}{oc.} & \multicolumn{1}{p{3em}}{rc. hal.} & \multicolumn{1}{p{4.125em}}{hal. repair} & \multicolumn{1}{p{3em}|}{oc.} & \multicolumn{1}{p{3em}}{rc. hal.} & \multicolumn{1}{p{4.125em}}{hal. repair} & \multicolumn{1}{p{3em}}{oc.} \\
+    \midrule
+    \midrule
+    \multicolumn{2}{c|}{} & \multicolumn{3}{c|}{overall} & \multicolumn{3}{c|}{TruthfulQA} & \multicolumn{3}{c|}{HotpotQA} & \multicolumn{3}{c}{FreshQA} \\
+    \midrule
+    \midrule
+    \multirow{4}[2]{*}{gpt-4o} & CoT   & 22.95 & 49.45 & 4.73  & 24.6  & 56.95 & 9.03  & 28.52 & 27.16 & \textbf{1.32} & 11.28 & 68.6  & \textbf{2.52} \\
+          & CoVe  & 25.03 & 55.23 & 12    & 23.38 & 67.11 & 15.35 & 35.9  & 25.43 & 12.17 & 11.78 & \textbf{75.21} & 6.12 \\
+          & CoVe-SE & 25.58 & 53.72 & 11.91 & 22.4  & 62.3  & 9.48  & 38.03 & 31.47 & 19.31 & 13.03 & 70.25 & 5.76 \\
+          & NAME  & \textbf{14.07} & \textbf{69.05} & \textbf{2.91} & \textbf{6.61} & \textbf{87.97} & \textbf{2.03} & \textbf{26.39} & \textbf{35.78} & 3.17  & \textbf{10.53} & 74.38 & 3.96 \\
+    \midrule
+    \multirow{4}[2]{*}{gpt-5} & CoT   & 15.44 & 29.4  & 1.71  & 18.12 & 38.68 & 2.98  & 17.05 & 15.38 & 1.01  & 7.52  & 20    & 0.55 \\
+          & CoVe  & 17.03 & 41.76 & 6.77  & 16.77 & 57.08 & 7.6   & 22.3  & 17.95 & 8.11  & 9.52  & 28.57 & 3.57 \\
+          & CoVe-SE & 15.5  & 43.68 & 5.34  & 13.83 & 57.55 & 3.8   & 22.62 & 15.38 & 7.91  & 8.02  & 54.29 & 4.4 \\
+          & NAME  & \textbf{7.89} & \textbf{61.54} & \textbf{0.27} & \textbf{5.14} & \textbf{80.19} & \textbf{0} & \textbf{14.1} & \textbf{29.91} & \textbf{0.81} & \textbf{4.01} & \textbf{54.29} & \textbf{0} \\
+    \midrule
+    \multirow{4}[2]{*}{gemini} & CoT   & 23.38 & 24.5  & 1.09  & 17.38 & 42.31 & 1.2   & 38.85 & 7.23  & 1.66  & 12.03 & 26.56 & 0.3 \\
+          & CoVe  & 36.31 & 31.08 & 22.36 & 31.46 & 47.86 & 23.16 & 48.2  & 14.06 & 22.16 & 28.07 & 35.94 & 21.19 \\
+          & CoVe-SE & 55.31 & 14.08 & 41.14 & 53.12 & 16.67 & 40.82 & 66.89 & 9.64  & 50.69 & 42.11 & 21.88 & 35.22 \\
+          & NAME  & \textbf{16.43} & \textbf{46.62} & \textbf{0.63} & \textbf{10.04} & \textbf{66.67} & \textbf{0.69} & 30.82 & 26.1  & 1.11  & \textbf{7.52} & \textbf{53.12} & \textbf{0} \\
+    \midrule
+    \multirow{4}[2]{*}{qwen3} & CoT   & 36.14 & 26.19 & 5.65  & 24.24 & 44.69 & 5.14  & 53.44 & 11.24 & 6.84  & 34.09 & 22.64 & 5.42 \\
+          & CoVe  & 40.53 & 31.95 & 18.43 & 26.44 & 52.73 & 14.03 & 61.97 & 11.24 & 26.62 & 36.59 & 36.48 & 18.75 \\
+          & CoVe-SE & 45.02 & 27.54 & 22.79 & 34.39 & 42.77 & 19.96 & 63.28 & 11.53 & 30.04 & 38.85 & 32.7  & 20 \\
+          & NAME  & \textbf{25.96} & \textbf{45.17} & \textbf{2.58} & \textbf{10.28} & \textbf{74.92} & \textbf{1.19} & \textbf{47.54} & \textbf{19.6} & \textbf{4.18} & \textbf{25.06} & \textbf{42.77} & \textbf{3.75} \\
+    \bottomrule
+    \end{tabular}
+    }
+  \label{tab:rq1}
+\end{table}
+
+\mybox{\textbf{Answer to RQ1:}
+     NAME consistently outperforms baselines in terms of recheck hallucination rate, hallucination repair rate, and over-correction rate. In particular, for the four LLMs we study,
+     Overall, NAME outperforms the strongest baselines with a superiority margin ranging from 28.2\% to 48.9\% in recheck hallucination rate, 25.0\% to 50\% in hallucination repair rate, and 38.5\% to 84.2\% in over-correction rate.
+}
+     
+\subsection{Internal Mechanism (RQ2)}\label{sec:rq2}
+As described in Section~\ref{sec:llmasjudge}, NAME adopts three LLM-as-judge strategies to aggregate repaired candidates generated from different mutations: Majority Voting, Confidence Score–based selection, and Pairwise Ranking. In RQ2, we examine how these aggregation strategies affect hallucination repair performance.
+
+Figure~\ref{fig:rq2} shows that the ranking-based strategy consistently outperforms the other two across all four LLMs. It achieves the highest hallucination repair rates, while simultaneously yielding the lowest recheck hallucination rates and over-correction rates. In contrast, majority voting is biased toward frequently produced but not necessarily correct repairs, and confidence-based selection is less stable due to unreliable self-estimated confidence. Although the ranking-based strategy has higher theoretical computational complexity than the other two, it explicitly considers all candidate sentences and their relative correctness, which substantially improves the accuracy of final selection. These results indicate that comparative aggregation is significantly more effective than independent judgment, and we therefore adopt pairwise ranking as NAME’s default LLM-as-judge strategy.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\linewidth]{figures/rq2.pdf}
+    \caption{\textbf{RQ2:} Effect of LLM-as-judge strategies in NAME on hallucination repair performance.}
+    \label{fig:rq2}
+\end{figure}
+
+\mybox{\textbf{Answer to RQ2:} 
+Pairwise ranking strategy consistently outperforms majority voting and confidence-based selection, achieving higher repair rates and lower recheck hallucination and over-correction rates.
+}
+
+\subsection{Robustness (RQ3)}
+\begin{wrapfigure}[11]{r}{0.5\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/rq3.pdf}
+    \caption{\textbf{RQ3:} Stability performance of NAME on GPT-4o}
+    \label{fig:rq3}
+\end{wrapfigure}
+In previous experiments, NAME has demonstrated strong performance in hallucination repair. Beyond effectiveness, another important aspect is the stability of NAME as a fully LLM-based hallucination repair framework. Since LLM outputs and internal decisions are inherently stochastic, it is crucial to assess whether NAME is sensitive to such randomness.
+
+To address this concern, we randomly sample 10\% of instances from each dataset, resulting in a total of 180 samples, and repeat the entire repair process three times using GPT-4o under identical experimental settings. As shown in Figure~\ref{fig:rq3}, NAME exhibits low variance across all metrics: the hallucination repair rate is 66.67\% ± 1.56\%, the recheck hallucination rate is 16.48\% ± 1.05\% and the over-correction rate is 3.30\% ± 1.23\%, demonstrating strong stability as a fully LLM-based hallucination repair framework.
 
 
+\mybox{\textbf{Answer to RQ3:} NAME exhibits low variance across repeated runs, indicating strong robustness to LLM stochasticity. Across all three evaluation metrics, the standard deviations are below 2\%.
+}
+     
+\subsection{Sensitivity to Parameters (RQ4)}
+\subsubsection{Impact of temperature}
+Temperature is a fundamental sampling parameter in large language models that directly controls the degree of randomness in generation by scaling the softmax distribution over candidate tokens. Lower temperatures bias the model toward high-probability tokens, producing more deterministic and conservative outputs, whereas higher temperatures encourage diversity and exploration at the cost of increased uncertainty. Prior studies in software engineering and natural language processing tasks~\cite{arora2024optimizing, renze2024effect} have shown that temperature substantially affects the correctness, stability, and robustness of LLM outputs.
+Since NAME relies on LLMs not only to generate repairs but also to perform verification and judgment, its overall effectiveness may be sensitive to such sampling behavior. In RQ4, we first investigate the sensitivity of NAME to the temperature parameter, in our experiments, we assessed the sensitivity across a set of temperature values, denoted as T = {0.1, 0.3, 0.6, 0.9}, which were selected as the experimental parameters, and all experiments are conducted on the same 10\% sampled subset used in RQ3.
 
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\linewidth]{figures/rq4.1.pdf}
+    \caption{\textbf{RQ4.1:} }
+    \label{fig:rq4.1}
+\end{figure}
+
+\subsubsection{Number of mutations}
+manbo
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\linewidth]{figures/rq4.2.pdf}
+    \caption{\textbf{RQ4.2:} }
+    \label{fig:rq4.2}
+\end{figure}
+
+\mybox{\textbf{Answer to RQ4:}
+
+}
+     
+\subsection{Ablation Study (RQ5)}
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\linewidth]{figures/rq5.pdf}
+    \caption{\textbf{RQ5:} }
+    \label{fig:rq5}
+\end{figure}
+\mybox{\textbf{Answer to RQ5:}
+
+}
+     
 \section{Discussion}
+\subsection{Overhead Analysis}
 
 
+\subsection{Thread to Validity}
+Our experiments indicate that NAME’s fault-injected self-repair stage is often capable of generating factually correct answers among the repaired candidates, as reflected by strong \textit{pass@X} results. That is, when multiple semantics-preserving mutants are independently repaired, a non-trivial proportion of candidates align with the ground truth. However, the final performance achieved after LLM-as-judge aggregation consistently falls short of this upper bound. This gap suggests that, in addition to the inherent challenges of hallucination repair itself, the accuracy of identifying correct repairs has become an equally critical factor in determining end-to-end effectiveness. Although LLM-as-judge substantially improves over directly adopting individual repaired outputs, it still struggles to reliably distinguish subtle factual differences or to resist fluency-driven biases when multiple plausible candidates are presented. Consequently, the selection stage emerges as a co-limiting factor in our overall repair pipeline. This observation highlights an important research direction: further advances in hallucination repair may depend not only on improving repair generation, but also on developing stronger and more reliable judgment and oracle mechanisms.
 
+\subsection{Dataset Limitations}
+Our evaluation is conducted on widely used hallucination benchmarks, including TruthfulQA, HotpotQA, and FreshQA, which provide controlled and well-defined testbeds for studying factual hallucinations. However, these datasets remain limited in both temporal coverage and interaction complexity. Although FreshQA partially targets timeliness, most benchmark questions are still static and curated, and do not fully reflect the rapidly evolving knowledge demands faced by deployed LLM systems. As a result, hallucinations caused by outdated information, emerging events, or shifting factual landscapes are likely underrepresented. In addition, our experiments focus on single-turn, short-form question answering, and do not evaluate NAME in more complex settings such as long-context generation, multi-document synthesis, or multi-turn dialogues, where hallucinations are often more subtle, interdependent, and harder to localize. While NAME demonstrates strong repair capability within current benchmarks, these constraints limit the extent to which the results capture the full spectrum of real-world hallucination repair challenges. This gap highlights the need for future studies to assess repair-oriented frameworks under more temporally grounded and structurally complex scenarios.
+
+\subsection{Ethics Consideration}
+Hallucination repair in open-domain question answering inherently involves normative judgments about what constitutes factual correctness. In many general QA scenarios, especially those involving emerging knowledge, incomplete evidence, or socially contested topics, the boundary between hallucination, uncertainty, and plausible interpretation may be ambiguous. While NAME targets fact-conflicting hallucinations, our experimental setting relies on benchmark-provided reference answers, which impose a simplified and static notion of ground truth. In real-world applications, however, forcing LLM outputs to conform to a single “correct” answer may risk suppressing legitimate uncertainty, alternative viewpoints, or evolving facts, and may even introduce new forms of misinformation through over-correction. This raises ethical concerns regarding how hallucination repair systems should behave when factual boundaries are unclear. Consequently, hallucination repair frameworks should be deployed with caution in open-ended or sensitive domains, and future research should consider incorporating uncertainty awareness, confidence reporting, or human-in-the-loop mechanisms to avoid overstating factual authority and to better align repair behavior with responsible AI principles.
 
 \section{Related Work}
 
 
 
-
 \section{Conclusions}
+In this paper, we presented NAME, a zero-resource framework for actively repairing fact-conflicting hallucinations in large language model outputs. Inspired by metamorphic testing and automated repair paradigms from software engineering, NAME systematically constructs semantics-preserving response variants, triggers fault-injected self-repair, and aggregates multiple repaired candidates through LLM-as-judge strategies to select a final corrected answer. Extensive experiments on three hallucination benchmarks across four representative LLMs demonstrate that NAME consistently outperforms strong baselines in hallucination repair effectiveness, while maintaining low over-correction rates and strong robustness.
 
-
+Beyond improving hallucination repair performance, NAME highlights a broader perspective: hallucinations can be treated not only as detection targets, but as repairable faults in LLM-generated outputs. We believe this work opens new opportunities for integrating software testing and automated repair principles into the reliability engineering of LLM-based systems. Future work includes extending NAME to richer metamorphic relations, more complex generation settings such as long-form and multi-turn interactions, and exploring hybrid repair frameworks that incorporate external knowledge when available.
 
 \section*{Data Availability}
 
+
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
 \end{document}
+\endinput

@@ -1,44 +1,111 @@
-\begin{algorithm}
-    \caption{MetaQA Mutation Generation with Verification and Hallucination Scoring}
-    \label{alg:mutation-generation}
-    \KwIn{Metamorphic Relations $R$, Question $Q$, Base Response $B$, Mutation Template Prompts $P$, Score Function $S$, Number of Mutations $N$}
-    \KwOut{Hallucination Score $S_{QB}$, Mutations $M$}
+% \begin{algorithm}
+%     \caption{MetaQA Mutation Generation with Verification and Hallucination Scoring}
+%     \label{alg:mutation-generation}
+%     \KwIn{Metamorphic Relations $R$, Question $Q$, Base Response $B$, Mutation Template Prompts $P$, Score Function $S$, Number of Mutations $N$}
+%     \KwOut{Hallucination Score $S_{QB}$, Mutations $M$}
 
-    \SetKwData{Yes}{Yes}
-    \SetKwData{No}{No}
-    \SetKwData{NotSure}{Not Sure}
+%     \SetKwData{Yes}{Yes}
+%     \SetKwData{No}{No}
+%     \SetKwData{NotSure}{Not Sure}
     
-    \KwData{Allowed VerifyFactByLLM return values: $\{\Yes, \No, \NotSure\}$}
+%     \KwData{Allowed VerifyFactByLLM return values: $\{\Yes, \No, \NotSure\}$}
     
-    \SetKwFunction{FMain}{\textbf{MetaQA}}
-    \SetKwProg{Fn}{Function}{:}{}
-    \SetAlgoNlRelativeSize{0}
+%     \SetKwFunction{FMain}{\textbf{MetaQA}}
+%     \SetKwProg{Fn}{Function}{:}{}
+%     \SetAlgoNlRelativeSize{0}
 
-    % Main function
-    \Fn{\FMain{}}{
-        $M \gets \emptyset$ \tcp{Empty mutation set}
-        $S_{\text{total}} \gets 0$ \tcp{Initialize hallucination score}
+%     % Main function
+%     \Fn{\FMain{}}{
+%         $M \gets \emptyset$ \tcp{Empty mutation set}
+%         $S_{\text{total}} \gets 0$ \tcp{Initialize hallucination score}
         
-        % -------- Mutation Generation --------
-        \tcp{------------------ Mutation Generation ------------------}
-        \ForEach{$r \in R$} { \label{line:init_mt_generation}
-            $p \gets P(r)$ \tcp{Get respective prompt for relation $r$}
-            $M_r \gets \text{LLM}(Q, B, p, N)$ \tcp{Generate $N$ mutations for relation $r$}
-            $M \gets M \cup M_r$ \tcp{Add mutations to set} \label{line:end_mt_generation}
+%         % -------- Mutation Generation --------
+%         \tcp{------------------ Mutation Generation ------------------}
+%         \ForEach{$r \in R$} { \label{line:init_mt_generation}
+%             $p \gets P(r)$ \tcp{Get respective prompt for relation $r$}
+%             $M_r \gets \text{LLM}(Q, B, p, N)$ \tcp{Generate $N$ mutations for relation $r$}
+%             $M \gets M \cup M_r$ \tcp{Add mutations to set} \label{line:end_mt_generation}
 
-            % -------- Mutation Verification --------
-            \tcp{------------------ Mutation Verification ------------------}
-            \ForEach{$m \in M_r$} {
-                $f_m \gets \text{VerifyFactByLLM}(m, r)$ \tcp{Returns one of [$\Yes$, $\No$, $\NotSure$]} \label{line:mt_verification}
+%             % -------- Mutation Verification --------
+%             \tcp{------------------ Mutation Verification ------------------}
+%             \ForEach{$m \in M_r$} {
+%                 $f_m \gets \text{VerifyFactByLLM}(m, r)$ \tcp{Returns one of [$\Yes$, $\No$, $\NotSure$]} \label{line:mt_verification}
 
-                % -------- Hallucination Valuation --------
-                \tcp{------------------ Hallucination Evaluation/Scoring ------------------}
-                $S_m \gets S(r, f_m)$ \tcp{Compute hallucination score for mutation $m$} \label{line:start_mt_score}
-                $S_{\text{total}} \gets S_{\text{total}} + S_m$ \tcp{Update total hallucination score}
+%                 % -------- Hallucination Valuation --------
+%                 \tcp{------------------ Hallucination Evaluation/Scoring ------------------}
+%                 $S_m \gets S(r, f_m)$ \tcp{Compute hallucination score for mutation $m$} \label{line:start_mt_score}
+%                 $S_{\text{total}} \gets S_{\text{total}} + S_m$ \tcp{Update total hallucination score}
+%             }
+%         }
+%         $S_{QB} \gets \frac{S_{total}}{|M|}$ \tcp{Scale between $[0, 1]$} \label{line:end_mt_score}
+        
+%         \KwRet{$S_{QB}, M$} \tcp{Return total score and set of mutations}
+%     }
+% \end{algorithm}
+
+\begin{algorithm}
+
+\caption{Metamorphic-Mutation-Guided Hallucination Repair via Fault Injection}
+\label{alg:mt-repair-ranking}
+\KwIn{
+    Question $Q$, 
+    Mutation Prompt $P_m$, 
+    Answer Prompt $P_a$, 
+    Ranking Prompt $P_r$, 
+    Refinement Prompt $P_f$
+}
+\KwOut{
+    Repaired Answer $A^*$
+}
+
+\SetKwFunction{LLM}{LLM}
+\SetKwFunction{QType}{QuestionType}
+\SetKwProg{Fn}{Function}{:}{}
+\SetAlgoNlRelativeSize{0}
+
+\Fn{\textbf{Repair}}{
+
+    \tcp{------------------ Base Response Generation ------------------}
+    $B \gets \LLM(Q)$ \tcp{Generate initial (possibly hallucinated) base response}
+
+    \tcp{------------------ Metamorphic Mutation Generation ------------------}
+    $M \gets \LLM(Q, B, P_m)$ \tcp{Generate metamorphic variants of base response}
+    $M \gets M \cup \{B\}$ \tcp{Include original base response as a mutation variant}
+
+    \tcp{------------------ Answer Regeneration ------------------}
+    $A \gets \emptyset$ \tcp{Initialize set of candidate answers}
+    \ForEach{$m \in M$}{
+        $a_m \gets \LLM(Q, m, P_a)$ \tcp{Re-answer question under mutation}
+        $A \gets A \cup \{a_m\}$
+    }
+
+    $n \gets |A|$ \tcp{Number of candidate answers (typically $n=6$)}
+
+    \tcp{------------------ Question Type Identification ------------------}
+    $\tau \gets \QType(Q)$ \tcp{$\tau \in \{\textsc{Fictional}, \textsc{Subjective}, \textsc{Factual}\}$}
+
+    \tcp{------------------ Pairwise Ground-Truth Ranking ------------------}
+    Initialize ranking matrix $R \in \mathbb{N}^{n \times n}$
+
+    \For{$i \gets 1$ \KwTo $n$}{
+        \For{$j \gets 1$ \KwTo $n$}{
+            $R_{i,j} \gets \LLM(a_i, a_j, Q, \tau, P_r)$ \tcp{
+            Compare answer $a_i$ against $a_j$ for the Origin Question Q under judging criteria}            
+            Assign rank in $\{1,\dots,n\}$ (lower is better)
             }
         }
-        $S_{QB} \gets \frac{S_{total}}{|M|}$ \tcp{Scale between $[0, 1]$} \label{line:end_mt_score}
-        
-        \KwRet{$S_{QB}, M$} \tcp{Return total score and set of mutations}
     }
+
+    \tcp{------------------ Rank Aggregation ------------------}
+    \For{$i \gets 1$ \KwTo $n$}{
+        $S(a_i) \gets \sum_{j=1}^{n} R_{i,j}$ \tcp{Compute total ranking score}
+    }
+
+    $a^{best} \gets \arg\min_{a_i \in A} S(a_i)$ \tcp{Select lowest-ranked answer}
+
+    \tcp{------------------ Final Answer Refinement ------------------}
+    $A^* \gets \LLM(a^{best}, P_f)$ \tcp{Extract clean final answer sentence}
+
+    \KwRet{$A^*$}
+    
 \end{algorithm}

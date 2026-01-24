@@ -1,23 +1,3 @@
-@online{chatgptintro,
-    title = {OpenAI ChatGPT},
-    year = {2022},
-    url = {https://openai.com/index/chatgpt/},
-}
-@online{llama3intro,
-    title = {Introducing Meta Llama 3: The most capable openly available LLM to date},
-    year = {2024},
-    url = {https://ai.meta.com/blog/meta-llama-3/},
-}
-
-@article{kryscinski2019evaluating,
-  title={Evaluating the factual consistency of abstractive text summarization},
-  author={Kry{\'s}ci{\'n}ski, Wojciech and McCann, Bryan and Xiong, Caiming and Socher, Richard},
-  journal={arXiv preprint arXiv:1910.12840},
-  year={2019},
-  doi={10.48550/arXiv.1910.12840
-}
-}
-
 @article{huang2023survey,
     title={A survey on hallucination in large language models: Principles, taxonomy, challenges, and open questions},
     author={Huang, Lei and Yu, Weijiang and Ma, Weitao and Zhong, Weihong and Feng, Zhangyin and Wang, Haotian and Chen, Qianglong and Peng, Weihua and Feng, Xiaocheng and Qin, Bing and others},
@@ -33,8 +13,7 @@
     volume={2303},
     pages={08774},
     year={2023},
-    doi={10.48550/arXiv.2303.08774
-}
+    doi={10.48550/arXiv.2303.08774}
 }
 
 @article{guo2022survey,
@@ -47,20 +26,12 @@
   publisher={MIT Press One Rogers Street, Cambridge, MA 02142-1209, USA journals-info~…}
 }
 
-@article{varshney2023stitch,
-  title={A stitch in time saves nine: Detecting and mitigating hallucinations of llms by validating low-confidence generation},
-  author={Varshney, Neeraj and Yao, Wenlin and Zhang, Hongming and Chen, Jianshu and Yu, Dong},
-  journal={arXiv preprint arXiv:2307.03987},
-  year={2023},
-  doi={10.48550/arXiv.2307.03987}
-}
-
-@article{manakul2023selfcheckgpt,
+@inproceedings{manakul2023selfcheckgpt,
   title={Selfcheckgpt: Zero-resource black-box hallucination detection for generative large language models},
-  author={Manakul, Potsawee and Liusie, Adian and Gales, Mark JF},
-  journal={arXiv preprint arXiv:2303.08896},
-  year={2023},
-  doi={10.48550/arXiv.2303.08896}
+  author={Manakul, Potsawee and Liusie, Adian and Gales, Mark},
+  booktitle={Proceedings of the 2023 conference on empirical methods in natural language processing},
+  pages={9004--9017},
+  year={2023}
 }
 
 @article{ji2023survey,
@@ -84,27 +55,38 @@
 }
 
 @article{zhang2023siren,
-  title={Siren's song in the AI ocean: a survey on hallucination in large language models},
-  author={Zhang, Yue and Li, Yafu and Cui, Leyang and Cai, Deng and Liu, Lemao and Fu, Tingchen and Huang, Xinting and Zhao, Enbo and Zhang, Yu and Chen, Yulong and others},
-  journal={arXiv preprint arXiv:2309.01219},
-  year={2023},
-  doi={10.48550/arXiv.2309.01219}
+    author = {Zhang, Yue and Li, Yafu and Cui, Leyang and Cai, Deng and Liu, Lemao and Fu, Tingchen and Huang, Xinting and Zhao, Enbo and Zhang, Yu and Chen, Yulong and Wang, Longyue and Luu, Anh Tuan and Bi, Wei and Shi, Freda and Shi, Shuming},
+    title = {��Siren’s Song in the AI Ocean: A Survey on Hallucination in Large Language Models},
+    journal = {Computational Linguistics},
+    pages = {1-46},
+    year = {2025},
+    month = {09},
+    abstract = {While large language models (LLMs) have demonstrated remarkable capabilities across a range of downstream tasks, a significant concern revolves around their propensity to exhibit hallucinations: LLMs occasionally generate content that diverges from the user input, contradicts previously generated context, or misaligns with established world knowledge. This phenomenon poses a substantial challenge to the reliability of LLMs in real-world scenarios. In this article, we survey recent efforts on the detection, explanation, and mitigation of hallucination, with an emphasis on the unique challenges posed by LLMs. We present taxonomies of the LLM hallucination phenomena and evaluation benchmarks, analyze existing approaches aiming at mitigating LLM hallucination, and discuss potential directions for future research.},
+    issn = {0891-2017},
+    doi = {10.1162/COLI.a.16},
+    url = {https://doi.org/10.1162/COLI.a.16},
+    eprint = {https://direct.mit.edu/coli/article-pdf/doi/10.1162/COLI.a.16/2535477/coli.a.16.pdf},
 }
 
-@article{li2022faithfulness,
-  title={Faithfulness in natural language generation: A systematic survey of analysis, evaluation and optimization methods},
-  author={Li, Wei and Wu, Wenhao and Chen, Moye and Liu, Jiachen and Xiao, Xinyan and Wu, Hua},
-  journal={arXiv preprint arXiv:2203.05227},
-  year={2022},
-  doi={10.48550/arXiv.2203.05227}
-}
-
-@article{chen2023complex,
-  title={Complex claim verification with evidence retrieved in the wild},
-  author={Chen, Jifan and Kim, Grace and Sriram, Aniruddh and Durrett, Greg and Choi, Eunsol},
-  journal={arXiv preprint arXiv:2305.11859},
-  year={2023},
-  doi={10.48550/arXiv.2305.11859}
+@inproceedings{chen2023complex,
+    title = "Complex Claim Verification with Evidence Retrieved in the Wild",
+    author = "Chen, Jifan  and
+      Kim, Grace  and
+      Sriram, Aniruddh  and
+      Durrett, Greg  and
+      Choi, Eunsol",
+    editor = "Duh, Kevin  and
+      Gomez, Helena  and
+      Bethard, Steven",
+    booktitle = "Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)",
+    month = jun,
+    year = "2024",
+    address = "Mexico City, Mexico",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.naacl-long.196/",
+    doi = "10.18653/v1/2024.naacl-long.196",
+    pages = "3569--3587",
+    abstract = "Retrieving evidence to support or refute claims is a core part of automatic fact-checking. Prior work makes simplifying assumptions in retrieval that depart from real-world use cases: either no access to evidence, access to evidence curated by a human fact-checker, or access to evidence published after a claim was made. In this work, we present the first realistic pipeline to check real-world claims by retrieving raw evidence from the web. We restrict our retriever to only search documents available prior to the claim{'}s making, modeling the realistic scenario of emerging claims. Our pipeline includes five components: claim decomposition, raw document retrieval, fine-grained evidence retrieval, claim-focused summarization, and veracity judgment. We conduct experiments on complex political claims in the ClaimDecomp dataset and show that the aggregated evidence produced by our pipeline improves veracity judgments. Human evaluation finds the evidence summary produced by our system is reliable (it does not hallucinate information) and relevant to answering key questions about a claim, suggesting that it can assist fact-checkers even when it does not reflect a complete evidence set."
 }
 
 @article{chern2023factool,
@@ -115,12 +97,29 @@
   doi={10.48550/arXiv.2307.13528}
 }
 
-@article{min2023factscore,
-  title={Factscore: Fine-grained atomic evaluation of factual precision in long form text generation},
-  author={Min, Sewon and Krishna, Kalpesh and Lyu, Xinxi and Lewis, Mike and Yih, Wen-tau and Koh, Pang Wei and Iyyer, Mohit and Zettlemoyer, Luke and Hajishirzi, Hannaneh},
-  journal={arXiv preprint arXiv:2305.14251},
-  year={2023},
-  doi={10.48550/arXiv.2305.14251}
+@inproceedings{min2023factscore,
+    title = "{FA}ct{S}core: Fine-grained Atomic Evaluation of Factual Precision in Long Form Text Generation",
+    author = "Min, Sewon  and
+      Krishna, Kalpesh  and
+      Lyu, Xinxi  and
+      Lewis, Mike  and
+      Yih, Wen-tau  and
+      Koh, Pang  and
+      Iyyer, Mohit  and
+      Zettlemoyer, Luke  and
+      Hajishirzi, Hannaneh",
+    editor = "Bouamor, Houda  and
+      Pino, Juan  and
+      Bali, Kalika",
+    booktitle = "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing",
+    month = dec,
+    year = "2023",
+    address = "Singapore",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2023.emnlp-main.741/",
+    doi = "10.18653/v1/2023.emnlp-main.741",
+    pages = "12076--12100",
+    abstract = "Evaluating the factuality of long-form text generated by large language models (LMs) is non-trivial because (1) generations often contain a mixture of supported and unsupported pieces of information, making binary judgments of quality inadequate, and (2) human evaluation is time-consuming and costly. In this paper, we introduce FACTSCORE, a new evaluation that breaks a generation into a series of atomic facts and computes the percentage of atomic facts supported by a reliable knowledge source. We conduct an extensive human evaluation to obtain FACTSCOREs of people biographies generated by several state-of-the-art commercial LMs{---}InstructGPT, ChatGPT, and the retrieval-augmented PerplexityAI{---}and report new analysis demonstrating the need for such a fine-grained score (e.g., ChatGPT only achieves 58{\%}). Since human evaluation is costly, we also introduce an automated model that estimates FACTSCORE using retrieval and a strong language model, with less than a 2{\%} error rate. Finally, we use this automated metric to evaluate 6,500 generations from a new set of 13 recent LMs that would have cost {\$}26K if evaluated by humans, with various findings: GPT-4 and ChatGPT are more factual than public models, and Vicuna and Alpaca are some of the best public models. FACTSCORE is available for public use via `pip install factscore{`}."
 }
 
 @article{luo2023chatgpt,
@@ -131,22 +130,6 @@
   doi={10.48550/arXiv.2303.15621}
 }
 
-@article{abboud2020boxe,
-  title={Boxe: A box embedding model for knowledge base completion},
-  author={Abboud, Ralph and Ceylan, Ismail and Lukasiewicz, Thomas and Salvatori, Tommaso},
-  journal={Advances in Neural Information Processing Systems},
-  volume={33},
-  pages={9649--9661},
-  year={2020}
-}
-
-@article{liang2024survey,
-  title={A survey of knowledge graph reasoning on graph types: Static, dynamic, and multi-modal},
-  author={Liang, Ke and Meng, Lingyuan and Liu, Meng and Liu, Yue and Tu, Wenxuan and Wang, Siwei and Zhou, Sihang and Liu, Xinwang and Sun, Fuchun and He, Kunlun},
-  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
-  year={2024},
-  publisher={IEEE}
-}
 
 @article{ren2020beta,
   title={Beta embeddings for multi-hop logical reasoning in knowledge graphs},
@@ -157,129 +140,83 @@
   year={2020}
 }
 
-@article{tian2022knowledge,
-  title={Knowledge graph and knowledge reasoning: A systematic review},
-  author={Tian, Ling and Zhou, Xue and Wu, Yan-Ping and Zhou, Wang-Tao and Zhang, Jin-Hao and Zhang, Tian-Shu},
-  journal={Journal of Electronic Science and Technology},
-  volume={20},
-  number={2},
-  pages={100159},
-  year={2022},
-  publisher={Elsevier}
-}
-
-@inproceedings{zhou2019completing,
-  title={On completing sparse knowledge base with transitive relation embedding},
-  author={Zhou, Zili and Liu, Shaowu and Xu, Guandong and Zhang, Wu},
-  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
-  volume={33},
-  number={01},
-  pages={3125--3132},
-  year={2019}
-}
-
-@article{lin2021truthfulqa,
+@inproceedings{lin2022truthfulqa,
   title={Truthfulqa: Measuring how models mimic human falsehoods},
   author={Lin, Stephanie and Hilton, Jacob and Evans, Owain},
-  journal={arXiv preprint arXiv:2109.07958},
-  year={2021},
-  doi={10.48550/arXiv.2109.07958}
+  booktitle={Proceedings of the 60th annual meeting of the association for computational linguistics (volume 1: long papers)},
+  pages={3214--3252},
+  year={2022}
 }
 
-@article{yang2018hotpotqa,
+@inproceedings{yang2018hotpotqa,
   title={HotpotQA: A dataset for diverse, explainable multi-hop question answering},
-  author={Yang, Zhilin and Qi, Peng and Zhang, Saizheng and Bengio, Yoshua and Cohen, William W and Salakhutdinov, Ruslan and Manning, Christopher D},
-  journal={arXiv preprint arXiv:1809.09600},
-  year={2018},
-  doi={10.48550/arXiv.1809.09600}
+  author={Yang, Zhilin and Qi, Peng and Zhang, Saizheng and Bengio, Yoshua and Cohen, William and Salakhutdinov, Ruslan and Manning, Christopher D},
+  booktitle={Proceedings of the 2018 conference on empirical methods in natural language processing},
+  pages={2369--2380},
+  year={2018}
 }
 
-@article{vu2023freshllms,
-  title={Freshllms: Refreshing large language models with search engine augmentation},
-  author={Vu, Tu and Iyyer, Mohit and Wang, Xuezhi and Constant, Noah and Wei, Jerry and Wei, Jason and Tar, Chris and Sung, Yun-Hsuan and Zhou, Denny and Le, Quoc and others},
-  journal={arXiv preprint arXiv:2310.03214},
-  year={2023},
-  doi={10.48550/arXiv.2310.03214
-}
-}
-
-@article{jiang2023mistral,
-  title={Mistral 7B},
-  author={Jiang, Albert Q and Sablayrolles, Alexandre and Mensch, Arthur and Bamford, Chris and Chaplot, Devendra Singh and Casas, Diego de las and Bressand, Florian and Lengyel, Gianna and Lample, Guillaume and Saulnier, Lucile and others},
-  journal={arXiv preprint arXiv:2310.06825},
-  year={2023}
-}
-
-@article{yucan,
-  title={CAN LLMS HAVE A FEVER? INVESTIGATING THE EFFECTS OF TEMPERATURE ON LLM SECURITY},
-  author={Yu, Chan Xing and James, Chan Si Yu and David, Poh Hui-Li Phyllis}
-}
-
-@article{varshney2024investigating,
-  title={Investigating and Addressing Hallucinations of LLMs in Tasks Involving Negation},
-  author={Varshney, Neeraj and Raj, Satyam and Mishra, Venkatesh and Chatterjee, Agneet and Sarkar, Ritika and Saeidi, Amir and Baral, Chitta},
-  journal={arXiv preprint arXiv:2406.05494},
-  year={2024},
-  doi={10.48550/arXiv.2406.05494}
-}
-
-@article{asher2024strong,
-  title={Strong hallucinations from negation and how to fix them},
-  author={Asher, Nicholas and Bhar, Swarnadeep},
-  journal={arXiv preprint arXiv:2402.10543},
-  year={2024},
-  doi={10.48550/arXiv.2402.10543}
+@inproceedings{vu2023freshllms,
+    title = "{F}resh{LLM}s: Refreshing Large Language Models with Search Engine Augmentation",
+    author = "Vu, Tu  and
+      Iyyer, Mohit  and
+      Wang, Xuezhi  and
+      Constant, Noah  and
+      Wei, Jerry  and
+      Wei, Jason  and
+      Tar, Chris  and
+      Sung, Yun-Hsuan  and
+      Zhou, Denny  and
+      Le, Quoc  and
+      Luong, Thang",
+    editor = "Ku, Lun-Wei  and
+      Martins, Andre  and
+      Srikumar, Vivek",
+    booktitle = "Findings of the Association for Computational Linguistics: ACL 2024",
+    month = aug,
+    year = "2024",
+    address = "Bangkok, Thailand",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.findings-acl.813/",
+    doi = "10.18653/v1/2024.findings-acl.813",
+    pages = "13697--13720",
+    abstract = "Since most large language models (LLMs) are trained once and never updated, they struggle to dynamically adapt to our ever-changing world. In this work, we present FreshQA, a dynamic QA benchmark that tests a model{'}s ability to answer questions that may require reasoning over up-to-date world knowledge. We develop a two-mode human evaluation procedure to measure both correctness and hallucination, which we use to benchmark both closed and open-source LLMs by collecting {\ensuremath{>}}50K human judgments. We observe that all LLMs struggle to answer questions that require fast-changing world knowledge as well as questions with false premises that need to be debunked. In response, we develop FreshPrompt, a few-shot prompting method that curates and organizes relevant information from a search engine into an LLM{'}s prompt. Our experiments show that FreshPrompt outperforms both competing search engine-augmented prompting methods such as Self-Ask (Press et al., 2022) as well as commercial systems such as Perplexity.AI. To facilitate future work, we additionally develop FreshEval, a reliable autorater for quick evaluation and comparison on FreshQA. Our latest results with FreshEval suggest that open-source LLMs such as Mixtral (Jiang et al., 2024), when combined with FreshPrompt, are competitive with closed-source and commercial systems on search-augmented QA."
 }
 
 @article{pan2023automatically,
-  title={Automatically correcting large language models: Surveying the landscape of diverse self-correction strategies},
-  author={Pan, Liangming and Saxon, Michael and Xu, Wenda and Nathani, Deepak and Wang, Xinyi and Wang, William Yang},
-  journal={arXiv preprint arXiv:2308.03188},
-  year={2023}
+    title = "Automatically Correcting Large Language Models: Surveying the Landscape of Diverse Automated Correction Strategies",
+    author = "Pan, Liangming  and
+      Saxon, Michael  and
+      Xu, Wenda  and
+      Nathani, Deepak  and
+      Wang, Xinyi  and
+      Wang, William Yang",
+    journal = "Transactions of the Association for Computational Linguistics",
+    volume = "12",
+    year = "2024",
+    address = "Cambridge, MA",
+    publisher = "MIT Press",
+    url = "https://aclanthology.org/2024.tacl-1.27/",
+    doi = "10.1162/tacl_a_00660",
+    pages = "484--506",
+    abstract = "While large language models (LLMs) have shown remarkable effectiveness in various NLP tasks, they are still prone to issues such as hallucination, unfaithful reasoning, and toxicity. A promising approach to rectify these flaws is correcting LLMs with feedback, where the LLM itself is prompted or guided with feedback to fix problems in its own output. Techniques leveraging automated feedback{---}either produced by the LLM itself (self-correction) or some external system{---}are of particular interest as they make LLM-based solutions more practical and deployable with minimal human intervention. This paper provides an exhaustive review of the recent advances in correcting LLMs with automated feedback, categorizing them into training-time, generation-time, and post-hoc approaches. We also identify potential challenges and future directions in this emerging field."
 }
 
-@article{augenstein2019multifc,
-  title={MultiFC: A real-world multi-domain dataset for evidence-based fact checking of claims},
-  author={Augenstein, Isabelle and Lioma, Christina and Wang, Dongsheng and Lima, Lucas Chaves and Hansen, Casper and Hansen, Christian and Simonsen, Jakob Grue},
-  journal={arXiv preprint arXiv:1909.03242},
-  year={2019},
-  doi={10.48550/arXiv.1909.03242}
-}
-
-@article{Hanselowski2019ARA,
-  title={A Richly Annotated Corpus for Different Tasks in Automated Fact-Checking},
-  author={Andreas Hanselowski and Christian Stab and Claudia Schulz and Zile Li and Iryna Gurevych},
-  journal={ArXiv},
-  year={2019},
-  volume={abs/1911.01214},
-  url={https://api.semanticscholar.org/CorpusID:207779874}
-}
-
-@inproceedings{Atanasova2020GeneratingFC,
-  title={Generating Fact Checking Explanations},
-  author={Pepa Atanasova and Jakob Grue Simonsen and Christina Lioma and Isabelle Augenstein},
-  booktitle={Annual Meeting of the Association for Computational Linguistics},
-  year={2020},
-  url={https://api.semanticscholar.org/CorpusID:215744944}
-}
-
-@article{202307.1723,
-	doi = {10.20944/preprints202307.1723.v1},
-	url = {https://doi.org/10.20944/preprints202307.1723.v1},
-	year = 2023,
-	month = {July},
-	publisher = {Preprints},
-	author = {Boris A. Galitsky},
-	title = {Truth-O-Meter: Collaborating with LLM in Fighting its Hallucinations},
-	journal = {Preprints}
-}
-
-@article{huo2023retrieving,
-  title={Retrieving supporting evidence for llms generated answers},
-  author={Huo, Siqing and Arabzadeh, Negar and Clarke, Charles LA},
-  journal={arXiv preprint arXiv:2306.13781},
-  year={2023},
-  doi={10.48550/arXiv.2306.13781}
+@inproceedings{huo2023retrieving,
+author = {Huo, Siqing and Arabzadeh, Negar and Clarke, Charles},
+title = {Retrieving Supporting Evidence for Generative Question Answering},
+year = {2023},
+isbn = {9798400704086},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3624918.3625336},
+doi = {10.1145/3624918.3625336},
+abstract = {Current large language models (LLMs) can exhibit near-human levels of performance on many natural language-based tasks, including open-domain question answering. Unfortunately, at this time, they also convincingly hallucinate incorrect answers, so that responses to questions must be verified against external sources before they can be accepted at face value. In this paper, we report two simple experiments to automatically validate generated answers against a corpus. We base our experiments on questions and passages from the MS MARCO (V1) test collection, and a retrieval pipeline consisting of sparse retrieval, dense retrieval and neural rerankers. In the first experiment, we validate the generated answer in its entirety. After presenting a question to an LLM and receiving a generated answer, we query the corpus with the combination of the question + generated answer. We then present the LLM with the combination of the question + generated answer + retrieved answer, prompting it to indicate if the generated answer can be supported by the retrieved answer. In the second experiment, we consider the generated answer at a more granular level, prompting the LLM to extract a list of factual statements from the answer and verifying each statement separately. We query the corpus with each factual statement and then present the LLM with the statement and the corresponding retrieved evidence. The LLM is prompted to indicate if the statement can be supported and make necessary edits using the retrieved material. With an accuracy of over 80\%, we find that an LLM is capable of verifying its generated answer when a corpus of supporting material is provided. However, manual assessment of a random sample of questions reveals that incorrect generated answers are missed by this verification process. While this verification process can reduce hallucinations, it can not entirely eliminate them.},
+booktitle = {Proceedings of the Annual International ACM SIGIR Conference on Research and Development in Information Retrieval in the Asia Pacific Region},
+pages = {11–20},
+numpages = {10},
+location = {Beijing, China},
+series = {SIGIR-AP '23}
 }
 
 @article{yao2023llm,
@@ -290,91 +227,23 @@
   doi={10.48550/arXiv.2310.01469}
 }
 
-@article{cohen2023lm,
-  title={Lm vs lm: Detecting factual errors via cross examination},
-  author={Cohen, Roi and Hamri, May and Geva, Mor and Globerson, Amir},
-  journal={arXiv preprint arXiv:2305.13281},
-  year={2023},
-  doi={10.48550/arXiv.2305.13281}
-}
-
-@article{xiong2023can,
-  title={Can llms express their uncertainty? an empirical evaluation of confidence elicitation in llms},
-  author={Xiong, Miao and Hu, Zhiyuan and Lu, Xinyang and Li, Yifei and Fu, Jie and He, Junxian and Hooi, Bryan},
-  journal={arXiv preprint arXiv:2306.13063},
-  year={2023},
-  doi={10.48550/arXiv.2306.13063}
-}
-
-@article{kadavath2022language,
-  title={Language models (mostly) know what they know},
-  author={Kadavath, Saurav and Conerly, Tom and Askell, Amanda and Henighan, Tom and Drain, Dawn and Perez, Ethan and Schiefer, Nicholas and Hatfield-Dodds, Zac and DasSarma, Nova and Tran-Johnson, Eli and others},
-  journal={arXiv preprint arXiv:2207.05221},
-  year={2022},
-  doi={10.48550/arXiv.2207.05221}
-}
-
-@article{li2024halluvault,
-  title={HalluVault: A Novel Logic Programming-aided Metamorphic Testing Framework for Detecting Fact-Conflicting Hallucinations in Large Language Models},
-  author={Li, Ningke and Li, Yuekang and Liu, Yi and Shi, Ling and Wang, Kailong and Wang, Haoyu},
-  journal={arXiv preprint arXiv:2405.00648},
-  year={2024},
-  doi={10.48550/arXiv.2405.00648}
-}
-
-@article{li2023halueval,
-  title={Halueval: A large-scale hallucination evaluation benchmark for large language models},
-  author={Li, Junyi and Cheng, Xiaoxue and Zhao, Wayne Xin and Nie, Jian-Yun and Wen, Ji-Rong},
-  journal={arXiv preprint arXiv:2305.11747},
-  year={2023},
-  doi={10.48550/arXiv.2305.11747}
-}
-
-@inproceedings{Moon2019OpenDialKGEC,
-  title={OpenDialKG: Explainable Conversational Reasoning with Attention-based Walks over Knowledge Graphs},
-  author={Seungwhan Moon and Pararth Shah and Anuj Kumar and Rajen Subba},
-  booktitle={Annual Meeting of the Association for Computational Linguistics},
-  year={2019},
-  url={https://api.semanticscholar.org/CorpusID:196176000}
-}
-
-@article{see2017get,
-  title={Get to the point: Summarization with pointer-generator networks},
-  author={See, Abigail and Liu, Peter J and Manning, Christopher D},
-  journal={arXiv preprint arXiv:1704.04368},
-  year={2017},
-  doi={10.48550/arXiv.1704.04368}
-}
-
-@article{kasai2024realtime,
-  title={REALTIME QA: what's the answer right now?},
-  author={Kasai, Jungo and Sakaguchi, Keisuke and Le Bras, Ronan and Asai, Akari and Yu, Xinyan and Radev, Dragomir and Smith, Noah A and Choi, Yejin and Inui, Kentaro and others},
-  journal={Advances in Neural Information Processing Systems},
-  volume={36},
-  year={2024}
-}
-
-@article{agrawal2023language,
-  title={Do Language Models Know When They're Hallucinating References?},
-  author={Agrawal, Ayush and Suzgun, Mirac and Mackey, Lester and Kalai, Adam Tauman},
-  journal={arXiv preprint arXiv:2305.18248},
-  year={2023},
-  doi = {10.48550/arXiv.2305.18248}
-}
-
-@article{dubey2024llama,
-  title={The llama 3 herd of models},
-  author={Dubey, Abhimanyu and Jauhri, Abhinav and Pandey, Abhinav and Kadian, Abhishek and Al-Dahle, Ahmad and Letman, Aiesha and Mathur, Akhil and Schelten, Alan and Yang, Amy and Fan, Angela and others},
-  journal={arXiv preprint arXiv:2407.21783},
-  year={2024}
-}
-
-@article{moramarco2021preliminary,
-  title={A preliminary study on evaluating consultation notes with post-editing},
-  author={Moramarco, Francesco and Korfiatis, Alex Papadopoulos and Savkov, Aleksandar and Reiter, Ehud},
-  journal={arXiv preprint arXiv:2104.04402},
-  year={2021},
-  doi={10.48550/arXiv.2104.04402}
+@article{li2024drowzee,
+author = {Li, Ningke and Li, Yuekang and Liu, Yi and Shi, Ling and Wang, Kailong and Wang, Haoyu},
+title = {Drowzee: Metamorphic Testing for Fact-Conflicting Hallucination Detection in Large Language Models},
+year = {2024},
+issue_date = {October 2024},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {8},
+number = {OOPSLA2},
+url = {https://doi.org/10.1145/3689776},
+doi = {10.1145/3689776},
+abstract = {Large language models (LLMs) have revolutionized language processing, but face critical challenges with security, privacy, and generating hallucinations — coherent but factually inaccurate outputs. A major issue is fact-conflicting hallucination (FCH), where LLMs produce content contradicting ground truth facts. Addressing FCH is difficult due to two key challenges: 1) Automatically constructing and updating benchmark datasets is hard, as existing methods rely on manually curated static benchmarks that cannot cover the broad, evolving spectrum of FCH cases. 2) Validating the reasoning behind LLM outputs is inherently difficult, especially for complex logical relations.    To tackle these challenges, we introduce a novel logic-programming-aided metamorphic testing technique for FCH detection. We develop an extensive and extensible framework that constructs a comprehensive factual knowledge base by crawling sources like Wikipedia, seamlessly integrated into Drowzee. Using logical reasoning rules, we transform and augment this knowledge into a large set of test cases with ground truth answers. We test LLMs on these cases through template-based prompts, requiring them to provide reasoned answers. To validate their reasoning, we propose two semantic-aware oracles that assess the similarity between the semantic structures of the LLM answers and ground truth.    Our approach automatically generates useful test cases and identifies hallucinations across six LLMs within nine domains, with hallucination rates ranging from 24.7\% to 59.8\%. Key findings include LLMs struggling with temporal concepts, out-of-distribution knowledge, and lack of logical reasoning capabilities. The results show that logic-based test cases generated by Drowzee effectively trigger and detect hallucinations.    To further mitigate the identified FCHs, we explored model editing techniques, which proved effective on a small scale (with edits to fewer than 1000 knowledge pieces). Our findings emphasize the need for continued community efforts to detect and mitigate model hallucinations.},
+journal = {Proc. ACM Program. Lang.},
+month = oct,
+articleno = {336},
+numpages = {30},
+keywords = {Hallucination, Large Language Model, Software Testing}
 }
 
 @article{lai2022exploration,
@@ -385,14 +254,6 @@
   doi={10.48550/arXiv.2206.06383}
 }
 
-@inproceedings{zhang2023concepteva,
-  title={ConceptEVA: concept-based interactive exploration and customization of document summaries},
-  author={Zhang, Xiaoyu and Li, Jianping and Chi, Po-Wei and Chandrasegaran, Senthil and Ma, Kwan-Liu},
-  booktitle={Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems},
-  pages={1--16},
-  year={2023}
-}
-
 @article{xu2024hallucination,
   title={Hallucination is inevitable: An innate limitation of large language models},
   author={Xu, Ziwei and Jain, Sanjay and Kankanhalli, Mohan},
@@ -401,12 +262,12 @@
   doi={10.48550/arXiv.2401.11817}
 }
 
-@article{white2024livebench,
-  title={Livebench: A challenging, contamination-free llm benchmark},
-  author={White, Colin and Dooley, Samuel and Roberts, Manley and Pal, Arka and Feuer, Ben and Jain, Siddhartha and Shwartz-Ziv, Ravid and Jain, Neel and Saifullah, Khalid and Naidu, Siddartha and others},
-  journal={arXiv preprint arXiv:2406.19314},
-  year={2024},
-  doi={10.48550/arXiv.2406.19314}
+@inproceedings{white2025livebench,
+    title={LiveBench: A Challenging, Contamination-Limited {LLM} Benchmark},
+    author={Colin White and Samuel Dooley and Manley Roberts and Arka Pal and Benjamin Feuer and Siddhartha Jain and Ravid Shwartz-Ziv and Neel Jain and Khalid Saifullah and Sreemanti Dey and Shubh-Agrawal and Sandeep Singh Sandha and Siddartha Venkat Naidu and Chinmay Hegde and Yann LeCun and Tom Goldstein and Willie Neiswanger and Micah Goldblum},
+    booktitle={The Thirteenth International Conference on Learning Representations},
+    year={2025},
+    url={https://openreview.net/forum?id=sKYHBTAxVa}
 }
 
 @inproceedings{dhuliawala2023chain,
@@ -508,3 +369,349 @@ numpages = {28},
   doi={10.48550/arXiv.2501.12862}
 }
 
+@inproceedings{white2025livebench,
+  title={LiveBench: A Challenging, Contamination-Free {LLM} Benchmark},
+  author={Colin White and Samuel Dooley and Manley Roberts and Arka Pal and Benjamin Feuer and Siddhartha Jain and Ravid Shwartz-Ziv and Neel Jain and Khalid Saifullah and Sreemanti Dey and Shubh-Agrawal and Sandeep Singh Sandha and Siddartha Venkat Naidu and Chinmay Hegde and Yann LeCun and Tom Goldstein and Willie Neiswanger and Micah Goldblum},
+  booktitle={The Thirteenth International Conference on Learning Representations},
+  year={2025},
+}
+
+@inproceedings{dhuliawala2024chain,
+    title = "Chain-of-Verification Reduces Hallucination in Large Language Models",
+    author = "Dhuliawala, Shehzaad  and
+      Komeili, Mojtaba  and
+      Xu, Jing  and
+      Raileanu, Roberta  and
+      Li, Xian  and
+      Celikyilmaz, Asli  and
+      Weston, Jason",
+    editor = "Ku, Lun-Wei  and
+      Martins, Andre  and
+      Srikumar, Vivek",
+    booktitle = "Findings of the Association for Computational Linguistics: ACL 2024",
+    month = aug,
+    year = "2024",
+    address = "Bangkok, Thailand",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.findings-acl.212/",
+    doi = "10.18653/v1/2024.findings-acl.212",
+    pages = "3563--3578",
+    abstract = "Generation of plausible yet incorrect factual information, termed hallucination, is an unsolved issue in large language models. We study the ability of language models to deliberate on the responses they give in order to correct their mistakes. We develop the Chain-of-Verification (CoVe) method whereby the model first (i) drafts an initial response; then (ii) plans verification questions to fact-check its draft; (iii) answers those questions independently so the answers are not biased by other responses; and (iv) generates its final verified response. In experiments, we show CoVe decreases hallucinations across a variety of tasks, from list-based questions from Wikidata, closed book MultiSpanQA and longform text generation."
+}
+
+@INPROCEEDINGS{fan2023llmse,
+  author={Fan, Angela and Gokkaya, Beliz and Harman, Mark and Lyubarskiy, Mitya and Sengupta, Shubho and Yoo, Shin and Zhang, Jie M.},
+  booktitle={2023 IEEE/ACM International Conference on Software Engineering: Future of Software Engineering (ICSE-FoSE)}, 
+  title={Large Language Models for Software Engineering: Survey and Open Problems}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={31-53},
+  keywords={Surveys;Maintenance engineering;Reliability engineering;Software;Software reliability;Software engineering;Testing;Automated Program Repair;Documentation generation;Generative AI;Genetic Improvement;Human-Computer Interaction;Large Language Models;Refactoring;Requirements engineering;Search Based Software Engineering (SBSE);Software Analytics;Software Engineering Education;Software Processes;Software Maintenance and Evolution;Software Testing},
+  doi={10.1109/ICSE-FoSE59343.2023.00008}}
+
+@inproceedings{cheng2025chain,
+    title = "Chain-of-Thought Prompting Obscures Hallucination Cues in Large Language Models: An Empirical Evaluation",
+    author = "Cheng, Jiahao  and
+      Su, Tiancheng  and
+      Yuan, Jia  and
+      He, Guoxiu  and
+      Liu, Jiawei  and
+      Tao, Xinqi  and
+      Xie, Jingwen  and
+      Li, Huaxia",
+    editor = "Christodoulopoulos, Christos  and
+      Chakraborty, Tanmoy  and
+      Rose, Carolyn  and
+      Peng, Violet",
+    booktitle = "Findings of the Association for Computational Linguistics: EMNLP 2025",
+    month = nov,
+    year = "2025",
+    address = "Suzhou, China",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.findings-emnlp.67/",
+    doi = "10.18653/v1/2025.findings-emnlp.67",
+    pages = "1272--1305",
+    ISBN = "979-8-89176-335-7",
+    abstract = "Large Language Models (LLMs) often exhibit hallucinations, generating factually incorrect or semantically irrelevant content in response to prompts. Chain-of-Thought (CoT) prompting can mitigate hallucinations by encouraging step-by-step reasoning, but its impact on hallucination detection remains underexplored. To bridge this gap, we conduct a systematic empirical evaluation. We begin with a pilot experiment, revealing that CoT reasoning significantly affects the LLM{'}s internal states and token probability distributions. Building on this, we evaluate the impact of various CoT prompting methods on mainstream hallucination detection methods across both instruction-tuned and reasoning-oriented LLMs. Specifically, we examine three key dimensions: changes in hallucination score distributions, variations in detection accuracy, and shifts in detection confidence. Our findings show that while CoT prompting helps reduce hallucination frequency, it also tends to obscure critical signals used for detection, impairing the effectiveness of various detection methods. Our study highlights an overlooked trade-off in the use of reasoning. Code is publicly available at: https://github.com/ECNU-Text-Computing/cot-hallu-detect ."
+}
+
+@inproceedings{wei2022chain,
+author = {Wei, Jason and Wang, Xuezhi and Schuurmans, Dale and Bosma, Maarten and Ichter, Brian and Xia, Fei and Chi, Ed H. and Le, Quoc V. and Zhou, Denny},
+title = {Chain-of-thought prompting elicits reasoning in large language models},
+year = {2022},
+isbn = {9781713871088},
+publisher = {Curran Associates Inc.},
+address = {Red Hook, NY, USA},
+abstract = {We explore how generating a chain of thought—a series of intermediate reasoning steps—significantly improves the ability of large language models to perform complex reasoning. In particular, we show how such reasoning abilities emerge naturally in sufficiently large language models via a simple method called chain-of-thought prompting, where a few chain of thought demonstrations are provided as exemplars in prompting.Experiments on three large language models show that chain-of-thought prompting improves performance on a range of arithmetic, commonsense, and symbolic reasoning tasks. The empirical gains can be striking. For instance, prompting a PaLM 540B with just eight chain-of-thought exemplars achieves state-of-the-art accuracy on the GSM8K benchmark of math word problems, surpassing even finetuned GPT-3 with a verifier.},
+booktitle = {Proceedings of the 36th International Conference on Neural Information Processing Systems},
+articleno = {1800},
+numpages = {14},
+location = {New Orleans, LA, USA},
+series = {NIPS '22}
+}
+
+@inproceedings{li2025generation,
+    title = "From Generation to Judgment: Opportunities and Challenges of {LLM}-as-a-judge",
+    author = "Li, Dawei  and
+      Jiang, Bohan  and
+      Huang, Liangjie  and
+      Beigi, Alimohammad  and
+      Zhao, Chengshuai  and
+      Tan, Zhen  and
+      Bhattacharjee, Amrita  and
+      Jiang, Yuxuan  and
+      Chen, Canyu  and
+      Wu, Tianhao  and
+      Shu, Kai  and
+      Cheng, Lu  and
+      Liu, Huan",
+    editor = "Christodoulopoulos, Christos  and
+      Chakraborty, Tanmoy  and
+      Rose, Carolyn  and
+      Peng, Violet",
+    booktitle = "Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing",
+    month = nov,
+    year = "2025",
+    address = "Suzhou, China",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.emnlp-main.138/",
+    doi = "10.18653/v1/2025.emnlp-main.138",
+    pages = "2757--2791",
+    ISBN = "979-8-89176-332-6",
+    abstract = "Assessment and evaluation have long been critical challenges in artificial intelligence (AI) and natural language processing (NLP). Traditional methods, usually matching-based or small model-based, often fall short in open-ended and dynamic scenarios. Recent advancements in Large Language Models (LLMs) inspire the ``LLM-as-a-judge'' paradigm, where LLMs are leveraged to perform scoring, ranking, or selection for various machine learning evaluation scenarios. This paper presents a comprehensive survey of LLM-based judgment and assessment, offering an in-depth overview to review this evolving field. We first provide the definition from both input and output perspectives. Then we introduce a systematic taxonomy to explore LLM-as-a-judge along three dimensions: \textit{what} to judge, \textit{how} to judge, and \textit{how} to benchmark. Finally, we also highlight key challenges and promising future directions for this emerging area."
+}
+
+@article{yang2025hallucination,
+  title={Hallucination Detection in Large Language Models with Metamorphic Relations},
+  author={Yang, Borui and Al Mamun, Md Afif and Zhang, Jie M and Uddin, Gias},
+  journal={Proceedings of the ACM on Software Engineering},
+  volume={2},
+  number={FSE},
+  pages={425--445},
+  year={2025},
+  publisher={ACM New York, NY, USA}
+}
+
+@INPROCEEDINGS{cho2025metamorphic,
+  author={Cho, Steven and Ruberto, Stefano and Terragni, Valerio},
+  booktitle={2025 IEEE International Conference on Software Maintenance and Evolution (ICSME)}, 
+  title={Metamorphic Testing of Large Language Models for Natural Language Processing}, 
+  year={2025},
+  volume={},
+  number={},
+  pages={174-186},
+  keywords={Fault diagnosis;Software maintenance;Large language models;Machine learning;Natural language processing;Testing;Systematic literature review;Software engineering;large language models;metamorphic testing;machine learning testing;NLP;Software Engineering for AI},
+  doi={10.1109/ICSME64153.2025.00025}
+}
+
+@article{yu2025survey,
+author = {Yu, Guangba and Tan, Gou and Huang, Haojia and Zhang, Zhenyu and Chen, Pengfei and Natella, Roberto and Zheng, Zibin and Lyu, Michael R.},
+title = {A Survey on Failure Analysis and Fault Injection in AI Systems},
+year = {2025},
+issue_date = {January 2026},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {35},
+number = {1},
+issn = {1049-331X},
+url = {https://doi.org/10.1145/3732777},
+doi = {10.1145/3732777},
+abstract = {The rapid advancement of AI has led to its integration into various areas, especially with Large Language Models (LLMs) significantly enhancing capabilities in Artificial Intelligence Generated Content (AIGC). However, the complexity of AI systems has also exposed their vulnerabilities, necessitating robust methods for Failure Analysis (FA) and Fault Injection (FI) to ensure resilience and reliability. Despite the importance of these techniques, there lacks a comprehensive review of FA and FI methodologies in AI systems. This study fills this gap by presenting a detailed survey of existing FA and FI approaches across six layers of AI systems. We systematically analyze 142 studies to answer three research questions including (1) what are the prevalent failures in AI systems, (2) what types of faults can current FI tools simulate, (3) what gaps exist between the simulated faults and real-world failures. Our findings reveal a taxonomy of AI system failures, assess the capabilities of existing FI tools, and highlight discrepancies between real-world and simulated failures. Moreover, this survey contributes to the field by providing a framework for fault diagnosis, evaluating the state-of-the-art in FI, and identifying areas for improvement in FI techniques to enhance the resilience of AI systems.},
+journal = {ACM Trans. Softw. Eng. Methodol.},
+month = dec,
+articleno = {28},
+numpages = {43},
+keywords = {Failure Analysis, Fault Injection, Chaos Engineering, AI system, MLOps, LLMOps}
+}
+
+@article{wu2025detecting,
+  title={Detecting and Reducing the Factual Hallucinations of Large Language Models with Metamorphic Testing},
+  author={Wu, Weibin and Cao, Yuhang and Yi, Ning and Ou, Rongyi and Zheng, Zibin},
+  journal={Proceedings of the ACM on Software Engineering},
+  volume={2},
+  number={FSE},
+  pages={1432--1453},
+  year={2025},
+  doi={10.1145/3715784}
+}
+
+@article{li2025loki,
+  title={Loki's dance of illusions: A comprehensive survey of hallucination in large language models},
+  author={Li, Chaozhuo and Wang, Pengbo and Wang, Chenxu and Zhang, Litian and Liu, Zheng and Ye, Qiwei and Xu, Yuanbo and Huang, Feiran and Zhang, Xi and Yu, Philip S},
+  journal={arXiv preprint arXiv:2507.02870},
+  year={2025}
+}
+
+@article{zhou2025lost,
+  title={Lost in Benchmarks? Rethinking Large Language Model Benchmarking with Item Response Theory},
+  author={Zhou, Hongli and Huang, Hui and Zhao, Ziqing and Han, Lvyuan and Wang, Huicheng and Chen, Kehai and Yang, Muyun and Bao, Wei and Dong, Jian and Xu, Bing and others},
+  journal={arXiv preprint arXiv:2505.15055},
+  year={2025}
+}
+
+@article{lewis2020retrieval,
+  title={Retrieval-augmented generation for knowledge-intensive nlp tasks},
+  author={Lewis, Patrick and Perez, Ethan and Piktus, Aleksandra and Petroni, Fabio and Karpukhin, Vladimir and Goyal, Naman and K{\"u}ttler, Heinrich and Lewis, Mike and Yih, Wen-tau and Rockt{\"a}schel, Tim and others},
+  journal={Advances in neural information processing systems},
+  volume={33},
+  pages={9459--9474},
+  year={2020}
+}
+
+@article{huo2024large,
+author = {Hou, Xinyi and Zhao, Yanjie and Liu, Yue and Yang, Zhou and Wang, Kailong and Li, Li and Luo, Xiapu and Lo, David and Grundy, John and Wang, Haoyu},
+title = {Large Language Models for Software Engineering: A Systematic Literature Review},
+year = {2024},
+issue_date = {November 2024},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {33},
+number = {8},
+issn = {1049-331X},
+url = {https://doi.org/10.1145/3695988},
+doi = {10.1145/3695988},
+abstract = {Large Language Models (LLMs) have significantly impacted numerous domains, including Software Engineering (SE). Many recent publications have explored LLMs applied to various SE tasks. Nevertheless, a comprehensive understanding of the application, effects, and possible limitations of LLMs on SE is still in its early stages. To bridge this gap, we conducted a Systematic Literature Review (SLR) on LLM4SE, with a particular focus on understanding how LLMs can be exploited to optimize processes and outcomes. We selected and analyzed 395 research articles from January 2017 to January 2024 to answer four key Research Questions (RQs). In RQ1, we categorize different LLMs that have been employed in SE tasks, characterizing their distinctive features and uses. In RQ2, we analyze the methods used in data collection, pre-processing, and application, highlighting the role of well-curated datasets for successful LLM for SE implementation. RQ3 investigates the strategies employed to optimize and evaluate the performance of LLMs in SE. Finally, RQ4 examines the specific SE tasks where LLMs have shown success to date, illustrating their practical contributions to the field. From the answers to these RQs, we discuss the current state-of-the-art and trends, identifying gaps in existing research, and highlighting promising areas for future study. Our artifacts are publicly available at .},
+journal = {ACM Trans. Softw. Eng. Methodol.},
+month = dec,
+articleno = {220},
+numpages = {79},
+keywords = {Software Engineering, Large Language Model, Survey}
+}
+
+@inproceedings{champa2024chatgpt,
+author = {Champa, Arifa Islam and Rabbi, Md Fazle and Nachuma, Costain and Zibran, Minhaz F.},
+title = {ChatGPT in Action: Analyzing Its Use in Software Development},
+year = {2024},
+isbn = {9798400705878},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3643991.3645077},
+doi = {10.1145/3643991.3645077},
+abstract = {The emergence of AI tools such as ChatGPT is being used to assist with software development, but little is known of how developers utilize these tools as well as the capabilities of these tools in software engineering tasks. Using the DevGPT dataset, we conduct quantitative analyses of the tasks developers seek assistance from ChatGPT and how effectively ChatGPT addresses them. We also examine the impact of initial prompt quality on conversation length. The findings reveal where ChatGPT is most and least suited to assist in the identified 12 software development tasks. The insights from this research would guide the software developers, researchers, and AI tool providers in optimizing these tools for more effective programming aid.},
+booktitle = {Proceedings of the 21st International Conference on Mining Software Repositories},
+pages = {182–186},
+numpages = {5},
+keywords = {ChatGPT conversation, software development tasks, task efficiency, prompt quality},
+location = {Lisbon, Portugal},
+series = {MSR '24}
+}
+
+@article{jin2024simllm,
+author = {Jin, Xin and Lin, Zhiqiang},
+title = {SimLLM: Calculating Semantic Similarity in Code Summaries using a Large Language Model-Based Approach},
+year = {2024},
+issue_date = {July 2024},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {1},
+number = {FSE},
+url = {https://doi.org/10.1145/3660769},
+doi = {10.1145/3660769},
+abstract = {Code summaries are pivotal in software engineering, serving to improve code readability, maintainability, and collaboration. While recent advancements in Large Language Models (LLMs) have opened new avenues for automatic code summarization, existing metrics for evaluating summary quality, such as BLEU and BERTScore, have notable limitations. Specifically, these existing metrics either fail to capture the nuances of semantic meaning in summaries or are further limited in understanding domain-specific terminologies and expressions prevalent in code summaries. In this paper, we present SimLLM, a novel LLM-based approach designed to more precisely evaluate the semantic similarity of code summaries. Built upon an autoregressive LLM using a specialized pretraining task on permutated inputs and a pooling-based pairwise similarity measure, SimLLM overcomes the shortcomings of existing metrics. Our empirical evaluations demonstrate that SimLLM not only outperforms existing metrics but also shows a significantly high correlation with human ratings.},
+journal = {Proc. ACM Softw. Eng.},
+month = jul,
+articleno = {62},
+numpages = {24},
+keywords = {automated code summarization, large language models, summary semantic similarity}
+}
+
+@inproceedings{cho2025llmorph,
+  title={LLMorph: Automated Metamorphic Testing of Large Language Models},
+  author={Cho, Steven and others},
+  booktitle={Proceedings of the 2025 ACM/IEEE International Conference on Automated Software Engineering (ASE)},
+  year={2025}
+}
+
+@inproceedings{wu2024large,
+    title = "Large Language Models Can Self-Correct with Key Condition Verification",
+    author = "Wu, Zhenyu  and
+      Zeng, Qingkai  and
+      Zhang, Zhihan  and
+      Tan, Zhaoxuan  and
+      Shen, Chao  and
+      Jiang, Meng",
+    editor = "Al-Onaizan, Yaser  and
+      Bansal, Mohit  and
+      Chen, Yun-Nung",
+    booktitle = "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing",
+    month = nov,
+    year = "2024",
+    address = "Miami, Florida, USA",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.emnlp-main.714/",
+    doi = "10.18653/v1/2024.emnlp-main.714",
+    pages = "12846--12867",
+    abstract = "Intrinsic self-correct was a method that instructed large language models (LLMs) to verify and correct their responses without external feedback. Unfortunately, the study concluded that the LLMs could not self-correct reasoning yet. We find that a simple yet effective prompting method enhances LLM performance in identifying and correcting inaccurate answers without external feedback.That is to mask a key condition in the question, add the current response to construct a verification question, and predict the condition to verify the response. The condition can be an entity in an open-domain question or a numerical value in an arithmetic question, which requires minimal effort (via prompting) to identify. We propose an iterative verify-then-correct framework to progressively identify and correct (probably) false responses, named ProCo. We conduct experiments on three reasoning tasks. On average, ProCo, with GPT-3.5-Turbo-1106 as the backend LLM, yields $+6.8$ exact match on four open-domain question answering datasets, $+14.1$ accuracy on three arithmetic reasoning datasets, and $+9.6$ accuracy on a commonsense reasoning dataset, compared to Self-Correct.Our implementation is made publicly available at https://wzy6642.github.io/proco.github.io/."
+}
+
+@inproceedings{song2025progco,
+    title = "{P}rog{C}o: Program Helps Self-Correction of Large Language Models",
+    author = "Song, Xiaoshuai  and
+      Wu, Yanan  and
+      Wang, Weixun  and
+      Liu, Jiaheng  and
+      Su, Wenbo  and
+      Zheng, Bo",
+    editor = "Che, Wanxiang  and
+      Nabende, Joyce  and
+      Shutova, Ekaterina  and
+      Pilehvar, Mohammad Taher",
+    booktitle = "Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 2: Short Papers)",
+    month = jul,
+    year = "2025",
+    address = "Vienna, Austria",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.acl-short.73/",
+    doi = "10.18653/v1/2025.acl-short.73",
+    pages = "944--959",
+    ISBN = "979-8-89176-252-7",
+    abstract = "Self-Correction aims to enable large language models (LLMs) to self-verify and self-refine their initial responses without external feedback. However, LLMs often fail to effectively self-verify and generate correct feedback, further misleading refinement and leading to the failure of self-correction, especially in complex reasoning tasks. In this paper, we propose Program-driven Self-Correction (ProgCo). First, program-driven verification (ProgVe) achieves complex verification logic and extensive validation through self-generated, self-executing verification pseudo-programs. Then,program-driven refinement (ProgRe) receives feedback from ProgVe, conducts dual reflection and refinement on both responses and verification programs to mitigate misleading of incorrect feedback in complex reasoning tasks. Experiments on three instruction-following and mathematical benchmarks indicate that ProgCo achieves effective self-correction, and can be further enhance performance when combined with real program tools. We release our code at https://github.com/songxiaoshuai/progco."
+}
+
+@inproceedings{he2024retrieving,
+    title = "Retrieving, Rethinking and Revising: The Chain-of-Verification Can Improve Retrieval Augmented Generation",
+    author = "He, Bolei  and
+      Chen, Nuo  and
+      He, Xinran  and
+      Yan, Lingyong  and
+      Wei, Zhenkai  and
+      Luo, Jinchang  and
+      Ling, Zhen-Hua",
+    editor = "Al-Onaizan, Yaser  and
+      Bansal, Mohit  and
+      Chen, Yun-Nung",
+    booktitle = "Findings of the Association for Computational Linguistics: EMNLP 2024",
+    month = nov,
+    year = "2024",
+    address = "Miami, Florida, USA",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.findings-emnlp.607/",
+    doi = "10.18653/v1/2024.findings-emnlp.607",
+    pages = "10371--10393",
+    abstract = "Recent Retrieval Augmented Generation (RAG) aims to enhance Large Language Models (LLMs) by incorporating extensive knowledge retrieved from external sources. However, such approach encounters some challenges: Firstly, the original queries may not be suitable for precise retrieval, resulting in erroneous contextual knowledge; Secondly, the language model can easily generate inconsistent answer with external references due to their knowledge boundary limitation. To address these issues, we propose the chain-of-verification (CoV-RAG) to enhance the external retrieval correctness and internal generation consistency. Specifically, we integrate the verification module into the RAG, engaging in scoring, judgment, and rewriting. To correct external retrieval errors, CoV-RAG retrieves new knowledge using a revised query. To correct internal generation errors, we unify QA and verification tasks with a Chain-of-Thought (CoT) reasoning during training. Our comprehensive experiments across various LLMs demonstrate the effectiveness and adaptability compared with other strong baselines. Especially, our CoV-RAG can significantly surpass the state-of-the-art baselines using different LLM backbones."
+}
+
+@inproceedings{renze2024effect,
+    title = "The Effect of Sampling Temperature on Problem Solving in Large Language Models",
+    author = "Renze, Matthew",
+    editor = "Al-Onaizan, Yaser  and
+      Bansal, Mohit  and
+      Chen, Yun-Nung",
+    booktitle = "Findings of the Association for Computational Linguistics: EMNLP 2024",
+    month = nov,
+    year = "2024",
+    address = "Miami, Florida, USA",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.findings-emnlp.432/",
+    doi = "10.18653/v1/2024.findings-emnlp.432",
+    pages = "7346--7356",
+    abstract = "In this research study, we empirically investigate the effect of sampling temperature on the performance of Large Language Models (LLMs) on various problem-solving tasks. We created a multiple-choice question-and-answer (MCQA) exam by randomly sampling problems from standard LLM benchmarks. Then, we used nine popular LLMs with five prompt-engineering techniques to solve the MCQA problems while increasing the sampling temperature from 0.0 to 1.6. Despite anecdotal reports to the contrary, our empirical results indicate that changes in temperature from 0.0 to 1.0 do not have a statistically significant impact on LLM performance for problem-solving tasks. In addition, these results appear to generalize across LLMs, prompt-engineering techniques, and problem domains. All code, data, and supplemental materials are available on GitHub at: https://github.com/matthewrenze/jhu-llm-temperature"
+}
+
+@article{arora2024optimizing,
+  title={Optimizing large language model hyperparameters for code generation},
+  author={Arora, Chetan and Sayeed, Ahnaf Ibn and Licorish, Sherlock and Wang, Fanyu and Treude, Christoph},
+  journal={arXiv preprint arXiv:2408.10577},
+  year={2024}
+}
