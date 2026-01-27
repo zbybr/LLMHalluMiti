@@ -12,7 +12,7 @@ mpl.rcParams["savefig.pad_inches"] = 0.02
 
 models = ["GPT-4o", "GPT-5", "Gemini", "Qwen3"]
 strategies = ["Majority Voting", "Confidence Score", "Ranking"]
-colors = ["orangered", "limegreen", "darkviolet"]
+colors = ["#F38181", "#FCE38A", "#95E1D3"]
 
 # ========= Fill with your RQ2 numbers =========
 # Each array shape: (num_models, num_strategies)

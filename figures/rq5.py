@@ -13,7 +13,7 @@ mpl.rcParams["savefig.pad_inches"] = 0.02
 models = ["GPT-4o", "GPT-5", "Gemini", "Qwen3"]
 datasets = ["Overall", "TruthfulQA", "HotpotQA", "FreshQA"]
 methods = ["NAME without mutations", "NAME with mutations", "Pass@6"]
-colors = ["tomato", "darkviolet", "mediumspringgreen"]
+colors = ["#A8D8EA", "#AA96DA", "#FCBAD3"]
 
 # ====== Fill with your screenshot numbers: (models, datasets) ======
 oa = np.array([
