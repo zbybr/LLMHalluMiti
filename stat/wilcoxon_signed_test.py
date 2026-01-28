@@ -1,129 +1,185 @@
-import numpy as np
 import pandas as pd
 from scipy.stats import wilcoxon
 
 
-def compare_methods_wilcoxon(
-    path1,
-    path2,
-    method1_name,
-    method2_name,
-    final_col1="final_hallucination",
-    final_col2="final_hallucination",
+def _load_and_unify(path: str, final_col: str) -> pd.DataFrame:
+    df = pd.read_csv(path)
+    if final_col != "final_hallucination":
+        df = df.rename(columns={final_col: "final_hallucination"})
+    # basic sanity checks
+    required = {"Question", "is_hallucination", "final_hallucination"}
+    missing = required - set(df.columns)
+    if missing:
+        raise ValueError(f"Missing columns in {path}: {missing}")
+    return df
+
+
+def _merge_on_question(df1: pd.DataFrame, df2: pd.DataFrame) -> pd.DataFrame:
+    merged = df1.merge(df2, on="Question", suffixes=("_m1", "_m2"))
+    if merged.empty:
+        raise ValueError("No overlapping questions after merge. Check 'Question' alignment.")
+    return merged
+
+
+def _to01(series_yes_no: pd.Series) -> pd.Series:
+    # YES -> 1, NO -> 0
+    s = series_yes_no.astype(str).str.upper().str.strip()
+    return (s == "YES").astype(int)
+
+
+def wilcoxon_hrr(
+    path1: str,
+    path2: str,
+    final_col1: str,
+    final_col2: str,
+    method1_name: str = "Method1",
+    method2_name: str = "Method2",
+    alternative: str = "two-sided",
 ):
     """
-    Compare two hallucination mitigation methods using Wilcoxon signed-rank test.
-
-    Parameters:
-    -----------
-    path1 : str
-        Path to first method's results CSV
-    path2 : str
-        Path to second method's results CSV
-    method1_name : str
-        Display name for first method
-    method2_name : str
-        Display name for second method
-    final_col1 : str
-        Column name for final_hallucination in first dataset (default: 'final_hallucination')
-    final_col2 : str
-        Column name for final_hallucination in second dataset (default: 'final_hallucination')
-
-    Returns:
-    --------
-    dict : Dictionary containing test results and metrics
+    HRR significance: compare methods on the subset where base responses are hallucinations.
+    Data used for test: per-question post-repair hallucination indicator (1=still hallucinated, 0=correct).
     """
-    # Load datasets
-    df1 = pd.read_csv(path1)
-    df2 = pd.read_csv(path2)
+    df1 = _load_and_unify(path1, final_col1)
+    df2 = _load_and_unify(path2, final_col2)
 
-    # Rename final_hallucination columns if needed
-    if final_col1 != "final_hallucination":
-        df1 = df1.rename(columns={final_col1: "final_hallucination"})
-    if final_col2 != "final_hallucination":
-        df2 = df2.rename(columns={final_col2: "final_hallucination"})
+    # Subset: originally hallucinated
+    df1_sub = df1[df1["is_hallucination"].astype(str).str.upper().str.strip() == "YES"].copy()
+    df2_sub = df2[df2["is_hallucination"].astype(str).str.upper().str.strip() == "YES"].copy()
 
-    # Filter to only rows where there was initially a hallucination
-    df1_halu = df1[df1["is_hallucination"] == "YES"].copy()
-    df2_halu = df2[df2["is_hallucination"] == "YES"].copy()
+    merged = _merge_on_question(df1_sub, df2_sub)
 
-    print(f"Total base hallucinations in {method1_name}: {len(df1_halu)}")
-    print(f"Total base hallucinations in {method2_name}: {len(df2_halu)}")
+    x = _to01(merged["final_hallucination_m1"])  # 1=still hallucination
+    y = _to01(merged["final_hallucination_m2"])
 
-    # Merge on Question to align the datasets
-    merged = df1_halu.merge(df2_halu, on="Question", suffixes=("_m1", "_m2"))
-
-    print(f"\nCommon hallucinated questions: {len(merged)}")
-
-    # Convert final_hallucination to numeric (YES=1, NO=0)
-    method1_final = (merged["final_hallucination_m1"] == "YES").astype(int)
-    method2_final = (merged["final_hallucination_m2"] == "YES").astype(int)
-
-    # Perform Wilcoxon signed-rank test
-    statistic, p_value = wilcoxon(method1_final, method2_final)
-
-    # Calculate metrics
-    m1_corrected = (method1_final == 0).sum()
-    m2_corrected = (method2_final == 0).sum()
-    m1_still_halu = (method1_final == 1).sum()
-    m2_still_halu = (method2_final == 1).sum()
-
-    # Print results
-    print("\n" + "=" * 80)
-    print(f"Wilcoxon Signed-Rank Test: {method1_name} vs {method2_name}")
-    print("(Comparing methods on initially hallucinated responses)")
-    print("=" * 80)
-    print(f"\n{method1_name}:")
-    print(
-        f"  - Corrected (YES→NO): {m1_corrected} ({m1_corrected/len(merged)*100:.1f}%)"
-    )
-    print(
-        f"  - Still hallucinating: {m1_still_halu} ({m1_still_halu/len(merged)*100:.1f}%)"
-    )
-
-    print(f"\n{method2_name}:")
-    print(
-        f"  - Corrected (YES→NO): {m2_corrected} ({m2_corrected/len(merged)*100:.1f}%)"
-    )
-    print(
-        f"  - Still hallucinating: {m2_still_halu} ({m2_still_halu/len(merged)*100:.1f}%)"
-    )
-
-    print(f"\nWilcoxon Test Results:")
-    print(f"  - Test Statistic: {statistic}")
-    print(f"  - P-value: {p_value}")
-
-    if p_value < 0.05:
-        print(f"\n✓ Significant difference (p < 0.05)")
-        if m1_corrected > m2_corrected:
-            print(
-                f"  {method1_name} corrected {m1_corrected - m2_corrected} more hallucinations than {method2_name}"
-            )
-        else:
-            print(
-                f"  {method2_name} corrected {m2_corrected - m1_corrected} more hallucinations than {method1_name}"
-            )
-    else:
-        print(f"\n✗ No significant difference (p >= 0.05)")
+    stat, p = wilcoxon(x, y, alternative=alternative, zero_method="wilcox")
 
     return {
+        "metric": "HRR-test (on base-hallucinated subset)",
         "method1": method1_name,
         "method2": method2_name,
-        "p_value": p_value,
-        "statistic": statistic,
-        "method1_corrected": m1_corrected,
-        "method2_corrected": m2_corrected,
-        "total_compared": len(merged),
+        "n_pairs": int(len(merged)),
+        "statistic": float(stat),
+        "p_value": float(p),
+        "m1_corrected": int((x == 0).sum()),
+        "m2_corrected": int((y == 0).sum()),
+        "m1_still_hallu": int((x == 1).sum()),
+        "m2_still_hallu": int((y == 1).sum()),
     }
 
 
+def wilcoxon_rhr(
+    path1: str,
+    path2: str,
+    final_col1: str,
+    final_col2: str,
+    method1_name: str = "Method1",
+    method2_name: str = "Method2",
+    alternative: str = "two-sided",
+):
+    """
+    RHR significance: compare methods on ALL questions.
+    Data used for test: per-question post-repair hallucination indicator (1=hallucinated, 0=non-hallucinated).
+    """
+    df1 = _load_and_unify(path1, final_col1)
+    df2 = _load_and_unify(path2, final_col2)
+
+    merged = _merge_on_question(df1, df2)
+
+    x = _to01(merged["final_hallucination_m1"])
+    y = _to01(merged["final_hallucination_m2"])
+
+    stat, p = wilcoxon(x, y, alternative=alternative, zero_method="wilcox")
+
+    return {
+        "metric": "RHR-test (on full dataset)",
+        "method1": method1_name,
+        "method2": method2_name,
+        "n_pairs": int(len(merged)),
+        "statistic": float(stat),
+        "p_value": float(p),
+        "m1_hallu": int((x == 1).sum()),
+        "m2_hallu": int((y == 1).sum()),
+        "m1_non_hallu": int((x == 0).sum()),
+        "m2_non_hallu": int((y == 0).sum()),
+    }
+
+
+def wilcoxon_ocr(
+    path1: str,
+    path2: str,
+    final_col1: str,
+    final_col2: str,
+    method1_name: str = "Method1",
+    method2_name: str = "Method2",
+    alternative: str = "two-sided",
+):
+    """
+    OCR significance: compare methods on the subset where base responses are originally correct (non-hallucinated).
+    Data used for test: per-question over-correction indicator (1=became hallucinated, 0=remained non-hallucinated).
+    """
+    df1 = _load_and_unify(path1, final_col1)
+    df2 = _load_and_unify(path2, final_col2)
+
+    # Subset: originally correct (non-hallucination)
+    df1_sub = df1[df1["is_hallucination"].astype(str).str.upper().str.strip() == "NO"].copy()
+    df2_sub = df2[df2["is_hallucination"].astype(str).str.upper().str.strip() == "NO"].copy()
+
+    merged = _merge_on_question(df1_sub, df2_sub)
+
+    # over-corrected = final becomes hallucination
+    x = _to01(merged["final_hallucination_m1"])  # 1=over-corrected
+    y = _to01(merged["final_hallucination_m2"])
+
+    stat, p = wilcoxon(x, y, alternative=alternative, zero_method="wilcox")
+
+    return {
+        "metric": "OCR-test (on base-correct subset)",
+        "method1": method1_name,
+        "method2": method2_name,
+        "n_pairs": int(len(merged)),
+        "statistic": float(stat),
+        "p_value": float(p),
+        "m1_over_corrected": int((x == 1).sum()),
+        "m2_over_corrected": int((y == 1).sum()),
+        "m1_remain_correct": int((x == 0).sum()),
+        "m2_remain_correct": int((y == 0).sum()),
+    }
+
+
+def pretty_p(p: float) -> str:
+    if p < 0.001:
+        return "<0.001"
+    if p < 0.01:
+        return "<0.01"
+    if p < 0.05:
+        return "<0.05"
+    return f"{p:.3f}"
+
+
 if __name__ == "__main__":
-    # Example usage
-    results = compare_methods_wilcoxon(
-        path1="gpt-5/outputs/gpt-5_mutation_outputs_gpt-5_dataset20251225_utf8_responses.csv",
-        path2="gpt-5/outputs/cove-se/gpt-5_cove_se_outputs_gpt-5_dataset20251225_utf8_responses.csv",
-        method1_name="NAME (Mutation)",
-        method2_name="CoVe-SE",
-        final_col1="recheck_hallucination_ra",
-        final_col2="recheck_hallucination",
-    )
+    # Example usage (adapt paths/columns to your setup)
+    path_name = "../ollama_outputs/qwen3_32b_mutation_outputs_qwen3_32b_dataset20251225_utf8_sig_responses_fixed_newlines.csv"
+    path_cove = "../ollama_outputs/cot/qwen3_32b_cot_outputs_qwen3_32b_dataset20251225_utf8_sig_responses_fixed.csv"
+
+    # Columns in your example
+    final_col_name = "recheck_hallucination_ra"
+    final_col_cove = "recheck_hallucination"
+
+    res_hrr = wilcoxon_hrr(path_name, path_cove, final_col_name, final_col_cove,
+                           method1_name="NAME", method2_name="CoVe-SE")
+    res_rhr = wilcoxon_rhr(path_name, path_cove, final_col_name, final_col_cove,
+                           method1_name="NAME", method2_name="CoVe-SE")
+    res_ocr = wilcoxon_ocr(path_name, path_cove, final_col_name, final_col_cove,
+                           method1_name="NAME", method2_name="CoVe-SE")
+
+    for res in (res_hrr, res_rhr, res_ocr):
+        print("=" * 80)
+        print(res["metric"])
+        print(f'{res["method1"]} vs {res["method2"]} | n={res["n_pairs"]}')
+        print(f"stat={res['statistic']:.3f} | p={res['p_value']} ({pretty_p(res['p_value'])})")
+        # print a couple key counts for sanity
+        if "m1_corrected" in res:
+            print(f"corrected: {res['method1']}={res['m1_corrected']}, {res['method2']}={res['m2_corrected']}")
+        if "m1_over_corrected" in res:
+            print(f"over-corrected: {res['method1']}={res['m1_over_corrected']}, {res['method2']}={res['m2_over_corrected']}")
