@@ -12,11 +12,18 @@ mpl.rcParams["savefig.pad_inches"] = 0.02
 
 models = ["GPT-4o", "GPT-5", "Gemini", "Qwen3"]
 datasets = ["Average", "TruthfulQA", "HotpotQA", "FreshQA"]
-methods = ["MutRepair without mutations", "MutRepair with mutations", "Pass@6"]
+methods = ["MutRepair without mutations", "MutRepair", "Pass@6"]
 colors = ["#A8D8EA", "#AA96DA", "#FCBAD3"]
 
 # ====== Fill with your screenshot numbers: (models, datasets) ======
 oa = np.array([
+    [65.15, 85.56, 27.16, 74.38],  # GPT-4o
+    [49.45, 72.17, 10.26, 42.86],  # GPT-5
+    [35.47, 51.71, 17.67, 45.31],  # Gemini
+    [40.02, 70.74, 17.00, 30.19],  # Qwen3
+])
+
+oa_cot = np.array([
     [65.15, 85.56, 27.16, 74.38],  # GPT-4o
     [49.45, 72.17, 10.26, 42.86],  # GPT-5
     [35.47, 51.71, 17.67, 45.31],  # Gemini
@@ -37,7 +44,7 @@ pass6 = np.array([
     [48.10, 76.21, 23.05, 47.80],  # Qwen3
 ])
 
-data_by_method = [oa, oa_ra, pass6]
+data_by_method = [oa, oa_cot, oa_ra, pass6]
 
 # ====== Plot: 1x4 subplots (datasets), x=models, grouped bars=methods ======
 fig, axes = plt.subplots(1, 4, figsize=(12, 3))

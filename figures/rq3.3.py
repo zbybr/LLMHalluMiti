@@ -21,15 +21,15 @@ colors = ["blue", "green", "red"]
 # ===== plot =====
 fig, ax = plt.subplots(1, 3, figsize=(12, 3))
 
-ax[1].plot(mut_n, rc_hal, marker="o", color=colors[1])
-ax[1].set_xlabel("# Mutations")
-ax[1].set_ylabel("Rechecked Hallucination Rate (%) ↓")
-ax[1].set_ylim(2, 32)
-
-ax[0].plot(mut_n, hal_repair, marker="o", color=colors[0])
+ax[0].plot(mut_n, rc_hal, marker="o", color=colors[1])
 ax[0].set_xlabel("# Mutations")
-ax[0].set_ylabel("Hallucination Repair Rate (%) ↑")
-ax[0].set_ylim(36, 78)
+ax[0].set_ylabel("Rechecked Hallucination Rate (%) ↓")
+ax[0].set_ylim(2, 32)
+
+ax[1].plot(mut_n, hal_repair, marker="o", color=colors[0])
+ax[1].set_xlabel("# Mutations")
+ax[1].set_ylabel("Hallucination Repair Rate (%) ↑")
+ax[1].set_ylim(36, 78)
 
 ax[2].plot(mut_n, oc, marker="o", color=colors[2])
 ax[2].set_xlabel("# Mutations")

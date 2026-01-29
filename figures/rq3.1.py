@@ -16,11 +16,11 @@ repair = np.array([68.35, 67.09, 64.56])
 oc = np.array([1.98, 4.95, 2.97])
 
 
-means = [repair.mean(), rc_hal.mean(), oc.mean()]
-stds = [repair.std(), rc_hal.std(), oc.std()]
+means = [rc_hal.mean(), repair.mean(), oc.mean()]
+stds = [rc_hal.std(), repair.std(), oc.std()]
 
-labels = ["Hallucination\n Repair Rate ↑",
-          "Recheck\n Hallucination Rate ↓",
+labels = ["Recheck\n Hallucination Rate ↓",
+          "Hallucination\n Repair Rate ↑",
           "Over-correction\n Rate ↓"]
 colors = ["blue", "green", "red"]
 

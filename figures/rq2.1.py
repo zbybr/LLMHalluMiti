@@ -71,14 +71,14 @@ fig, axes = plt.subplots(1, 3, figsize=(12, 4))
 
 grouped_bar(
     axes[0],
-    repair_rate,
-    ylabel="Hallucination Repair Rate (%) ↑ Better"
+    rechecked_hallu_rate,
+    ylabel="Recheck Hallu Rate (%) ↓ Better"
 )
 
 grouped_bar(
     axes[1],
-    rechecked_hallu_rate,
-    ylabel="Recheck Hallu Rate (%) ↓ Better"
+    repair_rate,
+    ylabel="Hallucination Repair Rate (%) ↑ Better"
 )
 
 grouped_bar(
