@@ -12,7 +12,7 @@ mpl.rcParams["savefig.pad_inches"] = 0.02
 
 models = ["GPT-4o", "GPT-5", "Gemini", "Qwen3"]
 datasets = ["Average", "TruthfulQA", "HotpotQA", "FreshQA"]
-methods = ["NAME without mutations", "NAME with mutations", "Pass@6"]
+methods = ["MutRepair without mutations", "MutRepair with mutations", "Pass@6"]
 colors = ["#A8D8EA", "#AA96DA", "#FCBAD3"]
 
 # ====== Fill with your screenshot numbers: (models, datasets) ======
@@ -63,5 +63,5 @@ fig.legend(handles, labels, loc="lower center", ncol=3, frameon=True,
            edgecolor="black", bbox_to_anchor=(0.5, -0.08))
 
 fig.tight_layout()
-fig.savefig("rq5.pdf")
+fig.savefig("rq2.2.pdf")
 plt.show()

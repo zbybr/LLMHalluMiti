@@ -48,5 +48,5 @@ ax.spines["top"].set_visible(False)
 ax.spines["right"].set_visible(False)
 
 fig.tight_layout()
-fig.savefig("rq3.pdf")
+fig.savefig("rq3.1.pdf")
 plt.show()

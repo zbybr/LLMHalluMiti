@@ -11,7 +11,7 @@ mpl.rcParams["savefig.bbox"] = "tight"
 mpl.rcParams["savefig.pad_inches"] = 0.02
 
 models = ["GPT-4o", "GPT-5", "Gemini", "Qwen3"]
-strategies = ["Majority Voting", "Confidence Score", "Ranking"]
+strategies = ["Majority Voting", "Confidence Score", "Pairwise Ranking"]
 colors = ["#F38181", "#FCE38A", "#95E1D3"]
 
 # ========= Fill with your RQ2 numbers =========
@@ -93,5 +93,5 @@ handles, labels = axes[0].get_legend_handles_labels()
 fig.legend(handles, labels, edgecolor="black", loc="lower center", ncol=3, frameon=True, bbox_to_anchor=(0.5, -0.05))
 
 fig.tight_layout()
-fig.savefig("rq2.pdf")
+fig.savefig("rq2.1.pdf")
 plt.show()

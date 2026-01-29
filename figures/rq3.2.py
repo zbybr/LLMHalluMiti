@@ -41,5 +41,5 @@ for i in ax:
     i.spines["right"].set_visible(False)
 
 fig.tight_layout()
-fig.savefig("rq4.1.pdf")
+fig.savefig("rq3.2.pdf")
 plt.show()
