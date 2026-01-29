@@ -11,7 +11,7 @@ mpl.rcParams["savefig.bbox"] = "tight"
 mpl.rcParams["savefig.pad_inches"] = 0.02
 
 models = ["GPT-4o", "GPT-5", "Gemini", "Qwen3"]
-datasets = ["Overall", "TruthfulQA", "HotpotQA", "FreshQA"]
+datasets = ["Average", "TruthfulQA", "HotpotQA", "FreshQA"]
 methods = ["NAME without mutations", "NAME with mutations", "Pass@6"]
 colors = ["#A8D8EA", "#AA96DA", "#FCBAD3"]
 
