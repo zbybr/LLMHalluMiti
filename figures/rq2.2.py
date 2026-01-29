@@ -12,8 +12,8 @@ mpl.rcParams["savefig.pad_inches"] = 0.02
 
 models = ["GPT-4o", "GPT-5", "Gemini", "Qwen3"]
 datasets = ["Average", "TruthfulQA", "HotpotQA", "FreshQA"]
-methods = ["MutRepair without mutations", "MutRepair", "Pass@6"]
-colors = ["#A8D8EA", "#AA96DA", "#FCBAD3"]
+methods = ["MutRepair without mutations", "MutRepair without injection", "MutRepair", "Pass@6"]
+colors = ["#FFD5CD", "#EFBBCF", "#C3AED6", "#8675A9"]
 
 # ====== Fill with your screenshot numbers: (models, datasets) ======
 oa = np.array([
@@ -49,13 +49,13 @@ data_by_method = [oa, oa_cot, oa_ra, pass6]
 # ====== Plot: 1x4 subplots (datasets), x=models, grouped bars=methods ======
 fig, axes = plt.subplots(1, 4, figsize=(12, 3))
 x = np.arange(len(models))
-width = 0.24
+width = 0.2
 
 for d_idx, ds in enumerate(datasets):
     ax = axes[d_idx]
     for m_idx, method in enumerate(methods):
         vals = data_by_method[m_idx][:, d_idx]
-        ax.bar(x + (m_idx - 1) * width, vals, width, label=method, color=colors[m_idx])
+        ax.bar(x + (m_idx - (len(methods)-1)/2) * width, vals, width, label=method, color=colors[m_idx])
 
     ax.set_xticks(x)
     ax.set_xticklabels(models, fontsize=9)
@@ -66,7 +66,7 @@ for d_idx, ds in enumerate(datasets):
 axes[0].set_ylabel("Hallucination Repair Rate (%)", fontsize=10)
 
 handles, labels = axes[0].get_legend_handles_labels()
-fig.legend(handles, labels, loc="lower center", ncol=3, frameon=True,
+fig.legend(handles, labels, loc="lower center", ncol=4, frameon=True,
            edgecolor="black", bbox_to_anchor=(0.5, -0.08))
 
 fig.tight_layout()
