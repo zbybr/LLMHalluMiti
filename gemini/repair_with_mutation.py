@@ -73,17 +73,13 @@ def run_pipeline(input_path, output_path, model_key='gemini-2.5-flash-thinking')
     if os.path.exists(output_path):
         print(f"Resuming from existing output file: {output_path}")
         df_out = pd.read_csv(output_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
-        merge_cols = [c for c in df_out.columns if c in df.columns or c not in df.columns]
+        merge_cols = ["Question"] + [c for c in init_cols if c in df_out.columns]
         df = df.merge(df_out[merge_cols], on="Question", how="left", suffixes=("", "_saved"))
-    else:
         for c in init_cols:
             saved = c + "_saved"
             if saved in df.columns:
-                if df[c].dtype == "object":
-                    base_missing = df[c].isna() | (df[c].astype(str).str.strip() == "")
-                    df.loc[base_missing, c] = df.loc[base_missing, saved]
-                else:
-                    df[c] = df[c].combine_first(df[saved])
+                base_missing = df[c].isna() | (df[c].astype(str).str.strip() == "")
+                df.loc[base_missing, c] = df.loc[base_missing, saved]
                 df.drop(columns=[saved], inplace=True)
 
     condition = (
@@ -176,13 +172,13 @@ def run_pipeline(input_path, output_path, model_key='gemini-2.5-flash-thinking')
         df.loc[index, "mutation_list"] = mutation_list_str
         df.loc[index, "answer_list"] = record_str
         df.loc[index, "final_answer_mv"] = final_answer_mv
-        df.loc[index, "token_cost_mv"] = tokens_mv + tokens
+        df.loc[index, "token_cost_mv"] = tokens_mv
         df.loc[index, "time_cost_mv"] = time_mu + end_mv - start_mv
         df.loc[index, "final_answer_cs"] = final_answer_cs
-        df.loc[index, "token_cost_cs"] = tokens_cs + tokens
+        df.loc[index, "token_cost_cs"] = tokens_cs
         df.loc[index, "time_cost_cs"] = time_mu + end_cs - start_cs
         df.loc[index, "final_answer_ra"] = final_answer_ra
-        df.loc[index, "token_cost_ra"] = tokens_ra + tokens
+        df.loc[index, "token_cost_ra"] = tokens_ra
         df.loc[index, "time_cost_ra"] = time_mu + end_ra - start_ra
 
         df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
