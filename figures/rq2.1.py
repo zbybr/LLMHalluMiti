@@ -13,6 +13,7 @@ mpl.rcParams["savefig.pad_inches"] = 0.02
 models = ["GPT-4o", "GPT-5", "Gemini", "Qwen3"]
 strategies = ["Majority Voting", "Confidence Score", "Pairwise Ranking"]
 colors = ["#A8D8EA", "#FCBAD3", "#AA96DA"]
+hatches = ['//', '\\\\', '++', 'xx']
 
 # ========= Fill with your RQ2 numbers =========
 # Each array shape: (num_models, num_strategies)
@@ -47,7 +48,7 @@ def grouped_bar(ax, data, ylabel):
     width = 0.24
 
     for i, strat in enumerate(strategies):
-        ax.bar(x + (i - 1) * width, data[:, i], width, label=strat, color=colors[i])
+        ax.bar(x + (i - 1) * width, data[:, i], width, label=strat, color=colors[i], edgecolor='0.6', hatch=hatches[i])
 
     # ax.set_title(title, fontsize=14)
     ax.set_ylabel(ylabel, fontsize=12)
@@ -67,30 +68,30 @@ def grouped_bar(ax, data, ylabel):
 
 # ---------- choose layout ----------
 # RQ2 recommended: 3-panel figure (repair, rc.hal, oc)
-fig, axes = plt.subplots(1, 3, figsize=(12, 4))
+fig, axes = plt.subplots(1, 3, figsize=(12, 3.2))
 
 grouped_bar(
     axes[0],
     rechecked_hallu_rate,
-    ylabel="Recheck Hallu Rate (%) ↓ Better"
+    ylabel="Recheck Hallu Rate (%) ↓"
 )
 
 grouped_bar(
     axes[1],
     repair_rate,
-    ylabel="Hallucination Repair Rate (%) ↑ Better"
+    ylabel="Hallucination Repair Rate (%) ↑"
 )
 
 grouped_bar(
     axes[2],
     overcorrection,
-    ylabel="Over-correction Rate (%) ↓ Better"
+    ylabel="Over-correction Rate (%) ↓"
 )
 
 
 # One shared legend (conference style)
 handles, labels = axes[0].get_legend_handles_labels()
-fig.legend(handles, labels, edgecolor="black", loc="lower center", ncol=3, frameon=True, bbox_to_anchor=(0.5, -0.05))
+fig.legend(handles, labels, edgecolor="black", loc="lower center", ncol=3, frameon=True, bbox_to_anchor=(0.5, -0.08))
 
 fig.tight_layout()
 fig.savefig("rq2.1.pdf")
