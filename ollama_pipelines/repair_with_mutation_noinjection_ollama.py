@@ -117,12 +117,6 @@ def run_pipeline(input_path, output_path, model_key):
         print(f"Question: {question}")
         print(f"Base Response: {base_response}")
         print(
-            f"Final Answer by Majority Voting: {final_answer_mv} (tokens={tokens_mv}, time={time_mu + end_mv - start_mv:.4f}s)"
-        )
-        print(
-            f"Final Answer by Confidence Score: {final_answer_cs} (tokens={tokens_cs}, time={time_mu + end_cs - start_cs:.4f}s)"
-        )
-        print(
             f"Final Answer by Ranking: {final_answer_ra} (tokens={tokens_ra}, time={time_mu + end_ra - start_ra:.4f}s)"
         )
         mutation_list_str = "\n".join(mutation_list)
