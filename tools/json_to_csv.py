@@ -15,6 +15,24 @@ def json_to_csv(json_file, csv_file):
     if not isinstance(data, list):
         raise ValueError("JSON structure not supported: must be a list of objects")
 
+    _process_and_write_csv(data, json_file, csv_file)
+
+
+def jsonl_to_csv(jsonl_file, csv_file):
+    data = []
+    with open(jsonl_file, 'r', encoding='utf-8-sig') as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                data.append(json.loads(line))
+
+    if not data:
+        raise ValueError("The JSONL file is empty or contains no valid JSON objects.")
+
+    _process_and_write_csv(data, jsonl_file, csv_file)
+
+
+def _process_and_write_csv(data, json_file, csv_file):
     fieldnames = set()
     for item in data:
         fieldnames.update(item.keys())
@@ -33,4 +51,5 @@ def json_to_csv(json_file, csv_file):
     print(f"Successfully converted {json_file} → {csv_file}")
 
 
-json_to_csv("../verified-wikipedia-dev.json", "triviaqa.csv")
+if __name__ == "__main__":
+    jsonl_to_csv("LeetCodeDataset-train.jsonl", "leetcode_train.csv")
