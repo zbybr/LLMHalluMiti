@@ -79,3 +79,5 @@ return this answer sentence, DO NOT output the ranking or confidence score."""
 
 LLM_JUDGE_PROMPT = """You are given a correct answer and another context, your task is to judge the final answer of the 
 context is correct or not according to the given correct answer. Only return YES or NO."""
+
+

@@ -35,6 +35,7 @@ def safe_chat_call(messages, model_key, max_retries=20, base_delay=0.0):
                 model=model_key,
                 messages=messages,
                 temperature=0.0,
+                extra_body={"enable_thinking": False},
             )
 
             content = response.choices[0].message.content

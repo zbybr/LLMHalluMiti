@@ -37,6 +37,7 @@ def safe_chat_call(messages, model_key, max_retries=20, base_delay=0.0):
                 model=model_key,
                 messages=messages,
                 temperature=0.0,
+                extra_body={"enable_thinking": False},
             )
 
             content = response.choices[0].message.content
@@ -204,7 +205,7 @@ if __name__ == "__main__":
     parser.add_argument("--dataset_path", type=str, required=True, help="Dataset path")
     # parser.add_argument('--model_key', type=str, required=True, help="Model key")
     args = parser.parse_args()
-    model_key = 'gpt-4o'
+    model_key = 'qwen3-32b'
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
     output_path = f"./outputs/{model_key}_mutation_outputs_{dataset_name}.csv"
