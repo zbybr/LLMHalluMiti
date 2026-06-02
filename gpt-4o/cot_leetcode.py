@@ -72,12 +72,13 @@ def run_pipeline(input_path, output_path, model_key='gpt-4o'):
     df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
-        question = row["Question"]
+        question = row["problem_description"]
+        format = row["starter_code"]
         base_response = row['base_response']
-        qapair = f"Question: {question}\n\nBase_response: {base_response}"
+        qapair = f"Question: {question}\n\nFormat:{format}\n\nBase_response: {base_response}"
         start = time.time()
         messages = [
-            {"role": "system", "content": prompts.COT_PROMPT},
+            {"role": "system", "content": prompts.COT_PROMPT_LEETCODE},
             {"role": "user", "content": qapair}
         ]
         final_answer, tokens = safe_chat_call(messages, model_key)

@@ -17,25 +17,6 @@ detail, swapping a cause–effect relationship, or adding a small commonsense tw
 incomplete, rewrite it into a full sentence using the question’s context. Output all mutations as a numbered list 
 without explanations."""
 
-# RECHECK_PROMPT = """The **original response** contains hallucinations or factual errors in answering the
-# given question. Your task is to fact-check it and provide a corrected one-sentence answer.
-#
-# Follow these steps exactly in order:
-# 1. Using your factual knowledge or trusted sources, determine whether the original response is factually correct for
-# the given question. Correct answer must consider real facts, not myths, fairy tails or legends.
-# 2. If any hallucination or factual error is found, produce a fully corrected factual answer to the question, in
-# **exactly one sentence** and don't start with 'Yes' or 'No', preserving key facts from the question context. For
-# subjective/unverifiable questions or questions you cannot provide answers, respond with "I have no idea."
-# 3. If no hallucination is found, repeat the original answer **unaltered in factual content and meaning**, also in
-# **exactly one sentence**.
-# 4. After re-answering, output 'YES' if hallucinations were present, or 'NO' if none were found.
-#
-# Your output must strictly follow this numbered list format:
-# 1. [Corrected or repeated answer in exactly one sentence]
-# 2. [YES or NO only]
-#
-# Do not include anything else outside this format."""
-
 COT_PROMPT = """You are given a question and original response.
 Let's think step by step and provide the most accurate final answer.
 The final answer should exactly contain one sentence.
@@ -48,26 +29,6 @@ decided, you should think step by step, choose the most possible one.
 
 Final answer should be in exactly one sentence.
 """
-
-# VERBALIZED_SAMPLING_PROMPT = """You are a helpful assistant. You are given a question and a base response. The base
-# response may contains hallucinations or factual errors.
-#
-# For each query, verify facts step-by-step and produce a set of five corrected, factual, one-sentence correct answers for
-# the original question based on real-world truth each within a separate <response> tag.
-#
-# If the question explicitly asks about myths, legends, fiction, films, or other non-real contexts, answer within that
-# fictional context but clearly label it as fictional. Then you NEED to provide the accurate real‑world answer. Real‑world
-# answer should not include invented details or information from non-authoritative sources (e.g., advertisements, fan
-# fiction, or marketing).
-#
-# Responses should each include:
-# - a <text> field for the answer text
-# - a numeric <probability> field sampled at random from the [full distribution / tails of the distribution], such that
-# the probability of each response is less than 0.10
-# - a numeric <confidence> field representing the model's confidence score for the factual correctness of the answer (
-# range 0.00–1.00, two decimal places).
-#
-# Do not output any index numbers before responses. Both probability and confidence should be numeric."""
 
 CONFIDENCE_SCORE_PROMPT = """You are a helpful assistant. I have a question and six potential answer sentences. For 
 each answer sentence, please evaluate its relevance and quality in addressing the question. Provide a numeric number 
@@ -114,7 +75,14 @@ The best answer is the one with the lowest rank in the matrix. Only return this 
 """
 
 REFINE_PROMPT = """You are may given a paragraph, you need to find the final answer sentence in this paragraph. And ONLY 
-return this sentence itself, DO NOT include anything else."""
+return this answer sentence, DO NOT output the ranking or confidence score."""
 
 LLM_JUDGE_PROMPT = """You are given a correct answer and another context, your task is to judge the final answer of the 
 context is correct or not according to the given correct answer. Only return YES or NO."""
+
+COT_PROMPT_LEETCODE = """You are an expert Python programmer. You will be given a LeetCode problem specification, 
+starter code, and a draft solution.
+Think step-by-step internally to evaluate the draft solution for correctness, edge cases, and efficiency. 
+CRITICAL REQUIREMENT: Your final response MUST contain ONLY the executable Python code block. Do NOT include any 
+explanations, introduction, markdown text outside the code block, or commentary. 
+"""

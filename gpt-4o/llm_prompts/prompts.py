@@ -80,4 +80,9 @@ return this answer sentence, DO NOT output the ranking or confidence score."""
 LLM_JUDGE_PROMPT = """You are given a correct answer and another context, your task is to judge the final answer of the 
 context is correct or not according to the given correct answer. Only return YES or NO."""
 
-
+COT_PROMPT_LEETCODE = """You are an expert Python programmer. You will be given a LeetCode problem specification, 
+starter code, and a draft solution.
+Think step-by-step internally to evaluate the draft solution for correctness, edge cases, and efficiency. 
+CRITICAL REQUIREMENT: Your final response MUST contain ONLY the executable Python code block. Do NOT include any 
+explanations, introduction, markdown text outside the code block, or commentary. 
+"""
