@@ -86,3 +86,95 @@ Think step-by-step internally to evaluate the draft solution for correctness, ed
 CRITICAL REQUIREMENT: Your final response MUST contain ONLY the executable Python code block. Do NOT include any 
 explanations, introduction, markdown text outside the code block, or commentary. 
 """
+
+MUTATION_LEETCODE_PROMPT = """\
+You are an expert Python engineer specialising in code refactoring.
+
+Given a LeetCode problem and a base solution, generate {n} diverse mutations of \
+the solution. Each mutation must be a COMPLETE, RUNNABLE Python solution that \
+preserves the class/function signature shown in the starter code.
+
+Apply the following metamorphic relation types (use each at least once):
+
+1. Meaning-Preserving Rewrite
+   Rename local variables or helper functions to semantically similar names; \
+convert a list comprehension to an equivalent for-loop or vice versa; reformat \
+multi-line expressions; swap equivalent built-ins (e.g. `len(x) == 0` → `not x`). \
+The logic and algorithm must remain identical.
+
+2. Structural Transformation
+   Change control-flow structure without altering the algorithm: \
+for-loop ↔ while-loop; recursion ↔ iteration; extract a repeated block into a \
+helper function or inline an existing helper; reorder independent statements.
+
+3. Semantic Polarity Shift
+   Introduce a targeted semantic inversion that may expose hidden assumptions: \
+negate a boolean condition (`if x` → `if not x`); swap a comparison operator \
+(`<` ↔ `>`; `<=` ↔ `>=`); alter a boundary value by ±1 \
+(e.g. `n - 1` → `n`, `range(n)` → `range(n + 1)`).
+
+4. Algorithm / Data-Structure Variant
+   Replace the core algorithm or data structure with a plausible alternative: \
+BFS ↔ DFS; two-pointer ↔ sliding window; dict ↔ sorted list; \
+sort-then-scan ↔ heap; memoisation ↔ tabulation.
+
+RULES:
+- Do NOT fix bugs. Mutate faithfully even if the base code is wrong.
+- Do NOT add any explanation or prose outside the code blocks.
+- Every mutation must include all necessary imports.
+
+Output exactly {n} numbered blocks and nothing else:
+1.
+```python
+<mutation 1>
+```
+2.
+```python
+<mutation 2>
+```
+"""
+
+REPAIR_LEETCODE_PROMPT = """\
+You are an expert Python engineer performing a critical code review.
+
+The code below is suspected to contain one or more of the following faults:
+  - Hallucinated API call: a method, function, or module that does not exist in \
+Python's standard library or common third-party packages.
+  - Logic error: incorrect algorithm, wrong operator, or misplaced condition.
+  - Boundary / off-by-one error: incorrect index, loop range, or comparison that \
+fails on edge cases (empty input, single element, maximum value).
+  - Type or return-value mismatch: incompatible operands, wrong return type, or \
+missing return statement.
+
+Instructions:
+1. Trace the code line by line against the problem description and starter code.
+2. Identify which fault category (if any) is present.
+3. If the code is already correct, return it UNCHANGED.
+4. If you find a fault, produce a fully corrected solution.
+
+Return ONLY a single fenced Python code block — no explanation, no diff, no prose.
+
+```python
+<corrected solution>
+```
+"""
+
+PAIRWISE_JUDGE_LEETCODE_PROMPT = """\
+You are an impartial judge evaluating two Python solutions for a LeetCode problem.
+
+Scoring criteria (in priority order):
+1. Functional correctness: does the solution correctly handle all cases described \
+in the problem, including edge cases?
+2. Absence of hallucinated APIs: does the code avoid calling non-existent \
+functions, methods, or modules?
+3. Algorithmic soundness: is the algorithm logically correct and efficient?
+4. Code quality: is the code readable, idiomatic, and free of dead code?
+
+Assign candidate A a score in [1, {n}].
+1 = candidate A is the best possible; {n} = candidate A is the worst.
+Compare relative to candidate B: if A is better, give A a low score; \
+if B is better, give A a high score.
+
+Respond with ONLY a single integer — nothing else.
+"""
+

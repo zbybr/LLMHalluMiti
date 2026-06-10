@@ -17,25 +17,6 @@ detail, swapping a cause–effect relationship, or adding a small commonsense tw
 incomplete, rewrite it into a full sentence using the question’s context. Output all mutations as a numbered list 
 without explanations."""
 
-# RECHECK_PROMPT = """The **original response** contains hallucinations or factual errors in answering the
-# given question. Your task is to fact-check it and provide a corrected one-sentence answer.
-#
-# Follow these steps exactly in order:
-# 1. Using your factual knowledge or trusted sources, determine whether the original response is factually correct for
-# the given question. Correct answer must consider real facts, not myths, fairy tails or legends.
-# 2. If any hallucination or factual error is found, produce a fully corrected factual answer to the question, in
-# **exactly one sentence** and don't start with 'Yes' or 'No', preserving key facts from the question context. For
-# subjective/unverifiable questions or questions you cannot provide answers, respond with "I have no idea."
-# 3. If no hallucination is found, repeat the original answer **unaltered in factual content and meaning**, also in
-# **exactly one sentence**.
-# 4. After re-answering, output 'YES' if hallucinations were present, or 'NO' if none were found.
-#
-# Your output must strictly follow this numbered list format:
-# 1. [Corrected or repeated answer in exactly one sentence]
-# 2. [YES or NO only]
-#
-# Do not include anything else outside this format."""
-
 COT_PROMPT = """You are given a question and original response.
 Let's think step by step and provide the most accurate final answer.
 The final answer should exactly contain one sentence.
@@ -48,26 +29,6 @@ decided, you should think step by step, choose the most possible one.
 
 Final answer should be in exactly one sentence.
 """
-
-# VERBALIZED_SAMPLING_PROMPT = """You are a helpful assistant. You are given a question and a base response. The base
-# response may contains hallucinations or factual errors.
-#
-# For each query, verify facts step-by-step and produce a set of five corrected, factual, one-sentence correct answers for
-# the original question based on real-world truth each within a separate <response> tag.
-#
-# If the question explicitly asks about myths, legends, fiction, films, or other non-real contexts, answer within that
-# fictional context but clearly label it as fictional. Then you NEED to provide the accurate real‑world answer. Real‑world
-# answer should not include invented details or information from non-authoritative sources (e.g., advertisements, fan
-# fiction, or marketing).
-#
-# Responses should each include:
-# - a <text> field for the answer text
-# - a numeric <probability> field sampled at random from the [full distribution / tails of the distribution], such that
-# the probability of each response is less than 0.10
-# - a numeric <confidence> field representing the model's confidence score for the factual correctness of the answer (
-# range 0.00–1.00, two decimal places).
-#
-# Do not output any index numbers before responses. Both probability and confidence should be numeric."""
 
 CONFIDENCE_SCORE_PROMPT = """You are a helpful assistant. I have a question and six potential answer sentences. For 
 each answer sentence, please evaluate its relevance and quality in addressing the question. Provide a numeric number 
@@ -118,3 +79,94 @@ return this sentence itself, DO NOT include anything else."""
 
 LLM_JUDGE_PROMPT = """You are given a correct answer and another context, your task is to judge the final answer of the 
 context is correct or not according to the given correct answer. Only return YES or NO."""
+
+MUTATION_LEETCODE_PROMPT = """\
+You are an expert Python engineer specialising in code refactoring.
+
+Given a LeetCode problem and a base solution, generate {n} diverse mutations of \
+the solution. Each mutation must be a COMPLETE, RUNNABLE Python solution that \
+preserves the class/function signature shown in the starter code.
+
+Apply the following metamorphic relation types (use each at least once):
+
+1. Meaning-Preserving Rewrite
+   Rename local variables or helper functions to semantically similar names; \
+convert a list comprehension to an equivalent for-loop or vice versa; reformat \
+multi-line expressions; swap equivalent built-ins (e.g. `len(x) == 0` → `not x`). \
+The logic and algorithm must remain identical.
+
+2. Structural Transformation
+   Change control-flow structure without altering the algorithm: \
+for-loop ↔ while-loop; recursion ↔ iteration; extract a repeated block into a \
+helper function or inline an existing helper; reorder independent statements.
+
+3. Semantic Polarity Shift
+   Introduce a targeted semantic inversion that may expose hidden assumptions: \
+negate a boolean condition (`if x` → `if not x`); swap a comparison operator \
+(`<` ↔ `>`; `<=` ↔ `>=`); alter a boundary value by ±1 \
+(e.g. `n - 1` → `n`, `range(n)` → `range(n + 1)`).
+
+4. Algorithm / Data-Structure Variant
+   Replace the core algorithm or data structure with a plausible alternative: \
+BFS ↔ DFS; two-pointer ↔ sliding window; dict ↔ sorted list; \
+sort-then-scan ↔ heap; memoisation ↔ tabulation.
+
+RULES:
+- Do NOT fix bugs. Mutate faithfully even if the base code is wrong.
+- Do NOT add any explanation or prose outside the code blocks.
+- Every mutation must include all necessary imports.
+
+Output exactly {n} numbered blocks and nothing else:
+1.
+```python
+<mutation 1>
+```
+2.
+```python
+<mutation 2>
+```
+"""
+
+REPAIR_LEETCODE_PROMPT = """\
+You are an expert Python engineer performing a critical code review.
+
+The code below is suspected to contain one or more of the following faults:
+  - Hallucinated API call: a method, function, or module that does not exist in \
+Python's standard library or common third-party packages.
+  - Logic error: incorrect algorithm, wrong operator, or misplaced condition.
+  - Boundary / off-by-one error: incorrect index, loop range, or comparison that \
+fails on edge cases (empty input, single element, maximum value).
+  - Type or return-value mismatch: incompatible operands, wrong return type, or \
+missing return statement.
+
+Instructions:
+1. Trace the code line by line against the problem description and starter code.
+2. Identify which fault category (if any) is present.
+3. If the code is already correct, return it UNCHANGED.
+4. If you find a fault, produce a fully corrected solution.
+
+Return ONLY a single fenced Python code block — no explanation, no diff, no prose.
+
+```python
+<corrected solution>
+```
+"""
+
+PAIRWISE_JUDGE_LEETCODE_PROMPT = """\
+You are an impartial judge evaluating two Python solutions for a LeetCode problem.
+
+Scoring criteria (in priority order):
+1. Functional correctness: does the solution correctly handle all cases described \
+in the problem, including edge cases?
+2. Absence of hallucinated APIs: does the code avoid calling non-existent \
+functions, methods, or modules?
+3. Algorithmic soundness: is the algorithm logically correct and efficient?
+4. Code quality: is the code readable, idiomatic, and free of dead code?
+
+Assign candidate A a score in [1, {n}].
+1 = candidate A is the best possible; {n} = candidate A is the worst.
+Compare relative to candidate B: if A is better, give A a low score; \
+if B is better, give A a high score.
+
+Respond with ONLY a single integer — nothing else.
+"""
