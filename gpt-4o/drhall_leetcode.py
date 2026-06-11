@@ -19,7 +19,7 @@ For code, consistency is measured by test execution:
   - The final answer is selected from the majority of passing solutions.
   - If no solution passes, a random candidate is returned (tie-break).
 
-This contrasts with MutRepair (repair_leetcode.py), which mutates the
+This contrasts with MutRepair (repair_with_mutation_leetcode.py), which mutates the
 *already-generated code* and uses LLM-as-Judge pairwise ranking for
 selection — making the two methods a clean methodological comparison:
 
@@ -45,7 +45,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-
+import llm_prompts.prompts as prompts
 import pandas as pd
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -68,58 +68,12 @@ client = OpenAI(
 #   Path k  — combined word + structure substitution (most diverse)
 # We parameterise to k paths so the caller can match the number of
 # mutations used by MutRepair for a fair token-cost comparison.
-PARAPHRASE_PROMPT = """\
-You are an expert at reformulating technical problem descriptions.
 
-Given a LeetCode problem description, generate {k} diverse paraphrases that
-preserve the EXACT same requirements and constraints, but vary the wording
-and/or sentence structure.  Apply the following strategies in order
-(cycle through if k > 3):
-
-1. Word-level substitution
-   Replace nouns, verbs, and adjectives with synonyms while keeping the
-   sentence structure as close to the original as possible.
-   Example: "find the maximum" → "locate the largest", "return" → "output".
-
-2. Structure-level substitution
-   Reorder clauses, split compound sentences, or change active/passive voice
-   while keeping the original vocabulary as intact as possible.
-   Example: "Given an array, return its length." →
-            "An array is given. Its length should be returned."
-
-3. Combined substitution
-   Apply both word-level and structure-level changes simultaneously for a
-   maximally diverse reformulation.
-
-Rules:
-- Every paraphrase must be a complete, self-contained problem description.
-- Do NOT simplify, add, or remove any constraints or requirements.
-- Do NOT include example code or sample inputs/outputs unless the original does.
-- Output exactly {k} numbered paraphrases and nothing else.
-
-Format:
-1. <paraphrase 1>
-
-2. <paraphrase 2>
-
-...
-"""
 
 # Stage 2 — Code Generation from a (possibly paraphrased) problem
 # The same prompt is used for all k paths and for the base_response
 # re-generation path.  LLM input: paraphrased problem + starter_code.
-GENERATION_PROMPT = """\
-You are an expert Python programmer solving a LeetCode problem.
 
-Implement a solution that satisfies ALL requirements described below.
-Your solution must match the provided starter code signature exactly.
-
-Return ONLY a single fenced Python code block — no explanation, no prose.
-
-```python
-<solution here>
-```
-"""
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Utilities
@@ -220,7 +174,7 @@ def stage1_paraphrase_problem(problem_desc: str, model_key: str,
     it is appended externally as candidate path 0.
     """
     raw, tokens = safe_chat_call(
-        [{"role": "system", "content": PARAPHRASE_PROMPT.format(k=k)},
+        [{"role": "system", "content": prompts.PARAPHRASE_PROMPT_DRHALL.format(k=k)},
          {"role": "user",   "content": problem_desc}],
         model_key,
     )
@@ -243,7 +197,7 @@ def stage2_generate_code(problem_desc: str, starter_code: str,
         f"## Starter Code\n```python\n{starter_code}\n```"
     )
     raw, tokens = safe_chat_call(
-        [{"role": "system", "content": GENERATION_PROMPT},
+        [{"role": "system", "content": prompts.GENERATION_PROMPT_DRHALL},
          {"role": "user",   "content": user}],
         model_key,
     )
@@ -297,7 +251,7 @@ def run_pipeline(input_path: str, output_path: str, model_key: str,
     if missing:
         raise ValueError(f"CSV is missing required columns: {missing}")
 
-    out_cols = ["final_code", "token_cost", "time_cost",
+    out_cols = ["final_answer", "token_cost", "time_cost",
                 "paraphrase_list", "candidate_list", "pass_flags"]
     for c in out_cols:
         if c not in df.columns:
@@ -316,7 +270,7 @@ def run_pipeline(input_path: str, output_path: str, model_key: str,
                 df.loc[mask, c] = df.loc[mask, s]
                 df.drop(columns=[s], inplace=True)
 
-    todo = df[df["final_code"].isna() | (df["final_code"].astype(str).str.strip() == "")]
+    todo = df[df["final_answer"].isna() | (df["final_answer"].astype(str).str.strip() == "")]
     print(f"Total: {len(df)}  |  Done: {len(df)-len(todo)}  |  Remaining: {len(todo)}")
 
     for idx, row in tqdm(todo.iterrows(), total=len(todo), desc="DrHall-ECMR3"):
@@ -351,7 +305,7 @@ def run_pipeline(input_path: str, output_path: str, model_key: str,
         candidates.append(base_code)
 
         # Stage 3 — majority vote by test execution
-        final_code, pass_flags, n_passing = majority_vote(
+        final_answer, pass_flags, n_passing = majority_vote(
             candidates, test_str, entry_point, exec_timeout
         )
 
@@ -359,7 +313,7 @@ def run_pipeline(input_path: str, output_path: str, model_key: str,
         print(f"  [{task_id}]  passing={n_passing}/{len(candidates)}"
               f"  tokens={total_tokens}  time={elapsed}s")
 
-        df.loc[idx, "final_code"]      = final_code
+        df.loc[idx, "final_answer"]      = final_answer
         df.loc[idx, "token_cost"]      = total_tokens
         df.loc[idx, "time_cost"]       = elapsed
         df.loc[idx, "paraphrase_list"] = "\n\n---\n\n".join(

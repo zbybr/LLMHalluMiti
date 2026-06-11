@@ -38,18 +38,17 @@ Consistency guarantee
 ----------------------
 base_pass is computed ONCE per task_id and cached, then shared across all
 methods.  This guarantees that HR is identical for every method and that
-HRR / OCR are computed against the same base classification, even if a
-flaky test would otherwise flip between runs.
+HRR / OCR are computed against the same base classification.
 
 Expected input schema (per repair CSV)
 ----------------------------------------
-  Required : task_id, final_code
+  Required : task_id, final_answer
   Optional : base_response, test, entry_point
               (merged from --dataset_path when missing)
 
-Both repair_with_mutation_leetcode.py and drhall_leetcode.py write their
-output by appending columns to the original dataset CSV, so their outputs
-contain all required columns and can be evaluated standalone.
+All repair scripts (repair_with_mutation_leetcode.py, drhall_leetcode.py)
+write their repaired solution to the `final_answer` column and append it to
+the original dataset CSV, so their outputs can be evaluated standalone.
 
 Usage
 -----
@@ -76,6 +75,9 @@ from pathlib import Path
 
 import pandas as pd
 from tqdm import tqdm
+
+
+RESULT_COL = "final_answer"     # unified result column across all repair scripts
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -168,20 +170,34 @@ def compute_metrics(base_hall: list, final_hall: list) -> dict:
 # Data loading
 # ─────────────────────────────────────────────────────────────────────────────
 
-REQUIRED_AFTER_MERGE = {"task_id", "base_response", "final_code", "test", "entry_point"}
+def _non_empty_mask(df: pd.DataFrame, col: str) -> pd.Series:
+    """Boolean mask: rows where df[col] holds a non-empty string."""
+    return df[col].notna() & (df[col].astype(str).str.strip() != "")
 
 
 def load_repair_csv(path: str, dataset_path: str | None, label: str) -> pd.DataFrame:
     """
     Load a repair output CSV; merge base_response / test / entry_point from
     the original dataset CSV if any of them are missing.
+
+    The repaired solution must be in the `final_answer` column.
     """
     df = pd.read_csv(path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
-    if "task_id" not in df.columns or "final_code" not in df.columns:
+    if "task_id" not in df.columns:
         raise ValueError(
-            f"[{label}] {path} must contain at least 'task_id' and 'final_code'. "
+            f"[{label}] {path} must contain a 'task_id' column. "
             f"Found columns: {list(df.columns)}"
+        )
+    if RESULT_COL not in df.columns:
+        raise ValueError(
+            f"[{label}] {path} must contain a '{RESULT_COL}' column holding the "
+            f"repaired solution. Found columns: {list(df.columns)}"
+        )
+    if not _non_empty_mask(df, RESULT_COL).any():
+        raise ValueError(
+            f"[{label}] '{RESULT_COL}' column in {path} is entirely empty — "
+            "has the repair script finished running?"
         )
 
     mergeable = ("base_response", "test", "entry_point")
@@ -200,15 +216,11 @@ def load_repair_csv(path: str, dataset_path: str | None, label: str) -> pd.DataF
             )
         df = df.merge(orig[["task_id"] + missing], on="task_id", how="left")
 
-    still_missing = REQUIRED_AFTER_MERGE - set(df.columns)
-    if still_missing:
-        raise ValueError(f"[{label}] still missing columns after merge: {still_missing}")
-
-    # Drop rows without a final_code (unprocessed by the repair script)
-    has_final = df["final_code"].notna() & (df["final_code"].astype(str).str.strip() != "")
+    # Drop rows whose final_answer is empty (unprocessed by the repair script)
+    has_final = _non_empty_mask(df, RESULT_COL)
     n_dropped = (~has_final).sum()
     if n_dropped:
-        print(f"[{label}] Skipping {n_dropped} rows without final_code "
+        print(f"[{label}] Skipping {n_dropped} rows without '{RESULT_COL}' "
               f"(not yet processed by the repair script).")
     return df[has_final].reset_index(drop=True)
 
@@ -224,7 +236,7 @@ def evaluate_method(
     timeout: float,
 ) -> tuple:
     """
-    Evaluate one method's repair output.
+    Evaluate one method's repair output (final_answer column).
 
     base_pass_cache : dict[task_id → bool]
         Shared across methods.  base_pass for each task_id is computed once
@@ -247,7 +259,7 @@ def evaluate_method(
                 base_code, test_str, entry_point, timeout)
         base_pass = base_pass_cache[task_id]
 
-        final_code = extract_code(str(row["final_code"]))
+        final_code = extract_code(str(row[RESULT_COL]))
         final_pass = run_tests(final_code, test_str, entry_point, timeout)
 
         records.append({
@@ -278,7 +290,8 @@ def run_evaluation(
 
     Parameters
     ----------
-    repair_paths : list of CSV paths (one per repair method)
+    repair_paths : list of CSV paths (one per repair method); each must
+                   contain task_id and final_answer columns
     method_names : human-readable name per path (same length as repair_paths)
     output_path  : where to save the merged per-task annotation CSV
     dataset_path : original dataset CSV; needed only when a repair CSV lacks
@@ -347,9 +360,9 @@ def print_comparison(results: dict) -> None:
     print("  Hallucination Repair Evaluation")
     print("=" * len(header))
 
-    # Sample counts and base HR per method
-    # (HR is identical when methods share the same task set, because
-    #  base_pass is cached; it may differ if the task sets differ.)
+    # Sample counts and base HR per method.
+    # HR is identical when methods share the same task set (base_pass cached);
+    # it may differ if the task sets differ.
     for m in methods:
         r = results[m]
         print(f"  {m:<{col_w}} : n={r['n_total']},  "
@@ -380,7 +393,7 @@ def print_comparison(results: dict) -> None:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(
         description="Execution-based hallucination evaluation for LeetCode repair "
-                    "(supports multi-method comparison)")
+                    "(supports multi-method comparison; reads 'final_answer' column)")
     ap.add_argument(
         "--repair_paths", required=True, nargs="+",
         help="One or more repair output CSVs "
@@ -396,7 +409,7 @@ if __name__ == "__main__":
              "base_response / test / entry_point columns",
     )
     ap.add_argument(
-        "--output_path", default="./outputs/evaluation_results.csv",
+        "--output_path", default="./outputs/eval_code/evaluation_results.csv",
         help="Where to save the merged per-task annotation CSV",
     )
     ap.add_argument(

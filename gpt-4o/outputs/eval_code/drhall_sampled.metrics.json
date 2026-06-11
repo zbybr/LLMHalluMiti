@@ -1,0 +1,13 @@
+{
+  "gpt-4o_drhall_ecmr3_gpt-4o_leetcode_sampled_responses_sampled": {
+    "n_total": 10,
+    "n_base_hall": 6,
+    "n_final_hall": 2,
+    "n_repaired": 4,
+    "n_over_corrected": 0,
+    "HR": 60.0,
+    "RHR": 20.0,
+    "HRR": 66.67,
+    "OCR": 0.0
+  }
+}

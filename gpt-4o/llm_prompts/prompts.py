@@ -177,4 +177,53 @@ if B is better, give A a high score.
 
 Respond with ONLY a single integer — nothing else.
 """
+GENERATION_PROMPT_DRHALL = """\
+You are an expert Python programmer solving a LeetCode problem.
 
+Implement a solution that satisfies ALL requirements described below.
+Your solution must match the provided starter code signature exactly.
+
+Return ONLY a single fenced Python code block — no explanation, no prose.
+
+```python
+<solution here>
+```
+"""
+
+
+PARAPHRASE_PROMPT_DRHALL = """\
+You are an expert at reformulating technical problem descriptions.
+
+Given a LeetCode problem description, generate {k} diverse paraphrases that
+preserve the EXACT same requirements and constraints, but vary the wording
+and/or sentence structure.  Apply the following strategies in order
+(cycle through if k > 3):
+
+1. Word-level substitution
+   Replace nouns, verbs, and adjectives with synonyms while keeping the
+   sentence structure as close to the original as possible.
+   Example: "find the maximum" → "locate the largest", "return" → "output".
+
+2. Structure-level substitution
+   Reorder clauses, split compound sentences, or change active/passive voice
+   while keeping the original vocabulary as intact as possible.
+   Example: "Given an array, return its length." →
+            "An array is given. Its length should be returned."
+
+3. Combined substitution
+   Apply both word-level and structure-level changes simultaneously for a
+   maximally diverse reformulation.
+
+Rules:
+- Every paraphrase must be a complete, self-contained problem description.
+- Do NOT simplify, add, or remove any constraints or requirements.
+- Do NOT include example code or sample inputs/outputs unless the original does.
+- Output exactly {k} numbered paraphrases and nothing else.
+
+Format:
+1. <paraphrase 1>
+
+2. <paraphrase 2>
+
+...
+"""

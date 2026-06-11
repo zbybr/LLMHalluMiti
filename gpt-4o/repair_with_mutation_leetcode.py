@@ -206,7 +206,7 @@ def run_pipeline(input_path: str, output_path: str,
         raise ValueError(f"CSV is missing required columns: {missing}")
 
     # New output columns
-    out_cols = ["final_code", "token_cost", "time_cost",
+    out_cols = ["final_answer", "token_cost", "time_cost",
                 "mutation_list", "candidate_list", "score_matrix"]
     for c in out_cols:
         if c not in df.columns:
@@ -225,7 +225,7 @@ def run_pipeline(input_path: str, output_path: str,
                 df.loc[mask, c] = df.loc[mask, s]
                 df.drop(columns=[s], inplace=True)
 
-    todo = df[df["final_code"].isna() | (df["final_code"].astype(str).str.strip() == "")]
+    todo = df[df["final_answer"].isna() | (df["final_answer"].astype(str).str.strip() == "")]
     print(f"Total: {len(df)}  |  Done: {len(df)-len(todo)}  |  Remaining: {len(todo)}")
 
     for idx, row in tqdm(todo.iterrows(), total=len(todo), desc="MutRepair"):
@@ -254,13 +254,13 @@ def run_pipeline(input_path: str, output_path: str,
             total_tokens += tok2
 
         # Stage 3
-        final_code, tok3, score_matrix = stage3_pairwise_ranking(ctx, candidates, model_key)
+        final_answer, tok3, score_matrix = stage3_pairwise_ranking(ctx, candidates, model_key)
         total_tokens += tok3
 
         elapsed = round(time.time() - t0, 2)
         print(f"  [{task_id}]  tokens={total_tokens}  time={elapsed}s")
 
-        df.loc[idx, "final_answer"]    = final_code
+        df.loc[idx, "final_answer"]    = final_answer
         df.loc[idx, "token_cost"]    = total_tokens
         df.loc[idx, "time_cost"]     = elapsed
         df.loc[idx, "mutation_list"] = "\n\n---\n\n".join(
