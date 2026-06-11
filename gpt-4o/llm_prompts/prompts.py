@@ -177,6 +177,7 @@ if B is better, give A a high score.
 
 Respond with ONLY a single integer — nothing else.
 """
+
 GENERATION_PROMPT_DRHALL = """\
 You are an expert Python programmer solving a LeetCode problem.
 
@@ -189,7 +190,6 @@ Return ONLY a single fenced Python code block — no explanation, no prose.
 <solution here>
 ```
 """
-
 
 PARAPHRASE_PROMPT_DRHALL = """\
 You are an expert at reformulating technical problem descriptions.
