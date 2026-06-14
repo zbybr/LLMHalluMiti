@@ -178,19 +178,6 @@ if B is better, give A a high score.
 Respond with ONLY a single integer — nothing else.
 """
 
-GENERATION_PROMPT_DRHALL = """\
-You are an expert Python programmer solving a LeetCode problem.
-
-Implement a solution that satisfies ALL requirements described below.
-Your solution must match the provided starter code signature exactly.
-
-Return ONLY a single fenced Python code block — no explanation, no prose.
-
-```python
-<solution here>
-```
-"""
-
 PARAPHRASE_PROMPT_DRHALL = """\
 You are an expert at reformulating technical problem descriptions.
 
@@ -202,28 +189,62 @@ and/or sentence structure.  Apply the following strategies in order
 1. Word-level substitution
    Replace nouns, verbs, and adjectives with synonyms while keeping the
    sentence structure as close to the original as possible.
-   Example: "find the maximum" → "locate the largest", "return" → "output".
 
 2. Structure-level substitution
    Reorder clauses, split compound sentences, or change active/passive voice
    while keeping the original vocabulary as intact as possible.
-   Example: "Given an array, return its length." →
-            "An array is given. Its length should be returned."
 
 3. Combined substitution
-   Apply both word-level and structure-level changes simultaneously for a
-   maximally diverse reformulation.
+   Apply both word-level and structure-level changes simultaneously.
 
 Rules:
 - Every paraphrase must be a complete, self-contained problem description.
 - Do NOT simplify, add, or remove any constraints or requirements.
-- Do NOT include example code or sample inputs/outputs unless the original does.
 - Output exactly {k} numbered paraphrases and nothing else.
 
 Format:
 1. <paraphrase 1>
 
 2. <paraphrase 2>
+"""
 
-...
+REPAIR_PROMPT_DRHALL = """\
+You are an expert Python programmer reviewing a candidate solution to a \
+LeetCode problem.
+
+Carefully check whether the candidate solution correctly and completely \
+solves the problem described below.
+
+- If the solution is correct, return it UNCHANGED.
+- If it contains any error (wrong logic, non-existent API, boundary mistake, \
+wrong return value, missing edge case), return a corrected solution that \
+matches the starter code signature exactly.
+
+Return ONLY a single fenced Python code block — no explanation, no prose.
+
+```python
+<solution here>
+```
+"""
+
+VOTING_INPUT_PROMPT_DRHALL = """\
+You are an expert Python programmer designing test INPUTS for a LeetCode problem.
+
+Given the problem description and the function signature in the starter code,
+generate {n} diverse, VALID input argument lists for calling the solution method.
+
+Rules:
+- Cover normal cases, boundary cases (smallest valid size), and edge cases,
+  all within the problem's stated constraints.
+- Each line must contain ONLY the argument list, written exactly as it would
+  appear inside the parentheses of a Python call, using keyword arguments.
+- Do NOT include expected outputs.  Do NOT include the function name.
+- Do NOT add explanations, numbering, or code fences.
+
+Example output format (for a method def twoSum(self, nums, target)):
+nums = [2, 7, 11, 15], target = 9
+nums = [3, 3], target = 6
+nums = [1, 2], target = 3
+
+Now output exactly {n} lines:
 """

@@ -90,7 +90,7 @@ def num_tokens_approx(text: str) -> int:
 # LLM wrapper
 # ─────────────────────────────────────────────────────────────────────────────
 
-def safe_chat_call(messages: list, model_key: str,
+def safe_chat_call(messages: list, model_key: str, temperature=0.0,
                    max_retries: int = 20) -> tuple:
     """Retry-safe chat completion. Returns (content, token_estimate)."""
     for attempt in range(max_retries):
@@ -98,7 +98,7 @@ def safe_chat_call(messages: list, model_key: str,
             resp = client.chat.completions.create(
                 model=model_key,
                 messages=messages,
-                temperature=0.0,
+                temperature=temperature,
             )
             content = (resp.choices[0].message.content or "").strip()
             if not content:
@@ -128,6 +128,7 @@ def stage1_generate_mutations(ctx: str, base_code: str,
         [{"role": "system", "content": prompts.MUTATION_LEETCODE_PROMPT.format(n=n)},
          {"role": "user",   "content": user}],
         model_key,
+        temperature=0.9,
     )
     mutations = extract_mutations(raw, n)
     while len(mutations) < n:          # pad if the model returned fewer
@@ -146,6 +147,7 @@ def stage2_fault_repair(ctx: str, mutation: str, model_key: str) -> tuple:
         [{"role": "system", "content": prompts.REPAIR_LEETCODE_PROMPT},
          {"role": "user",   "content": user}],
         model_key,
+        temperature=0.1,
     )
     return extract_code(raw), tokens
 
@@ -181,6 +183,7 @@ def stage3_pairwise_ranking(ctx: str, candidates: list,
                 [{"role": "system", "content": sys_prompt},
                  {"role": "user",   "content": user}],
                 model_key,
+                temperature=0.1,
             )
             total_tokens += tokens
             m = re.search(r"\b([1-9]\d*)\b", raw.strip())
