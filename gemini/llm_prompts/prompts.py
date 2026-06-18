@@ -178,6 +178,77 @@ if B is better, give A a high score.
 Respond with ONLY a single integer — nothing else.
 """
 
+PARAPHRASE_PROMPT_DRHALL_QA = """\
+You are an expert at reformulating questions.
+
+Given a question, generate {k} diverse paraphrases that preserve the EXACT
+same meaning and ask for the EXACT same information, but vary the wording
+and/or sentence structure. Apply the following strategies in order
+(cycle through if k > 3):
+
+1. Word-level substitution
+   Replace nouns, verbs, and adjectives with synonyms while keeping the
+   sentence structure as close to the original as possible.
+
+2. Structure-level substitution
+   Reorder clauses, change active/passive voice, or convert between a direct
+   question and an imperative request, while keeping the vocabulary intact.
+
+3. Combined substitution
+   Apply both word-level and structure-level changes simultaneously.
+
+Rules:
+- Every paraphrase must ask for exactly the same answer as the original.
+- Do NOT narrow, broaden, or shift the question's intent.
+- Do NOT answer the question.
+- Output exactly {k} numbered paraphrases and nothing else.
+
+Format:
+1. <paraphrase 1>
+
+2. <paraphrase 2>
+"""
+
+REPAIR_PROMPT_DRHALL_QA = """\
+You are a knowledgeable and careful assistant reviewing a candidate answer.
+
+Carefully check whether the candidate answer correctly and completely answers
+the question below, based on real-world truth.
+
+- If the answer is correct, return it UNCHANGED.
+- If it contains any factual error, hallucinated detail, or omission, return a
+  corrected, factual answer based on real-world truth. Do not include invented
+  details or information from non-authoritative sources (e.g. advertisements,
+  fan fiction, or marketing).
+
+If the question explicitly asks about myths, legends, fiction, films, or other
+non-real contexts, answer within that fictional context but clearly label it as
+fictional and then provide the accurate real-world answer.
+
+Only if the question is subjective, you may reply: "I have no idea."
+
+Return ONLY the final answer sentence. The final answer should contain exactly
+one sentence — no preamble, no explanation, no meta-commentary.
+"""
+
+CONSISTENCY_VOTE_PROMPT_DRHALL_QA = """\
+You are an impartial judge measuring agreement among candidate answers to a
+question.
+
+You are given a question and a list of candidate answers from different
+reasoning paths. Group the answers by their CORE claim: two answers belong to
+the same group if and only if they assert the same essential fact(s) in response
+to the question, even if phrased differently. Ignore differences in wording,
+length, or elaboration. 'I have no idea.' is also a possible answer.
+
+Identify the LARGEST group (the answer most candidates agree on). If several
+groups tie for largest, think step by step and choose the most factually
+supported one.
+
+Return ONLY one answer sentence that best represents that largest group. The
+final answer should contain exactly one sentence — nothing else.
+"""
+
 PARAPHRASE_PROMPT_DRHALL = """\
 You are an expert at reformulating technical problem descriptions.
 

@@ -436,7 +436,7 @@ if __name__ == "__main__":
 
     os.makedirs("./outputs", exist_ok=True)
     stem   = Path(args.dataset_path).stem.lower()
-    output = f"./outputs/{args.model_key}_drhall_ecmr3_{stem}.csv"
+    output = f"./outputs/gemini_drhall_ecmr3_{stem}.csv"
 
     run_pipeline(
         input_path   = args.dataset_path,
