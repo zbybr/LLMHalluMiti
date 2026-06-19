@@ -319,3 +319,8 @@ nums = [1, 2], target = 3
 
 Now output exactly {n} lines:
 """
+
+MUTATION_PROMPT_NOMR = """Given a question and a base response, rewrite the base response as a single complete 
+sentence that answers the question. Express it in your own words. If the base response is incomplete, rewrite it 
+into a full sentence using the question's context. Output only the rewritten sentence, with no explanation, no 
+numbering, and no extra text."""
