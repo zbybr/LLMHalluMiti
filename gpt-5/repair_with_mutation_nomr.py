@@ -204,11 +204,7 @@ def run_pipeline(input_path, output_path, model_key, n_mutations=5):
         mutation_list_str = "\n".join(mutation_list)
 
         # Save results into dataframe
-        df.loc[index, "mutation_list"] = mutation_list_str
-        df.loc[index, "answer_list"] = record_str
-        df.loc[index, "final_answer_ra"] = final_answer_ra
-        df.loc[index, "token_cost_ra"] = tokens_ra
-        df.loc[index, "time_cost_ra"] = time_mu + end_ra - start_ra
+        df.loc[index, "final_answer"] = final_answer_ra
 
         df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
     print(f"Output saved at {output_path}")
@@ -224,7 +220,7 @@ if __name__ == "__main__":
     model_key = 'gpt-5'
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"./outputs/{model_key}_mutation_nomr_outputs_{dataset_name}.csv"
+    output_path = f"./outputs/{model_key}_mutation_outputs_{dataset_name}_nomr.csv"
 
     os.makedirs("./outputs", exist_ok=True)
     run_pipeline(dataset_path, output_path, model_key, n_mutations=args.n_mutations)

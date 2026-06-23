@@ -162,6 +162,6 @@ if __name__ == "__main__":
     model_key = 'qwen3-32b'
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"./outputs/{model_key}_mutation_ni_outputs_{dataset_name}.csv"
+    output_path = f"./outputs/{model_key}_mutation_outputs_{dataset_name}_ni.csv"
 
     run_pipeline(dataset_path, output_path, model_key)
