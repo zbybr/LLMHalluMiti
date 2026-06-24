@@ -66,8 +66,7 @@ def safe_chat_call(messages, model_key, max_retries=20, base_delay=0.0):
 def run_pipeline(input_path, output_path, model_key):
     df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
     init_cols = [
-        "final_answer_ra", "token_cost_ra", "time_cost_ra",
-        "mutation_list", "answer_list"
+        "final_answer"
     ]
     for c in init_cols:
         if c not in df.columns:
@@ -85,7 +84,7 @@ def run_pipeline(input_path, output_path, model_key):
                 df.loc[base_missing, c] = df.loc[base_missing, saved]
                 df.drop(columns=[saved], inplace=True)
 
-    condition = (df["final_answer_ra"].isna() | (df["final_answer_ra"].astype(str).str.strip() == ""))
+    condition = (df["final_answer"].isna() | (df["final_answer"].astype(str).str.strip() == ""))
     df_todo = df[condition]
 
     print(f"Total questions: {len(df)}")

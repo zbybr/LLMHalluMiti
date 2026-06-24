@@ -124,8 +124,7 @@ def generate_mutations_nomr(question, base_response, model_key, n_mutations):
 def run_pipeline(input_path, output_path, model_key, n_mutations=5):
     df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
     init_cols = [
-        "final_answer_ra", "token_cost_ra", "time_cost_ra",
-        "mutation_list", "answer_list"
+        "final_answer"
     ]
     for c in init_cols:
         if c not in df.columns:
@@ -144,7 +143,7 @@ def run_pipeline(input_path, output_path, model_key, n_mutations=5):
                 df.drop(columns=[saved], inplace=True)
 
     condition = (
-        df["final_answer_ra"].isna() | (df["final_answer_ra"].astype(str).str.strip() == "")
+        df["final_answer"].isna() | (df["final_answer"].astype(str).str.strip() == "")
     )
     df_todo = df[condition]
 
@@ -204,11 +203,7 @@ def run_pipeline(input_path, output_path, model_key, n_mutations=5):
         mutation_list_str = "\n".join(mutation_list)
 
         # Save results into dataframe
-        df.loc[index, "mutation_list"] = mutation_list_str
-        df.loc[index, "answer_list"] = record_str
-        df.loc[index, "final_answer_ra"] = final_answer_ra
-        df.loc[index, "token_cost_ra"] = tokens_ra
-        df.loc[index, "time_cost_ra"] = time_mu + end_ra - start_ra
+        df.loc[index, "final_answer"] = final_answer_ra
 
         df.to_csv(output_path, encoding="utf-8-sig", index=False, quoting=csv.QUOTE_ALL)
     print(f"Output saved at {output_path}")

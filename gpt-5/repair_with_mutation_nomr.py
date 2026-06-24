@@ -144,7 +144,7 @@ def run_pipeline(input_path, output_path, model_key, n_mutations=5):
                 df.drop(columns=[saved], inplace=True)
 
     condition = (
-        df["final_answer_ra"].isna() | (df["final_answer_ra"].astype(str).str.strip() == "")
+        df["final_answer"].isna() | (df["final_answer"].astype(str).str.strip() == "")
     )
     df_todo = df[condition]
 
