@@ -159,8 +159,8 @@ def pretty_p(p: float) -> str:
 
 if __name__ == "__main__":
     # Example usage (adapt paths/columns to your setup)
-    path_name = "../ollama_outputs/qwen3_32b_mutation_outputs_qwen3_32b_dataset20251225_utf8_sig_responses_fixed_newlines.csv"
-    path_cove = "../ollama_outputs/cot/qwen3_32b_cot_outputs_qwen3_32b_dataset20251225_utf8_sig_responses_fixed.csv"
+    path_name = "../gemini/outputs/gemini_mutation_outputs_gemini_dataset20251225_utf8_responses.csv"
+    path_cove = "../gemini/outputs/gemini_drhall_ecmr3_gemini_dataset20251225_utf8_responses_check.csv"
 
     # Columns in your example
     final_col_name = "recheck_hallucination_ra"

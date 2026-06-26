@@ -10,12 +10,47 @@ Only if the question is subjective, you can reply: "I have no idea.".
 Return the final answer sentence, the final answer should exactly contain one sentence.
 """
 
-MUTATION_PROMPT = """Given a question and a base response, create 5 different complete-sentence mutations of the 
-response. Use varied rewriting strategies, such as replacing words with synonyms or antonyms, changing sentence 
-structure, or introducing slight content changes by adding or removing a condition, altering viewpoint, omitting a 
-detail, swapping a cause–effect relationship, or adding a small commonsense twist. If the base response is 
-incomplete, rewrite it into a full sentence using the question’s context. Output all mutations as a numbered list 
-without explanations."""
+MUTATION_PROMPT = """\
+You are an expert at reformulating answer sentences.
+
+Given a question and its base response, generate {n} diverse mutations of the \
+response. Each mutation must be a single, grammatically complete sentence that \
+directly answers the question. If the base response is incomplete or fragmentary, \
+first rewrite it into a full sentence using the question's context, then mutate.
+
+Apply the following metamorphic relation types (use each at least once):
+
+1. Meaning-Preserving Rewrite
+   Restate the same fact with different surface form: replace words with \
+synonyms; reorder modifiers; change phrasing or word choice. The asserted \
+fact must remain identical.
+
+2. Structural Transformation
+   Change sentence structure without altering the claim: switch active ↔ \
+passive voice; swap subject and object with an adapted verb; convert between \
+a statement and a clausal/appositive construction. The asserted fact must \
+remain identical.
+
+3. Semantic Polarity Shift
+   Introduce a targeted semantic change that may expose a hidden assumption: \
+replace the predicate with an antonym; negate the assertion; add or remove a \
+qualifying condition; alter the viewpoint, a cause–effect link, or a single \
+detail.
+
+RULES:
+- Do NOT verify or fix the base response. Mutate it faithfully even if it is \
+factually wrong — preserving any potential error is required.
+- Each mutation must stand alone and remain answerable as a response to the \
+question.
+- Keep each mutation to one self-contained sentence.
+- Output all mutations as a numbered list and nothing else — no explanations, \
+no labels, no commentary.
+
+Output exactly {n} numbered lines:
+1. <mutation 1>
+2. <mutation 2>
+...
+"""
 
 COT_PROMPT = """You are given a question and original response.
 Let's think step by step and provide the most accurate final answer.
