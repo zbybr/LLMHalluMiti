@@ -92,7 +92,7 @@ pass6 = np.array([
 data_by_method = [oa, oa_nomr, oa_cot, oa_ra, pass6]
 
 # ====== Plot: 2x2 grid (3 dataset panels) + legend in bottom-right cell ======
-fig, axes = plt.subplots(2, 2, figsize=(8, 6))
+fig, axes = plt.subplots(2, 2, figsize=(9, 6))
 panel_axes = [axes[0, 0], axes[0, 1], axes[1, 0]]
 x = np.arange(len(models))
 width = 0.16
@@ -105,13 +105,13 @@ for d_idx, ds in enumerate(datasets):
                label=method, color=colors[m_idx], edgecolor='0.6', hatch=hatches[m_idx])
 
     ax.set_xticks(x)
-    ax.set_xticklabels(models, fontsize=10)
-    ax.set_xlabel(ds, fontsize=12)
+    ax.set_xticklabels(models, fontsize=12)
+    ax.set_xlabel(ds, fontsize=14)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
 
-panel_axes[0].set_ylabel("Hallucination Repair Rate (%)", fontsize=12)
-panel_axes[2].set_ylabel("Hallucination Repair Rate (%)", fontsize=12)
+panel_axes[0].set_ylabel("Hallu Repair Rate (%)", fontsize=16)
+panel_axes[2].set_ylabel("Hallu Repair Rate (%)", fontsize=16)
 
 # Bottom-right cell holds the shared legend instead of a plot.
 legend_ax = axes[1, 1]
@@ -120,8 +120,8 @@ handles, labels = panel_axes[0].get_legend_handles_labels()
 legend_ax.legend(
     handles, labels,
     loc="center", ncol=1, frameon=True, edgecolor="black",
-    fontsize=11, handlelength=2.0, handleheight=1.4,
-    borderpad=1.0, labelspacing=1.0,
+    fontsize=16, handlelength=2.0, handleheight=1.4,
+    borderpad=0.5, labelspacing=1.0,
 )
 
 fig.align_ylabels([axes[0, 0], axes[1, 0]])

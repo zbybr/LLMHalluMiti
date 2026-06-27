@@ -51,9 +51,9 @@ def grouped_bar(ax, data, ylabel):
         ax.bar(x + (i - 1) * width, data[:, i], width, label=strat, color=colors[i], edgecolor='0.6', hatch=hatches[i])
 
     # ax.set_title(title, fontsize=14)
-    ax.set_ylabel(ylabel, fontsize=12)
+    ax.set_ylabel(ylabel, fontsize=16)
     ax.set_xticks(x)
-    ax.set_xticklabels(models, fontsize=10)
+    ax.set_xticklabels(models, fontsize=12)
 
     # Clean look
     ax.spines["top"].set_visible(False)
@@ -68,7 +68,7 @@ def grouped_bar(ax, data, ylabel):
 
 # ---------- choose layout ----------
 # 2x2 grid: 3 metric panels + legend in the bottom-right cell.
-fig, axes = plt.subplots(2, 2, figsize=(8, 6))
+fig, axes = plt.subplots(2, 2, figsize=(9, 6))
 
 grouped_bar(
     axes[0, 0],
@@ -79,7 +79,7 @@ grouped_bar(
 grouped_bar(
     axes[0, 1],
     repair_rate,
-    ylabel="Hallucination Repair Rate (%) ↑"
+    ylabel="Hallu Repair Rate (%) ↑"
 )
 
 grouped_bar(
@@ -95,8 +95,8 @@ handles, labels = axes[0, 0].get_legend_handles_labels()
 legend_ax.legend(
     handles, labels,
     loc="center", ncol=1, frameon=True, edgecolor="black",
-    fontsize=12, handlelength=2.0, handleheight=1.4,
-    borderpad=1.0, labelspacing=1.0,
+    fontsize=16, handlelength=2.0, handleheight=1.4,
+    borderpad=0.5, labelspacing=1.0,
 )
 
 fig.align_ylabels([axes[0, 0], axes[1, 0]])
