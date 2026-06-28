@@ -19,13 +19,13 @@ oc = np.array([1.98, 4.95, 2.97])
 means = [rc_hal.mean(), repair.mean(), oc.mean()]
 stds = [rc_hal.std(), repair.std(), oc.std()]
 
-labels = ["Recheck\n Hallucination Rate ↓",
-          "Hallucination\n Repair Rate ↑",
-          "Over-correction\n Rate ↓"]
+labels = ["Recheck\n Hallu Rate (%) ↓",
+          "Hallu\n Repair Rate (%) ↑",
+          "Over-correction\n Rate (%) ↓"]
 colors = ["blue", "green", "red"]
 
 x = np.arange(len(labels)) * 0.8
-fig, ax = plt.subplots(figsize=(6, 3))
+fig, ax = plt.subplots(figsize=(6, 2.5))
 ax.hlines(
     means,
     x - 0.25, x + 0.25,
@@ -42,7 +42,6 @@ ax.errorbar(
 )
 ax.set_xticks(x)
 ax.set_xticklabels(labels, fontsize=12)
-ax.set_ylabel("Value (%)", fontsize=12)
 
 ax.spines["top"].set_visible(False)
 ax.spines["right"].set_visible(False)
