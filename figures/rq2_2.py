@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
+from pathlib import Path
+import sys
 
 # ---------- paper-friendly matplotlib ----------
 mpl.rcParams["pdf.fonttype"] = 42
@@ -13,7 +15,7 @@ mpl.rcParams["savefig.pad_inches"] = 0.02
 models = ["GPT-4o", "GPT-5", "Gemini", "Qwen3"]
 datasets = ["TruthfulQA", "HotpotQA", "FreshQA"]
 methods = ["MutRepair without mutations", "MutRepair without MR",
-           "MutRepair without injection", "MutRepair", "Pass@6"]
+           "MutRepair without fault assumption", "MutRepair", "Pass@6"]
 colors = ["#FFD5CD", "#F7A399", "#EFBBCF", "#C3AED6", "#8675A9"]
 # colors = ["#B5EAEA", "#EDF6E5", "#FFBCBC", "#F38BA0"]
 hatches = ['//', '..', '\\\\', '++', 'xx']
@@ -91,9 +93,8 @@ pass6 = np.array([
 
 data_by_method = [oa, oa_nomr, oa_cot, oa_ra, pass6]
 
-# ====== Plot: 2x2 grid (3 dataset panels) + legend in bottom-right cell ======
-fig, axes = plt.subplots(2, 2, figsize=(9, 6))
-panel_axes = [axes[0, 0], axes[0, 1], axes[1, 0]]
+# ====== Plot: one row of three dataset panels + shared legend underneath ======
+fig, panel_axes = plt.subplots(1, 3, figsize=(12.4, 3.8), sharey=True)
 x = np.arange(len(models))
 width = 0.16
 
@@ -111,20 +112,18 @@ for d_idx, ds in enumerate(datasets):
     ax.spines["right"].set_visible(False)
 
 panel_axes[0].set_ylabel("Hallu Repair Rate (%)", fontsize=16)
-panel_axes[2].set_ylabel("Hallu Repair Rate (%)", fontsize=16)
 
-# Bottom-right cell holds the shared legend instead of a plot.
-legend_ax = axes[1, 1]
-legend_ax.axis("off")
+# Place the shared legend below all three panels.
 handles, labels = panel_axes[0].get_legend_handles_labels()
-legend_ax.legend(
+fig.legend(
     handles, labels,
-    loc="center", ncol=1, frameon=True, edgecolor="black",
-    fontsize=16, handlelength=2.0, handleheight=1.4,
-    borderpad=0.5, labelspacing=1.0,
+    loc="lower center", bbox_to_anchor=(0.5, 0.0),
+    ncol=3, frameon=True, edgecolor="black",
+    fontsize=11, handlelength=2.0, handleheight=1.2,
+    borderpad=0.45, columnspacing=1.4, labelspacing=0.55,
 )
 
-fig.align_ylabels([axes[0, 0], axes[1, 0]])
-fig.tight_layout(pad=0.0, w_pad=1.5)
-fig.savefig("rq2.2.pdf")
-plt.show()
+fig.tight_layout(rect=(0.0, 0.14, 1.0, 1.0), w_pad=1.5)
+output_path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).with_name("rq2.2.pdf")
+fig.savefig(output_path)
+plt.close(fig)

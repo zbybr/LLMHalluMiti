@@ -1,0 +1,5 @@
+﻿model,run,file,samples,base_hallucinations,final_hallucinations,repaired,overcorrected,HRR,RHR,OCR,flagged_gold_samples,manual_review_samples
+qwen3,Original,qwen3\outputs\qwen3_32b_mutation_outputs_qwen3_32b_dataset20251225_utf8_sig_responses_fixed_newlines.csv,1826,817,474,369,26,45.165238678090574,25.958378970427166,2.576808721506442,0,0
+qwen3,1,qwen3\outputs\stability\qwen3-32b_mutation_outputs_qwen3_32b_dataset20251225_utf8_sig_responses_fixed_full_run_1.csv,1826,817,441,390,14,47.735618115055075,24.15115005476451,1.3875123885034688,213,0
+qwen3,2,qwen3\outputs\stability\qwen3-32b_mutation_outputs_qwen3_32b_dataset20251225_utf8_sig_responses_fixed_full_run_2.csv,1826,817,484,377,44,46.14443084455324,26.506024096385545,4.360753221010902,211,0
+qwen3,3,qwen3\outputs\stability\qwen3-32b_mutation_outputs_qwen3_32b_dataset20251225_utf8_sig_responses_fixed_full_run_3.csv,1826,817,473,374,30,45.77723378212974,25.903614457831324,2.973240832507433,225,0

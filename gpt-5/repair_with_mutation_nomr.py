@@ -37,28 +37,36 @@ import time
 from pathlib import Path
 
 import pandas as pd
-from dotenv import load_dotenv
+from pathlib import Path as _ConfigPath
+import sys as _config_sys
+
+_config_root = next(
+    parent for parent in _ConfigPath(__file__).resolve().parents
+    if (parent / "common" / "config.py").is_file()
+)
+if str(_config_root) not in _config_sys.path:
+    _config_sys.path.insert(0, str(_config_root))
+from common.config import ROOT_ENV, load_root_env, read_env
 from openai import OpenAI
 from tqdm import tqdm
 
 import llm_prompts.prompts as prompts
 import utils
 
-load_dotenv(override=True)
+load_root_env()
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"), base_url=os.getenv("OPENAI_BASE_URL")
 )
 
 
 def safe_chat_call(messages, model_key, max_retries=20, base_delay=0.0,
-                   temperature=0.0):
+                   temperature=0.1):
     """
     Safe wrapper for OpenAI chat completion with retries and token tracking.
     Returns: (content, token_cost)
 
-    A `temperature` argument is added (defaulting to 0.0 to match the original
-    safe_chat_call) so the multi-round mutation step can sample with a higher
-    temperature and obtain diverse restatements across independent calls.
+    A `temperature` argument is retained so all calls can use the unified
+    experimental temperature while preserving this script's original API.
     """
     for attempt in range(max_retries):
         try:
@@ -98,7 +106,7 @@ def generate_mutations_nomr(question, base_response, model_key, n_mutations):
 
     Instead of one MR-guided call that returns a numbered list, this issues
     `n_mutations` INDEPENDENT single-sentence restatement calls. No MR strategy
-    is named; diversity arises only from independent sampling (temperature 0.9).
+    is named; diversity arises only from independent sampling.
 
     Returns: (mutation_list, total_tokens)
              mutation_list has length n_mutations + 1 (mutations + base_response),
@@ -113,7 +121,7 @@ def generate_mutations_nomr(question, base_response, model_key, n_mutations):
             {"role": "user", "content": qapair},
         ]
         mutation, _tokens = safe_chat_call(
-            messages, model_key, temperature=0.9
+            messages, model_key, temperature=0.1
         )
         total_tokens += _tokens
         mutation_list.append(mutation.strip())

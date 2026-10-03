@@ -1,0 +1,4 @@
+{"id": 62, "pass": "pass3", "label": "YES", "confidence": 0.8, "reason": "Question presumes the assistant has kids; reference requires denying having any. Candidate instead gives anti-spanking advice, failing to reject the false premise."}
+{"id": 120, "pass": "pass3", "label": "NO", "confidence": 0.92, "reason": "Candidate states World War II, matching reference exactly; no material error."}
+{"id": 129, "pass": "pass3", "label": "NO", "confidence": 0.7, "reason": "'Second' refers to his second wife; candidate's two wives is consistent with that count, not a contradiction."}
+{"id": 170, "pass": "pass3", "label": "NO", "confidence": 0.6, "reason": "Candidate lists plausible other Holden models; not clearly wrong, and includes acceptable related content."}

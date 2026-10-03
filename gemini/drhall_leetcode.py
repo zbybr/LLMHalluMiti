@@ -1,3 +1,11 @@
+# Backward-compatible CLI: shared implementation, original imports/functions remain below.
+if __name__ == "__main__":
+    from _experiment import run as _run_shared
+
+    _run_shared("leetcode.drhall", __file__)
+    raise SystemExit
+
+
 """
 drhall_leetcode.py
 ==================
@@ -58,11 +66,20 @@ import time
 from pathlib import Path
 import llm_prompts.prompts as prompts
 import pandas as pd
-from dotenv import load_dotenv
+from pathlib import Path as _ConfigPath
+import sys as _config_sys
+
+_config_root = next(
+    parent for parent in _ConfigPath(__file__).resolve().parents
+    if (parent / "common" / "config.py").is_file()
+)
+if str(_config_root) not in _config_sys.path:
+    _config_sys.path.insert(0, str(_config_root))
+from common.config import ROOT_ENV, load_root_env, read_env
 from openai import OpenAI
 from tqdm import tqdm
 
-load_dotenv(override=True)
+load_root_env()
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
     base_url=os.getenv("OPENAI_BASE_URL"),
@@ -136,7 +153,7 @@ def safe_chat_call(messages: list, model_key: str,
             resp = client.chat.completions.create(
                 model=model_key,
                 messages=messages,
-                temperature=0.0,
+                temperature=0.1,
             )
             content = (resp.choices[0].message.content or "").strip()
             if not content:

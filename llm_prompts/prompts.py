@@ -100,11 +100,13 @@ The logic and algorithm must remain identical.
 for-loop ↔ while-loop; recursion ↔ iteration; extract a repeated block into a \
 helper function or inline an existing helper; reorder independent statements.
 
-3. Semantic Polarity Shift
-   Introduce a targeted semantic inversion that may expose hidden assumptions: \
-negate a boolean condition (`if x` → `if not x`); swap a comparison operator \
-(`<` ↔ `>`; `<=` ↔ `>=`); alter a boundary value by ±1 \
-(e.g. `n - 1` → `n`, `range(n)` → `range(n + 1)`).
+3. Polarity Transformation
+   Introduce or remove double negation in a Boolean condition while preserving \
+its truth value, e.g. `if condition` → `if not not condition` or \
+`if x < y` → `if not not (x < y)`. Keep branch bodies, comparisons, \
+boundary values, and return values unchanged. Apply this only where Boolean \
+semantics are preserved; do not replace a value-producing expression with \
+a Boolean or change the program's behavior.
 
 4. Algorithm / Data-Structure Variant
    Replace the core algorithm or data structure with a plausible alternative: \

@@ -1,0 +1,5 @@
+﻿model,run,file,samples,base_hallucinations,final_hallucinations,repaired,overcorrected,HRR,RHR,OCR,flagged_gold_samples,manual_review_samples
+gemini,Original,gemini\outputs\gemini_mutation_outputs_gemini_dataset20251225_utf8_responses.csv,1826,548,300,256,8,46.715328467153284,16.42935377875137,0.6259780907668232,0,0
+gemini,1,gemini\outputs\stability\gemini_mutation_outputs_gemini_dataset20251225_utf8_responses_full_run_1.csv,1826,548,308,253,13,46.167883211678834,16.867469879518072,1.0172143974960877,269,0
+gemini,2,gemini\outputs\stability\gemini_mutation_outputs_gemini_dataset20251225_utf8_responses_full_run_2.csv,1826,548,317,256,25,46.715328467153284,17.360350492880613,1.9561815336463224,234,0
+gemini,3,gemini\outputs\stability\gemini_mutation_outputs_gemini_dataset20251225_utf8_responses_full_run_3.csv,1826,548,310,245,7,44.70802919708029,16.97699890470975,0.5477308294209703,236,0

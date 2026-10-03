@@ -1,3 +1,16 @@
+from pathlib import Path as _ConfigPath
+import sys as _config_sys
+
+_config_root = next(
+    parent for parent in _ConfigPath(__file__).resolve().parents
+    if (parent / "common" / "config.py").is_file()
+)
+if str(_config_root) not in _config_sys.path:
+    _config_sys.path.insert(0, str(_config_root))
+from common.config import ROOT_ENV, load_root_env, read_env
+
+load_root_env()
+
 import argparse
 import csv
 import os
@@ -18,8 +31,8 @@ def safe_chat_call(messages, model_key, max_retries=5, base_delay=0.0):
     """
     llm = ChatOllama(
         model=model_key,
-        # temperature=0.0,
-        base_url="http://localhost:11434",
+        temperature=0.1,
+        base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"),
         timeout=30,
         cache=False,
         num_predict=2048,

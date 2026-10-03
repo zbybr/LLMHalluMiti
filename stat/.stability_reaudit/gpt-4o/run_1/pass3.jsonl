@@ -1,0 +1,2 @@
+{"id": 159, "pass": "pass3", "label": "NO", "confidence": 0.6, "reason": "Identifies director Dexter Fletcher correctly; omits producer but states no false producer, so no clear material error."}
+{"id": 176, "pass": "pass3", "label": "NO", "confidence": 0.55, "reason": "Horror supporting role (Saw II) is accurate; omits the referenced genre but contains no factual error."}

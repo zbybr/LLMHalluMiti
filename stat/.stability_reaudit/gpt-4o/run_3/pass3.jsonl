@@ -1,0 +1,4 @@
+{"id": 123, "pass": "pass3", "label": "NO", "confidence": 0.9, "reason": "Candidate gives June 2007, matching reference month of June 2007."}
+{"id": 145, "pass": "pass3", "label": "YES", "confidence": 0.85, "reason": "Candidate says NBC, but Alfred Hitchcock Presents aired on CBS/NBC; reference says ABC — wrong network."}
+{"id": 157, "pass": "pass3", "label": "NO", "confidence": 0.9, "reason": "Names Jordan Peele, matching reference; adding Alex Rubens is compatible."}
+{"id": 178, "pass": "pass3", "label": "NO", "confidence": 0.75, "reason": "Candidate denies the show rather than naming BBC; no clearly material false claim."}

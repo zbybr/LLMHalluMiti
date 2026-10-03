@@ -1,0 +1,17 @@
+﻿model,run,file,samples,base_hallucinations,final_hallucinations,repaired,overcorrected,HRR,RHR,OCR,flagged_gold_samples,manual_review_samples
+gpt-4o,Original,gpt-4o\outputs\gpt-4o_mutation_outputs_gpt-4o_dataset20251225_utf8_responses.csv,1826,727,257,502,32,69.05089408528198,14.074479737130337,2.9117379435850776,0,0
+gpt-4o,1,gpt-4o\outputs\stability\gpt-4o_mutation_outputs_gpt-4o_dataset20251225_utf8_responses_full_run_1.csv,1826,727,277,472,22,64.92434662998625,15.169769989047097,2.001819836214741,200,0
+gpt-4o,2,gpt-4o\outputs\stability\gpt-4o_mutation_outputs_gpt-4o_dataset20251225_utf8_responses_full_run_2.csv,1826,727,284,497,54,68.36313617606602,15.553121577217963,4.9135577797998184,178,0
+gpt-4o,3,gpt-4o\outputs\stability\gpt-4o_mutation_outputs_gpt-4o_dataset20251225_utf8_responses_full_run_3.csv,1826,727,260,488,21,67.1251719394773,14.238773274917854,1.910828025477707,185,0
+gpt-5,Original,gpt-5\outputs\gpt-5_mutation_outputs_gpt-5_dataset20251225_utf8_responses.csv,1826,364,144,224,4,61.53846153846154,7.886089813800658,0.27359781121751026,0,0
+gpt-5,1,gpt-5\outputs\stability\gpt-5_mutation_outputs_gpt-5_dataset20251225_utf8_responses_full_run_1.csv,1826,364,180,229,45,62.91208791208791,9.857612267250822,3.0779753761969904,308,0
+gpt-5,2,gpt-5\outputs\stability\gpt-5_mutation_outputs_gpt-5_dataset20251225_utf8_responses_full_run_2.csv,1826,364,165,221,22,60.71428571428571,9.036144578313253,1.5047879616963065,299,0
+gpt-5,3,gpt-5\outputs\stability\gpt-5_mutation_outputs_gpt-5_dataset20251225_utf8_responses_full_run_3.csv,1826,364,145,222,3,60.98901098901099,7.940854326396495,0.2051983584131327,282,0
+gemini,Original,gemini\outputs\gemini_mutation_outputs_gemini_dataset20251225_utf8_responses.csv,1826,548,300,256,8,46.715328467153284,16.42935377875137,0.6259780907668232,0,0
+gemini,1,gemini\outputs\stability\gemini_mutation_outputs_gemini_dataset20251225_utf8_responses_full_run_1.csv,1826,548,308,253,13,46.167883211678834,16.867469879518072,1.0172143974960877,269,0
+gemini,2,gemini\outputs\stability\gemini_mutation_outputs_gemini_dataset20251225_utf8_responses_full_run_2.csv,1826,548,317,256,25,46.715328467153284,17.360350492880613,1.9561815336463224,234,0
+gemini,3,gemini\outputs\stability\gemini_mutation_outputs_gemini_dataset20251225_utf8_responses_full_run_3.csv,1826,548,310,245,7,44.70802919708029,16.97699890470975,0.5477308294209703,236,0
+qwen3,Original,qwen3\outputs\qwen3_32b_mutation_outputs_qwen3_32b_dataset20251225_utf8_sig_responses_fixed_newlines.csv,1826,817,474,369,26,45.165238678090574,25.958378970427166,2.576808721506442,0,0
+qwen3,1,qwen3\outputs\stability\qwen3-32b_mutation_outputs_qwen3_32b_dataset20251225_utf8_sig_responses_fixed_full_run_1.csv,1826,817,441,390,14,47.735618115055075,24.15115005476451,1.3875123885034688,213,0
+qwen3,2,qwen3\outputs\stability\qwen3-32b_mutation_outputs_qwen3_32b_dataset20251225_utf8_sig_responses_fixed_full_run_2.csv,1826,817,484,377,44,46.14443084455324,26.506024096385545,4.360753221010902,211,0
+qwen3,3,qwen3\outputs\stability\qwen3-32b_mutation_outputs_qwen3_32b_dataset20251225_utf8_sig_responses_fixed_full_run_3.csv,1826,817,473,374,30,45.77723378212974,25.903614457831324,2.973240832507433,225,0

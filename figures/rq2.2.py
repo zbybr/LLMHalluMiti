@@ -12,7 +12,7 @@ mpl.rcParams["savefig.pad_inches"] = 0.02
 
 models = ["GPT-4o", "GPT-5", "Gemini", "Qwen3"]
 datasets = ["TruthfulQA", "HotpotQA", "FreshQA"]
-methods = ["MutRepair without mutations", "MutRepair without injection", "MutRepair", "Pass@6"]
+methods = ["MutRepair without mutations", "MutRepair without fault assumption", "MutRepair", "Pass@6"]
 colors = ["#FFD5CD", "#EFBBCF", "#C3AED6", "#8675A9"]
 # colors = ["#B5EAEA", "#EDF6E5", "#FFBCBC", "#F38BA0"]
 hatches = ['//', '\\\\', '++', 'xx']

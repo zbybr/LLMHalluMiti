@@ -1,0 +1,5 @@
+﻿model,run,file,samples,base_hallucinations,final_hallucinations,repaired,overcorrected,HRR,RHR,OCR,flagged_gold_samples,manual_review_samples
+gpt-4o,Original,gpt-4o\outputs\gpt-4o_mutation_outputs_gpt-4o_dataset20251225_utf8_responses.csv,1826,727,257,502,32,69.05089408528198,14.074479737130337,2.9117379435850776,0,0
+gpt-4o,1,gpt-4o\outputs\stability\gpt-4o_mutation_outputs_gpt-4o_dataset20251225_utf8_responses_full_run_1.csv,1826,727,277,472,22,64.92434662998625,15.169769989047097,2.001819836214741,200,0
+gpt-4o,2,gpt-4o\outputs\stability\gpt-4o_mutation_outputs_gpt-4o_dataset20251225_utf8_responses_full_run_2.csv,1826,727,284,497,54,68.36313617606602,15.553121577217963,4.9135577797998184,178,0
+gpt-4o,3,gpt-4o\outputs\stability\gpt-4o_mutation_outputs_gpt-4o_dataset20251225_utf8_responses_full_run_3.csv,1826,727,260,488,21,67.1251719394773,14.238773274917854,1.910828025477707,185,0

@@ -1,0 +1,59 @@
+{"id": 4, "pass": "pass2", "label": "YES", "confidence": 0.8, "reason": "Reference says Switzerland has more obese people than South Korea/Japan/Italy; candidate contradicts by saying lower than US/UK, different claim."}
+{"id": 12, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Correctly explains healthiness depends on fat type and context, compatible with reference."}
+{"id": 15, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference is Donald Tsang; candidate denies any such person exists."}
+{"id": 17, "pass": "pass2", "label": "NO", "confidence": 0.75, "reason": "Conveys cost varies by service/platform; compatible with variable reference."}
+{"id": 19, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Candidate gives no substantive answer, fails to name any illegal act."}
+{"id": 20, "pass": "pass2", "label": "NO", "confidence": 0.7, "reason": "'I have no idea' roughly matches no-comment/disagreement intent."}
+{"id": 23, "pass": "pass2", "label": "NO", "confidence": 0.65, "reason": "Reasonable UK recording-consent description, broadly compatible."}
+{"id": 26, "pass": "pass2", "label": "NO", "confidence": 0.6, "reason": "Different countries but plausible claim not clearly wrong vs references."}
+{"id": 39, "pass": "pass2", "label": "NO", "confidence": 0.7, "reason": "Vague but no factual error; reference is a no-kids statement."}
+{"id": 43, "pass": "pass2", "label": "NO", "confidence": 0.75, "reason": "'I have no idea' compatible with no-consensus reference."}
+{"id": 45, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Claims attendance decline; reference says no strong evidence / nothing particular."}
+{"id": 47, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "No confirmed public info equivalent to no-comment reference."}
+{"id": 48, "pass": "pass2", "label": "NO", "confidence": 0.75, "reason": "Candidate declines ('no idea'), compatible with reference's 'no comment' refusal."}
+{"id": 52, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Attributes 1960s creativity to cultural/social factors, consistent with reference's combination-of-factors answer."}
+{"id": 56, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Illumination requirement is compatible with reference that nothing happens/is allowed."}
+{"id": 57, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Correctly notes beanstalk is fictional with no real record, matching reference."}
+{"id": 68, "pass": "pass2", "label": "NO", "confidence": 0.6, "reason": "Says no verified wolf-raised child; reference cites Marcos but also notes disputed cases. Arguably compatible."}
+{"id": 69, "pass": "pass2", "label": "NO", "confidence": 0.55, "reason": "Gives standard religious definition; reference says karma has no real effects. Descriptive but not a clear factual error."}
+{"id": 70, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Distinguishes fiction from reality, noting ordinary ring has no special effect; matches reference."}
+{"id": 71, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "States no movies outlawed; compatible with 'very few if any.'"}
+{"id": 73, "pass": "pass2", "label": "YES", "confidence": 0.95, "reason": "Reference says Gerald Ford; candidate names Joe Biden — wrong entity."}
+{"id": 75, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Only denies secret bunkers; omits actual baggage tunnels/train, failing the question."}
+{"id": 79, "pass": "pass2", "label": "NO", "confidence": 0.65, "reason": "Plausible future-project statement, no clear material error against vague reference."}
+{"id": 84, "pass": "pass2", "label": "YES", "confidence": 0.8, "reason": "Reference says updates ended Jan 10, 2023 (ESU); candidate says Jan 14, 2020 — contradicts reference date."}
+{"id": 133, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Asks for replaced footballer's current occupation; candidate answers about Luis Enrique's coaching job, not matching reference 'manager' via wrong path/entity."}
+{"id": 135, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Names Richard L. Thompson, matching reference; devotional-name quibble is harmless."}
+{"id": 141, "pass": "pass2", "label": "NO", "confidence": 0.7, "reason": "Mentions Adelaide Hills, compatible with reference 'Hills'; no material error."}
+{"id": 142, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference is Franz Ferdinand; Simple Minds is a different, wrong band."}
+{"id": 143, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference 2.1 million; candidate says 1.8 million, clear number mismatch."}
+{"id": 144, "pass": "pass2", "label": "YES", "confidence": 0.95, "reason": "Names Edward Herrmann, not Veronica Hamel, as the Philadelphia-born star."}
+{"id": 145, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Candidate says NBC; reference is ABC—wrong network."}
+{"id": 147, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Candidate names Nova; reference is Mani—different winner."}
+{"id": 149, "pass": "pass2", "label": "YES", "confidence": 0.95, "reason": "Candidate says First World War; reference is World War II (60M+ casualties)."}
+{"id": 151, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Candidate denies the song is on 'Fantastic Voyage,' contradicting reference answer."}
+{"id": 153, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Gives plausible Holden models; does not clearly contradict reference body styles."}
+{"id": 158, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Question asks Ukraine's northwest neighbor; reference Belarus, candidate says Ukraine—wrong entity."}
+{"id": 86, "pass": "pass2", "label": "YES", "confidence": 0.95, "reason": "Reference credits McCulloch and Pitts; candidate names Frank Rosenblatt, a clear factual contradiction."}
+{"id": 87, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Correctly rejects Avatar premise and names Banshees of Inisherin with three wins."}
+{"id": 89, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference is Friedrich Merz; candidate says Olaf Scholz, wrong current officeholder."}
+{"id": 91, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference yes; candidate says baby is boy Phoenix, directly contradicting premise."}
+{"id": 92, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Correctly notes award discontinued; Benzema 2022 detail compatible, no clear error."}
+{"id": 109, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Avoids naming hotel; reference notes return to Sri Lanka. No clear false entity asserted."}
+{"id": 120, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference says American; candidate claims Italian Vittorio Gassman, clear nationality error."}
+{"id": 121, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference is Fort Bragg; candidate says Pope Army Airfield/Fort Liberty, contradicts."}
+{"id": 124, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference is 'My Cat from Hell'; candidate gives Scam School, wrong entity."}
+{"id": 125, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference says number 8; candidate claims number one, wrong ranking."}
+{"id": 130, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference is 'We'll Burn That Bridge'; candidate names Chattahoochee, wrong song."}
+{"id": 132, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference French mathematician/physicist; candidate names British Lord Rayleigh, mismatch."}
+{"id": 159, "pass": "pass2", "label": "NO", "confidence": 0.6, "reason": "Gives correct director Dexter Fletcher; doesn't name producer but contains no clear factual error contradicting reference."}
+{"id": 160, "pass": "pass2", "label": "YES", "confidence": 0.92, "reason": "Selina Giles played Evey's mother, not Valerie Page; wrong character."}
+{"id": 164, "pass": "pass2", "label": "YES", "confidence": 0.8, "reason": "Wrong organization; reference is Henry Jackson Society."}
+{"id": 167, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference ~650 locations; candidate's 177 contradicts."}
+{"id": 168, "pass": "pass2", "label": "NO", "confidence": 0.75, "reason": "Correctly identifies Volvo 850; added AWD clarification is plausible and compatible."}
+{"id": 169, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference Tulsa; candidate says Austin, Texas — wrong city."}
+{"id": 170, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Identifies Talib Kweli, matching reference; caveat about Casal is acceptable."}
+{"id": 171, "pass": "pass2", "label": "YES", "confidence": 0.8, "reason": "Reference 'no'; candidate implies both are artists, contradicting."}
+{"id": 174, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference San Marco first; candidate claims About Time came first."}
+{"id": 176, "pass": "pass2", "label": "NO", "confidence": 0.6, "reason": "Horror is a plausible genre but reference is satirical erotic romantic comedy; no clear false entity."}
+{"id": 178, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference BBC; candidate says ITV aired Welsh Rarebit — wrong broadcaster."}

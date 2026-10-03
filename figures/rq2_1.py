@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
+from pathlib import Path
+import sys
 
 # ---------- paper-friendly matplotlib ----------
 mpl.rcParams["pdf.fonttype"] = 42
@@ -67,39 +69,38 @@ def grouped_bar(ax, data, ylabel):
 
 
 # ---------- choose layout ----------
-# 2x2 grid: 3 metric panels + legend in the bottom-right cell.
-fig, axes = plt.subplots(2, 2, figsize=(9, 6))
+# One row of three metric panels with a shared legend underneath.
+fig, axes = plt.subplots(1, 3, figsize=(12.0, 3.5))
 
 grouped_bar(
-    axes[0, 0],
+    axes[0],
     rechecked_hallu_rate,
     ylabel="Recheck Hallu Rate (%) ↓"
 )
 
 grouped_bar(
-    axes[0, 1],
+    axes[1],
     repair_rate,
     ylabel="Hallu Repair Rate (%) ↑"
 )
 
 grouped_bar(
-    axes[1, 0],
+    axes[2],
     overcorrection,
     ylabel="Over-correction Rate (%) ↓"
 )
 
-# Bottom-right cell holds the shared legend instead of a plot.
-legend_ax = axes[1, 1]
-legend_ax.axis("off")
-handles, labels = axes[0, 0].get_legend_handles_labels()
-legend_ax.legend(
+# Place the shared legend below all three panels.
+handles, labels = axes[0].get_legend_handles_labels()
+fig.legend(
     handles, labels,
-    loc="center", ncol=1, frameon=True, edgecolor="black",
-    fontsize=16, handlelength=2.0, handleheight=1.4,
-    borderpad=0.5, labelspacing=1.0,
+    loc="lower center", bbox_to_anchor=(0.5, 0.0),
+    ncol=3, frameon=True, edgecolor="black",
+    fontsize=12, handlelength=2.0, handleheight=1.2,
+    borderpad=0.45, columnspacing=1.8,
 )
 
-fig.align_ylabels([axes[0, 0], axes[1, 0]])
-fig.tight_layout(pad=0.0, w_pad=1.5)
-fig.savefig("rq2.1.pdf")
-plt.show()
+fig.tight_layout(rect=(0.0, 0.10, 1.0, 1.0), w_pad=1.5)
+output_path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).with_name("rq2.1.pdf")
+fig.savefig(output_path)
+plt.close(fig)

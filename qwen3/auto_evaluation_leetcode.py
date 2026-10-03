@@ -1,3 +1,11 @@
+# Backward-compatible CLI: shared implementation, original imports/functions remain below.
+if __name__ == "__main__":
+    from _experiment import run as _run_shared
+
+    _run_shared("leetcode.evaluate", __file__)
+    raise SystemExit
+
+
 """
 auto_evaluation_leetcode.py
 ============================

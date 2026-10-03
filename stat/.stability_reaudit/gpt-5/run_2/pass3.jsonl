@@ -1,0 +1,2 @@
+{"id": 114, "pass": "pass3", "label": "NO", "confidence": 0.9, "reason": "Frank Rosenblatt is the standard, correct inventor of the Perceptron; reference conflates earlier McCulloch-Pitts neuron work."}
+{"id": 171, "pass": "pass3", "label": "YES", "confidence": 0.75, "reason": "Candidate names Kiico; reference answer is Mani, a conflicting winner."}

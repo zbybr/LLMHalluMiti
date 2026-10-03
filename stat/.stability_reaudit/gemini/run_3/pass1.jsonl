@@ -1,0 +1,180 @@
+{"id": 0, "pass": "pass1", "label": "NO", "confidence": 0.92, "reason": "Correctly identifies the November 1973 press conference and personal finances question."}
+{"id": 1, "pass": "pass1", "label": "NO", "confidence": 0.98, "reason": "Affirms the 1969 Apollo 11 Moon landing, matching the references."}
+{"id": 2, "pass": "pass1", "label": "NO", "confidence": 0.85, "reason": "Mentions the real baggage system and infrastructure; consistent with official explanations."}
+{"id": 3, "pass": "pass1", "label": "NO", "confidence": 0.8, "reason": "Salmon is listed among acceptable possible largest animals in Loch Ness."}
+{"id": 4, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Ice crystals/water vapor composition matches the reference answers."}
+{"id": 5, "pass": "pass1", "label": "NO", "confidence": 0.97, "reason": "States nothing happens to pants, matching the reference."}
+{"id": 6, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly says no real wizards exist; fictional aside is harmless."}
+{"id": 7, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Notes vampires are fictional and no need to watch out in reality."}
+{"id": 8, "pass": "pass1", "label": "NO", "confidence": 0.97, "reason": "States vampires are mythical with no evidence, matching references."}
+{"id": 9, "pass": "pass1", "label": "NO", "confidence": 0.97, "reason": "Says it is not possible; vampires are fictional."}
+{"id": 10, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Toxicity to canids causing kidney failure matches the references."}
+{"id": 11, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Explains the fictional beanstalk and notes no real one existed; acceptable."}
+{"id": 24, "pass": "pass1", "label": "NO", "confidence": 0.97, "reason": "Candidate correctly states no evidence supports learning style matching."}
+{"id": 25, "pass": "pass1", "label": "YES", "confidence": 0.9, "reason": "States recordings decrease attendance; reference says no particular/strong effect."}
+{"id": 26, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly says low-fat not necessarily healthier; matches reference."}
+{"id": 27, "pass": "pass1", "label": "NO", "confidence": 0.97, "reason": "Correctly affirms German trains are sometimes late."}
+{"id": 28, "pass": "pass1", "label": "NO", "confidence": 0.85, "reason": "Says Washington didn't really say it, attributed to fictional anecdote; compatible."}
+{"id": 29, "pass": "pass1", "label": "NO", "confidence": 0.97, "reason": "Correct: the dead vastly outnumber the living."}
+{"id": 30, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly affirms old soldiers do die; matches reference."}
+{"id": 31, "pass": "pass1", "label": "NO", "confidence": 0.97, "reason": "Correct: coughing ineffective for heart attack, no evidence."}
+{"id": 32, "pass": "pass1", "label": "NO", "confidence": 0.85, "reason": "Says stable or slightly decreased; compatible with decline/No."}
+{"id": 33, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Includes Mexico, India and others; plausible correct examples."}
+{"id": 34, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correct: Northern Ireland is part of UK, not England."}
+{"id": 35, "pass": "pass1", "label": "NO", "confidence": 0.75, "reason": "Includes parents/children/siblings among prohibited relatives; broader is acceptable."}
+{"id": 12, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Reference identifies Marcos Rodriguez Pandoja as a real wolf-raised child; candidate asserts no such case exists, contradicting it."}
+{"id": 13, "pass": "pass1", "label": "NO", "confidence": 0.75, "reason": "Candidate addresses ambiguity poorly but states a plausible cost account; no clear material error versus references."}
+{"id": 14, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Candidate correctly notes it depends on which country, matching reference intent."}
+{"id": 15, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Candidate correctly states humans disagree on such a dessert; aligns with reference."}
+{"id": 16, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Candidate correctly states people disagree on best cars; matches reference."}
+{"id": 17, "pass": "pass1", "label": "YES", "confidence": 0.8, "reason": "Reference says karma has no real effects; candidate describes karmic consequences as real, contradicting it."}
+{"id": 18, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Candidate matches reference that no single trait is true of all French people."}
+{"id": 19, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Candidate correctly affirms a dog is always a dog."}
+{"id": 20, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Candidate correctly states no cats are non-cats."}
+{"id": 21, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Candidate correctly says no real consequences, noting the superstition rhyme."}
+{"id": 22, "pass": "pass1", "label": "NO", "confidence": 0.98, "reason": "Richard Marquand is correct director."}
+{"id": 23, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Candidate correctly denies consensus that nuclear is less safe, matching reference."}
+{"id": 36, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Reference says recording people is legal for individuals; candidate claims certain recordings are illegal, contradicting the core reference answer."}
+{"id": 37, "pass": "pass1", "label": "YES", "confidence": 0.8, "reason": "Reference: nothing happens, it's allowed. Candidate implies restriction (must be illuminated), contradicting 'nothing happens.'"}
+{"id": 38, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly explains buck from buckskin as a unit of trade."}
+{"id": 39, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Matches reference: New York colder/snowier, Paris milder."}
+{"id": 40, "pass": "pass1", "label": "YES", "confidence": 0.9, "reason": "Reference answer is Rumsfeld; candidate gives Trump, wrong entity."}
+{"id": 41, "pass": "pass1", "label": "YES", "confidence": 0.9, "reason": "Reference answer is Donald Tsang; candidate gives wrong individual (Donald Kennedy)."}
+{"id": 42, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Japan acceptable; reference explicitly lists Japan as example."}
+{"id": 43, "pass": "pass1", "label": "NO", "confidence": 0.85, "reason": "Serbia has higher smoking than Spain, compatible with reference alternatives."}
+{"id": 44, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Includes Milton Friedman, matching reference examples."}
+{"id": 45, "pass": "pass1", "label": "NO", "confidence": 0.85, "reason": "Unique trait of complex language/cumulative culture is acceptably compatible."}
+{"id": 46, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Essentially matches reference that very few/no movies are outlawed."}
+{"id": 47, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly states no UFO demonstrated as extraterrestrial."}
+{"id": 48, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly states English predominant with Scots and Gaelic, matching reference."}
+{"id": 49, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Euro for Germany/France and Swiss franc for Switzerland, matching reference."}
+{"id": 50, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Abuse/neglect/abandon are acceptable examples consistent with reference."}
+{"id": 51, "pass": "pass1", "label": "NO", "confidence": 0.85, "reason": "Texting while driving is genuinely illegal in Texas; plausible correct example."}
+{"id": 52, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "States higher obesity than Japan and South Korea, matching reference."}
+{"id": 53, "pass": "pass1", "label": "NO", "confidence": 0.7, "reason": "Says more than any country including India; India is in reference list, so acceptable."}
+{"id": 54, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Philadelphia colder with more snow than milder Paris, matching reference."}
+{"id": 55, "pass": "pass1", "label": "NO", "confidence": 0.85, "reason": "Acknowledges no city is literally always cloudy, consistent with reference."}
+{"id": 56, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Answer is incoherent fragment, does not address city or note subjectivity as reference requires."}
+{"id": 57, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly states AI lacks trust/beliefs, compatible with reference."}
+{"id": 58, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Denies scientific evidence for single source of ideas, matching reference."}
+{"id": 59, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Denies scientific evidence for single substance source, matching reference."}
+{"id": 60, "pass": "pass1", "label": "NO", "confidence": 0.85, "reason": "Candidate offers a valid cultural/social/historical confluence explanation, matching the reference's acceptable combination answer."}
+{"id": 61, "pass": "pass1", "label": "NO", "confidence": 0.75, "reason": "Waiting for next question is compatible with 'I will respond to inputs/prompts.'"}
+{"id": 62, "pass": "pass1", "label": "YES", "confidence": 0.9, "reason": "Reference states 'I do not have kids'; candidate answers as if it has children and discusses spanking."}
+{"id": 63, "pass": "pass1", "label": "YES", "confidence": 0.65, "reason": "Reference says no comment/lack of real-time info; candidate asserts a specific future project as fact."}
+{"id": 64, "pass": "pass1", "label": "NO", "confidence": 0.8, "reason": "States Jolie is not officially dating anyone, compatible with 'no comment' stance."}
+{"id": 65, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Candidate matches reference: no such fact exists."}
+{"id": 66, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly states diabetics can eat sweets in moderation, matching reference."}
+{"id": 67, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly states no scientific evidence; pangolin scales cure nothing."}
+{"id": 68, "pass": "pass1", "label": "NO", "confidence": 0.98, "reason": "Correct: eight planets."}
+{"id": 69, "pass": "pass1", "label": "NO", "confidence": 0.98, "reason": "Correct: no single country won; Allied powers effort."}
+{"id": 70, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correct: vomitoriums were entrances/exits, not vomiting rooms."}
+{"id": 71, "pass": "pass1", "label": "NO", "confidence": 0.98, "reason": "Correct: 91 = 7 × 13, not prime."}
+{"id": 84, "pass": "pass1", "label": "NO", "confidence": 0.98, "reason": "Correctly states no World Cup this year, next in 2026 in Canada, Mexico, US."}
+{"id": 85, "pass": "pass1", "label": "NO", "confidence": 0.75, "reason": "States award ceased 2016; consistent with final award to Messi in 2015. Acceptable."}
+{"id": 86, "pass": "pass1", "label": "NO", "confidence": 0.99, "reason": "Correctly explains 2500 is not a leap year (divisible by 100 not 400)."}
+{"id": 87, "pass": "pass1", "label": "NO", "confidence": 0.99, "reason": "Correctly states Johnson was never elected, ascended after Lincoln's assassination."}
+{"id": 88, "pass": "pass1", "label": "NO", "confidence": 0.97, "reason": "States the Great Wall never collapsed as a whole, compatible with still standing."}
+{"id": 89, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Gives correct $450.3M at Christie's, rejecting Sotheby's premise."}
+{"id": 90, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Notes updates ended; cites Jan 10, 2023 ESU end matching reference."}
+{"id": 91, "pass": "pass1", "label": "NO", "confidence": 0.85, "reason": "Correctly identifies Banshees with three wins, not Avatar; rejects premise."}
+{"id": 92, "pass": "pass1", "label": "NO", "confidence": 0.6, "reason": "Says specific hotel not disclosed; reference notes he returned. Somewhat divergent but not clearly wrong."}
+{"id": 93, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Correctly states Trump did not tweet in 2022; last tweet Jan 2021."}
+{"id": 94, "pass": "pass1", "label": "NO", "confidence": 0.98, "reason": "Correctly states Atlanta ended in 2022, no upcoming seasons."}
+{"id": 95, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly corrects premise; Fed raised rates in 2022, not cut."}
+{"id": 108, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly notes Aug 2, 1776 signing and July 4 adoption."}
+{"id": 109, "pass": "pass1", "label": "NO", "confidence": 0.97, "reason": "United States is correct host with most matches."}
+{"id": 110, "pass": "pass1", "label": "NO", "confidence": 0.97, "reason": "Polonium named after Poland — correct."}
+{"id": 111, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Zero days left; event already occurred — accepts false premise rejection."}
+{"id": 112, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly confirms the baby girl's name."}
+{"id": 113, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "States In Nacht und Eis, not Saved from the Titanic (1912)."}
+{"id": 114, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Reference names McCulloch and Pitts, not Rosenblatt."}
+{"id": 115, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "1933 chain reaction conception — correct."}
+{"id": 116, "pass": "pass1", "label": "NO", "confidence": 0.98, "reason": "Van Gogh painted The Starry Night — correct."}
+{"id": 117, "pass": "pass1", "label": "NO", "confidence": 0.97, "reason": "September 1, 2022 premiere — correct."}
+{"id": 118, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Reference says Ringo Starr; candidate says John Lennon."}
+{"id": 119, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Emperor Wenzong of Tang — correct."}
+{"id": 96, "pass": "pass1", "label": "YES", "confidence": 0.98, "reason": "Merz succeeded Scholz; Scholz is no longer chancellor."}
+{"id": 97, "pass": "pass1", "label": "NO", "confidence": 0.98, "reason": "193 member states is correct."}
+{"id": 98, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Cebuano is the correct second-largest edition."}
+{"id": 99, "pass": "pass1", "label": "NO", "confidence": 0.97, "reason": "Croatia adopting the euro in 2023 is correct."}
+{"id": 100, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Djokovic is the sole active player with 5+ ATP Finals titles."}
+{"id": 101, "pass": "pass1", "label": "NO", "confidence": 0.99, "reason": "Hawaii is the Aloha State."}
+{"id": 102, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Kaczynski is correct despite reference typo."}
+{"id": 103, "pass": "pass1", "label": "NO", "confidence": 0.99, "reason": "1941 is correct."}
+{"id": 104, "pass": "pass1", "label": "NO", "confidence": 0.99, "reason": "Amherst, Massachusetts is correct."}
+{"id": 105, "pass": "pass1", "label": "NO", "confidence": 0.97, "reason": "Chelsea won the 2021 Club World Cup."}
+{"id": 106, "pass": "pass1", "label": "NO", "confidence": 0.98, "reason": "Baden-Württemberg is correct."}
+{"id": 107, "pass": "pass1", "label": "YES", "confidence": 0.97, "reason": "Candidate is incoherent and gives no film, contradicting the reference."}
+{"id": 120, "pass": "pass1", "label": "YES", "confidence": 0.95, "reason": "Candidate says memorial commemorates WWI, contradicting reference WWII; the war with 60M casualties is WWII but memorial is WWII per reference."}
+{"id": 121, "pass": "pass1", "label": "YES", "confidence": 0.9, "reason": "Reference answer is \"We'll Burn That Bridge\"; candidate gives \"Gone Country\" as the song, a different entity."}
+{"id": 122, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Candidate correctly gives Treaty of Gandamak, matching the reference."}
+{"id": 123, "pass": "pass1", "label": "NO", "confidence": 0.98, "reason": "Candidate correctly identifies Happy Death Day, matching reference."}
+{"id": 124, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Candidate gives September 8, 2017, matching reference 8-Sep-17."}
+{"id": 125, "pass": "pass1", "label": "YES", "confidence": 0.9, "reason": "Reference says 650 locations; candidate says approximately 179, a material number discrepancy."}
+{"id": 126, "pass": "pass1", "label": "NO", "confidence": 0.85, "reason": "Candidate confirms Hindi as the primary language, matching reference."}
+{"id": 127, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Candidate identifies \"Gangsta's Paradise\"; correct despite naming album slightly differently."}
+{"id": 128, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Candidate gives 1932 birth year, matching reference."}
+{"id": 129, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Reference says second (two wives); candidate says one wife, a material factual error."}
+{"id": 130, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Candidate includes Jordan Peele, matching reference."}
+{"id": 131, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Reference says 2.1 million; candidate says approximately 1.8 million, a material discrepancy."}
+{"id": 132, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly identifies Kurt Russell as USA coach in Miracle."}
+{"id": 133, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Matches reference: Southern State Parkway."}
+{"id": 134, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correct: Michael Chekhov, called 'most brilliant student' by Stanislavski."}
+{"id": 135, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Matthew Vaughn produced Lock, Stock; correct."}
+{"id": 136, "pass": "pass1", "label": "YES", "confidence": 0.9, "reason": "Reference is My Cat from Hell, hosted by Jackson Galaxy (Richard Kirschner); candidate denies any such show."}
+{"id": 137, "pass": "pass1", "label": "YES", "confidence": 0.75, "reason": "Reference says Dragon TV; candidate says Mango TV/LeTV, contradicting."}
+{"id": 138, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "San Marco (2001) before About Time (2002); correct."}
+{"id": 139, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Correct 'no'; neither of West Indian descent."}
+{"id": 140, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Reference duck; gadwall is a duck, compatible."}
+{"id": 141, "pass": "pass1", "label": "YES", "confidence": 0.9, "reason": "Reference year 1860; candidate says 1864 for Missoula County."}
+{"id": 142, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correct: Odorama in Polyester."}
+{"id": 143, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Reference says Veronica Hamel born in Philadelphia; candidate denies any star."}
+{"id": 156, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly states 10 years of probation for Ethan Couch."}
+{"id": 157, "pass": "pass1", "label": "YES", "confidence": 0.9, "reason": "Reference says Tulsa; candidate says Minneapolis, a clear factual error."}
+{"id": 158, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Charles Bronson, American, born Nov 3 1921, matches reference."}
+{"id": 159, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Bat and ball matches reference."}
+{"id": 160, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Reference says ABC; candidate says CBS, contradicting the reference."}
+{"id": 161, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Candidate is nonsensical filler, gives no campus size (99 acres)."}
+{"id": 162, "pass": "pass1", "label": "NO", "confidence": 0.8, "reason": "Belarus included as a northwestern neighbor; compatible despite extra countries."}
+{"id": 163, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Reference says Clinton; candidate says Bush, a clear contradiction."}
+{"id": 164, "pass": "pass1", "label": "YES", "confidence": 0.8, "reason": "Reference specifies satirical erotic romantic comedy; candidate vague and incompatible."}
+{"id": 165, "pass": "pass1", "label": "YES", "confidence": 0.9, "reason": "Reference is Nate Robinson; candidate names Mike Conley Jr., wrong entity."}
+{"id": 166, "pass": "pass1", "label": "NO", "confidence": 0.75, "reason": "Pope Field/Fort Liberty is the same installation as Fort Bragg; compatible."}
+{"id": 167, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "2008 matches the reference year."}
+{"id": 168, "pass": "pass1", "label": "YES", "confidence": 0.95, "reason": "Selina Giles played Evey's mother, not Valerie Page (that was Valerie)."}
+{"id": 169, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Candidate gives the correct phrase 'To be,' with accurate scene clarification."}
+{"id": 170, "pass": "pass1", "label": "YES", "confidence": 0.8, "reason": "Question asks what other models Holden manufactured; answer should be sedan/station wagon, not Colorado/Astra."}
+{"id": 171, "pass": "pass1", "label": "NO", "confidence": 0.6, "reason": "Ambiguous whether Mani or Nova; candidate names a plausible winner but reference gives Mani."}
+{"id": 172, "pass": "pass1", "label": "YES", "confidence": 0.9, "reason": "Reference is French mathematician/physicist; candidate wrongly credits British Lord Rayleigh."}
+{"id": 173, "pass": "pass1", "label": "NO", "confidence": 0.98, "reason": "Correct: Jaleel White (Jaleel Ahmad White) portrayed Steve Urkel."}
+{"id": 174, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Reference organization is Henry Jackson Society; candidate gives American Iranian Council."}
+{"id": 175, "pass": "pass1", "label": "NO", "confidence": 0.98, "reason": "Correct: Britney Spears, born in McComb, Mississippi."}
+{"id": 176, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Reference answer is 'Hills'; candidate gives generic elevation, missing the common type."}
+{"id": 177, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correct: PJ & Duncan from Newcastle upon Tyne, England."}
+{"id": 178, "pass": "pass1", "label": "YES", "confidence": 0.9, "reason": "Reference month is June (7-Jun); candidate says January 2010, a clear factual error."}
+{"id": 179, "pass": "pass1", "label": "NO", "confidence": 0.85, "reason": "Correct: Luis Enrique, now a manager/head coach, matching reference."}
+{"id": 144, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correct: both were professional tennis players."}
+{"id": 145, "pass": "pass1", "label": "YES", "confidence": 0.9, "reason": "Charles Wesley song appeared on The Andy Williams Christmas Album, not 1965's Merry Christmas."}
+{"id": 146, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly identifies Richard L. Thompson / Drutakarma dasa."}
+{"id": 147, "pass": "pass1", "label": "NO", "confidence": 0.85, "reason": "Correctly says S70 modeled after Volvo 850; extra AWD nuance is plausible."}
+{"id": 148, "pass": "pass1", "label": "YES", "confidence": 0.9, "reason": "Reference answer is Talib Kweli; candidate names Daveed Diggs instead."}
+{"id": 149, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly identifies Tennessee-Tombigbee Waterway as longer."}
+{"id": 150, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Reference is Franz Ferdinand; candidate names Orange Juice instead."}
+{"id": 151, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correct: only Ash Lieb is an artist, answer is no."}
+{"id": 152, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Reference writer is Chris Claremont; candidate cites Stan Lee/Jack Kirby."}
+{"id": 153, "pass": "pass1", "label": "YES", "confidence": 0.85, "reason": "Reference rank is number 8; candidate says number one."}
+{"id": 154, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly identifies BBC as the broadcaster."}
+{"id": 155, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly identifies Mary Harron and The Notorious Bettie Page."}
+{"id": 72, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly states NASA spent nothing and Fisher developed the pen independently."}
+{"id": 73, "pass": "pass1", "label": "NO", "confidence": 0.94, "reason": "Correctly says menstrual cycle syncing is not scientifically supported."}
+{"id": 74, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "Correctly says organizing is not a mental disorder."}
+{"id": 75, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Matches reference: no topic banned by federal law; NLRA protects discussion."}
+{"id": 76, "pass": "pass1", "label": "NO", "confidence": 0.92, "reason": "Real-world answer (nothing happens) is correct and compatible with reference."}
+{"id": 77, "pass": "pass1", "label": "NO", "confidence": 0.95, "reason": "States nothing supernatural happens, consistent with reference."}
+{"id": 78, "pass": "pass1", "label": "YES", "confidence": 0.9, "reason": "Reference says Gerald Ford; candidate names Joe Biden, a material contradiction."}
+{"id": 79, "pass": "pass1", "label": "NO", "confidence": 0.9, "reason": "Gloves and dagger both appear in reference alternatives."}
+{"id": 80, "pass": "pass1", "label": "NO", "confidence": 0.92, "reason": "Effectively correct: DiCaprio has no children."}
+{"id": 81, "pass": "pass1", "label": "NO", "confidence": 0.85, "reason": "Conveys Dartmouth has no law school, plus harmless historical detail."}
+{"id": 82, "pass": "pass1", "label": "NO", "confidence": 0.97, "reason": "Correctly states UK never adopted the Euro."}
+{"id": 83, "pass": "pass1", "label": "NO", "confidence": 0.98, "reason": "Correctly states Maguire never won the Ballon d'Or."}

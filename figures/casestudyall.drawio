@@ -16,16 +16,16 @@
         <mxCell id="SAWcP_ySlIPs1YH8spki-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;fillColor=#f8cecc;strokeColor=#b85450;" value="&lt;span style=&quot;font-family: Arial; font-size: 16px;&quot;&gt;&lt;b&gt;Response:&amp;nbsp;&lt;/b&gt;&lt;/span&gt;&lt;font face=&quot;Arial&quot; style=&quot;font-size: 16px;&quot;&gt;It is &lt;b&gt;illegal&lt;/b&gt; for a business to be cash-free in the US.&lt;/font&gt;" vertex="1">
           <mxGeometry height="50" width="350" x="550" y="-2285" as="geometry" />
         </mxCell>
-        <mxCell id="hXNfb7PBGdzVsM6bMah9-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cce5ff;strokeColor=#36393d;align=left;" value="&lt;font face=&quot;Arial&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;Prompt:&amp;nbsp;&lt;/b&gt;The base response may contains hallucinations or factual errors. Verify facts step-by-step and&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;b style=&quot;font-family: Arial;&quot;&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;...&lt;/font&gt;&lt;/b&gt;" vertex="1">
-          <mxGeometry height="60" width="400" x="500" y="-2018" as="geometry" />
+        <mxCell id="hXNfb7PBGdzVsM6bMah9-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cce5ff;strokeColor=#36393d;align=left;" value="&lt;font face=&quot;Arial&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;Prompt:&amp;nbsp;&lt;/b&gt;The base response may contain hallucinations or factual errors. Verify facts step-by-step and&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;b style=&quot;font-family: Arial;&quot;&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;...&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="48" width="400" x="500" y="-2020" as="geometry" />
         </mxCell>
         <mxCell id="hXNfb7PBGdzVsM6bMah9-23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E5CCFF;strokeColor=#d79b00;align=center;" value="&lt;font face=&quot;Arial&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;Pairwise Ranking&lt;/b&gt;&lt;/span&gt;&lt;/font&gt;" vertex="1">
           <mxGeometry height="50" width="80" x="940" y="-2220" as="geometry" />
         </mxCell>
         <mxCell id="St9f8UxEOStm0wnGMHDm-6" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;strokeWidth=2;" value="">
           <mxGeometry height="50" relative="1" width="50" as="geometry">
-            <mxPoint x="905" y="-1990" as="sourcePoint" />
-            <mxPoint x="935" y="-1990" as="targetPoint" />
+            <mxPoint x="907" y="-1996.5" as="sourcePoint" />
+            <mxPoint x="937" y="-1996.5" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="kMakaYz5ZQgRkD66zDxh-16" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;strokeWidth=2;" value="">

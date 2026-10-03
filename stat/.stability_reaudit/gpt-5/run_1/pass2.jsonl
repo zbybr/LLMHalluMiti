@@ -1,0 +1,41 @@
+{"id": 171, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference winner is Mani; candidate says Graft, a wrong entity."}
+{"id": 172, "pass": "pass2", "label": "YES", "confidence": 0.95, "reason": "Reference is French mathematician/physicist; candidate wrongly says American physicist."}
+{"id": 176, "pass": "pass2", "label": "YES", "confidence": 0.8, "reason": "Reference commonality is 'Hills'; candidate gives AHD datum, a different answer."}
+{"id": 178, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "'June' matches reference 7-Jun (June)."}
+{"id": 179, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "States manager, matching reference occupation."}
+{"id": 129, "pass": "pass2", "label": "NO", "confidence": 0.7, "reason": "'Second' (his second wife) vs 'two wives' — candidate's count of two is consistent with reference; not a material contradiction."}
+{"id": 131, "pass": "pass2", "label": "YES", "confidence": 0.8, "reason": "1.8 million vs reference 2.1 million is a material numeric discrepancy."}
+{"id": 140, "pass": "pass2", "label": "YES", "confidence": 0.95, "reason": "Swan contradicts reference duck — wrong animal."}
+{"id": 145, "pass": "pass2", "label": "YES", "confidence": 0.75, "reason": "Merry Christmas (1965) differs from The Andy Williams Christmas Album."}
+{"id": 150, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "We Are the Physics contradicts reference Franz Ferdinand."}
+{"id": 153, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Number 6 vs reference number 8 — wrong chart position."}
+{"id": 157, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Austin contradicts reference Tulsa."}
+{"id": 160, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Investigation Discovery contradicts reference ABC."}
+{"id": 162, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Poland contradicts reference Belarus."}
+{"id": 164, "pass": "pass2", "label": "YES", "confidence": 0.7, "reason": "Horror/Saw II conflicts with reference satirical erotic romantic comedy."}
+{"id": 166, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Fort Liberty is the renamed Fort Bragg — same installation, correct."}
+{"id": 170, "pass": "pass2", "label": "YES", "confidence": 0.55, "reason": "Reference asks models (sedan, station wagon); candidate lists unrelated models, missing the reference answer."}
+{"id": 3, "pass": "pass2", "label": "YES", "confidence": 0.8, "reason": "Reference lists eel/salmon/trout/sturgeon; candidate asserts ferox trout as largest 'confirmed' and denies pike, diverging from anchors."}
+{"id": 10, "pass": "pass2", "label": "NO", "confidence": 0.9, "reason": "Compatible: grapes/raisins cause kidney failure in canids like foxes."}
+{"id": 11, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Correctly notes no real largest beanstalk existed; consistent with reference."}
+{"id": 12, "pass": "pass2", "label": "NO", "confidence": 0.7, "reason": "Caveats no proven case; reference also notes disputed cases. Acceptable."}
+{"id": 16, "pass": "pass2", "label": "YES", "confidence": 0.95, "reason": "Irrelevant non-answer; fails to address the question at all."}
+{"id": 17, "pass": "pass2", "label": "NO", "confidence": 0.6, "reason": "Describes karma as belief within traditions, caveated; not asserted as fact."}
+{"id": 20, "pass": "pass2", "label": "NO", "confidence": 0.6, "reason": "Explains cat-named animals aren't true cats, compatible with the 'no' wordplay."}
+{"id": 25, "pass": "pass2", "label": "YES", "confidence": 0.78, "reason": "Claims recordings often cause attendance declines, contradicting reference's no-strong-effect finding."}
+{"id": 36, "pass": "pass2", "label": "YES", "confidence": 0.8, "reason": "Reference says individuals may legally record; candidate's illegality claim is materially different."}
+{"id": 51, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Texting while driving is a genuine Texas driving prohibition; consistent with reference."}
+{"id": 53, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference says Japan/India; claiming more than the US contradicts the anchor."}
+{"id": 57, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Irrelevant extraction instruction; does not address the question."}
+{"id": 62, "pass": "pass2", "label": "NO", "confidence": 0.6, "reason": "Reference requires denying having kids; candidate gives general anti-spanking advice, arguably evading but not clearly contradicting."}
+{"id": 63, "pass": "pass2", "label": "NO", "confidence": 0.75, "reason": "Reference is a 'no comment' anchor; candidate's plausible 2024 project is compatible and not clearly wrong."}
+{"id": 64, "pass": "pass2", "label": "NO", "confidence": 0.75, "reason": "States she has not publicly confirmed dating anyone; compatible with vague reference."}
+{"id": 76, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Covered both literal-answer options: fictional Tolkien and ordinary reality, matching 'no significant consequences'."}
+{"id": 81, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "False premise: Dartmouth has no law school; candidate asserts a nonexistent 1824 department."}
+{"id": 90, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Contradicts premise correction; gives 2009 date instead of noting Windows 7 updates ended."}
+{"id": 92, "pass": "pass2", "label": "YES", "confidence": 0.8, "reason": "Reference notes exile ended Sept 2022; candidate asserts current Bangkok residence, contradicting."}
+{"id": 96, "pass": "pass2", "label": "YES", "confidence": 0.95, "reason": "States Scholz; reference and current chancellorship: Merz. Outdated material error."}
+{"id": 114, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference credits McCulloch and Pitts; Rosenblatt differs materially."}
+{"id": 120, "pass": "pass2", "label": "NO", "confidence": 0.9, "reason": "Candidate matches reference answer (World War II) exactly; no contradiction."}
+{"id": 121, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference: 'We'll Burn That Bridge'; candidate names different song, material error."}
+{"id": 125, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference ~650 locations; candidate ~180, material numeric contradiction."}

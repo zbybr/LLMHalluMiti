@@ -10,12 +10,48 @@ Only if the question is subjective, you can reply: "I have no idea.".
 Return the final answer sentence, the final answer should exactly contain one sentence.
 """
 
-MUTATION_PROMPT = """Given a question and a base response, create 5 different complete-sentence mutations of the 
-response. Use varied rewriting strategies, such as replacing words with synonyms or antonyms, changing sentence 
-structure, or introducing slight content changes by adding or removing a condition, altering viewpoint, omitting a 
-detail, swapping a cause–effect relationship, or adding a small commonsense twist. If the base response is 
-incomplete, rewrite it into a full sentence using the question’s context. Output all mutations as a numbered list 
-without explanations."""
+MUTATION_PROMPT = """\
+You are an expert at reformulating answer sentences.
+
+Given a question and its base response, generate {n} diverse mutations of the \
+response. Each mutation must be a single, grammatically complete sentence that \
+directly answers the question. If the base response is incomplete or fragmentary, \
+first rewrite it into a full sentence using the question's context, then mutate.
+
+Apply the following metamorphic relation types (use each at least once):
+
+1. Meaning-Preserving Rewrite
+   Restate the same fact with different surface form: replace words with \
+synonyms; reorder modifiers; change phrasing or word choice. The asserted \
+fact must remain identical.
+
+2. Structural Transformation
+   Change sentence structure without altering the claim: switch active ↔ \
+passive voice; swap subject and object with an adapted verb; convert between \
+a statement and a clausal/appositive construction. The asserted fact must \
+remain identical.
+
+3. Polarity Transformation
+   Introduce or remove a pair of logical negations while preserving the \
+original assertion. For example, "Paris is the capital of France." becomes \
+"It is not true that Paris is not the capital of France." Keep all entities, \
+dates, quantities, and conditions unchanged. Do not reverse the claim using \
+a single negation, an antonym, or a changed qualification.
+
+RULES:
+- Do NOT verify or fix the base response. Mutate it faithfully even if it is \
+factually wrong — preserving any potential error is required.
+- Each mutation must stand alone and remain answerable as a response to the \
+question.
+- Keep each mutation to one self-contained sentence.
+- Output all mutations as a numbered list and nothing else — no explanations, \
+no labels, no commentary.
+
+Output exactly {n} numbered lines:
+1. <mutation 1>
+2. <mutation 2>
+...
+"""
 
 COT_PROMPT = """You are given a question and original response.
 Let's think step by step and provide the most accurate final answer.
@@ -74,8 +110,22 @@ Final Step:
 The best answer is the one with the lowest rank in the matrix. Only return this highest ranking answer sentence.
 """
 
-REFINE_PROMPT = """You are may given a paragraph, you need to find the final answer sentence in this paragraph. And ONLY 
-return this answer sentence, DO NOT output the ranking or confidence score."""
+REFINE_PROMPT = """You are a strict answer extractor. The input is the raw output of
+an answer-selection step and may contain a pairwise-ranking matrix, candidate
+numbers, confidence scores, intermediate reasoning, explanations, or formatting
+noise in addition to the selected answer.
+
+Extract the answer that the input identifies as the final or best answer. Do not
+verify, correct, re-rank, reinterpret, or improve it. If no final answer is stated
+explicitly, use only the selection information already present in the input: choose
+the candidate with the best overall rank (lowest total rank) or, for confidence
+selection, the highest confidence score. When an ORIGINAL CANDIDATES section is
+provided, use it only to copy the already-selected numbered candidate verbatim.
+
+Return exactly one complete answer sentence and nothing else. Copy the selected
+answer verbatim whenever possible, removing only surrounding labels, candidate
+numbers, quotation marks, or formatting. Never return a ranking matrix, scores,
+analysis, explanation, prefix, or commentary."""
 
 LLM_JUDGE_PROMPT = """You are given a correct answer and another context, your task is to judge the final answer of the 
 context is correct or not according to the given correct answer. Only return YES or NO."""
@@ -107,11 +157,13 @@ The logic and algorithm must remain identical.
 for-loop ↔ while-loop; recursion ↔ iteration; extract a repeated block into a \
 helper function or inline an existing helper; reorder independent statements.
 
-3. Semantic Polarity Shift
-   Introduce a targeted semantic inversion that may expose hidden assumptions: \
-negate a boolean condition (`if x` → `if not x`); swap a comparison operator \
-(`<` ↔ `>`; `<=` ↔ `>=`); alter a boundary value by ±1 \
-(e.g. `n - 1` → `n`, `range(n)` → `range(n + 1)`).
+3. Polarity Transformation
+   Introduce or remove double negation in a Boolean condition while preserving \
+its truth value, e.g. `if condition` → `if not not condition` or \
+`if x < y` → `if not not (x < y)`. Keep branch bodies, comparisons, \
+boundary values, and return values unchanged. Apply this only where Boolean \
+semantics are preserved; do not replace a value-producing expression with \
+a Boolean or change the program's behavior.
 
 4. Algorithm / Data-Structure Variant
    Replace the core algorithm or data structure with a plausible alternative: \
@@ -160,22 +212,24 @@ Return ONLY a single fenced Python code block — no explanation, no diff, no pr
 """
 
 PAIRWISE_JUDGE_LEETCODE_PROMPT = """\
-You are an impartial judge evaluating two Python solutions for a LeetCode problem.
+You are an impartial judge ranking {n} Python solutions for one LeetCode problem.
+In this single evaluation, compare every ordered candidate pair and construct an
+{n}-by-{n} score matrix R.
 
 Scoring criteria (in priority order):
-1. Functional correctness: does the solution correctly handle all cases described \
-in the problem, including edge cases?
-2. Absence of hallucinated APIs: does the code avoid calling non-existent \
-functions, methods, or modules?
-3. Algorithmic soundness: is the algorithm logically correct and efficient?
-4. Code quality: is the code readable, idiomatic, and free of dead code?
+1. Functional correctness, including all stated edge cases.
+2. Absence of hallucinated functions, methods, modules, or language features.
+3. Algorithmic soundness and efficiency.
+4. Code quality and completeness.
 
-Assign candidate A a score in [1, {n}].
-1 = candidate A is the best possible; {n} = candidate A is the worst.
-Compare relative to candidate B: if A is better, give A a low score; \
-if B is better, give A a high score.
+For every i != j, R[i][j] must be an integer in [1, {n}] that scores Candidate
+i relative to Candidate j: lower is better. Set every diagonal entry R[i][i] to
+0. Apply the same scale consistently across all pairs. The winning candidate is
+the row with the lowest sum; ties are resolved by the lowest candidate number.
 
-Respond with ONLY a single integer — nothing else.
+Return JSON only, with no Markdown or explanation:
+{{"score_matrix": [[0, 1], [2, 0]]}}
+The actual matrix must contain exactly {n} rows and {n} integers per row.
 """
 
 PARAPHRASE_PROMPT_DRHALL_QA = """\

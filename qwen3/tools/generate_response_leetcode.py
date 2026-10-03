@@ -1,13 +1,36 @@
+# Backward-compatible CLI: shared implementation, original imports/functions remain below.
+if __name__ == "__main__":
+    from pathlib import Path as _Path
+    import sys as _sys
+
+    _model_dir = _Path(__file__).resolve().parent.parent
+    if str(_model_dir) not in _sys.path:
+        _sys.path.insert(0, str(_model_dir))
+    from _experiment import run as _run_shared
+
+    _run_shared("leetcode.generate_base_responses", __file__)
+    raise SystemExit
+
+
 import os
 import csv
 import argparse
 from pathlib import Path
 from openai import OpenAI
-from dotenv import load_dotenv
+from pathlib import Path as _ConfigPath
+import sys as _config_sys
+
+_config_root = next(
+    parent for parent in _ConfigPath(__file__).resolve().parents
+    if (parent / "common" / "config.py").is_file()
+)
+if str(_config_root) not in _config_sys.path:
+    _config_sys.path.insert(0, str(_config_root))
+from common.config import ROOT_ENV, load_root_env, read_env
 import pandas as pd
 from tqdm import tqdm
 
-load_dotenv(override=True)
+load_root_env()
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
     base_url=os.getenv("OPENAI_BASE_URL")
@@ -20,7 +43,7 @@ def call_llm(prompt, model_key, max_retries=20, base_delay=2.0):
             response = client.chat.completions.create(
                 model=model_key,
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.9,
+                temperature=0.1,
                 extra_body={"enable_thinking": False}
             )
             content = response.choices[0].message.content

@@ -2,15 +2,24 @@ import argparse
 import random
 from pathlib import Path
 import pandas as pd
-from dotenv import load_dotenv
+from pathlib import Path as _ConfigPath
+import sys as _config_sys
+
+_config_root = next(
+    parent for parent in _ConfigPath(__file__).resolve().parents
+    if (parent / "common" / "config.py").is_file()
+)
+if str(_config_root) not in _config_sys.path:
+    _config_sys.path.insert(0, str(_config_root))
+from common.config import ROOT_ENV, load_root_env, read_env
 from openai import OpenAI
 from tqdm import tqdm
 import os
 import csv
 import time
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ENV_PATH = os.path.join(BASE_DIR, '..', '.env')
-load_dotenv(dotenv_path=ENV_PATH, override=True)
+ENV_PATH = ROOT_ENV
+load_root_env()
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
     base_url=os.getenv("OPENAI_BASE_URL")
@@ -27,7 +36,7 @@ def safe_chat_call(messages, model_key, max_retries=3, base_delay=2.0):
             response = client.chat.completions.create(
                 model=model_key,
                 messages=messages,
-                temperature=0.0,
+                temperature=0.1,
             )
             content = response.choices[0].message.content
             if not content or not content.strip():

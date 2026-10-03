@@ -1,0 +1,5 @@
+﻿model,run,file,samples,base_hallucinations,final_hallucinations,repaired,overcorrected,HRR,RHR,OCR,flagged_gold_samples,manual_review_samples
+gpt-5,Original,gpt-5\outputs\gpt-5_mutation_outputs_gpt-5_dataset20251225_utf8_responses.csv,1826,364,144,224,4,61.53846153846154,7.886089813800658,0.27359781121751026,0,0
+gpt-5,1,gpt-5\outputs\stability\gpt-5_mutation_outputs_gpt-5_dataset20251225_utf8_responses_full_run_1.csv,1826,364,180,229,45,62.91208791208791,9.857612267250822,3.0779753761969904,308,0
+gpt-5,2,gpt-5\outputs\stability\gpt-5_mutation_outputs_gpt-5_dataset20251225_utf8_responses_full_run_2.csv,1826,364,165,221,22,60.71428571428571,9.036144578313253,1.5047879616963065,299,0
+gpt-5,3,gpt-5\outputs\stability\gpt-5_mutation_outputs_gpt-5_dataset20251225_utf8_responses_full_run_3.csv,1826,364,145,222,3,60.98901098901099,7.940854326396495,0.2051983584131327,282,0

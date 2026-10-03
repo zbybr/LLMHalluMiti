@@ -1,0 +1,68 @@
+{"id": 61, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Waiting for next instruction is compatible with responding to inputs/prompts."}
+{"id": 63, "pass": "pass2", "label": "YES", "confidence": 0.7, "reason": "Asserts specific unverified future project instead of declining; contradicts no-comment reference."}
+{"id": 64, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "States no publicly known partner, compatible with no-comment reference."}
+{"id": 65, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Correctly rejects premise that such exclusive fact exists."}
+{"id": 76, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Includes real-world reading matching reference that nothing significant happens."}
+{"id": 77, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Narcissus myth plus real-world no-consequence answer, compatible."}
+{"id": 78, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference says Gerald Ford; Trump answer is a material error."}
+{"id": 79, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Glove and dagger both match accepted reference answers."}
+{"id": 90, "pass": "pass2", "label": "NO", "confidence": 0.75, "reason": "Ends-updates point compatible with reference; core answer correct."}
+{"id": 91, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Wrongly claims Banshees tied with Avatar; reference rejects Avatar winning most."}
+{"id": 92, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Names Bangkok hotel; reference's later return does not contradict."}
+{"id": 96, "pass": "pass2", "label": "YES", "confidence": 0.97, "reason": "Merz is current chancellor; Scholz is outdated and wrong."}
+{"id": 33, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Includes Mexico and India; plausible extra examples acceptable."}
+{"id": 35, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Covers parents, children, siblings; extra degrees plausible."}
+{"id": 36, "pass": "pass2", "label": "YES", "confidence": 0.7, "reason": "Reference says recording people is legal for individuals; candidate lists illegal categories contradicting that core point."}
+{"id": 37, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference says nothing happens; candidate asserts an illumination requirement instead."}
+{"id": 40, "pass": "pass2", "label": "YES", "confidence": 0.95, "reason": "Answers Donald Trump; reference expects Rumsfeld."}
+{"id": 41, "pass": "pass2", "label": "YES", "confidence": 0.95, "reason": "Names Donald Kennedy; reference expects Donald Tsang."}
+{"id": 43, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Serbia plausibly smokes more than Spain; a correct example."}
+{"id": 46, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Correctly states Netherlands bans essentially no films based on content."}
+{"id": 51, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Texting while driving illegal is a valid Texas prohibition."}
+{"id": 56, "pass": "pass2", "label": "NO", "confidence": 0.7, "reason": "Non-answer 'no idea'; doesn't contradict reference, acceptable."}
+{"id": 59, "pass": "pass2", "label": "NO", "confidence": 0.6, "reason": "Riddle framing; not clearly contradicting the reference's denial."}
+{"id": 60, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Compatible multi-factor explanation matching reference."}
+{"id": 1, "pass": "pass2", "label": "YES", "confidence": 0.97, "reason": "Answer is nonsensical meta-text, does not affirm the 1969 moon landing as references require."}
+{"id": 2, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Cites baggage handling tunnels and underground infrastructure; compatible with reference answers."}
+{"id": 3, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Names salmon and eels, both listed in references; acceptable."}
+{"id": 10, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Denies grape toxicity to foxes, directly contradicting references stating grapes are toxic to foxes."}
+{"id": 11, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "States no such real beanstalk existed; compatible with no-records reference."}
+{"id": 12, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "References cite real cases (Marcos Rodríguez Pandoja; Amala and Kamala); candidate claims none documented."}
+{"id": 13, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Asserts a definitive cost of 10, contradicting reference that the question is ambiguous."}
+{"id": 14, "pass": "pass2", "label": "NO", "confidence": 0.75, "reason": "Reference says it depends on the country; naming US universities is a reasonable interpretation, no clear error."}
+{"id": 17, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference states karma has no real effects; candidate asserts real effects, contradicting reference."}
+{"id": 25, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Claims attendance generally decreases; reference says nothing in particular happens, a material contradiction."}
+{"id": 28, "pass": "pass2", "label": "YES", "confidence": 0.8, "reason": "References credit Mason Locke Weems; candidate names only Washington and omits the actual source."}
+{"id": 32, "pass": "pass2", "label": "NO", "confidence": 0.85, "reason": "Says hours stable or slightly decreased; consistent with reference that hours declined."}
+{"id": 113, "pass": "pass2", "label": "YES", "confidence": 0.8, "reason": "Reference 'Saved from the Titanic' (1912); candidate names In Nacht und Eis, a different film."}
+{"id": 114, "pass": "pass2", "label": "YES", "confidence": 0.75, "reason": "Reference cites McCulloch and Pitts; candidate names Rosenblatt instead."}
+{"id": 121, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference 'We'll Burn That Bridge'; candidate gives unrelated song titles."}
+{"id": 125, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Candidate says 179 locations, contradicting reference 650."}
+{"id": 126, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Hindi is the core correct answer; extra languages harmless."}
+{"id": 127, "pass": "pass2", "label": "NO", "confidence": 0.7, "reason": "Core answer Gangsta's Paradise matches; album dispute is minor."}
+{"id": 129, "pass": "pass2", "label": "YES", "confidence": 0.8, "reason": "Candidate says one wife; reference indicates a second wife (two)."}
+{"id": 131, "pass": "pass2", "label": "NO", "confidence": 0.6, "reason": "Correct denomination; 1.8M vs 2.1M is a plausible variant figure."}
+{"id": 136, "pass": "pass2", "label": "YES", "confidence": 0.95, "reason": "Candidate outputs meaningless math box, not 'My Cat from Hell'."}
+{"id": 137, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Candidate says Mango TV/LeTV, contradicting reference Dragon TV."}
+{"id": 141, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Candidate says 1864, contradicting reference founding year 1860."}
+{"id": 143, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference says Veronica Hamel; candidate denies and names someone else."}
+{"id": 169, "pass": "pass2", "label": "NO", "confidence": 0.82, "reason": "Gives correct opening phrase 'To be' with accurate scene clarification; no material error."}
+{"id": 170, "pass": "pass2", "label": "YES", "confidence": 0.78, "reason": "Reference asks for model types (sedan, station wagon); candidate names unrelated models instead."}
+{"id": 171, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference winner is Mani; candidate names Nova, wrong entity."}
+{"id": 172, "pass": "pass2", "label": "NO", "confidence": 0.7, "reason": "Mentions French mathematician Fourier, consistent with reference; broader attribution acceptable."}
+{"id": 174, "pass": "pass2", "label": "YES", "confidence": 0.7, "reason": "Reference is Henry Jackson Society; candidate answers American Iranian Council, wrong entity."}
+{"id": 176, "pass": "pass2", "label": "YES", "confidence": 0.68, "reason": "Reference link is 'hills'; candidate only says above sea level, missing key answer."}
+{"id": 178, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Stumpf took job June 2010, consistent with reference month '7-Jun'."}
+{"id": 179, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Luis Enrique is a manager/head coach, consistent with reference 'manager'."}
+{"id": 145, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference album is The Andy Williams Christmas Album; candidate names a different album, Merry Christmas."}
+{"id": 148, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference is Talib Kweli; candidate names Daveed Diggs and denies the Mos Def link."}
+{"id": 150, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference is Franz Ferdinand; candidate asserts no such scene or band exists."}
+{"id": 153, "pass": "pass2", "label": "YES", "confidence": 0.95, "reason": "Reference is number 8; candidate claims number one — wrong chart ranking."}
+{"id": 157, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference city is Tulsa; candidate says Austin, Texas."}
+{"id": 158, "pass": "pass2", "label": "YES", "confidence": 0.95, "reason": "Reference nationality is American; candidate says French."}
+{"id": 160, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Reference network is ABC; candidate says CBS."}
+{"id": 162, "pass": "pass2", "label": "NO", "confidence": 0.8, "reason": "Candidate includes Belarus among Ukraine's northwest neighbors, matching the reference."}
+{"id": 164, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference genre is satirical erotic romantic comedy; candidate gives unrelated genres."}
+{"id": 165, "pass": "pass2", "label": "YES", "confidence": 0.85, "reason": "Reference is Nate Robinson; candidate fails to identify him."}
+{"id": 166, "pass": "pass2", "label": "NO", "confidence": 0.7, "reason": "Candidate names Pope Field at Fort Liberty (Fort Bragg), compatible with reference."}
+{"id": 168, "pass": "pass2", "label": "YES", "confidence": 0.9, "reason": "Selina Giles played Evey's mother; candidate names Valerie Page, a factual error."}

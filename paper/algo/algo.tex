@@ -1,16 +1,16 @@
 \begin{algorithm}
-\caption{MutRepair: Mutation-Guided Hallucination Repair}
+\caption{MutRepair: Mutation-Guided Hallucination Repair Framework}
 \label{alg:mt-repair-ranking}
 \small
 \KwIn{
-    Question $Q$, 
+    Input $Q$, 
     Base Response $B$,
     Mutation Prompt $P_m$, 
-    Verification Prompt $P_a$, 
+    Repair Prompt $P_a$, 
     Ranking Prompt $P_r$
 }
 \KwOut{
-    Repaired Answer $A^*$
+    Final Output $A^*$
 }
 \SetKwFunction{LLM}{LLM}
 \SetKwProg{Fn}{Function}{:}{}
@@ -22,7 +22,7 @@
     
     $M \gets M \cup \{B\}$
     
-    \textbf{// Stage 2: Fault-Injected Self-Repair} \\
+    \textbf{// Stage 2: Fault-Assumption-Guided Self-Repair} \\
     $A \gets \emptyset$
     
     \ForEach{$m \in M$}{
@@ -40,7 +40,7 @@
         \For{$j \gets 1$ \KwTo $n$}{
             $R_{i,j} \gets \LLM(a_i, a_j, Q, P_r)$
             
-            Given score \([1,n]\)
+            Given pairwise comparison score
         }
     }
     \For{$i \gets 1$ \KwTo $n$}{

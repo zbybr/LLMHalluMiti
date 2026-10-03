@@ -1,7 +1,4 @@
-\documentclass[10pt,conference]{IEEEtran}
-\IEEEoverridecommandlockouts
-
-% \documentclass[acmsmall,screen,review,anonymous]{acmart}
+\documentclass[acmsmall,screen,review,anonymous]{acmart}
 \usepackage{amsmath}
 \let\Bbbk\oldBbbk
 \usepackage{amssymb}
@@ -27,9 +24,23 @@
 \usepackage{pdfpages}
 \usepackage{tikz}
 \usepackage{tabularx}
+\usepackage{inconsolata}
+\lstdefinestyle{pycode}{
+  language=Python,
+  columns=fullflexible, 
+  keepspaces=true, 
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  numbers=none,
+  frame=single,
+  framesep=4pt,
+  aboveskip=2pt, belowskip=2pt,
+  breaklines=true,
+}
 \newcommand{\mybox}[1]{%
   \begin{tcolorbox}[colback=gray!10,colframe=black,lowerbox=invisible,savelowerto=\jobname_ex.tex,
-    left=3pt, right=3pt, top=3pt, bottom=3pt]
+    left=4pt, right=4pt, top=4pt, bottom=4pt]
     #1
   \end{tcolorbox}
 }
@@ -37,95 +48,146 @@
 \newcommand{\afif}[1]{\noindent\textcolor{blue}{[Afif: {#1}]}}
 \newcommand{\gias}[1]{\noindent\textcolor{red}{[Gias: {#1}]}}
 
-\begin{document}
 \title{Mutation-Guided Hallucination Repair in Large Language Models}
-\maketitle
 
+\begin{document}
 \begin{abstract}
-    % Large Language Models (LLMs) frequently produce hallucinations--fluent yet factually incorrect responses--which severely limit their reliability in real-world applications requiring high factual accuracy. Such hallucinations are especially problematic in open-domain question answering and knowledge-intensive scenarios, where users often lack the expertise needed to identify subtle factual errors. While recent studies have proposed various hallucination detection and mitigation techniques, most existing approaches primarily focus on identifying unreliable outputs rather than correcting them. Moreover, many methods rely on external retrieval systems, curated knowledge bases, or additional training or fine-tuning of the underlying models, which introduce practical limitations including restricted availability, domain dependence, privacy concerns, high latency, and poor scalability.
 
-
-Large Language Models (LLMs) frequently generate hallucinations, which severely limit their reliability in knowledge-intensive tasks and open-domain question answering. Existing detection and mitigation strategies often rely on external retrieval, curated knowledge bases, or resource-heavy fine-tuning, which introduce challenges regarding scalability, latency, privacy, and domain dependency. 
-To address these limitations, we propose MutRepair, a hallucination repair framework that uses mutation-guided reasoning and fault-assumption-injected self-correction.
-Unlike traditional methods that focus solely on detection or external verification, MutRepair is entirely self-contained and compatible with both open- and closed-source LLMs. The framework operates by systematically generating diverse response mutations (e.g., meaning-preserving rewrites and structural transformation) to expose factual inconsistencies, then guiding the model to repair identified faults through targeted reasoning.
-Our evaluation across multiple benchmarks, including knowledge benchmarks and code-reasoning benchmark, demonstrates that MutRepair significantly outperforms state-of-the-art baselines. Across four LLMs (i.e., GPT-4o, GPT-5, Gemini and Qwen3), MutRepair outperforms top baselines by $5.58\% \text{--} 31.58\%$ on average per model (up to $46.68\%$ on individual datasets). These gains are also pronounced on coding tasks, where MutRepair raises the hallucination-repair rate to $6.45\% \text{--} 40.40\%$ . Crucially, MutRepair achieves these improvements while sharply curbing over-correction (i.e., erroneous modification of initially correct answers) by $14.56\% \text{--} 47.59\%$, maintaining high performance stability across multiple runs regardless of model stochasticity.
+Large Language Models (LLMs) frequently produce plausible but incorrect natural-language responses and generated code, undermining their reliability in knowledge-intensive applications and software development. Many existing approaches either identify hallucinations without repairing them, rely on external evidence or model adaptation, or explore self-contained repair primarily through input-side perturbation and response consistency.
+To address these limitations, we propose MutRepair, a self-contained framework that transforms output-space metamorphic mutations into a structured repair space.
+Starting from an initial response, MutRepair constructs a set of metamorphic-relation-guided mutations, independently re-examines and repairs each mutation under an explicit fault assumption, and applies LLM-as-Judge Aggregation to the repaired candidates to select the final output. This unified workflow applies to both factual question answering and code generation through modality-specific mutation operators, requires no external knowledge, tools, or model retraining, and is compatible with both open- and closed-source LLMs.
+Our evaluation across four representative LLMs, three factual question-answering benchmarks, and an executable code-generation benchmark demonstrates that MutRepair delivers the strongest overall repair performance among state-of-the-art baselines. On factual question answering, MutRepair achieves the lowest overall recheck hallucination rate (RHR) for every model, reducing RHR by $9.2\%\text{--}47.1\%$ relative to the strongest baseline while keeping its overall over-correction rate below $3\%$ on every model. On code generation, it achieves both the lowest RHR and the highest hallucination repair rate (HRR) for all four models, reducing RHR by $1.61\%\text{--}40.40\%$ relative to the strongest baseline and successfully repairing $22.3\%\text{--}44.9\%$ of initially incorrect programs. Repeated-run and sensitivity analyses further confirm that these gains remain stable across stochastic generations and variations in temperature and mutation count.
     
 \end{abstract}
 
+\begin{CCSXML}
+<ccs2012>
+<concept>
+<concept_id>10011007.10011074.10011099.10011102.10011103</concept_id>
+<concept_desc>Software and its engineering~Software testing and debugging</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10010147.10010178</concept_id>
+<concept_desc>Computing methodologies~Artificial intelligence</concept_desc>
+<concept_significance>300</concept_significance>
+</concept>
+</ccs2012>
+\end{CCSXML}
 
-\begin{IEEEkeywords}
-Large Language Models, Hallucination Repair, Metamorphic Relation, Fault Injection
-\end{IEEEkeywords}
+\ccsdesc[500]{Software and its engineering~Software testing and debugging}
+\ccsdesc[300]{Computing methodologies~Artificial intelligence}
+
+\keywords{Large Language Models, Hallucination Repair, Metamorphic Relations, Mutation-Guided Repair, Code Generation}
+
+\maketitle
 
 
 \section{Introduction}
 
-Large language models (LLMs), such as the GPT series~\cite{openai2023gpt}, are now embedded as core components of software systems, powering tasks from open-domain question answering to code generation~\cite{huo2024large, champa2024chatgpt, jin2024simllm, lian2024imperfect}. Yet a critical reliability challenge persists: LLMs are prone to \emph{hallucinations} -- outputs that appear fluent and coherent yet are factually incorrect or unfaithful to ground truth~\cite{ji2023survey, xu2024hallucination}. Figure~\ref{fig:haluexample} illustrates such a natural-language hallucination from ChatGPT in the legal domain, where the model confidently asserts false information that could mislead users and erode trust in production deployments. Crucially, hallucinations are not confined to natural language: when an LLM generates code, the same failure surfaces as non-existent API calls, incorrect boundary conditions, or flawed logic that silently break the program\cite{tian2025codehalu}. From a software engineering perspective, both forms constitute a single class of defect -- a knowledge-intensive component emitting plausible but incorrect artifacts~\cite{fan2023llmse, zhou2025lost, zhang2023siren} -- placing hallucination squarely among classic SE concerns such as test oracle construction, automated testing, and automated program repair.
+Large language models (LLMs), such as the GPT series~\cite{openai2023gpt}, are now embedded as core components of software systems, powering tasks from open-domain question answering to code generation~\cite{huo2024large, champa2024chatgpt, jin2024simllm, lian2024imperfect}. Yet a critical reliability challenge persists: LLMs are prone to hallucinations, outputs that appear fluent and coherent yet are factually incorrect or unfaithful to ground truth~\cite{ji2023survey, xu2024hallucination}. Figure~\ref{fig:haluexample} shows such a hallucination from ChatGPT in the legal domain, where the model confidently asserts false information that could mislead users. Crucially, hallucinations are not confined to natural language: when an LLM generates code, the same failure surfaces as non-existent API calls, incorrect boundary conditions, or flawed logic that silently breaks the program~\cite{tian2025codehalu}. From a software engineering perspective, both forms constitute a single class of defect, a knowledge-intensive component emitting plausible but incorrect artifacts~\cite{fan2023llmse, zhang2023siren}, placing hallucination among classic SE concerns such as test oracle construction, automated testing, and automated program repair.
 
-A growing body of work investigates hallucination detection~\cite{huo2023retrieving, lewis2020retrieval, yao2023llm, wu2025detecting}, yet detection alone is insufficient: users and downstream systems require reliable artifacts, not merely warnings. This necessitates hallucination repair -- actively correcting erroneous outputs into faithful ones. Existing repair approaches typically fine-tune the model~\cite{kumar2025training} or ground outputs through retrieval-augmented generation (RAG)~\cite{ayala2024reducing}, but both depend on external resources -- knowledge bases, auxiliary models, or retraining pipelines -- that are inaccessible for black-box LLMs and unavailable in specialized or emerging domains. This motivates a lightweight, inference-time repair framework that requires no such resources, which in turn raises the test oracle problem: at repair time no ground truth is available, so the system must judge correctness from the model's own outputs alone. This is what makes repair fundamentally harder than detection, and it also demands avoiding over-correction -- the analogue of a regression-inducing patch in automated program repair~\cite{petke2024patch} -- since corrupting an originally correct output is as harmful as leaving a hallucination unrepaired.
-
-\begin{figure}[htbp]
+\begin{wrapfigure}{r}{0.50\columnwidth}
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/haluexample.pdf}
-    \caption{An example of a hallucination output generated by ChatGPT in legal domain.}
+    \includegraphics[width=\linewidth]{figures/haluexample.pdf}
+    \caption{An example of a hallucinated output generated by ChatGPT in the legal domain.}
     \label{fig:haluexample}
-\end{figure}
+\end{wrapfigure}
 
-In this paper, we present MutRepair, a hallucination repair framework that recasts hallucination as a repairable fault and adapts metamorphic relations, fault injection, and automated repair to LLM outputs. Our key insight is that a single output offers no leverage for self-assessment, whereas a family of controlled variants does: by transforming the base response under metamorphic relations, MutRepair expands one answer into a diverse repair space in which faults surface through cross-variant comparison. MutRepair operates in three stages. \emph{(1) Mutation Construction} generates MR-guided mutations of the base response to expose latent faults. \emph{(2) Fault-Injected Self-Repair} injects an explicit fault assumption into each mutation, shifting the model from passive validation into active fault localization and repair. \emph{(3) Aggregation} selects the final patch through a self-contained comparative oracle that ranks the independently repaired candidates against one another, requiring no external ground truth. The same framework instantiates on both natural language and code, differing only in its modality-specific mutation operators, demonstrating that the paradigm is not specific to natural language but a general, SE-grounded mechanism for repairing faults in LLM-generated artifacts.
+A growing body of work investigates hallucination detection~\cite{huo2023retrieving, yao2023llm}, yet detection alone is insufficient because users and downstream systems require reliable outputs rather than warnings. Recent approaches therefore increasingly target hallucination repair. Many rely on model fine-tuning~\cite{kumar2025training} or retrieval-augmented generation~\cite{lewis2020retrieval, ayala2024reducing}, while self-contained methods such as DrHall~\cite{wu2025detecting} perturb the input question and exploit consistency among the resulting responses. These methods establish the value of inference-time repair, but output-space mutation remains underexplored as a mechanism for constructing and evaluating repair results.
 
-We conduct an extensive empirical evaluation across two modalities: three natural-language hallucination benchmarks -- TruthfulQA~\cite{lin2022truthfulqa}, HotpotQA~\cite{yang2018hotpotqa}, and FreshQA~\cite{vu2023freshllms} -- and a code-generation benchmark built from LeetCode problems, spanning four representative LLMs (GPT-4o, GPT-5, Gemini, and Qwen3). We compare MutRepair against strong self-contained baselines (CoT~\cite{wei2022chain}, CoVe~\cite{dhuliawala2024chain}), a retrieval-augmented variant (CoVe-SE), and DrHall~\cite{wu2025detecting}, a state-of-the-art metamorphic-testing-based method from the SE community. Across all settings, MutRepair consistently outperforms every baseline: it improves hallucination repair by $5.58\%\text{--}31.58\%$ on average per model on natural-language tasks (up to $46.68\%$ on individual datasets) and raises the repair rate by $6.45\%\text{--}40.40\%$ on code, while sharply curbing over-correction by $14.56\%\text{--}47.59\%$ relative to the strongest baseline. It further exhibits strong run-to-run robustness and remains stable under varying temperature and mutation configurations.
+Directly operating in the output space introduces a demanding oracle problem. Without external ground truth, a repair framework must construct diagnostically useful repair candidates and accurately judge the resulting repair outcomes using only the information available within the model. It must also avoid over-correction. Analogous to a regression-inducing patch in automated program repair~\cite{petke2024patch}, an unnecessary modification may corrupt an originally correct output and become as harmful as leaving a hallucination unrepaired. Reliable self-contained hallucination repair therefore depends on two essential capabilities: constructing an effective repair space and accurately evaluating repair outcomes without an external oracle.
+
+In this paper, we present MutRepair, a self-contained hallucination repair framework that recasts hallucinations as repairable faults and integrates output-space metamorphic mutations, fault-assumption-guided self-repair, and LLM-as-Judge Aggregation. Our key insight is that a single response provides only one starting point for self-correction and may repeatedly lead the model toward the same erroneous conclusion. MutRepair instead transforms the initial response into a structured set of mutations, establishing multiple repair trajectories that re-express its content, reorganize its structure, or reimplement its solution strategy. Each mutation is then repaired independently, and the resulting repair outcomes are compared across mutations to support a more reliable final judgment.
+
+MutRepair operates in three stages. \emph{(1) Mutation Construction} generates metamorphic-relation-guided mutations of the initial response to establish multiple complementary repair trajectories. \emph{(2) Fault-Assumption-Guided Self-Repair} introduces an explicit fault hypothesis for each mutation, prompting the model to determine whether a factual or logical fault is present and to repair the mutation only when a correction is warranted. \emph{(3) LLM-as-Judge Aggregation} performs cross-mutation comparison over the independently repaired candidates and identifies the most reliable final output without external ground truth. The same architecture operates on both natural-language responses and generated code through modality-specific mutation operators, demonstrating the effectiveness of mutation-guided repair across factual and executable artifacts.
+
+We evaluate MutRepair across two modalities using three factual question-answering benchmarks, TruthfulQA~\cite{lin2022truthfulqa}, HotpotQA~\cite{yang2018hotpotqa}, and FreshQA~\cite{vu2023freshllms}, together with an executable code-generation benchmark constructed from LeetCode problems~\cite{xia2025leetcodedataset}. The evaluation covers four representative LLMs, including GPT-4o, GPT-5, Gemini, and Qwen3, and compares MutRepair with CoT~\cite{wei2022chain}, CoVe~\cite{dhuliawala2024chain}, its retrieval-augmented variant CoVe-SE, and the self-contained metamorphic repair method DrHall~\cite{wu2025detecting}. MutRepair delivers the strongest overall repair performance across both modalities. On factual question answering, it achieves the lowest overall RHR and OCR for every model, reducing RHR by $9.2\%\text{--}47.1\%$ relative to the strongest baseline while maintaining OCR below $3\%$. Paired McNemar tests confirm statistically significant RHR improvements in 11 of the 12 comparisons against the three self-contained baselines after Holm correction. On code generation, MutRepair achieves the lowest RHR and highest HRR for all four models, reducing RHR by $1.61\%\text{--}40.40\%$ relative to the strongest baseline and repairing $22.3\%\text{--}44.9\%$ of initially incorrect programs. Repeated-run and sensitivity analyses further demonstrate that these gains remain stable across stochastic generations, temperature settings, and mutation counts.
 
 Our major contributions include:
+
 \begin{enumerate}[leftmargin=20pt]
-    \item We reframe LLM hallucination as a repairable fault and propose MutRepair, to the best of our knowledge the first framework to adapt metamorphic mutation, fault-assumption injection, and automated repair into a unified, self-contained hallucination repair pipeline that requires no external knowledge, auxiliary models, or ground-truth feedback.
-    \item We design relation-guided mutation operators and a comparative aggregation stage, and show that the same pipeline instantiates across modalities -- differing only in its modality-specific mutation operators -- demonstrating that mutation-guided repair generalizes beyond natural language to code-generation faults.
-    \item We conduct a comprehensive study on three natural-language benchmarks and a code benchmark across four LLM families, comparing against self-contained, retrieval-augmented, and SE-based baselines, and show that MutRepair consistently achieves higher repair effectiveness with substantially lower over-correction.
+\item We propose MutRepair, a self-contained hallucination repair framework that combines output-space metamorphic mutation, fault-assumption-guided self-repair, and LLM-as-Judge Aggregation without external resources.
+
+\item We show that MutRepair repairs both natural-language and code outputs within a shared framework, using three cross-modal mutation operators and an additional operator for code.
+
+\item We evaluate MutRepair on three factual question-answering benchmarks and an executable code-generation benchmark across four LLMs, demonstrating consistently stronger repair performance, low over-correction, and robust results across repeated runs and sensitivity settings.
 \end{enumerate}
 
-\begin{figure*}[t]
+\begin{figure}[t]
     \centering
     \includegraphics[width=1\textwidth]{figures/workflow.pdf}
-    \caption{General workflow of MutRepair}
+    \caption{The workflow of MutRepair.}
     \label{fig:workflow}
-\end{figure*}
+\end{figure}
 
 \section{Methodology}
-MutRepair is a self-contained hallucination repair framework that treats a hallucinated LLM output as a repairable fault, and corrects it without any external knowledge or ground-truth feedback. Given a question and its base response $B$ from the LLM, MutRepair repairs $B$ through three stages (see Figure~\ref{fig:workflow}):
-\textit{(1) Mutation Construction}, which expands $B$ into a set of relation-guided variants using metamorphic relations to expose latent faults;
-\textit{(2) Fault-Injected Self-Repair}, which treats each variant as potentially faulty and prompts the model to actively re-examine and repair it under an explicit fault assumption; and
-\textit{(3) LLM-as-Judge Aggregation}, which compares the independently repaired candidates against one another and selects the most reliable one as the final answer.
-The framework is modality-agnostic: the same three stages apply to both natural language and code, differing only in the mutation operators of Stage~1, while the fault-injected repair and comparative aggregation stages -- neither of which relies on an external oracle -- are shared across modalities. Algorithm~\ref{alg:mt-repair-ranking} presents the complete procedure, from the initial response to the selection of the final repaired answer.
+MutRepair is a self-contained hallucination repair framework that treats LLM-generated content as potentially faulty and repairs it without external knowledge or ground-truth feedback. Given an input $Q$ and its base response $B$, MutRepair processes $B$ through three stages, as shown in Figure~\ref{fig:workflow}:
+
+\textit{(1) Mutation Construction}, which transforms $B$ into a set of metamorphic-relation-guided mutations that establish complementary repair trajectories;
+
+\textit{(2) Fault-Assumption-Guided Self-Repair}, which prompts the model to determine whether each mutation contains a factual or logical fault and repair it when necessary; and
+
+\textit{(3) LLM-as-Judge Aggregation}, which compares the independently repaired candidates across mutations with respect to $Q$ and identifies the most reliable final output.
+
+The same three-stage architecture applies to both natural-language responses and generated code. Stage~1 uses modality-specific mutation operators, while the self-repair and LLM-as-Judge Aggregation processes in Stages~2 and~3 remain shared across modalities and require no external oracle. Algorithm~\ref{alg:mt-repair-ranking} presents the complete procedure.
 
 \input{algo/algo}
 
-\subsection{Mutation Construction}
-This stage is illustrated in Algorithm~\ref{alg:mt-repair-ranking} (lines~2--4). Given a question $Q$ and its base response $B$, MutRepair treats $B$ as a candidate artifact under test and systematically perturbs it into a set of structured variants $M = \{m_1, m_2, \dots, m_k\}$ (line~2), where each $m \in M$ is a metamorphic follow-up derived from $B$. Rather than repeatedly regenerating an answer to the same prompt, these variants place $B$ under controlled, semantics-related transformations, so that latent factual or logical errors surface as inconsistencies across the variant set.
+\subsection{Mutation Construction} \label{sec:mutation}
 
-Metamorphic relations (MRs), originating from metamorphic testing in software engineering, characterize how a system's outputs are expected to change or remain invariant under controlled transformations of related inputs, without requiring an explicit oracle~\cite{chen2018metamorphic, zhang2014search, cho2025metamorphic}. We instantiate three modality-agnostic relations that apply to both natural-language answers and generated code. For a natural-language response, we represent $B$ as a relational statement $B = \langle sub, verb, obj \rangle$, where $sub$ and $obj$ denote the subject and object entities and $verb$ captures the core predicate; an analogous decomposition applies to a code statement at the level of its operations and operands. The three relations are defined as structured transformations from $B$ to $m$:
+This stage is illustrated in Algorithm~\ref{alg:mt-repair-ranking} (lines~2--4). Given an input $Q$ and its base response $B$, MutRepair generates a set of structured mutations $M = \{m_1, m_2, \dots, m_k\}$ (line~3), where each mutation is derived from $B$ through a metamorphic-relation-guided transformation. These mutations expand a single response into multiple repair trajectories with different semantic or structural characteristics. Each mutation is independently repaired in Stage~2, and the resulting repair outcomes are compared across mutations in Stage~3.
 
-\begin{equation}
-    \langle sub, verb_{1}, obj \rangle \Rightarrow m = \langle sub, verb_{2}, obj \rangle
-\end{equation}
-\noindent\textbf{(1) Meaning-Preserving Rewrite}, where $verb_{2}$ is semantically close to $verb_{1}$ but realized in a different surface form, preserving the asserted content.
+A key design choice in MutRepair is to mutate the generated output rather than the input question. Input-space methods such as DrHall~\cite{wu2025detecting} perturb the input question and check whether the model's answers stay consistent across rephrasings. MutRepair instead generates mutations in the output space, directly transforming the base response and using each mutation as an independent starting point for re-examination and repair when necessary.
 
-\begin{equation}
-    \langle sub, verb, obj \rangle \Rightarrow m = \langle obj, verb', sub \rangle
-\end{equation}
-\noindent\textbf{(2) Structural Transformation}, where $verb'$ is adapted so that the statement is restructured (e.g., subject--object reordering or active--passive inversion) without altering its meaning.
+Metamorphic relations (MRs), originating from metamorphic testing, define how related executions should preserve or alter specific properties without requiring an explicit test oracle~\cite{chen2018metamorphic, zhang2014search, cho2025metamorphic}. MutRepair adapts MRs as structured mutation operators for repair rather than using them as pass-or-fail oracles. Each relation transforms the base response $B$ along a controlled semantic or structural dimension, creating a complementary repair trajectory whose outcome is evaluated after self-repair. Building on output-space MRs previously used for hallucination detection~\cite{yang2025hallucination}, we instantiate three cross-modal relations for natural-language responses and generated code.
+\textbf{(1) Meaning-Preserving Rewrite} alters only the surface form of $B$: for text, it rephrases the wording (e.g., a synonymous predicate); for code, it substitutes an equivalent expression (e.g., \texttt{x += 1} for \texttt{x = x + 1}). 
+\textbf{(2) Structural Transformation} reorganizes the structure of $B$ without changing its behavior: for text, it reorders the assertion (e.g., active--passive inversion); for code, it restructures the control or data flow (e.g., an \texttt{if}--\texttt{else} into a guard clause). 
+\textbf{(3) Polarity Transformation} rewrites an assertion through double negation while preserving its original meaning. For text, it converts an affirmative statement into a logically equivalent double-negative form, or vice versa. For code, it introduces or removes paired logical negations in Boolean conditions (e.g., \texttt{if x:} and \texttt{if not not x:}). The intended equivalence concerns the condition's truth value, not arbitrary expression values or types. This transformation changes how the assertion or condition is expressed without reversing its semantics. Although logically equivalent to the original assertion, the transformed expression provides a distinct repair trajectory from which the model re-examines the same underlying proposition.
 
-\begin{equation}
-    \langle sub, verb, obj \rangle \Rightarrow m = \langle sub, \neg verb, obj \rangle
-\end{equation}
-\noindent\textbf{(3) Semantic Polarity Shift}, where $\neg verb$ denotes a targeted inversion (e.g., an antonym, negation, or an added or removed condition) that probes hidden assumptions in $B$.
+While these three relations apply to both modalities, code has an additional fault space that text does not: beyond surface form, faults arise from algorithmic and data-structural choices. We therefore introduce a fourth, code-specific operator: \textbf{(4) Algorithm/Data-Structure Variant}, which replaces the core algorithm or data structure of $B$ with a plausible alternative intended to solve the same task (e.g., recursion to iteration or memoization to tabulation), exposing faults invisible to surface-level rewrites. Figure~\ref{fig:codemut} illustrates this operator on a representative code mutation.
 
-These three relations capture the lexical, structural, and semantic dimensions along which a response can be perturbed, and apply uniformly across modalities. Code, however, is a structured artifact whose fault space extends beyond surface form to algorithmic and data-structural choices. Specifically, for code we introduce a fourth, modality-specific operator: \textbf{(4) Algorithm/Data-Structure Variant}, which replaces the core algorithm or data structure of $B$ with a equivalent alternative (e.g., recursion to iteration or memoization to tabulation), exposing faults that are invisible to purely surface-level rewrites. Figure~\ref{fig:codemut} illustrates this operator on a representative code mutation.
+\begin{figure}[t]
+\centering
+\begin{tabular}{@{}c@{\hspace{0.8em}}c@{\hspace{0.8em}}c@{}}
+\begin{minipage}[c]{0.4\linewidth}
+\centering
+\textbf{Base response $B$}
+\vspace{2pt}
+\begin{lstlisting}[style=pycode]
+def fib(n):
+    if n < 2:
+        return n
+    return fib(n-1) \
+        + fib(n-2)
+\end{lstlisting}
+\end{minipage}
+&
+$\Longrightarrow$
+&
+\begin{minipage}[c]{0.4\linewidth}
+\centering
+\textbf{Mutation $m$}
+\vspace{2pt}
+\begin{lstlisting}[style=pycode]
+def fib(n):
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a+b
+    return a
+\end{lstlisting}
+\end{minipage}
+\end{tabular}
+\caption{The Algorithm/Data-Structure Variant operator generating a code mutation.}
+\label{fig:codemut}
+\end{figure}
 
-At the end of this stage, in addition to the generated variants, the original base response $B$ is also added to $M$ (line~4), ensuring that both the initial and mutated answers are carried into the subsequent self-repair process. The prompt template below illustrates mutation generation for a natural-language response; the prompt for code follows the same structure, additionally invoking the algorithm/data-structure operator and requiring each mutation to remain a complete, runnable program.
+At the end of this stage, in addition to the generated mutations, the original base response $B$ is also added to $M$ (line~4), ensuring that both the initial and mutated responses are carried into the subsequent self-repair process. The prompt template below illustrates mutation generation for a natural-language response; the prompt for code follows the same structure, additionally invoking the algorithm/data-structure operator and requiring each mutation to be a complete, runnable program.
 
 \begin{tcolorbox}[
     colback=green!6,
     colframe=green!40!black,
-    title=Metamorphic mutations Generation,
+    title=Metamorphic Mutation Generation,
     fonttitle=\bfseries,
     fontupper=\small,
     boxrule=0.6pt,
@@ -135,61 +197,61 @@ At the end of this stage, in addition to the generated variants, the original ba
     top=2pt,
     bottom=2pt
 ]
-\textbf{Instruction:} Generate mutations of the base response base on the origin question.
 
-\vspace{2pt}
-\textbf{QA pair:} Question: On what date was the Declaration of Independence officially signed?
+% \vspace{2pt}
+\textbf{QA pair:}\\ Question: On what date was the Declaration of Independence officially signed?
 
 Answer: The Declaration of Independence was officially signed on August 2, 1776.
 
-\vspace{2pt}
+% \vspace{2pt}
 
-\textbf{Prompt:} Given a question and its base response, generate $n$ diverse single-sentence mutations of the response, applying each of the following metamorphic relations at least once:\\
-1. ~\emph{Meaning-Preserving Rewrite}\\
-2. ~\emph{Structural Transformation}\\
-3. ~\emph{Semantic Polarity Shift} \ldots
+\textbf{Prompt:} Given a question and its base response, generate $n$ diverse single-sentence mutations of the response, applying each of the following metamorphic relations at least once \emph{[each relation's full definition from Section~\ref{sec:mutation} is included here]}: \\
+1. \emph{Meaning-Preserving Rewrite}, \\2. \emph{Structural Transformation}, \\3. \emph{Polarity Transformation} \ldots
 
-\vspace{2pt}
-\textbf{Mutations:}
+% \vspace{2pt}
+\textbf{Mutations:}\\
 1. The official signing date of the Declaration of Independence was August 2, 1776.
 
-2. On August 2, 1776, the Declaration of Independence was formally signed. \ldots
+2. On August 2, 1776, the Declaration of Independence was formally signed. 
+
+3. It is not the case that the Declaration of Independence was not officially signed on August 2, 1776.\ldots
 \end{tcolorbox}
 
-\subsection{Fault-Injected Self-Repair}
+\subsection{Fault-Assumption-Guided Self-Repair}
 
-Given the variant set $M$, MutRepair repairs the potential fault carried by each variant and produces a set of repaired candidates $A$ (Algorithm~\ref{alg:mt-repair-ranking}, lines~5--9). This stage adapts two complementary paradigms from software reliability engineering: fault injection, which deliberately assumes a fault to expose latent weaknesses, and automated program repair, which synthesizes a correction under that assumption rather than merely flagging the defect. We adopt the core idea -- not the testing machinery -- of fault injection: by explicitly assuming that a response is faulty, we drive the model to localize and repair the error instead of passively validating it.
+Given the mutation set $M$, MutRepair repairs the potential fault carried by each mutation and produces a set of repaired candidates $A$ (Algorithm~\ref{alg:mt-repair-ranking}, lines~5--9). This stage draws on two paradigms from software reliability engineering: fault injection~\cite{yu2025survey}, which deliberately introduces faults to expose system weaknesses, and automated program repair, which localizes and corrects defects. MutRepair transfers their diagnostic principles to model outputs at the prompt level. Rather than injecting an actual fault, it imposes an explicit fault assumption on each mutation and directs the model to identify and repair any error it contains.
 
-This design targets a well-documented obstacle: LLMs exhibit confirmation bias when re-examining their own outputs, tending to confirm ~\cite{yu2025survey} rather than critically assess them ~\cite{pan2023automatically}. Simply re-prompting the model to ``check'' a response therefore rarely surfaces its own errors. Instead, we treat each variant $m \in M$ as a potentially faulty instance and inject an explicit fault assumption into the prompt (line~7--8): the model is told that the response may contain an error -- a factual mistake for a natural-language answer, or faulty logic, a non-existent API, or a boundary error for code -- and is required to re-examine it, preserve it if no error is found, and otherwise produce a corrected version. This assumption shifts the model from a passive validation mode into an active fault-localization-and-repair mode, eliciting the deeper self-scrutiny that plain regeneration or rephrasing does not.
+This design targets a well-documented obstacle: when re-examining their own outputs, LLMs exhibit confirmation bias and tend to reaffirm, rather than critically reassess, their prior responses~\cite{pan2023automatically}, so simply re-prompting the model to ``check'' a response rarely surfaces its errors. Instead, we treat each mutation $m \in M$ as potentially faulty and inject an explicit fault assumption into the prompt (lines~7--8): the model is told the response may contain an error, such as a factual mistake in text or faulty logic, a non-existent API, or a boundary error in code, and is required to re-examine it, preserve it if correct, and otherwise return a corrected version.
 
-The same fault-injection prompt is applied uniformly to both natural-language and code variants, requiring no modality-specific adaptation. Repairing all variants independently yields a set of repaired candidates $A$ (line~9), which are passed to the LLM-as-judge aggregation stage. The prompt template is shown below.
+The same fault-assumption-guided repair strategy is applied to both natural-language and code mutations, with modality-specific fault descriptions for factual and code outputs. The fault assumption serves as a diagnostic instruction rather than evidence that a mutation is incorrect. The original question anchors each repair: the model is prompted to reassess the candidate against the task requirements, rather than treating the mutation itself as a reason to change the answer. This shifts the model from passive validation into active fault localization and repair, eliciting deeper self-scrutiny than plain regeneration or rephrasing. Repairing all mutations independently yields a set of repaired candidates $A$ (line~9), which are passed to Stage~3, LLM-as-Judge Aggregation.
 
 \begin{tcolorbox}[
     colback=green!6,
     colframe=green!40!black,
-    title=Fault-injected Self-repair Prompt,
+    title=Fault-Assumption-Guided Self-Repair Prompt,
     fonttitle=\bfseries,
     fontupper=\small,
     boxrule=0.6pt,
     arc=2pt,
-    left=2pt,
-    right=2pt,
-    top=2pt,
-    bottom=2pt
+    left=4pt,
+    right=4pt,
+    top=4pt,
+    bottom=4pt
 ]
 \textbf{Instruction:} Assume the response may be faulty; re-examine it and repair any error.
 
-\vspace{2pt}
-\textbf{Prompt: The response below may contain hallucination.} Verify it step by step and return a single corrected, faithful answer. If it is already correct, return it unchanged; otherwise, produce the corrected version. Do not introduce unsupported details or non-existent references. ...
+% \vspace{2pt}
+\textbf{Prompt:} The response below may contain a hallucination. Verify it step by step and return a single corrected, faithful answer. If it is already correct, return it unchanged; otherwise, produce the corrected version. Do not introduce unsupported details or non-existent references. ...
 \end{tcolorbox}
 
 
 \subsection{LLM-as-Judge Aggregation}\label{sec:llmasjudge}
-After fault-injected self-repair, MutRepair obtains a set of independently repaired candidates $A$, each derived from a different variant of the base response (Algorithm~\ref{alg:mt-repair-ranking}, lines~10--20). These candidates may still differ in correctness and quality, so the final stage performs LLM-as-judge aggregation to evaluate them and select the most reliable answer. This step is analogous to test oracle construction and patch validation in software engineering, where multiple candidate fixes are assessed and only the most plausible one is accepted; it is motivated by recent studies~\cite{li2025generation, zeng2024llm} showing that LLMs can act as effective judges for answer evaluation without relying on external resources.
 
-We adopt a pairwise ranking strategy to aggregate the repaired candidates. Rather than scoring each candidate in isolation or producing an absolute confidence score, MutRepair compares the candidates against one another, with each comparison yielding a \emph{relative} score that reflects the two candidates' comparative quality with respect to the original question. Aggregating these relative scores across all comparisons induces an overall ranking, from which the best-ranked candidate is selected as the final answer. This relative formulation is more reliable than absolute scoring, as comparing two answers is an easier judgment for an LLM than calibrating the correctness of a single one, and it directly alleviates the selection bottleneck in hallucination repair. We quantify the resulting computational cost in Section~\ref{sec:6.1}.
+After fault-assumption-guided self-repair, MutRepair obtains a set of independently repaired candidates $A$, each derived from a different mutation of the base response (Algorithm~\ref{alg:mt-repair-ranking}, lines~10--20). Because these candidates may still differ in correctness and quality, the final stage applies LLM-as-Judge Aggregation to identify the most reliable output. Functionally, this stage plays the role of patch validation: multiple repaired candidates are assessed with respect to the original input, and only the highest-ranked candidate is accepted. Recent studies~\cite{li2025generation, zeng2024llm} similarly demonstrate that LLMs can effectively compare candidate outputs without external resources.
 
-Concretely (lines~11--16), MutRepair populates a score matrix $R$ over the candidate set $A$: for each pair $a_i$ and $a_j$ (line~15), it feeds the original question $Q$ and the two candidates to the LLM under a fixed judging-criteria prompt, and the LLM returns a score in $[1, n]$ (line~16), where a lower score marks the candidate that better answers the question. The total score of each candidate is then obtained by summing its row in $R$ (lines~17--18), and the candidate with the lowest total score is returned as the final output $A^*$ (lines~19--20). Like the preceding stages, this aggregation is self-contained and applies identically across modalities. The prompt template of this stage is shown below.
+We adopt a prompt-based pairwise ranking strategy to aggregate the repaired candidates. Under the fixed ranking prompt $P_r$, the LLM receives the original input $Q$ together with the complete candidate set $A$. Algorithm~\ref{alg:mt-repair-ranking} describes the comparison procedure specified by the ranking prompt. It first determines the number of repaired candidates and initializes the ranking matrix $R$ (lines~11--12). It then enumerates every candidate pair $a_i$ and $a_j$ (lines~13--14). For each pair, the prompt directs the LLM to assess $a_i$ relative to $a_j$ according to correctness and completeness with respect to $Q$. The resulting assessment is recorded as $R_{i,j}$, where a lower value indicates a stronger candidate (lines~15--16). Although the algorithm presents these comparisons individually, all candidates are included in the same ranking context and the complete pairwise-ranking process is performed under a single ranking prompt. We quantify the resulting computational cost in Section~\ref{sec:6.2}.
+
+The total score of each candidate is obtained by summing its row in $R$ (lines~17--18). The candidate with the lowest total score is therefore the one that performs best across all pairwise comparisons and is returned as the final output $A^*$ (lines~19--20). Unlike absolute confidence scoring, this comparative formulation evaluates each candidate against the available repair alternatives and avoids requiring the LLM to calibrate an isolated correctness score.
 
 \begin{tcolorbox}[
     colback=green!6,
@@ -204,100 +266,110 @@ Concretely (lines~11--16), MutRepair populates a score matrix $R$ over the candi
     top=2pt,
     bottom=2pt
 ]
-\textbf{Instruction:} Compare the candidate answers pairwise and score each one to support final selection.
+\textbf{Instruction:} Given the original input and all repaired candidates, compare every candidate against the others and return the best-ranked candidate.
 
-\vspace{2pt}
-\textbf{Prompt:} You are given a question and $n$ candidate answers. Examine each candidate in the context of the question and assign it a score in $[1, n]$ reflecting its factual soundness and how well it answers the question, where a lower score indicates a better answer. Assess each candidate relative to the others, and return only the scores. ...
+\textbf{Prompt:} You are given an input and a set of repaired candidate outputs. Internally compare every candidate against all others according to correctness, relevance, and completeness, and aggregate their relative rankings. Return only the candidate with the lowest total rank, without the ranking matrix, scores, or intermediate reasoning. \ldots
 \end{tcolorbox}
 
 
 \section{Experimental Setup}
 \subsection{Research Questions}
-We formulate the following research questions (RQs) to systematically evaluate the effectiveness, internal mechanisms, and robustness of MutRepair:
-\begin{enumerate}[leftmargin=30pt, label=\textbf{RQ\arabic{*}.}]
-    \item \textbf{Effectiveness and Generalization:} How effectively does MutRepair repair hallucinations across both natural-language and code generation tasks, compared to baselines?
-    \item \textbf{Component Analysis:} How do the key components of MutRepair contribute to its hallucination repair performance?
-    \item \textbf{Stability and Robustness:} How robust is MutRepair to LLM stochasticity, and how sensitive is it to key parameters such as temperature and the number of mutations?
-\end{enumerate}
+We formulate the following research questions to systematically evaluate the effectiveness, internal mechanisms, and robustness of MutRepair. 
+
+\textbf{RQ1.} How does MutRepair perform in repairing hallucinations compared to baselines?
+
+\textbf{RQ2.} How do the key components of MutRepair contribute to its hallucination repair performance? 
+
+\textbf{RQ3.} How robust is MutRepair to LLM stochasticity, and how sensitive is it to key parameters such as temperature and the number of mutations?
+
 RQ1 evaluates whether MutRepair can effectively repair hallucinations and outperform state-of-the-art baselines, while simultaneously controlling the risk of over-correction.  
 RQ2 investigates the internal mechanisms of MutRepair by analyzing the effects of different aggregation strategies and isolating the contributions of mutation-guided repair, as well as characterizing the remaining upper-bound repair potential.  
 RQ3 examines the stability and robustness of MutRepair under repeated runs and studies its sensitivity to key generation parameters, in order to understand how stochasticity and parameter choices influence repair effectiveness and safety.
 
 
 \subsection{Baselines}
-We compare MutRepair against state-of-the-art self-contained baselines that require no additional training, organized into three methods: \textbf{Chain-of-Thought (CoT)}~\cite{wei2022chain}, \textbf{Chain-of-Verification (CoVe)}~\cite{dhuliawala2024chain}, and \textbf{DrHall}~\cite{wu2025detecting}. Together they cover complementary repair strategies -- internal reasoning, self-verification, and metamorphic-relation-guided repair. CoT and DrHall apply to both natural-language and code generation tasks, whereas CoVe is designed for natural language.
 
-\paragraph{Self-contained baselines}
-\textbf{Chain-of-Thought} prompting instructs the LLM to reason through a problem step by step before producing its final answer. It is a standard baseline for eliciting the latent reasoning ability of modern LLMs, and applies directly to both natural-language answers and generated code. \textbf{Chain-of-Verification} prompts the LLM to extract key entities or factual claims from an initial response, generate verification questions about them, answer those questions using the LLM itself, and inject the verification results back to reassess and revise the original answer; we apply it to natural-language tasks. \textbf{DrHall}~\cite{wu2025detecting} is a recent software-engineering method that, like MutRepair, leverages metamorphic testing to repair hallucinations, and likewise applies to both natural-language and code tasks. The key distinction is where the metamorphic transformation is applied: DrHall constructs variants of the input question and checks the model's answers for consistency across them. Among the variants reported in the DrHall paper, we adopt its best-performing configuration that requires no external knowledge, ensuring a fair comparison under our self-contained setting.
+We compare MutRepair against state-of-the-art self-contained baselines that require no external resources such as knowledge bases or retrieval systems, covering three complementary repair strategies: internal reasoning, self-verification, and metamorphic-relation-guided repair. \textbf{Chain-of-Thought (CoT)}~\cite{wei2022chain} prompts the LLM to reason step by step before producing its final answer, eliciting its latent reasoning ability; it applies to both natural-language and code tasks. \textbf{Chain-of-Verification (CoVe)}~\cite{dhuliawala2024chain} extracts key claims from an initial response, generates verification questions, answers them with the LLM itself, and feeds the results back to revise the answer; we apply it to natural-language tasks. \textbf{DrHall}~\cite{wu2025detecting} is a recent software-engineering method that, like MutRepair, leverages metamorphic testing to repair hallucinations across both modalities; the key distinction is that DrHall constructs variants of the input question and checks answer consistency across them. We adopt its best-performing configuration that requires no external knowledge, ensuring a fair comparison under our self-contained setting.
 
-\paragraph{Non self-contained baseline}
-\textbf{Chain-of-Verification with Search Engine (CoVe-SE)} is a variant of CoVe that answers the generated verification questions using a search engine rather than the LLM itself. Although it is no longer self-contained, CoVe-SE serves as a representative retrieval-augmented (RAG-style) baseline, enabling comparison between MutRepair and approaches that rely on external knowledge sources.
+As a non-self-contained reference, \textbf{CoVe-SE}~\cite{dhuliawala2024chain} is a variant of CoVe that answers the verification questions with a search engine rather than the LLM, serving as a representative retrieval-augmented (RAG-style) baseline.
 
-We note that several recent methods extend the verification idea beyond CoVe~\cite{wu2024large, song2025progco, he2024retrieving}. We do not adopt them as primary baselines because they rely on external program execution or are designed for closed-form selection (e.g., multiple-choice) and mathematical reasoning tasks.
+We note that several recent methods extend verification beyond CoVe~\cite{wu2024large, song2025progco, he2024retrieving}. We do not adopt them as primary baselines because ProCo requires identifying a maskable key condition in each question, ProgCo's published verification prompts target instruction constraints and explicit mathematical solution steps and would require task-specific verifier designs for our factual answers and generated programs, while CoV-RAG relies on external retrieval and training. In addition, detection-only methods such as SelfCheckGPT~\cite{manakul2023selfcheckgpt} and MetaQA~\cite{yang2025hallucination} fall outside our scope, as they identify hallucinations without producing a corrected output. Code-specific program-repair systems commonly rely on execution feedback, compiler diagnostics, failing tests, or repository context, which are unavailable under our self-contained setting. We therefore compare MutRepair with repair methods that operate solely through the target LLM without access to such external signals.
 
 
 \subsection{Datasets}
-We evaluate MutRepair across two modalities. For natural language, we adopt three widely used benchmarks that cover complementary hallucination scenarios: TruthfulQA~\cite{lin2022truthfulqa} for misconception- and bias-driven hallucinations, HotpotQA~\cite{yang2018hotpotqa} for reasoning-induced hallucinations, and FreshQA~\cite{vu2023freshllms} for timeliness-related hallucinations. For code, we adopt LeetCodeDataset~\cite{xia2025leetcodedataset} to assess whether the same framework generalizes to code-generation hallucinations.
+We evaluate MutRepair across two modalities. For natural language, we adopt three widely used benchmarks that cover complementary hallucination scenarios: TruthfulQA~\cite{lin2022truthfulqa} for misconception- and bias-driven hallucinations, HotpotQA~\cite{yang2018hotpotqa} for reasoning-induced hallucinations, and a stable-answer subset of FreshQA~\cite{vu2023freshllms} for factual reliability. For code, we adopt LeetCodeDataset~\cite{xia2025leetcodedataset} to assess whether the same framework generalizes to code-generation hallucinations.
 
 \subsubsection{TruthfulQA}
 We use the full set of 817 questions across 38 categories (e.g., health, law, finance), which are designed to elicit responses influenced by widespread misconceptions and false beliefs.
 
 \subsubsection{HotpotQA}
-HotpotQA poses multi-hop questions that require reasoning over multiple supporting facts. From its 113K questions, we randomly sample 610; following statistical sampling theory with finite population correction, this yields a 99\% confidence level at a 5\% margin of error under $p=0.5$.
+HotpotQA poses multi-hop questions that require reasoning over multiple supporting facts. From its 113K questions, we randomly sample 610; following statistical sampling theory with finite population correction, this yields a 99\% confidence level at an approximately 5.2\% margin of error under $p=0.5$.
 
 \subsubsection{FreshQA}
 FreshQA targets hallucinations arising from outdated or missing knowledge. To ensure fair evaluation across model training cutoffs, we retain 399 questions whose answers were established before 2024 and remain stable over time, excluding rapidly evolving queries in favor of those fixed by authoritative sources. For example, questions such as ``Which country will host the most matches in the 2026 FIFA World Cup?'' refer to information that has already been fixed by official schedules; therefore, the correct answer (the United States) is not expected to change. This reduces ambiguity in ground-truth labeling by focusing on questions with stable factual states.
 
 \subsubsection{LeetCode}
-LeetCodeDataset~\cite{xia2025leetcodedataset} is a collection of Python programming problems, each paired with a specification and starter code. We randomly sample 200 problems spanning all three difficulty levels (Easy, Medium, and Hard), so that the samples reflect a range of algorithmic complexity.
+LeetCode Dataset~\cite{xia2025leetcodedataset} is a collection of Python programming problems, each paired with a specification and starter code. We uniformly sample 200 problems at random from the full dataset, without stratification or filtering by problem category or difficulty. The resulting sample naturally contains 41 Easy, 100 Medium, and 59 Hard problems.
 
 In total, our evaluation comprises 1,826 natural-language questions across the three QA benchmarks and 200 code-generation problems.
 
-% \begin{table}[htbp]
-%     \small
-%     \caption{Summary statistics of the datasets used in the experiments}
-%     \label{table:datasets}
-%     \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}} l r r p{4.1cm} @{}}
-%         \toprule
-%         \textbf{Dataset} & \textbf{Total} & \textbf{Selected} & \textbf{Hallucination Focus} \\
-%         \midrule
-%         TruthfulQA & 817 & 817 & Misconceptions \& biases \\
-%         \midrule
-%         HotpotQA & 112k & 610 & Reasoning errors \\
-%         \midrule
-%         FreshQA & 603 & 399 & Temporal \\
-%         \midrule
-%         LeetCode & 2.64k & 200 & Coding Algorithms \\
-%         \bottomrule
-%     \end{tabular*}
-% \end{table}
-
 \subsection{Studied LLMs}
 
-To ensure a representative evaluation, we assess a diverse set of large language models previously evaluated on LiveBench~\cite{white2025livebench}, which spans a broad range of capabilities including reasoning, language understanding, instruction following, and code generation. Our selection includes both proprietary frontier models and a strong open-source model, enabling evaluation across different architectures, training regimes, and accessibility constraints.
+To ensure a representative evaluation, we assess four LLMs selected from LiveBench~\cite{white2025livebench}, covering different providers, model generations, and access modes. We include GPT-4o (gpt-4o)~\cite{hurst2024gpt} and GPT-5 (gpt-5)~\cite{singh2025openai} from OpenAI to examine whether MutRepair remains effective across two generations of the same model family. Gemini (gemini-2.5-flash-thinking)~\cite{comanici2025gemini} from Google provides cross-provider coverage, while Qwen3 (qwen3-32b)~\cite{yang2025qwen3} allows us to assess whether MutRepair remains effective on an open-source model.
 
-We categorize the studied models into two groups:
+Unless otherwise specified, all models use a temperature of $0.1$ to introduce mild stochasticity while preserving stability. All dataset sampling procedures use a fixed random seed of 42, while all other decoding parameters follow the default settings of the corresponding APIs or serving frameworks. All experiments are conducted on a server equipped with two Intel Xeon Gold 6354C processors and two NVIDIA L40s 48 GB GPUs. We use the official Ollama~\cite{ollama2026} release of Qwen3, while GPT-5, GPT-4o, and Gemini are accessed through their respective chat-completion APIs.
+
+
+\subsection{Evaluation Metrics}
+
+We evaluate MutRepair and all baseline approaches using three complementary metrics: recheck hallucination rate, hallucination repair rate, and over-correction rate. Let $\mathcal{D}$ denote the evaluation dataset. For each input $Q_i \in \mathcal{D}$, let $B_i$ denote the base response generated by the LLM and $A_i$ denote the final repaired output. Let $h(\cdot)$ be an indicator function such that $h(x)=1$ if output $x$ is classified as hallucinated under the modality-specific oracle and $h(x)=0$ otherwise.
+
 \begin{itemize}[leftmargin=10pt]
-    \item \textbf{Closed-source models.} 
-    We include GPT-5(gpt-5)~\cite{leon2026gpt5} and GPT-4o(gpt-4o)~\cite{hurst2024gpt} from OpenAI, and Gemini(gemini-2.5-flash-thinking)~\cite{comanici2025gemini} from Google. These models are accessed via commercial APIs and are representative of state-of-the-art black-box LLMs with strong benchmark performance.
-    \item \textbf{Open-source models.} 
-    We include Qwen3(qwen3-32b)~\cite{yang2025qwen3} as a representative open-source LLM to evaluate MutRepair in transparent and reproducible settings. Qwen3 demonstrates competitive performance on recent benchmarks and strong multilingual and reasoning capabilities. To maximize diversity, we do not include open-source derivatives from the GPT or Gemini families.
+
+\item \textbf{Recheck hallucination rate (RHR)} measures the overall proportion of hallucinated outputs remaining after applying a repair approach, capturing the final reliability of the system after intervention:
+\begin{equation}
+\textbf{RHR} =
+\frac{\left|\{\, i \mid Q_i \in \mathcal{D} \land h(A_i)=1 \,\}\right|}
+{\left| \mathcal{D} \right|}.
+\end{equation}
+
+\item \textbf{Hallucination repair rate (HRR)} measures the proportion of originally hallucinated responses that are successfully repaired into correct outputs, directly reflecting an approach's ability to fix hallucinations:
+\begin{equation}
+\textbf{HRR} =
+\frac{\left|\{\, i \mid Q_i \in \mathcal{D} \land h(B_i)=1 \land h(A_i)=0 \,\}\right|}
+{\left| \{\, i \mid Q_i \in \mathcal{D} \land h(B_i)=1\} \right|}.
+\end{equation}
+
+\item \textbf{Over-correction rate (OCR)} measures the proportion of originally correct responses that become hallucinated after repair. This metric is critical for assessing repair safety, as false repairs can be as harmful as unresolved hallucinations:
+\begin{equation}
+\textbf{OCR} =
+\frac{\left|\{\, i \mid Q_i \in \mathcal{D} \land h(B_i)=0 \land h(A_i)=1 \,\}\right|}
+{\left| \{\, i \mid Q_i \in \mathcal{D} \land h(B_i)=0\} \right|}.
+\end{equation}
+
 \end{itemize}
 
-Unless otherwise specified, all models are evaluated with the temperature set to 0.1, which introduces a small amount of stochasticity to avoid degenerate deterministic behaviors while largely preserving response stability, thereby ensuring both reproducibility and sufficient diversity for mutation and repair.
+The three metrics above are modality-agnostic; they depend only on the hallucination indicator $h(\cdot)$, whose determination differs between the two modalities. For each model and method, the overall natural-language metrics are computed by combining the sample counts across the three benchmarks and applying the corresponding metric formulas, rather than averaging the benchmark-level percentages.
 
-All experiments are conducted on server equipped with two Intel Xeon Gold 6354C processors. We use the official releases of open-source models obtained from the HuggingFace repositories. For closed-source models, we access them via the chat completion APIs provided by their respective platforms.
+For \textbf{code}, we follow the definition of code hallucination in CodeHalu~\cite{tian2025codehalu} and use the executable unit tests associated with each problem as the oracle. Both base and repaired programs are labeled as non-hallucinated if they pass all unit tests and hallucinated otherwise. The tests are used solely for evaluation and are never exposed to MutRepair during repair, preserving the self-contained setting.
+
+For \textbf{natural language}, no executable oracle exists, so we follow the two-stage response-verification strategy used in MetaQA~\cite{yang2025hallucination}, combining LLM-assisted pre-screening with manual review of responses not resolved automatically. Each question is paired with a reference bank of correct and incorrect answers. We use GPT-5.1 (gpt-5.1), a frontier model at the time of evaluation, to automatically label only responses that it judges semantically equivalent to an answer in the reference bank. All remaining responses are independently reviewed by two authors, with all method identifiers removed to ensure that the reviewers are blinded to the approach that generated each response. Initial disagreements, computed as the number of outputs receiving conflicting labels divided by the total number of evaluated outputs, account for $0.5\%$ and are resolved through discussion in a second review round. The same pre-screening and blinded-review protocol is applied to outputs from every method.
 
 
+\section{Experimental Evaluations}
+\subsection{Effectiveness (RQ1)}
+\subsubsection{Effectiveness on Natural Language}
+To answer RQ1, we evaluate MutRepair against all baselines across four LLMs and three natural-language datasets. Table~\ref{tab:rq1.1} reports the per-dataset results, and we summarize the overall trends below.
 
-\begin{table*}[htbp]
+
+\begin{table*}[t]
   \centering
-  \caption{\textbf{RQ1.1:} Comparison between MutRepair and baseline approaches across different datasets and LLMs. ``HR'' denotes the original hallucination rate of base responses. ``RHR'' denotes the recheck hallucination rate after repair. ``HRR'' denotes the hallucination repair rate, and ``OCR'' denotes the over-correction rate.}
+  \caption{Comparison between MutRepair and baseline approaches across different datasets and LLMs. ``HR'' denotes the original hallucination rate of base responses. ``RHR'' ($\downarrow$) denotes the recheck hallucination rate after repair, ``HRR'' ($\uparrow$) the hallucination repair rate, and ``OCR'' ($\downarrow$) the over-correction rate. Arrows indicate whether higher ($\uparrow$) or lower ($\downarrow$) is better.}
   
   \resizebox{\textwidth}{!}{
     \begin{tabular}{c|c|cccc|cccc|cccc}
     \toprule
-    \multicolumn{1}{p{3.5em}|}{Model} & \multicolumn{1}{p{3.5em}|}{Method} & HR    & \multicolumn{1}{p{3em}}{RHR} & \multicolumn{1}{p{4.125em}}{HRR} & \multicolumn{1}{p{3em}|}{OCR} & HR    & \multicolumn{1}{p{3em}}{RHR} & \multicolumn{1}{p{4.125em}}{HRR} & \multicolumn{1}{p{3em}|}{OCR} & HR    & \multicolumn{1}{p{3em}}{RHR} & \multicolumn{1}{p{4.125em}}{HRR} & \multicolumn{1}{p{3em}}{OCR} \\
+    \multicolumn{1}{p{3.5em}|}{Model} & \multicolumn{1}{p{3.5em}|}{Method} & HR    & \multicolumn{1}{p{3em}}{RHR$\downarrow$} & \multicolumn{1}{p{4.125em}}{HRR$\uparrow$} & \multicolumn{1}{p{3em}|}{OCR$\downarrow$} & HR    & \multicolumn{1}{p{3em}}{RHR$\downarrow$} & \multicolumn{1}{p{4.125em}}{HRR$\uparrow$} & \multicolumn{1}{p{3em}|}{OCR$\downarrow$} & HR    & \multicolumn{1}{p{3em}}{RHR$\downarrow$} & \multicolumn{1}{p{4.125em}}{HRR$\uparrow$} & \multicolumn{1}{p{3em}}{OCR$\downarrow$} \\
     \midrule
     \midrule
     \multicolumn{2}{c|}{} & \multicolumn{4}{c|}{TruthfulQA} & \multicolumn{4}{c|}{HotpotQA} & \multicolumn{4}{c}{FreshQA} \\
@@ -309,11 +381,11 @@ All experiments are conducted on server equipped with two Intel Xeon Gold 6354C 
           & DrHall &       & 10.4  & 82.62 & 4.51 &       & 28.85 & \textbf{38.36} & 8.73 &       & 14.79 & 66.94 & 6.83 \\
           & MutRepair  &       & \textbf{6.61} & \textbf{87.97} & \textbf{2.03} &       & \textbf{26.39} & 35.78 & 3.17  &       & \textbf{10.53} & 74.38 & 3.96 \\
     \midrule
-    \multirow{5}[2]{*}{gpt-5} & CoT   & \multirow{5}[2]{*}{26.95} & 18.12 & 38.68 & 2.98  & \multirow{5}[2]{*}{19.18} & 17.05 & 15.38 & 1.01  & \multirow{5}[2]{*}{8.77} & 7.52  & 20    & 0.55 \\
+    \multirow{5}[2]{*}{gpt-5} & CoT   & \multirow{5}[2]{*}{25.95} & 18.12 & 38.68 & 2.98  & \multirow{5}[2]{*}{19.18} & 17.05 & 15.38 & 1.01  & \multirow{5}[2]{*}{8.77} & 7.52  & 20    & 0.55 \\
           & CoVe  &       & 16.77 & 57.08 & 7.6   &       & 22.3  & 17.95 & 8.11  &       & 9.52  & 28.57 & 3.57 \\
           & CoVe-SE &       & 13.83 & 57.55 & 3.8   &       & 22.62 & 15.38 & 7.91  &       & 8.02  & \textbf{54.29} & 4.4 \\
-          & DrHall &       & 8.57  & 73.58 & 2.31 &       & 16.89 & \textbf{31.62} & 4.67 &       & 8.52  & 31.43 & 2.75 \\
-          & MutRepair  &       & \textbf{5.14} & \textbf{80.19} & \textbf{0} &       & \textbf{14.1} & 29.91 & \textbf{0.81} &       & \textbf{4.01} & \textbf{54.29} & \textbf{0} \\
+          & DrHall &       & 13.10 & 60.38 & 3.80 &       & 20.33 & 23.93 & 7.10 &       & 10.28 & 25.71 & 4.12 \\
+          & MutRepair  &       & \textbf{5.14} & \textbf{80.19} & \textbf{0} &       & \textbf{14.1} & \textbf{29.91} & \textbf{0.81} &       & \textbf{4.01} & \textbf{54.29} & \textbf{0} \\
     \midrule
     \multirow{5}[2]{*}{gemini} & CoT   & \multirow{5}[2]{*}{28.64} & 17.38 & 42.31 & 1.2   & \multirow{5}[2]{*}{40.82} & 38.85 & 7.23  & 1.66  & \multirow{5}[2]{*}{16.04} & 12.03 & 26.56 & 0.3 \\
           & CoVe  &       & 31.46 & 47.86 & 23.16 &       & 48.2  & 14.06 & 22.16 &       & 28.07 & 35.94 & 21.19 \\
@@ -324,87 +396,41 @@ All experiments are conducted on server equipped with two Intel Xeon Gold 6354C 
     \multirow{5}[2]{*}{qwen3} & CoT   & \multirow{5}[2]{*}{38.07} & 24.24 & 44.69 & 5.14  & \multirow{5}[2]{*}{56.89} & 53.44 & 11.24 & 6.84  & \multirow{5}[2]{*}{39.85} & 34.09 & 22.64 & 5.42 \\
           & CoVe  &       & 26.44 & 52.73 & 14.03 &       & 61.97 & 11.24 & 26.62 &       & 36.59 & 36.48 & 18.75 \\
           & CoVe-SE &       & 34.39 & 42.77 & 19.96 &       & 63.28 & 11.53 & 30.04 &       & 38.85 & 32.7  & 20 \\
-          & DrHall &       & 16.77 & 63.99 & 4.94 &       & 48.2  & \textbf{19.6} & 8.37 &       & 22.81 & \textbf{52.2} & 6.25 \\
-          & MutRepair  &       & \textbf{10.28} & \textbf{74.92} & \textbf{1.19} &       & \textbf{47.54} & \textbf{19.6} & \textbf{4.18} &       & \textbf{25.06} & 42.77 & \textbf{3.75} \\
+          & DrHall &       & 16.77 & 63.99 & 4.94 &       & 48.2  & \textbf{19.6} & 8.37 &       & \textbf{22.81} & \textbf{52.2} & 6.25 \\
+          & MutRepair  &       & \textbf{10.28} & \textbf{74.92} & \textbf{1.19} &       & \textbf{47.54} & \textbf{19.6} & \textbf{4.18} &       & 25.06 & 42.77 & \textbf{3.75} \\
     \bottomrule
     \end{tabular}
   }
   \label{tab:rq1.1}
 \end{table*}
 
+Across all four models, MutRepair achieves the lowest overall recheck hallucination rate (RHR), which jointly reflects repair effectiveness and over-correction and thus best captures overall reliability. Specifically, MutRepair reduces the overall RHR across the three datasets to 14.07\%, 7.89\%, 16.43\%, and 25.96\% on GPT-4o, GPT-5, Gemini, and Qwen3, respectively, outperforming the strongest baseline for every model. MutRepair also achieves the highest or joint-highest HRR in the majority of the evaluated model--dataset settings. Meanwhile, MutRepair achieves the lowest overall over-correction rate (OCR) for every model, at 2.91\%, 0.27\%, 0.63\%, and 2.58\% on GPT-4o, GPT-5, Gemini, and Qwen3, respectively. All four rates remain below 3\% and far below those of all baselines. This shows that MutRepair improves factual reliability while preserving originally correct answers, rather than achieving repair gains at their expense. By balancing effective repair with low over-correction, MutRepair achieves the lowest RHR in ten of the twelve model--dataset settings. Notably, retrieval-augmented CoVe-SE can even increase the hallucination rate beyond its initial level. On Gemini--HotpotQA, its RHR rises to 66.89\%, compared with an initial HR of 40.82\%. MutRepair exhibits no such degradation in any evaluated setting.
 
-\subsection{Evaluation Metrics}
+Although absolute repair ability varies across models, MutRepair reduces overall RHR by 9.2\%--47.1\% and overall OCR by 38.5\%--84.0\% relative to the strongest corresponding baseline for each model, demonstrating consistent gains across providers, model generations, and access modes.
 
-We evaluate MutRepair and all baseline approaches using three complementary metrics: recheck hallucination rate, hallucination repair rate and over-correction rate. Let $\mathcal{D}$ denote the evaluation dataset. For each question $Q_i \in \mathcal{D}$, let $B_i$ denote the base response generated by the LLM and $A_i$ denote the final repaired answer. Let $h(\cdot)$ be an indicator function such that $h(x)=1$ if response $x$ is hallucinated and $h(x)=0$ otherwise. 
+We further apply two-sided exact McNemar tests to the paired per-question binary outcomes, using all questions for RHR, initially hallucinated responses for HRR, and initially correct responses for OCR. We apply Holm correction across all 36 model--baseline--metric comparisons involving the three self-contained baselines, with a significance threshold of $\alpha=0.05$. For RHR, MutRepair significantly outperforms the baselines in 11 of the 12 comparisons. The sole non-significant comparison is Gemini against DrHall; MutRepair still achieves a lower overall RHR (16.43\% vs. 18.29\%), although the difference does not remain significant after Holm correction (adjusted $p=0.161$).
 
-\begin{itemize}[leftmargin=10pt]
-
-\item \textbf{Recheck hallucination rate (RHR)} measures the overall proportion of hallucinated responses remaining in the dataset after applying approaches, capturing the final factual reliability of the system after intervention:
-\begin{equation}
-\textbf{RHR} =
-\frac{\left|\{\, i \mid Q_i \in \mathcal{D} \land h(A_i)=1 \,\}\right|}
-{\left| \mathcal{D} \right|}.
-\end{equation}
-
-\item \textbf{Hallucination repair rate (HRR)} measures the proportion of originally hallucinated responses that are successfully corrected into factually correct answers, directly reflecting an approach’s ability to fix hallucinated outputs:
-\begin{equation}
-\textbf{HRR} =
-\frac{\left|\{\, i \mid Q_i \in \mathcal{D} \land h(B_i)=1 \land h(A_i)=0 \,\}\right|}
-{\left| \{\, i \mid Q_i \in \mathcal{D} \land h(B_i)=1\} \right|}.
-\end{equation}
-
-\item \textbf{Over-correction rate (OCR)} measures the proportion of originally correct responses that are incorrectly altered into hallucinated ones. This metric is critical for assessing repair safety, as false repairs can be as harmful as unresolved hallucinations:
-\begin{equation}
-\textbf{OCR} =
-\frac{\left|\{\, i \mid Q_i \in \mathcal{D} \land h(B_i)=0 \land h(A_i)=1 \,\}\right|}
-{\left| \{\, i \mid Q_i \in \mathcal{D} \land h(B_i)=0\} \right|}.
-\end{equation}
-
-\end{itemize}
-
-The three metrics above are modality-agnostic; they depend only on the hallucination indicator $h(\cdot)$, whose determination differs between the two modalities.
-
-For \textbf{code}, we use the problem's executable unit tests as the oracle: $h(A_i)=0$ if the program passes all unit tests, and $h(A_i)=1$ otherwise. These tests are used solely to evaluate the base and repaired programs; they are never exposed to MutRepair during repair, preserving the self-contained setting.
-
-For \textbf{natural language}, no executable oracle exists, so we adopt a combined automatic-and-manual verification protocol that balances reliability and scalability. Each question is accompanied by multiple reference correct and incorrect answers. An automatic screening algorithm first compares a candidate response against all reference answers: if it matches a correct answer it is labeled correct, if it matches an incorrect answer it is labeled hallucinated, and otherwise it is marked uncertain and forwarded for manual inspection. For the flagged cases, two of the authors independently review each response; the initial inter-annotator disagreement rate is only 0.5\%, and all disagreements are resolved through discussion. This protocol enables scalable yet reliable hallucination assessment.
-
-
-\section{Experimental Evaluations}
-\subsection{Effectiveness (RQ1)}
-\subsubsection{Effectiveness on Natural Language}
-To answer RQ1, we evaluate MutRepair against all baselines across four LLMs and three natural-language datasets. Table~\ref{tab:rq1.1} reports the per-dataset results, and we summarize the overall trends below.
-
-Across all four models, MutRepair achieves the lowest recheck hallucination rate (RHR), which jointly reflects repair effectiveness and over-correction and thus best captures overall reliability. On average over the three datasets, MutRepair lowers RHR to 14.07\%, 7.89\%, 16.43\%, and 25.96\% on GPT-4o, GPT-5, Gemini, and Qwen3, respectively, outperforming the strongest baseline on every model. It also attains the highest hallucination repair rate (HRR) in most settings, with the strongest SE baseline DrHall being competitive on a few model–dataset pairs, while keeping the over-correction rate (OCR) the lowest on every model -- for instance, OCR drops to 2.91\%, 0.27\%, 0.63\%, and 2.58\% across the four models, far below all baselines. This indicates that MutRepair improves factual reliability while reliably preserving originally correct answers, rather than trading one for the other. Notably, retrieval-augmented CoVe-SE sometimes inflates hallucinations beyond the base rate (e.g., RHR of 66.89\% on Gemini–HotpotQA, exceeding the initial 40.82\%), a failure mode MutRepair never exhibits.
-
-Although absolute repair ability varies with the underlying model, MutRepair achieves the lowest recheck hallucination rate on every model, improving over the strongest baseline by 9.2\%--30.4\%, and the lowest over-correction rate on every model, by 38.5\%--84.2\%. Its hallucination repair rate is the highest or on par with the strongest baseline in nearly all settings. These results indicate that MutRepair's effectiveness does not depend on a specific model family or training paradigm: it not only repairs more hallucinations but, more importantly, does so without sacrificing originally correct answers.
-
-We further apply the Wilcoxon signed-rank test on per-question paired outcomes to assess statistical significance. As the metrics are not assumed to follow a normal distribution, this non-parametric test is appropriate. Across the evaluated settings, MutRepair's improvements over the baselines are statistically significant ($p < 0.001$) in nearly all comparisons, with the only exception being Gemini--CoT, where the small absolute difference ($p = 0.157$) does not reach significance.
-
-
-\subsubsection{Effectiveness on Coding Tasks}
-We next evaluate whether MutRepair generalizes to code by applying the same framework to the LeetCode benchmark, comparing against CoT and DrHall, the two baselines applicable to code. Table~\ref{tab:rq1.2} reports the results.
-
-\begin{table}[htbp]
+\begin{table}[!htbp]
   \centering
   \footnotesize
   \setlength{\tabcolsep}{8pt}
-  \caption{\textbf{RQ1.2:} Comparison between MutRepair and baselines on the LeetCode benchmark across four LLMs.}
+  \caption{Comparison between MutRepair and baselines on the LeetCode benchmark across four LLMs.}
     \begin{tabular}{c|c|cccc}
     \toprule
-    Model & Method & HR & RHR & HRR & OCR \\
+    Model & Method & HR & RHR$\downarrow$ & HRR$\uparrow$ & OCR$\downarrow$ \\
     \midrule
     \midrule
     \multirow{3}{*}{gpt-4o} & CoT       & \multirow{3}{*}{65.0} & 62.0 & 4.6  & \textbf{0} \\
           & DrHall    &  & 63.5 & 3.1  & 1.4 \\
-          & MutRepair &  & \textbf{51.0} & \textbf{23.1} & 4.3 \\
+          & MutRepair & & \textbf{51.0} & \textbf{22.3} & 1.4 \\
     \midrule
     \multirow{3}{*}{gpt-5} & CoT       & \multirow{3}{*}{26.5} & 22.0 & 18.9 & 0.7 \\
           & DrHall    &  & 23.5 & 11.3 & \textbf{0} \\
           & MutRepair &  & \textbf{20.5} & \textbf{26.4} & 1.4 \\
     \midrule
-    \multirow{3}{*}{gemini} & CoT       & \multirow{3}{*}{48.5} & 43.5 & 12.4 & 1.9 \\
-          & DrHall    &  & 31.0 & 38.1 & 1.9 \\
-          & MutRepair &  & \textbf{29.0} & \textbf{42.3} & 1.9 \\
+    \multirow{3}{*}{gemini} & CoT       & \multirow{3}{*}{48.5} & 43.5 & 12.4 & \textbf{1.9} \\
+          & DrHall    &  & 31.0 & 38.1 & \textbf{1.9} \\
+          & MutRepair & & \textbf{30.5} & \textbf{42.3} & 4.9 \\
     \midrule
     \multirow{3}{*}{qwen3} & CoT       & \multirow{3}{*}{79.0} & 78.5 & 4.4 & 14.3 \\
           & DrHall    &  & 75.5 & 4.4 & \textbf{0} \\
@@ -414,306 +440,261 @@ We next evaluate whether MutRepair generalizes to code by applying the same fram
   \label{tab:rq1.2}
 \end{table}
 
-MutRepair achieves the lowest recheck hallucination rate and the highest hallucination repair rate on all four models. The gains in repair rate are substantial: it raises HRR to 23.1\%, 26.4\%, 42.3\%, and 44.9\% on GPT-4o, GPT-5, Gemini, and Qwen3, often by roughly an order of magnitude over the baselines (e.g., 44.9\% vs.\ 4.4\% on Qwen3). This confirms that mutation-guided repair transfers to code generation without modality-specific adaptation.
+\subsubsection{Effectiveness on Coding Tasks}
+We next evaluate MutRepair on executable code generation by applying the same three-stage framework to the LeetCode benchmark and comparing it with CoT and DrHall, the two baselines applicable to code. Table~\ref{tab:rq1.2} reports the results.
 
-On over-correction, MutRepair is not always the lowest, but the baselines' low OCR is largely a by-product of inaction: by leaving the program nearly unchanged, they rarely break a correct one, but also rarely fix a wrong one. For example, on Qwen3, DrHall reaches 0\% OCR yet repairs only 4.4\% of cases. MutRepair, despite repairing far more hallucinations, still keeps OCR low (1.4\%--7.1\%), showing that its substantial repair gains do not come at the cost of corrupting correct programs.
+MutRepair achieves the lowest recheck hallucination rate and the highest hallucination repair rate on all four models. Its HRR reaches 22.3\%, 26.4\%, 42.3\%, and 44.9\% on GPT-4o, GPT-5, Gemini, and Qwen3, respectively. The largest gain occurs on Qwen3, where MutRepair increases HRR from 4.4\% under the strongest baseline to 44.9\%, representing a more than tenfold improvement. These results demonstrate that mutation-guided repair remains effective for executable code generation within the same three-stage framework, using three MRs shared with natural-language repair and one code-specific MR. Relative to the base responses, MutRepair reduces RHR by 14.0, 6.0, 18.0, and 34.0 percentage points on four models, respectively. These reductions capture the net improvement after accounting for both successful repairs and over-correction.
+
+OCR should therefore be considered alongside HRR: a method that rarely changes correct programs may still leave most incorrect programs unrepaired. On Qwen3, DrHall records 0\% OCR but repairs only 4.4\% of initially incorrect programs, whereas MutRepair repairs 44.9\% while keeping OCR at 7.1\%. Across all four models, MutRepair limits OCR to 1.4\%--7.1\% while consistently achieving the highest HRR, demonstrating a strong balance between repair effectiveness and the preservation of correct programs.
 
 \mybox{\textbf{Answer to RQ1: }
-MutRepair generalizes across both natural-language and code generation tasks. On natural language, it achieves the lowest recheck hallucination rate and the lowest over-correction rate on every model, improving over the strongest baseline by 9.2\%--30.4\% and 38.5\%--84.2\% respectively, while attaining the highest repair rate in nearly all settings. On code, it again yields the best recheck hallucination and repair rates on all models, often improving repair by roughly an order of magnitude. Across both modalities, MutRepair repairs substantially more hallucinations without sacrificing originally correct outputs.
+On natural-language tasks, MutRepair achieves the lowest overall RHR and OCR for all four models, reducing RHR by $9.2\%$--$47.1\%$ relative to the strongest baseline. On code generation, it achieves the lowest RHR and the highest HRR for all four models, reducing RHR by $1.61\%$--$40.40\%$ and repairing $22.3\%$--$44.9\%$ of initially incorrect programs.
 }
 
 
 \subsection{Components Analysis (RQ2)}
 
-As described in Section~\ref{sec:llmasjudge}, MutRepair aggregates the repaired candidates produced from different mutations through a pairwise ranking strategy. Two questions naturally follow: whether this ranking-based aggregation is preferable to the alternatives commonly used in prior work~\cite{li2025generation}, namely majority voting and confidence-based selection (Section~\ref{sec:rq2.1}), and whether each component genuinely contributes to the final repair quality (Section~\ref{sec:rq2.2}). In addition, we report a pass@6 oracle upper bound to characterize the remaining headroom.
+As described in Section~\ref{sec:llmasjudge}, MutRepair applies LLM-as-Judge Aggregation, implemented through pairwise ranking, to six repaired candidates: the repaired base response and five repaired mutations. We examine whether pairwise ranking outperforms two alternatives commonly used in prior work~\cite{li2025generation}, namely majority voting and confidence-based selection, and whether each component contributes to the final repair quality. We additionally report pass@6, an oracle upper bound that counts an instance as repairable if at least one of the six candidates is correct, to quantify the remaining headroom in candidate selection.
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth]{figures/rq2.1.pdf}
-    \caption{\textbf{RQ2.1:} LLM-as-judge strategies in MutRepair on hallucination repair performance.}
+    \caption{Hallucination repair performance under different LLM-as-Judge Aggregation strategies.}
     \label{fig:rq2.1}
 \end{figure}
 
 \subsubsection{Effect of aggregation strategies}
-
-\label{sec:rq2.1}
 We compare pairwise ranking against two aggregation strategies widely used in prior work. \textbf{Majority voting} selects the candidate whose meaning is semantically closest to the largest number of other candidates. \textbf{Confidence-based selection} prompts the model to attach a self-estimated confidence score to each candidate and keeps the highest-scoring one.
-As shown in Figure~\ref{fig:rq2.1}, Pairwise Ranking consistently achieves the highest hallucination repair rate (HRR) across all four LLMs, while simultaneously attaining the lowest residual hallucination rate (RHR) and the lowest over-correction rate (OCR). The HRR gains over the stronger of the two baselines are most pronounced on GPT-5, where HRR rises from 56.59% to 61.54%, and the RHR and OCR advantages hold throughout: on GPT-5, ranking lowers RHR to 7.89% (versus 10.08% and 9.15%) and OCR to 0.27% (versus 0.48% and 0.62%).
-These results indicate that comparative aggregation is more effective than independent judgment: by explicitly modeling the relative correctness of candidates rather than their frequency or self-reported confidence, pawise ranking repairs more hallucinations while disturbing fewer originally correct answers. We therefore adopt it as MutRepair's default aggregation strategy.
+As shown in Figure~\ref{fig:rq2.1}, Pairwise Ranking consistently achieves the highest hallucination repair rate (HRR) across all four LLMs, while simultaneously attaining the lowest recheck hallucination rate (RHR) and the lowest over-correction rate (OCR). The HRR gains over the stronger of the two baselines are most pronounced on GPT-5, where HRR rises from 56.59\% to 61.54\%, and the RHR and OCR advantages hold throughout: on GPT-5, ranking lowers RHR to 7.89\% (versus 10.08\% and 9.15\%) and OCR to 0.27\% (versus 0.48\% and 0.62\%).
+These results indicate that LLM-as-Judge Aggregation is more effective than majority voting and confidence-based selection: by explicitly modeling the relative correctness of repaired candidates rather than their frequency or self-reported confidence, pairwise ranking repairs more hallucinations while introducing fewer errors into originally correct answers. We therefore adopt it as MutRepair's default aggregation strategy.
 
 
 \subsubsection{Ablation on mutation-guided repair}
-
-\label{sec:rq2.2}
-To isolate the contribution of each component, we compare full MutRepair against three reduced variants: (1) \emph{without mutations}, which drops the mutation stage entirely and repairs the base response in a single pass; (2) \emph{without MR}, which retains multiple candidates and aggregation but replaces the metamorphic-relation operators with plain resampling of the base response; and (3) \emph{without injection}, which keeps the mutations but removes the fault-assumption injection.
+To isolate each component's contribution to repairing initially hallucinated responses, we compare full MutRepair against three ablated versions using HRR: (1) \emph{without mutations}, which drops the mutation stage entirely and repairs the base response in a single pass; (2) \emph{without MR}, which retains the same number of candidates and aggregation strategy but replaces the MR operators with five independently sampled generic restatements of the base response; and (3) \emph{without fault assumption}, which keeps the mutations but removes the explicit fault assumption from the self-repair prompt. The \emph{without MR} condition uses the same temperature ($T=0.1$) as full MutRepair, and neither condition applies an additional candidate-deduplication filter.
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth]{figures/rq2.2.pdf}
-    \caption{\textbf{RQ2.2:} Effects of mutation and fault-injection on hallucination repair performance of MutRepair}
+    \caption{Effects of mutations and fault-assumption guidance on MutRepair's performance.}
     \label{fig:rq2.2}
 \end{figure}
 
-As shown in Figure~\ref{fig:rq2.2}, full MutRepair outperforms all three reduced variants across the four LLMs, and each component contributes to this advantage. Removing the mutation stage causes the largest drop on the harder reasoning benchmark: on HotpotQA, GPT-5 falls from 29.91\% to 15.38\%, indicating that mutation-guided candidates substantially expand the effective repair space beyond single-pass self-repair. The comparison with ``without MR'' further shows that this gain stems from the metamorphic-relation operators rather than from simply enlarging the candidate set: replacing the operators with plain resampling not only erases most of the benefit but can fall below even the single-pass variant (e.g., GPT-5 on HotpotQA, 12.82\% versus 15.38\%), confirming that structured semantic mutation, not candidate quantity, drives the improvement. Removing fault-assumption injection is likewise detrimental: without it, the model rarely revises its own output, and repair rates drop sharply (e.g., GPT-5 on TruthfulQA, from 80.19\% to 45.13\%)~\cite{yang2025confidence}, which similarly finds that the model's self-critique capability is the primary driver of successful self-correction.
+As shown in Figure~\ref{fig:rq2.2}, full MutRepair achieves the strongest overall HRR, outperforming or matching the ablated configurations in 35 of the 36 model--dataset--ablation comparisons. Removing the mutation stage reduces the mean HRR across the twelve model--dataset settings from 53.81\% to 45.84\%. On GPT-5--HotpotQA, for example, HRR falls from 29.91\% to 15.38\%, showing that multiple mutation-guided repair trajectories improve upon single-pass self-repair. Replacing the MR operators with generic restatements reduces the mean HRR to 42.62\% and underperforms full MutRepair in eleven of the twelve settings. This result shows that, under the same candidate count and temperature, MR-guided mutations are more effective than generic restatements. However, because neither condition enforces candidate uniqueness, this comparison does not fully separate the effect of MR guidance from that of candidate diversity. Removing the fault assumption produces the largest and most consistent decline: the mean HRR falls to 36.59\%, and HRR decreases in all twelve settings. The decrease is particularly pronounced on GPT-5--TruthfulQA, where HRR falls from 80.19\% to 45.13\%. This systematic result is consistent with~\cite{yang2025confidence}, which identifies self-critique as a central factor in successful self-correction.
 
-We additionally compare MutRepair against pass@6, an oracle upper bound that counts an instance as repaired if at least one of the six candidates is correct, to reveal how much repair potential the aggregation already recovers. The remaining gap is small on most settings (e.g., GPT-4o on TruthfulQA, 87.97\% versus 90.37\%) but widens on the hardest cases (e.g., GPT-5 on HotpotQA, 29.91\% versus 34.19\%), suggesting that a stronger candidate-selection strategy could close part of this margin and further improve MutRepair.
+We additionally compare MutRepair with pass@6 to measure how much candidate-level repair potential is recovered by LLM-as-Judge Aggregation. MutRepair remains within 5 percentage points of the oracle upper bound in nine of the twelve settings, including GPT-4o--TruthfulQA, where it achieves 87.97\% HRR compared with 90.37\% for pass@6. The largest gap occurs on GPT-5--FreshQA, where MutRepair achieves 54.29\% HRR compared with the pass@6 upper bound of 74.29\%. This gap indicates that correct repaired candidates are available but not always selected, identifying candidate judgment as an important direction for further improvement.
 
 \mybox{\textbf{Answer to RQ2: }
-Among the aggregation strategies, pairwise ranking is consistently the strongest: across all four LLMs it attains the highest HRR while simultaneously yielding the lowest RHR and OCR (e.g., on GPT-5, RHR $7.89\%$ and OCR $0.27\%$). Ablation confirms that every component is essential: removing mutations, the metamorphic-relation operators, or the fault-assumption injection each degrades repair (e.g., on GPT-5/HotpotQA, HRR drops from $29.91\%$ to $15.38\%$, $12.82\%$, and $10.26\%$, respectively). A small residual gap to the pass@6 oracle (typically within $6\%$) indicates remaining room for stronger candidate selection.
+Among the aggregation strategies, pairwise ranking achieves the highest HRR with the lowest RHR and OCR across all four models. Ablation shows that mutation construction, MR guidance, and the fault assumption each contribute to repair effectiveness, with full MutRepair outperforming or matching the ablated configurations in 35 of the 36 comparisons. MutRepair remains within 5 percentage points of the pass@6 upper bound in most settings, while the remaining gaps identify candidate judgment as an opportunity for further improvement.
 }
 
 
 \subsection{Stability and Robustness (RQ3)}
 
-Beyond effectiveness, an important concern for a fully LLM-based hallucination repair framework is robustness: whether MutRepair remains stable under inherent LLM stochasticity and whether its performance is sensitive to key generation parameters. In this research question, we examine (1) the robustness of MutRepair under repeated runs and its sensitivity to core parameters, including (2) temperature and (3) the number of mutations.
+Beyond effectiveness, an important concern for a fully LLM-based hallucination repair framework is robustness: whether MutRepair remains stable under the inherent stochasticity of LLMs, and whether its performance is sensitive to key generation parameters. We study this along three axes: (1) the run-to-run stability of MutRepair under repeated execution, and its sensitivity to the two parameters that most directly govern candidate generation, namely (2) the sampling temperature and (3) the number of mutations. For the stability analysis, we conduct four complete executions of MutRepair on all $1826$ instances from the three natural-language benchmarks for each of the four studied models. These executions comprise the original RQ1 experiment and three additional repetitions under identical settings. The two parameter-sensitivity analyses are conducted on GPT-4o using a fixed sample of $180$ instances obtained by randomly sampling approximately $10\%$ of each natural-language benchmark. We do not combine code-generation instances with the natural-language benchmarks because they use different evaluation oracles.
 
-\subsubsection{Robustness to LLM stochasticity}\label{sec:rq3.1}
+\subsubsection{Robustness to LLM stochasticity}
+Since LLM outputs and internal decisions are inherently stochastic, it is crucial to assess whether MutRepair is sensitive to such randomness. We therefore repeat the entire repair process three additional times on the full dataset under identical experimental settings. Together with the original RQ1 execution, the analysis covers four complete runs for each model. Table~\ref{tab:rq3.1} reports the individual results and their mean and sample standard deviation across the four executions.
 
-\begin{wrapfigure}[12]{r}{0.5\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{figures/rq3.1.pdf}
-    \caption{\textbf{RQ3.1:} Stability performance of MutRepair on GPT-4o}
-    \label{fig:rq3.1}
-\end{wrapfigure}
-
-Since LLM outputs and internal decisions are inherently stochastic, it is crucial to assess whether MutRepair is sensitive to such randomness. To this end, we randomly sample 10\% of instances from each dataset, resulting in a total of 180 samples, and repeat the entire repair process three times using GPT-4o under identical experimental settings.
-
-As shown in Figure~\ref{fig:rq3.1}, MutRepair exhibits low variance across all metrics: the hallucination repair rate is 66.67\% ± 1.56\%, the recheck hallucination rate is 16.48\% ± 1.05\%, and the over-correction rate is 3.30\% ± 1.23\%. These results demonstrate that MutRepair is stable across repeated runs and robust to LLM stochasticity.
-
-\subsubsection{Impact of temperature}
-Temperature is a fundamental sampling parameter in large language models that directly controls the degree of randomness in generation by scaling the softmax distribution over candidate tokens. Lower temperatures bias the model toward high-probability tokens, producing more deterministic and conservative outputs, whereas higher temperatures encourage diversity and exploration at the cost of increased uncertainty. Prior studies in software engineering and natural language processing tasks~\cite{arora2024optimizing, renze2024effect} have shown that temperature substantially affects the correctness, stability, and robustness of LLM outputs.
-
-Since MutRepair relies on LLMs not only to generate repairs but also to assess and select among repaired candidates, its overall effectiveness may be sensitive to such sampling behavior. In RQ4, we first investigate the sensitivity of MutRepair to the temperature parameter, in our experiments, we assessed the sensitivity across a set of temperature values, denoted as \( T = \{0.1, 0.3, 0.6, 0.9\} \), which were selected as the experimental parameters, and all experiments are conducted on the same the same sampled dataset used in \ref{sec:rq3.1} and GPT-4o model, table~\ref{tab:rq3.2} reports the performance of MutRepair under different temperature settings.
-
-\begin{table}[htbp]
+\begin{table}[t]
   \centering
-  \caption{\textbf{RQ3.2:} MutRepair's performance on GPT-4o under different temperature settings}
-  \begin{tabularx}{\columnwidth}{c | >{\centering\arraybackslash}X | >{\centering\arraybackslash}X | >{\centering\arraybackslash}X}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \caption{Stability of MutRepair across four full-data executions.}
+  \begin{tabular}{cc | cccc | c}
     \toprule
-    temperature & RHR & HRR & OCR \\
+    Model & Metric & Original & Repeat 1 & Repeat 2 & Repeat 3 & Mean $\pm$ Std. \\
+    \midrule
+    \multirow{3}{*}{GPT-4o}
+      & RHR$\downarrow$ & 14.07 & 15.17 & 15.55 & 14.24 & $14.76 \pm 0.72$ \\
+      & HRR$\uparrow$   & 69.05 & 64.92 & 68.36 & 67.13 & $67.37 \pm 1.81$ \\
+      & OCR$\downarrow$ & 2.91  & 2.00 & 4.91 & 1.91 & $2.93 \pm 1.39$ \\
+    \midrule
+    \multirow{3}{*}{GPT-5}
+      & RHR$\downarrow$ & 7.89  & 9.86 & 9.04 & 7.94 & $8.68 \pm 0.95$ \\
+      & HRR$\uparrow$   & 61.54 & 62.91 & 60.71 & 60.99 & $61.54 \pm 0.98$ \\
+      & OCR$\downarrow$ & 0.27  & 3.08 & 1.50 & 0.21 & $1.27 \pm 1.35$ \\
+    \midrule
+    \multirow{3}{*}{Gemini}
+      & RHR$\downarrow$ & 16.43 & 16.87 & 17.36 & 16.98 & $16.91 \pm 0.38$ \\
+      & HRR$\uparrow$   & 46.72 & 46.17 & 46.72 & 44.71 & $46.08 \pm 0.95$ \\
+      & OCR$\downarrow$ & 0.63  & 1.02 & 1.96 & 0.55 & $1.04 \pm 0.65$ \\
+    \midrule
+    \multirow{3}{*}{Qwen3}
+      & RHR$\downarrow$ & 25.96 & 24.15 & 26.51 & 25.90 & $25.63 \pm 1.02$ \\
+      & HRR$\uparrow$   & 45.17 & 47.74 & 46.14 & 45.78 & $46.21 \pm 1.10$ \\
+      & OCR$\downarrow$ & 2.58  & 1.39 & 4.36 & 2.97 & $2.82 \pm 1.23$ \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:rq3.1}
+\end{table}
+
+As shown in Table~\ref{tab:rq3.1}, MutRepair maintains consistent performance across four full-data executions on all four models. Across the twelve model--metric combinations, the standard deviation ranges from $0.38$ to $1.81$ percentage points. The largest variation occurs in GPT-4o's HRR, while the standard deviation of RHR remains between $0.38$ and $1.02$ percentage points across the four models. The mean OCR remains below $3\%$ for every model, indicating that MutRepair consistently preserves originally correct responses. These results show that the effectiveness and over-correction control of MutRepair do not depend on a single favorable execution.
+
+\begin{table}[!htbp]
+  \centering
+  \footnotesize
+  \setlength{\tabcolsep}{8pt}
+  \caption{MutRepair's performance on GPT-4o under different temperature settings.}
+  \begin{tabular}{c | ccc}
+    \toprule
+    Temperature & RHR$\downarrow$ & HRR$\uparrow$ & OCR$\downarrow$ \\
     \midrule
     0.1   & 17.22 & 64.56 & 2.97 \\
     0.3   & 17.78 & 64.56 & 4.95 \\
     0.6   & 19.44 & 65.82 & 8.91 \\
     0.9   & 18.89 & 65.82 & 7.92 \\
     \bottomrule
-  \end{tabularx}
+  \end{tabular}
   \label{tab:rq3.2}
 \end{table}
 
-We observe that increasing the temperature does not lead to improvements in hallucination repair rate, which remains within a narrow range of 64.56\%--65.82\% across all settings, indicating that adjusting the temperature does not yield meaningful gains in repair effectiveness. In contrast, the over-correction rate increases noticeably at higher temperatures, rising from 2.97\% at temperature 0.1 to 8.91\% at temperature 0.6, corresponding to nearly a threefold increase, suggesting that the increased stochasticity induced by higher temperatures exacerbates over-correction.
+\subsubsection{Impact of temperature}
+Since MutRepair relies on LLMs not only to generate repairs but also to assess and select among candidates, its effectiveness may be sensitive to the sampling temperature, which prior studies have shown to substantially affect the stability and correctness of LLM outputs~\cite{arora2024optimizing, renze2024effect}. We therefore evaluate MutRepair on the 10\%-sampled dataset under four temperature settings $T=\{0.1, 0.3, 0.6, 0.9\}$; Table~\ref{tab:rq3.2} reports the results.
+
+Increasing the temperature does not noticeably improve repair effectiveness, with HRR remaining within a narrow range of $64.56\%\text{--}65.82\%$. The over-correction rate, however, rises from $2.97\%$ at $T{=}0.1$ to $8.91\%$ at $T{=}0.6$, an almost threefold increase. This result indicates that higher temperatures mainly increase the risk of over-correction rather than improving repair.
 
 \subsubsection{Number of mutations}
-Although generating more mutations can potentially expand the repair space, it also introduces additional computational overhead. We therefore systematically evaluate MutRepair with different mutation counts \(N=\{0,1,3,5,7,9\}\) on GPT-4o using the same sampled dataset.
+Generating more mutations can expand the repair space, but it also increases the computational cost of MutRepair. We therefore evaluate MutRepair on the same sampled dataset with varying mutation counts $N=\{0,1,3,5,7,9\}$.
 
-As shown in Figure~\ref{fig:rq3.3}, increasing the number of mutations yields only marginal performance improvements beyond a small number of mutations. Specifically, the hallucination repair rate increases from 55.70\% at $N{=}0$ to 64.56\% at $N{=}5$, but then largely saturates, reaching only 67.09\% even when increasing to $N{=}9$. Similarly, the recheck hallucination rate decreases from 22.22\% to 17.22\% at $N{=}5$, with only minor fluctuations thereafter, 16.67\% at $N{=}9$. This observation motivates our default choice of $N{=}5$, which achieves a favorable balance between repair effectiveness, stability, and computational cost.
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=\linewidth]{figures/rq3.3.pdf}
-    \caption{\textbf{RQ3.3:} The performance of MutRepair on GPT-4o vs.\ the number of mutations.}
-    \label{fig:rq3.3}
-\end{figure}
+As shown in Table~\ref{tab:rq3.3}, increasing the number of mutations yields clear but quickly saturating gains. The hallucination repair rate rises from $55.70\%$ at $N{=}0$ to $64.56\%$ at $N{=}5$, but improves only marginally thereafter, reaching $67.09\%$ at $N{=}9$; the recheck hallucination rate decreases overall from $22.22\%$ at $N{=}0$ to $16.67\%$ at $N{=}9$, despite a small rebound at $N{=}7$. Token consumption, in contrast, grows linearly at roughly $419$ tokens per additional mutation, so the token cost per percentage-point HRR gain relative to $N{=}0$ rises: improving HRR by one point costs about $82$ tokens at $N{=}1$ but around $258$--$331$ tokens beyond $N{=}5$. We therefore adopt $N{=}5$ as the default, which captures most of the attainable repair gains at a favorable cost-effectiveness ratio; the overall token cost is analyzed in Section~\ref{sec:6.2}.
 
 \mybox{\textbf{Answer to RQ3: }
-MutRepair exhibits variance \( < 2\%\) across repeated runs, indicating strong robustness to LLM stochasticity. Temperature does not yield meaningful improvements in hallucination repair, while higher temperatures noticeably increase over-correction risk -- nearly tripling in our experiments.
-Increasing the number of mutations exhibits clear diminishing returns (Repair Effectiveness: $N$=0: 55.70\% $\rightarrow$ $N$=5: 64.56\% $\rightarrow$ $N$=9: 67.09\%). 
-Thus, according to our experiments, 5 mutants are sufficient to capture most of the repair gains while avoiding unnecessary computational overhead.
+MutRepair is robust to LLM stochasticity, with standard deviations below $2$ percentage points for RHR, HRR, and OCR across four full-data executions on all four models. Its repair effectiveness is relatively insensitive to temperature, though higher temperatures raise the over-correction risk. The benefit of additional mutations saturates quickly, so we adopt $N{=}5$ to balance effectiveness against cost.
 }
 
-% In previous experiments, MutRepair has demonstrated strong performance in hallucination repair. Beyond effectiveness, another important aspect is the stability of MutRepair as a fully LLM-based hallucination repair framework. Since LLM outputs and internal decisions are inherently stochastic, it is crucial to assess whether MutRepair is sensitive to such randomness.
 
-% To address this concern, we randomly sample 10\% of instances from each dataset, resulting in a total of 180 samples, and repeat the entire repair process three times using GPT-4o under identical experimental settings. As shown in Figure~\ref{fig:rq3}, MutRepair exhibits low variance across all metrics: the hallucination repair rate is 66.67\% ± 1.56\%, the recheck hallucination rate is 16.48\% ± 1.05\% and the over-correction rate is 3.30\% ± 1.23\%, demonstrating strong stability as a fully LLM-based hallucination repair framework.
+\begin{table}[t]
+  \centering
+  \footnotesize
+  \setlength{\tabcolsep}{5pt}
+  \caption{MutRepair's performance and token cost on GPT-4o under different numbers of mutations.}
+  \begin{tabular}{c | cccc}
+    \toprule
+    $N$ & RHR$\downarrow$ & HRR$\uparrow$ & OCR$\downarrow$ & \makecell{Tokens per 1-pp HRR gain} \\
+    \midrule
+    0 & 22.22 & 55.70 & 4.95 & -- \\
+    1 & 19.44 & 60.76 & 3.96 & $\sim$82 \\
+    3 & 18.33 & 64.56 & 4.95 & $\sim$142 \\
+    5 & 17.22 & 64.56 & 2.97 & $\sim$236 \\
+    7 & 18.33 & 67.09 & 6.93 & $\sim$258 \\
+    9 & 16.67 & 67.09 & 3.96 & $\sim$331 \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:rq3.3}
+\end{table}
 
-
-% \mybox{\textbf{Answer to RQ3: }
-% MutRepair exhibits low variance across repeated runs, indicating strong robustness to LLM stochasticity. Across all three evaluation metrics, the standard deviations are below 2\%. (RQ 3.1)
-
-% Increasing the temperature does not lead to improvements of MutRepair in hallucination repair rate, while the over-correction rate increases noticeable at higher temperatures (RQ 3.2).
-
-% Increasing the number of generated mutations does not lead to significant performance gains for MutRepair (RQ 3.3).
-% }
-     
-% \subsection{Sensitivity to Parameters (RQ4)}
-% \subsubsection{Impact of temperature}
-% Temperature is a fundamental sampling parameter in large language models that directly controls the degree of randomness in generation by scaling the softmax distribution over candidate tokens. Lower temperatures bias the model toward high-probability tokens, producing more deterministic and conservative outputs, whereas higher temperatures encourage diversity and exploration at the cost of increased uncertainty. Prior studies in software engineering and natural language processing tasks~\cite{arora2024optimizing, renze2024effect} have shown that temperature substantially affects the correctness, stability, and robustness of LLM outputs.
-
-% Since MutRepair relies on LLMs not only to generate repairs but also to perform verification and judgment, its overall effectiveness may be sensitive to such sampling behavior. In RQ4, we first investigate the sensitivity of MutRepair to the temperature parameter, in our experiments, we assessed the sensitivity across a set of temperature values, denoted as \( T = \{0.1, 0.3, 0.6, 0.9\} \), which were selected as the experimental parameters, and all experiments are conducted on the same the same sampled dataset used in RQ3 and GPT-4o model, table~\ref{tab:rq4.1} reports the performance of MutRepair under different temperature settings. We observe that increasing the temperature does not lead to improvements in hallucination repair rate, while the over-correction rate increases noticeably at higher temperatures.
-
-% % \begin{figure}[!htbp]
-% %     \centering
-% %     \includegraphics[width=\linewidth]{figures/rq4.1.pdf}
-% %     \caption{\textbf{RQ4.1:} }
-% %     \label{fig:rq4.1}
-% % \end{figure}
-
-% \subsubsection{Number of mutations}
-% Although generating more mutations can potentially stabilize mutant quality and expand the repair space, thereby benefiting MutRepair’s performance, it inevitably incurs additional computational cost. To this end, we systematically evaluate MutRepair under different mutation counts. As illustrated in Figure~\ref{fig:rq4.2}, we conduct experiments on the same sampled dataset used in RQ3 and evaluate MutRepair on GPT-4o with the number of mutations set to \( N = \{0,1,3,5,7,9\} \). The results show that increasing the number of mutations yields only marginal improvements in overall repair performance. This observation explains why we adopt a moderate default setting of \(N=5\), which balances effectiveness and efficiency. We further discuss the computational overhead of MutRepair in Section \ref{sec:6.1}.
-
-
-% \mybox{\textbf{Answer to RQ4: }
-% Increasing the temperature does not lead to improvements of MutRepair in hallucination repair rate, while the over-correction rate increases noticeable at higher temperatures (RQ 4.1).
-
-% Increasing the number of generated mutations does not lead to significant performance gains for MutRepair (RQ 4.2).
-% }
-     
-% \subsection{Ablation Study (RQ5)}
-% In this RQ, we conduct an ablation study to isolate the contributions of mutation-guided repair and aggregation strategies. Specifically, we compare three variants: (1) MutRepair without mutation and without aggregation, (2) MutRepair with mutation and ranking-based aggregation, and (3) pass@6, an upper-bound setting that measures the proportion of instances in which at least one correct repair is obtained among six repaired candidates generated from the base response and five mutations.
-
-% Figure \ref{fig:rq5} shows, across all four LLMs, MutRepair with mutations consistently outperforms MutRepair without mutations. For GPT-4o, the repair rate increases from 65.15\% to 69.05\% (+3.90, +6.0\%); for GPT-5, from 49.45\% to 61.54\% (+12.09, +24.5\%); for Gemini, from 35.47\% to 46.62\% (+11.15, +31.4\%); and for Qwen3, from 40.02\% to 45.17\% (+5.15, +12.9\%). This demonstrates that mutation-guided repair combined with aggregation substantially expands the effective repair space beyond single-pass self-repair.
-
-% The pass@6 results further reveal substantial remaining headroom. Compared to OA-RA, pass@6 increases the overall repair rate from 69.05\% to 72.76\% on GPT-4o (+3.71, +5.37\%), from 61.54\% to 65.11\% on GPT-5 (+3.57, +5.80\%), from 46.62\% to 48.81\% on Gemini (+2.19, +4.70\%), and from 45.17\% to 48.10\% on Qwen3 (+2.93, +6.49\%). These gains indicate that while aggregation already recovers a large fraction of correct repairs, there remains an approximately 5-6\% gap to the oracle upper bound, suggesting that more effective selection strategies could further close this gap.
-
-% \mybox{\textbf{Answer to RQ5:}
-% The results confirm that mutation-guided repair is a key contributor to MutRepair’s effectiveness, and that aggregation plays a critical role in identifying high-quality corrections among diverse repair candidates. However, MutRepair does not yet reach the upper bound exposed by pass@6, indicating clear headroom for improving selection strategies.
-% }
-     
-
-% \subsection{Overhead Analysis}
-% \begin{wraptable}{r}{7cm}
-%   \centering
-%   \caption{An average token\&time cost per QA-process comparison on multi models}
-%   \resizebox{0.4\textwidth}{!}{
-%     \begin{tabular}{c|c|c|c}
-%     model & method & token cost & time cost \\
-%     \midrule
-%     \multirow{4}[2]{*}{gpt-4o} & CoT   & 100.61  & 4.96  \\
-%           & CoVe  & 2253.68  & 22.13  \\
-%           & CoVe-SE & 3623.59  & 33.61  \\
-%           & MutRepair  & 4191.10  & 22.11  \\
-%     \midrule
-%     \multirow{4}[2]{*}{gpt-5} & CoT   & 94.58  & 12.40  \\
-%           & CoVe  & 6743.49  & 114.97  \\
-%           & CoVe-SE & 7320.52  & 113.26  \\
-%           & MutRepair  & 3609.91  & 168.55  \\
-%     \midrule
-%     \multirow{4}[2]{*}{gemini} & CoT   & 95.45  & 3.68  \\
-%           & CoVe  & 3620.41  & 26.88  \\
-%           & CoVe-SE & 3227.44  & 24.22  \\
-%           & MutRepair  & 4536.21  & 52.03  \\
-%     \midrule
-%     \multirow{4}[1]{*}{qwen3} & CoT   & 514.67  & 15.45  \\
-%           & CoVe  & 2260.03  & 27.35  \\
-%           & CoVe-SE & 3219.47  & 35.51  \\
-%           & MutRepair  & 4521.08  & 21.76  \\
-%     \end{tabular}
-%   }
-%   \label{tab:cost}
-% \end{wraptable}
-% Employing LLM-based pipelines that involve multiple generations and verification steps inevitably introduces additional time and token overhead, which may limit practical deployment in resource-constrained environments.
-
-% Table~\ref{tab:cost} reports the average token consumption of MutRepair and the baselines across different models. Overall, MutRepair incurs higher token cost than single-pass baselines due to mutation generation, multi-branch repair, and aggregation. However, the overhead remains moderate when compared with strong verification-based methods such as CoVe, which also require multiple LLM calls. From a practical perspective, this trade-off is important: MutRepair demonstrates that effective hallucination repair can be achieved with manageable overhead, making it viable for real-world scenarios where both reliability and cost efficiency must be balanced.
 
 \section{Discussion}
+
 \subsection{Case Study}
-The overall comparison of CoVe and MutRepair workflows is illustrated in Figure~\ref{fig:casestudy}. We use the hallucinated example in Figure~\ref{fig:haluexample} to illustrate how our approach repairs a case that the baseline CoVe fails to correct. Given the question “Legal tender laws in the US require all businesses to accept what for payment?”, the base response “It is illegal for a business to be cash-free in the US.” contains a hallucinated statement. CoVe first extracts verification targets from this response, including key entities and claims such as \emph{legal tender laws}, \emph{businesses}, \emph{accept cash}, and \emph{cash-free is illegal}. Based on these extracted items, CoVe formulates multiple verification questions that appear well aligned with the original query, such as: (i) \emph{What does U.S. law define as legal tender?} (ii) \emph{Do legal tender laws require businesses to accept cash?} (iii) \emph{Are cashless businesses legal in the United States?}, as well as other verification questions. CoVe then answers these verification questions using a Search Engine to obtain corresponding verification answers. Finally, CoVe feeds all verification questions and their answers into a new round of prompting to revise the initial response by aggregating the self-generated evidence. During verification, one answer states that, in some U.S. states, payment laws indicate that operating a completely cashless business is not legally permitted. As this evidence is incorporated into the revision step, CoVe produces a final answer that remains aligned with the base response and thus does not correct the hallucinated statement.
 
-In contrast, our approach starts from the same base response but applies mutation-based transformations to systematically generate a set of response mutants that are semantically equivalent under the original assumption. These mutated responses are then independently examined by the LLM, which is prompted to re-evaluate each mutation with respect to the original question and revise them if potential factual errors or hallucinations are detected. This process yields a collection of repaired candidate answers produced from different mutated perspectives. Finally, these repaired candidates are jointly assessed via pairwise comparisons by an LLM to select the most reliable answer as the final output. In this example, our method successfully revises the base response into a corrected answer without relying on any external knowledge source and agent, precisely reflecting the fact that there is no specific law requiring all businesses in the United States to accept cash. CoVe, despite employing an external agent, fails to repair the hallucination in the base response.
-
-\begin{figure*}[t]
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=1\textwidth]{figures/casestudy.pdf}
-    \caption{A Case Comparison of the CoVe and MutRepair workflow on a hallucination QA example.}
+    \includegraphics[width=0.8\linewidth]{figures/casestudycode.pdf}
+    \caption{MutRepair vs. DrHall on a code hallucination example.}
+    \label{fig:casestudycode}
+\end{figure}
+
+\noindent\textbf{Code.} Figure~\ref{fig:casestudycode} shows a LeetCode binary-search example whose base response contains an off-by-one bug (\texttt{while lo < hi}) that fails when the target is the last element. DrHall mutates the \emph{question}, but rephrasing leaves the task unchanged, causing the model to regenerate the same bug. MutRepair instead mutates the \emph{response} and reimplements the search using \texttt{bisect\_left}. By changing the implementation strategy rather than merely rephrasing the task, MutRepair establishes an alternative repair trajectory that avoids the erroneous loop condition without access to unit tests. Fault-assumption-guided self-repair and LLM-as-Judge Aggregation then produce and select the correct implementation. The same output-space mutate-then-repair process thus handles both factual and code hallucinations.
+
+\noindent\textbf{Natural language.} Figure~\ref{fig:casestudy} contrasts CoVe and MutRepair on the question ``Legal tender laws in the US require all businesses to accept what?'', whose base response wrongly claims cashless businesses are illegal. CoVe answers its verification questions using the LLM itself, but the verification answers repeat the same misconception and, folded back into revision, entrench the original error. MutRepair uses no external evidence: it constructs response-level mutations that restate the underlying claim, repairs each under an explicit fault assumption, and ranks the candidates, converging on the correct answer that ``no U.S.\ law compels businesses to accept cash''.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=1\textwidth]{figures/casestudyall.pdf}
+    \caption{A case comparison of the CoVe and MutRepair workflows on a hallucination QA example.}
     \label{fig:casestudy}
-\end{figure*}
+\end{figure}
 
 
-\subsection{Ethics Consideration}
-Hallucination repair in open-domain question answering inevitably involves normative judgments about what constitutes ``factual correctness'', because many questions admit ambiguity due to subjectivity, incomplete evidence, or socially contested interpretations. In such cases, the line between hallucination, uncertainty, and a plausible interpretation may be unclear, and a repair method could be criticized for implicitly imposing a single notion of truth. This concern is particularly relevant when system outputs are treated as authoritative, since an overly confident “repaired” answer may crowd out legitimate uncertainty or alternative viewpoints.
+\noindent\textbf{Failure Mode.} We manually analyzed the unsuccessful repair outcomes and identified three modes. The dominant mode is failure to recover the required factual knowledge ($>75\%$ of the analyzed failures), where none of the generated candidates provides a correct answer. This finding highlights a fundamental assumption of self-contained repair: the correct knowledge must already be encoded in the model's parametric knowledge and remain recoverable through re-examination. MutRepair can reactivate such latent knowledge by establishing alternative repair trajectories, but no self-contained method can supply knowledge that the model does not possess. Other failures stem from imperfect pairwise judgment ($<5\%$ of the analyzed failures), where the ranking fails to select an existing correct candidate, and from prompt-induced over-correction, where the fault assumption occasionally leads the model to alter an already correct answer.
 
-MutRepair’s fault-assumption paradigm encourages the model to critically re-examine responses while preserving the original answer when no error is detected, and its mutation process exposes inconsistencies that often correlate with weak factual grounding. This pipeline therefore tends to penalize brittle, overconfident claims: candidates that remain inconsistent across mutations are less likely to be selected by the aggregation stage, which uses pairwise comparisons to identify the answer that is consistently preferable to alternatives across independently repaired candidates. In ethically sensitive or contested scenarios, this reflective and comparative design helps the model avoid unwarranted certainty and reduces the likelihood that a single spurious rationale dominates the final output. Taken together, the combination of a controlled ground-truth regime and empirically low over-correction supports the claim that ethical ambiguity does not materially affect our main conclusions in this experimental scope.
+
+\subsection{Computational Cost}\label{sec:6.2}
+
+As MutRepair generates multiple mutations and aggregates their repaired candidates, it consumes more tokens than a single forward pass. Although pairwise ranking considers every candidate pair, all comparisons are performed within a single prompt and therefore require only one LLM call rather than one call for each pair. The relevant question, however, is how this overhead compares to other repair methods rather than to a bare generation. Table~\ref{tab:cost} reports the average token cost per QA process across the four models.
+
+CoT issues a single prompt and is therefore by far the cheapest, but this lightweight design also limits its repair ability, and its repair rate is correspondingly low. All other methods rely on multiple LLM calls, and among them MutRepair is cost-competitive across all four models: its token cost is comparable to or lower than DrHall and CoVe on every model, and far below the retrieval-augmented CoVe-SE; the gap is largest on GPT-5, where MutRepair uses $1804.96$ tokens against CoVe's $6743.49$, a $73.2\%$ reduction. Overall, MutRepair attains the strongest repair performance while remaining competitive in token cost with the multi-call baselines.
+
+\begin{table}[t]
+  \centering
+  \footnotesize
+  \setlength{\tabcolsep}{6pt}
+  \caption{Average token cost per QA across models.}
+  \label{tab:cost}
+  \begin{tabular}{c|cc|c|cc}
+    \toprule
+    Model & Method & Token Cost &
+    Model & Method & Token Cost \\
+    \midrule
+    \multirow{5}{*}{GPT-4o}
+      & CoT     & \textit{100.61}
+      & \multirow{5}{*}{Gemini}
+      & CoT     & \textit{95.45} \\
+      & CoVe    & 2253.68
+      & & CoVe    & 3620.41 \\
+      & CoVe-SE & 3623.59
+      & & CoVe-SE & 3227.44 \\
+      & DrHall  & 2251.93
+      & & DrHall  & 2300.74 \\
+      & \textbf{MutRepair} & \textbf{2095.55}
+      & & \textbf{MutRepair} & \textbf{2268.11} \\
+    \midrule
+    \multirow{5}{*}{GPT-5}
+      & CoT     & \textit{94.58}
+      & \multirow{5}{*}{Qwen3}
+      & CoT     & \textit{514.67} \\
+      & CoVe    & 6743.49
+      & & CoVe    & 2260.03 \\
+      & CoVe-SE & 7320.52
+      & & CoVe-SE & 3219.47 \\
+      & DrHall  & 2207.91
+      & & \textbf{DrHall} & \textbf{2234.46} \\
+      & \textbf{MutRepair} & \textbf{1804.96}
+      & & MutRepair & 2260.54 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Ethical Considerations}
+Hallucination repair rests on a normative notion of ``factual correctness'' that is not always clear-cut: some questions are subjective, under-determined by evidence, or socially contested, and for them the line between a hallucination and a legitimate interpretation is genuinely blurry. A repair method that returns an overly confident answer in such cases risks crowding out legitimate uncertainty. MutRepair instead instructs the model to preserve a candidate when no error is found during self-repair rather than forcing a change, and we do not claim to adjudicate contested questions of truth.
+
 
 \section{Threats to Validity}
-\paragraph{Internal Validity}
-% Despite the strong results, our approach’s final performance still falls short of the theoretical maximum that mutation-based repair could achieve under ideal conditions. In other words, there remains a noticeable gap between our current outcomes and the upper bound where every correct repair is perfectly recognized. However, this gap does not materially undermine our findings. Even with room for improvement, the method consistently and significantly outperforms strong baselines on all benchmarks. The robust gains we observe coupled with low rates of over-correction, indicate that the core conclusions hold: our mutation-guided self-repair framework is highly effective, and the residual performance gap mainly highlights an opportunity for further refinement rather than a fundamental flaw.
-Although MutRepair consistently outperforms all baselines, there remains a small gap to the pass@6 oracle upper bound, indicating that some correct repairs among the generated candidates are not always selected by the current aggregation strategy. This reflects limitations of the present LLM-as-judge implementation rather than of mutation-guided repair itself, and the gap is relatively small (about 6\%). In addition, minor implementation-level factors -- such as occasional low-diversity mutations or imperfect pairwise judgments -- may introduce noise in individual cases. However, these factors are unlikely to systematically bias results, as the same pipeline is applied uniformly across all settings. Given the large and statistically significant improvements of MutRepair, strong robustness across repeated runs, and consistently low over-correction rates, these internal threats do not materially affect our main conclusion.
 
+\subsection{Internal Validity}
+The main internal threat is the residual gap to the pass@6 oracle, which shows that the aggregation stage does not always select a correct candidate when one exists. This is a limitation of the current LLM-as-Judge Aggregation implementation rather than of mutation-guided repair itself. Other implementation-level factors, such as occasional low-diversity mutations or imperfect pairwise judgments, may add noise to individual cases but are unlikely to bias the results systematically, since all methods are evaluated using the same base responses, datasets, metrics, and evaluation oracles. At the evaluation level, although the two authors were blinded to method identity, their judgments may still introduce bias into the reported natural-language metrics.
 
-\paragraph{External Validity}
-A potential external threat comes from the inherent stochasticity of large language models, which can lead to variability in replication. This is particularly relevant for the Chain-of-Verification baseline, where the model dynamically extracts entities and generates follow-up verification questions. Small differences in these generated questions or the verification chain can sometimes cause the baseline’s behavior to diverge slightly from the intended scope. Nonetheless, the impact on our overall conclusions is minimal. We mitigated reproducibility concerns by using CoVe’s original codebase and default settings, ensuring any variability reflects the method’s nature rather than an implementation error. In practice, we found that the performance trends remained consistent despite LLM randomness, our approach retained its clear advantage over the baselines, indicating that stochastic variations do not compromise the validity of our comparative results.
-
-
-% \subsubsection{Computational Cost Analysis}
-% Beyond repair effectiveness, we further analyze the practical overhead introduced by MutRepair. Since MutRepair involves multiple generations and answer aggregation, it inevitably incurs additional time and token costs (including both input and output tokens) compared to single-pass baselines.
-
-% Table~\ref{tab:cost} reports the average token consumption and runtime per QA process across different models. As expected, MutRepair requires more tokens than CoT due to its multi-branch repair and aggregation pipeline. Nevertheless, its token overhead consistently remains lower than that of the top baseline, which depend on explicit claim extraction, verification question generation, and multiple LLM calls with long-context prompts. This comparison suggests that mutation-guided repair can achieve competitive reliability improvements with substantially lower token costs than verification-centric pipelines. For instance, on GPT-5, MutRepair reduces the average token cost from CoVe’s 6743.49 tokens to 1804.96 tokens, corresponding to a relative reduction of 73.2\%.
-
-% \begin{table}[htbp]
-%   \centering
-%   \caption{\textbf{RQ1.2:} An average token\&time cost per QA-process comparison on multi models}
-%   \label{tab:cost}
-%   \resizebox{0.95\columnwidth}{!}{
-%       \begin{tabularx}{\linewidth}{
-%         >{\centering\arraybackslash\hsize=0.6\hsize}X | 
-%         >{\centering\arraybackslash\hsize=1.2\hsize}X | 
-%         >{\centering\arraybackslash\hsize=1.2\hsize}X
-%       }
-%         \toprule
-%         model & method & token cost \\
-%         \midrule
-%         \multirow{5}[2]{*}{gpt-4o} & CoT   & 100.61  \\
-%               & CoVe  & 2253.68  \\
-%               & CoVe-SE & 3623.59  \\
-%               & DrHall  & 2251.93  \\
-%               & \textbf{MutRepair}  & \textbf{2095.55}  \\
-%         \midrule
-%         \multirow{5}[2]{*}{gpt-5} & CoT   & 94.58  \\
-%               & CoVe  & 6743.49  \\
-%               & CoVe-SE & 7320.52  \\
-%               & DrHall  & 2207.91  \\
-%               & \textbf{MutRepair}  & \textbf{1804.96}  \\
-%         \midrule
-%         \multirow{5}[2]{*}{gemini} & CoT   & 95.45  \\
-%               & CoVe  & 3620.41  \\
-%               & CoVe-SE & 3227.44  \\
-%               & DrHall  & 2300.74  \\
-%               & \textbf{MutRepair}  & \textbf{2268.11}  \\
-%         \midrule
-%         \multirow{5}[1]{*}{qwen3} & CoT   & 514.67  \\
-%               & CoVe  & 2260.03  \\
-%               & CoVe-SE & 3219.47  \\
-%               & DrHall  & 2234.46  \\
-%               & \textbf{MutRepair}  & \textbf{2260.54}  \\
-%         \bottomrule
-%       \end{tabularx}
-%   }
-% \end{table}
+\subsection{External Validity}
+The main external threat is the limited scope of our benchmarks. Although they cover complementary factual scenarios and code problems across different difficulty levels, they focus on short-form factual questions and standalone Python programs. Benchmark difficulty and discriminative power can also affect the assessment of model capabilities~\cite{zhou2025lost}. Further evaluation is needed for long-form generation, other programming languages, and repository-level software tasks.
 
 
 \section{Related Work}
+
 % LLM Hallucination Detection and Mitigation
-A large body of recent work focuses on hallucination detection and mitigation, one direct line of approaches compares model-generated outputs against external or curated knowledge sources to assess factual consistency~\cite{guo2022survey, galitsky2025truth}. Another line leverages token-level signals, such as confidence scores, generation probabilities, or entropy, to estimate model uncertainty and detect hallucinated responses~\cite{varshney2023stitch}. Beyond knowledge- and signal-based methods, some studies adopt an LM-vs-LM paradigm, where an examiner model interrogates or cross-checks the outputs of an examinee model to expose inconsistencies and factual errors~\cite{cohen2023lm}. More recently, an increasing number of works explore self-detection, prompting an LLM to analyze, critique, and verify its own outputs through natural language reasoning~\cite{zhao2024knowing}.
+Hallucination detection has been studied extensively, through comparison against external knowledge sources~\cite{guo2022survey, galitsky2025truth}, token-level uncertainty signals~\cite{varshney2023stitch,vazhentsev2025token}, LM-vs-LM cross-examination~\cite{cohen2023lm}, and self-detection via natural-language reasoning~\cite{zhao2024knowing}. Detection alone, however, only flags unreliable outputs rather than correcting them, which motivates the more recent line of hallucination repair.
 
 % LLM Hallucination Repair
-Beyond detection, an emerging line of research has begun to explore hallucination repair and correction, which aim to automatically transform hallucinated LLM outputs into factually reliable responses. Many existing approaches follow a similar paradigm to hallucination detection, relying on additional knowledge signals to guide the correction process. These signals may come from token-level statistics such as confidence or uncertainty estimates~\cite{vazhentsev2025token}, external knowledge bases or retrieval systems~\cite{li2025rac}, auxiliary LLM agents~\cite{kwartler2024good}, or search engines and web resources~\cite{vladika2025correcting}.
+Repair methods aim to transform hallucinated outputs into reliable ones, but many follow the same external-signal paradigm as detection, drawing on external knowledge bases or retrieval systems~\cite{li2025rac}, auxiliary LLM agents~\cite{kwartler2024good}, or search engines and web resources~\cite{vladika2025correcting}.
 
 % LLM Hallucination Self-correction
-Hallucination repair is closely related to the broader research topic of LLM self-correction, which investigates whether and how language models can identify and correct their own errors without external supervision~\cite{manakul2023selfcheckgpt}. Some work achieves correction by incorporating environmental feedback, such as explicit True/False signals or reward feedback~\cite{shinn2023reflexion}. However, extensive empirical studies have shown that in the complete absence of external feedback, LLMs often struggle to engage in effective self-reflection, particularly in recognizing their own reasoning errors~\cite{huang2023large}. Recent work further suggests that this limitation can be partially alleviated when models are explicitly guided toward potential error locations or failure points through targeted prompting~\cite{tyen2024llms}. Motivated by these findings, existing research on self-correction mainly follows two directions. One line of work enhances self-correction capabilities during training, for example through imitation learning or reinforcement learning, to improve error awareness and correction behaviors~\cite{kumar2025training}. Another line designs inference-time reflection and correction pipelines that prompt LLMs to examine, critique, and revise their own outputs~\cite{ayala2024reducing}. In contrast to these approaches, which primarily aim to improve or elicit general self-correction abilities, our work focuses on systematic, output-level hallucination repair after responses are generated.
+Self-correction asks whether LLMs can repair their own errors without external supervision. Reflexion uses task feedback to guide subsequent trials~\cite{shinn2023reflexion}, while Self-Refine iteratively revises an output using feedback from the same LLM~\cite{madaan2023selfrefine}. Other studies examine the limits of intrinsic self-correction~\cite{huang2023large, tyen2024llms} and improvements through training~\cite{kumar2025training} or inference-time verification~\cite{wu2024large}. Unlike sequential critique-and-revision, MutRepair independently repairs multiple MR-guided mutations and aggregates their outcomes.
 
 % SE approaches for LLM reliability
-Recent work has begun to adapt software engineering methodologies such as metamorphic testing, robustness testing, and fault analysis to systematically evaluate and diagnose LLM behaviors. For example, \cite{yang2025hallucination} leverage metamorphic relations to detect hallucinations by checking consistency violations under controlled input transformations, while \cite{wu2025detecting, li2024drowzee} adopt metamorphic testing techniques to systematically probe hallucination behaviors. Beyond detection, \cite{song2025progco} proposes a program-guided self-correction approach, where the model generates verification programs and reasons as if executing them to validate an initial answer. Through multiple rounds of verification and refinement, the LLM iteratively improves its response until it deems the output sufficiently correct. However, this method does not operate in a no external resource setting, as it relies on program execution-based verification to guide the correction process. Moreover, their work targets reasoning, selection and mathematical problem-solving tasks, rather than open-domain factual hallucination repair. These studies demonstrate that software engineering principles provide a powerful foundation for understanding, testing, and improving LLM reliability.
+A growing body of work adapts software engineering methodologies, such as metamorphic testing and fault analysis, to LLM reliability. Some use metamorphic relations to detect or repair hallucinations by perturbing input questions~\cite{wu2025detecting}, generating logic-based test cases~\cite{li2024drowzee}, or transforming output responses~\cite{yang2025hallucination}. ProgCo~\cite{song2025progco} instead uses LLM-generated and LLM-executed verification pseudo-programs for self-correction; its published evaluation focuses on instruction-following and mathematical reasoning tasks.
 
 % Summary
-Our method is distinct from prior work on hallucination detection and mitigation by explicitly focusing on hallucination repair. Under a self-contained setting, it does not rely on any external knowledge sources, in contrast to approaches that depend on retrieval, tools, or external agents. Moreover, rather than directly verifying whether an answer contains hallucinations, we assume the presence of potential faults and encourage the model to actively explore and repair them through fault-aware self-assessment. By constructing structured mutations, our approach further expands the repair space, enabling the model to more effectively expose and correct latent factual errors through systematic perturbations.
-
-
-% In summary, MutRepair is positioned at the intersection of hallucination self-correction and software testing inspired reliability methods, but targets output-level repair after an LLM response is produced. Unlike many repair/correction approaches that rely on external knowledge signals (e.g., retrieval, search, or auxiliary agents) or training-time enhancement, MutRepair operates in a zero-resource setting and treats fact-conflicting generations as repairable response-level faults. It leverages mutation-guided response variants and fault-injected revision to construct a structured repair space, and then selects a final correction via comparative LLM-as-judge aggregation.
+MutRepair advances this line of work by targeting output-level repair in a fully self-contained setting, requiring no retrieval, tools, or external agents. It uses structured metamorphic mutations to expand the repair space, assumes potential faults, and drives the model to actively repair them.
 
 
 \section{Conclusions}
-In this paper, we presented MutRepair, a self-contained framework for actively repairing nonfactual hallucinations in large language model outputs. Inspired by metamorphic testing and automated repair paradigms from software engineering, MutRepair systematically constructs metamorphic response mutations, triggers fault-injected self-repair, and aggregates multiple repaired candidates through LLM-as-judge strategies to select a final corrected answer. Extensive experiments on three hallucination benchmarks across four representative LLMs demonstrate that MutRepair consistently outperforms strong baselines in hallucination repair effectiveness, while maintaining lower over-correction (i.e., erroneous modification of initially correct answers). 
-
-Beyond empirical gains, MutRepair demonstrates the practical viability of self-contained hallucination repair under realistic black-box deployment constraints. By eliminating reliance on external knowledge, auxiliary agents, or retraining pipelines, MutRepair provides a lightweight and easily deployable mechanism for improving factual reliability in existing LLM-based systems.
-
-% There are several promising directions for future work. First, we plan to extend MutRepair with richer and more diverse mutation operators and metamorphic transformations, enabling broader coverage of semantic variations and more powerful repair space exploration. Second, we aim to apply MutRepair to more complex generation settings, including long-form generation, multi-document synthesis, and multi-turn dialogue, where hallucinations a
-
-% Beyond improving hallucination repair performance, MutRepair highlights a broader perspective: hallucinations can be treated not only as detection targets, but as repairable faults in LLM-generated outputs. We believe this work opens new opportunities for integrating software testing and automated repair principles into the reliability engineering of LLM-based systems. Future work includes extending MutRepair to richer metamorphic relations, more complex generation settings such as long-form and multi-turn interactions, and exploring hybrid repair frameworks that incorporate external knowledge when available.
+In this paper, we presented MutRepair, a self-contained framework for actively repairing hallucinations in LLM-generated natural-language and code outputs. Inspired by metamorphic relations and automated repair paradigms from software engineering, MutRepair systematically constructs metamorphic response mutations, performs fault-assumption-guided self-repair, and applies LLM-as-Judge Aggregation to select the final output. Extensive experiments across four representative LLMs on both natural-language and code-generation tasks demonstrate that MutRepair achieves the strongest overall balance between repair effectiveness and over-correction among the evaluated baselines.
 
 \section*{Data Availability}
-\noindent\textbf{Code Repository} containing implementation code and experimental scripts is publicly available at: \url{https://anonymous.4open.science/r/LLMHalluMiti-BD85/}
+The code repository, containing implementation code and experimental scripts, is publicly available at \url{https://anonymous.4open.science/r/LLMHalluMiti-3477}.
 
 
-\bibliographystyle{IEEEtran}
+\bibliographystyle{ACM-Reference-Format}
 \bibliography{references}
 \end{document}
 \endinput

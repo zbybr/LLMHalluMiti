@@ -1,7 +1,16 @@
 import argparse
 import csv
 
-from dotenv import load_dotenv
+from pathlib import Path as _ConfigPath
+import sys as _config_sys
+
+_config_root = next(
+    parent for parent in _ConfigPath(__file__).resolve().parents
+    if (parent / "common" / "config.py").is_file()
+)
+if str(_config_root) not in _config_sys.path:
+    _config_sys.path.insert(0, str(_config_root))
+from common.config import ROOT_ENV, load_root_env, read_env
 from pprint import pprint
 from langchain_openai import ChatOpenAI
 from route_chain import RouteCOVEChain
@@ -13,8 +22,8 @@ from langchain_community.callbacks import get_openai_callback
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ENV_PATH = os.path.join(BASE_DIR, '..', '..', '.env')
-load_dotenv(dotenv_path=ENV_PATH, override=True)
+ENV_PATH = ROOT_ENV
+load_root_env()
 CUSTOM_API_KEY = os.getenv("OPENAI_API_KEY")
 CUSTOM_BASE_URL = os.getenv("OPENAI_BASE_URL")
 

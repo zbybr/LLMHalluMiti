@@ -1,0 +1,7 @@
+{
+  "judge_model": "gpt-5.6-sol",
+  "snapshot_date": "2025-12-25",
+  "confidence_threshold": 0.9,
+  "inputs_sha256": "265bf3e28e5b9cc466265bc9f56381793198ce3c8a468c9425826a9246de0317",
+  "prompts_sha256": "748020e92dfb8a8b5c811fdce2b1f39191711c8de55727382137184b58a4fc27"
+}
