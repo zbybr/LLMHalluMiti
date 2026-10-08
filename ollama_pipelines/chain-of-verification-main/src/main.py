@@ -28,6 +28,7 @@ from tqdm import tqdm
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ENV_PATH = ROOT_ENV
+MODEL_DIR = _config_root / "qwen3"
 load_root_env()
 
 
@@ -86,12 +87,12 @@ def process_question(
     chain_llm = ChatOllamaWithThinkStrip(
         model=model_name,
         temperature=temperature,
-        base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11435"),
+        base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"),
     )
     route_llm = ChatOllamaWithThinkStrip(
         model=model_name,
         temperature=0.1,
-        base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11435"),
+        base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"),
     )
 
     router_cove_chain_instance = RouteCOVEChain(
@@ -126,7 +127,7 @@ if __name__ == "__main__":
     )
     parser.add_argument("--dataset_path", type=str, required=False, help="Dataset path")
     parser.add_argument(
-        "--model_key", type=str, required=False, default="gpt-4o", help="Model key"
+        "--model_key", type=str, required=False, default="qwen3:32b", help="Ollama model tag"
     )
     parser.add_argument(
         "--temperature", type=float, required=False, default=0.1, help="LLM temperature"
@@ -146,7 +147,9 @@ if __name__ == "__main__":
     if args.dataset_path:
         dataset_path = args.dataset_path
         dataset_name = str(Path(dataset_path).stem).lower()
-        output_path = f"../../outputs/{args.model_key}_cove_outputs_{dataset_name}.csv"
+        safe_model_key = re.sub(r"[^A-Za-z0-9._-]", "_", args.model_key)
+        output_path = MODEL_DIR / "outputs" / "cove" / f"{safe_model_key}_cove_outputs_{dataset_name}.csv"
+        output_path.parent.mkdir(parents=True, exist_ok=True)
         df = pd.read_csv(dataset_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
         if os.path.exists(output_path):

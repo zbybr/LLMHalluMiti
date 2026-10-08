@@ -1,24 +1,22 @@
-/__pycache__
-__pycache__/*
-*/__pycache__/*
-*.pyc
-.idea/*
-/*idea
-/.runtime/
-# Private provenance for the already-running stability experiment.
-gpt-5/outputs/stability/.cache/mutation_prompt_snapshot.json
-
-# Local credentials and disposable execution artifacts.
+# Local credentials.
 .env
 **/.env
+
+# Python caches and local editor settings.
+**/__pycache__/
+*.pyc
+**/.pytest_cache/
+.idea/
+
+# Disposable execution artifacts.
 *.log
 *.tmp
 *.bak
-*.pyc
-**/__pycache__/
-**/.pytest_cache/
 
-# Local main-branch source copy: never publish private research material.
-/LLMHalluMiti - 副本/
-**/outputs/
+# Publish result CSVs, but not execution caches or shards.
+**/outputs/**
+!**/outputs/**/
+!**/outputs/**/*.csv
+**/outputs/**/.cache/
+**/outputs/**/shards_*/
 **/.cache/

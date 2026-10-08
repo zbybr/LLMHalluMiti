@@ -1,0 +1,21 @@
+# Public repository runtime dependencies. Python 3.12 is recommended (3.11+).
+# These pins describe the reconstructed code, not the historical experiment environment.
+# Install with: python -m pip install -r requirements.txt
+
+# Shared experiments, CSV processing, and statistics.
+openai==3.26.1
+pandas==3.0.1
+numpy==2.3.5
+python-dotenv==1.2.4
+tiktoken==0.14.0
+tqdm==4.70.1
+
+# CoVe / CoVe-SE and the optional local Ollama pipelines.
+langchain-classic==1.0.8
+langchain-community==0.4.2
+langchain-core==1.6.8
+langchain-openai==1.7.0
+langchain-ollama==1.1.0
+pydantic==2.13.5
+json-repair==0.63.5
+ddgs==9.16.0
