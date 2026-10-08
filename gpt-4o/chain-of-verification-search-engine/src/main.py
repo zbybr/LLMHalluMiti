@@ -1,7 +1,17 @@
 import argparse
 import csv
 
-from dotenv import load_dotenv
+from pathlib import Path as _ConfigPath
+import sys as _config_sys
+
+_config_root = next(
+    parent for parent in _ConfigPath(__file__).resolve().parents
+    if (parent / "common" / "config.py").is_file()
+)
+if str(_config_root) not in _config_sys.path:
+    _config_sys.path.insert(0, str(_config_root))
+from common.config import ROOT_ENV, load_root_env, read_env
+from common.models import spec_for_directory
 from pprint import pprint
 from langchain_openai import ChatOpenAI
 from route_chain import RouteCOVEChain
@@ -13,13 +23,15 @@ from langchain_community.callbacks import get_openai_callback
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ENV_PATH = os.path.join(BASE_DIR, '..', '..', '.env')
-load_dotenv(dotenv_path=ENV_PATH, override=True)
+ENV_PATH = ROOT_ENV
+MODEL_DIR = Path(__file__).resolve().parents[2]
+MODEL_SPEC = spec_for_directory(MODEL_DIR.name)
 CUSTOM_API_KEY = os.getenv("OPENAI_API_KEY")
 CUSTOM_BASE_URL = os.getenv("OPENAI_BASE_URL")
 
 
 def process_question(question, base_response, model_name, temperature, max_tokens, show_steps):
+    load_root_env()
     chain_llm = ChatOpenAI(model=model_name, temperature=temperature, max_tokens=max_tokens,
                            api_key=CUSTOM_API_KEY,
                            base_url=CUSTOM_BASE_URL)
@@ -48,7 +60,7 @@ if __name__ == "__main__":
     parser.add_argument('--question', type=str, required=False, help='Single question to ask')
     parser.add_argument('--base_response', type=str, required=False, help='Base response to verify')
     parser.add_argument('--dataset_path', type=str, required=False, help='Dataset path')
-    parser.add_argument('--model_key', type=str, required=False, default="gpt-4o", help='Model key')
+    parser.add_argument('--model_key', type=str, required=False, default=MODEL_SPEC.model, help='Model key')
     parser.add_argument('--temperature', type=float, required=False, default=0.1, help='LLM temperature')
     parser.add_argument('--max_tokens', type=int, required=False, default=2048, help='Maximum tokens')
     parser.add_argument('--show_intermediate_steps', type=bool, required=False, default=True,
@@ -58,7 +70,8 @@ if __name__ == "__main__":
     if args.dataset_path:
         dataset_path = args.dataset_path
         dataset_name = str(Path(dataset_path).stem).lower()
-        output_path = f"../outputs/cove-se/{args.model_key}_cove_se_outputs_{dataset_name}.csv"
+        output_path = str(MODEL_DIR / "outputs" / f"cove-se/{args.model_key}_cove_se_outputs_{dataset_name}.csv")
+        Path(output_path).parent.mkdir(parents=True, exist_ok=True)
         df = pd.read_csv(dataset_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
         if os.path.exists(output_path):

@@ -2,8 +2,16 @@ import argparse
 import random
 from pathlib import Path
 import pandas as pd
-from dotenv import load_dotenv
-from openai import OpenAI
+from pathlib import Path as _ConfigPath
+import sys as _config_sys
+
+_config_root = next(
+    parent for parent in _ConfigPath(__file__).resolve().parents
+    if (parent / "common" / "config.py").is_file()
+)
+if str(_config_root) not in _config_sys.path:
+    _config_sys.path.insert(0, str(_config_root))
+from common.config import LazyOpenAIClient, model_path
 from tqdm import tqdm
 import llm_prompts.prompts as prompts
 import os
@@ -11,11 +19,8 @@ import csv
 import time
 import utils
 
-load_dotenv(override=True)
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY"),
-    base_url=os.getenv("OPENAI_BASE_URL")
-)
+os.environ["LLM_MODEL_DIR"] = str(Path(__file__).resolve().parent)
+client = LazyOpenAIClient()
 
 
 def safe_chat_call(messages, model_key, max_retries=20, base_delay=0.0):
@@ -28,7 +33,7 @@ def safe_chat_call(messages, model_key, max_retries=20, base_delay=0.0):
             response = client.chat.completions.create(
                 model=model_key,
                 messages=messages,
-                temperature=0.0,
+                temperature=0.1,
             )
 
             content = response.choices[0].message.content
@@ -54,6 +59,7 @@ def safe_chat_call(messages, model_key, max_retries=20, base_delay=0.0):
 
 
 def run_pipeline(input_path, output_path, model_key='gpt-4o'):
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     df = pd.read_csv(input_path, encoding="utf-8-sig", quoting=csv.QUOTE_ALL)
 
     for index, row in tqdm(df.iterrows(), total=len(df), desc="Processing QA"):
@@ -93,6 +99,6 @@ if __name__ == "__main__":
     model_key = "gpt-4o"
     dataset_path = args.dataset_path
     dataset_name = str(Path(dataset_path).stem).lower()
-    output_path = f"./outputs/{model_key}_outputs_{dataset_name}_mut0.csv"
+    output_path = str(model_path("outputs", f"{model_key}_outputs_{dataset_name}_mut0.csv"))
 
     run_pipeline(dataset_path, output_path, model_key)

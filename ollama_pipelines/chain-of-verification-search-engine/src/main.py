@@ -7,7 +7,16 @@ from pprint import pprint
 from typing import Any, List, Optional
 
 import pandas as pd
-from dotenv import load_dotenv
+from pathlib import Path as _ConfigPath
+import sys as _config_sys
+
+_config_root = next(
+    parent for parent in _ConfigPath(__file__).resolve().parents
+    if (parent / "common" / "config.py").is_file()
+)
+if str(_config_root) not in _config_sys.path:
+    _config_sys.path.insert(0, str(_config_root))
+from common.config import ROOT_ENV, load_root_env, read_env
 from langchain_community.callbacks import get_openai_callback
 from langchain_core.output_parsers import BaseOutputParser
 from langchain_core.messages import BaseMessage
@@ -17,7 +26,8 @@ from tqdm import tqdm
 from langchain_core.callbacks import CallbackManagerForLLMRun
 import re
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ENV_PATH = os.path.join(BASE_DIR, "..", "..", ".env")
+ENV_PATH = ROOT_ENV
+load_root_env()
 
 
 class StripThinkParser(BaseOutputParser):
@@ -75,12 +85,12 @@ def process_question(
     chain_llm = ChatOllamaWithThinkStrip(
         model=model_name,
         temperature=temperature,
-        base_url="http://localhost:11435",
+        base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11435"),
     )
     route_llm = ChatOllamaWithThinkStrip(
         model=model_name,
         temperature=0.1,
-        base_url="http://localhost:11435",
+        base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11435"),
     )
     router_cove_chain_instance = RouteCOVEChain(
         question, route_llm, chain_llm, show_steps
